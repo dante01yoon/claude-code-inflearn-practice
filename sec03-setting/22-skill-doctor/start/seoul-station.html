@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>서울역 시간대별 승하차</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f6f7f9;
+    --surface: #fcfcfb;
+    --text: #0b0b0b;
+    --muted: #52514e;
+    --faint: #8a8984;
+    --grid: #e6e5e1;
+    --line: #dddcd7;
+    --on: #2a78d6;
+    --off: #eb6834;
+    --chip-bg: #ffffff;
+    --chip-on-bg: #0b0b0b;
+    --chip-on-text: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #121211;
+      --surface: #1a1a19;
+      --text: #f0efec;
+      --muted: #c3c2b7;
+      --faint: #8d8c85;
+      --grid: #2d2d2b;
+      --line: #383835;
+      --on: #3987e5;
+      --off: #d95926;
+      --chip-bg: #1a1a19;
+      --chip-on-bg: #f0efec;
+      --chip-on-text: #121211;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #121211;
+    --surface: #1a1a19;
+    --text: #f0efec;
+    --muted: #c3c2b7;
+    --faint: #8d8c85;
+    --grid: #2d2d2b;
+    --line: #383835;
+    --on: #3987e5;
+    --off: #d95926;
+    --chip-bg: #1a1a19;
+    --chip-on-bg: #f0efec;
+    --chip-on-text: #121211;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 28px 16px 48px; }
+  h1 { margin: 0 0 4px; font-size: 1.55rem; letter-spacing: -0.01em; }
+  .sub { margin: 0 0 20px; color: var(--muted); font-size: .92rem; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin-bottom: 16px; }
+  .group { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font: inherit; font-size: .88rem;
+    padding: 6px 12px; min-height: 36px;
+    border: 1px solid var(--line); border-radius: 999px;
+    background: var(--chip-bg); color: var(--text); cursor: pointer;
+  }
+  .chip[aria-pressed="true"] { background: var(--chip-on-bg); color: var(--chip-on-text); border-color: var(--chip-on-bg); }
+  .chip:focus-visible { outline: 2px solid var(--on); outline-offset: 2px; }
+
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
+  .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .tile .k { font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .tile .v { font-size: 1.3rem; font-weight: 650; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .tile .s { font-size: .78rem; color: var(--faint); }
+  .key { display: inline-block; width: 14px; height: 0; border-top: 2px solid; }
+  .key.on { border-color: var(--on); }
+  .key.off { border-color: var(--off); border-top-style: dashed; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .card-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+  .card-head h2 { margin: 0; font-size: 1rem; }
+  .legend { display: flex; gap: 14px; font-size: .85rem; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+  .chart { position: relative; width: 100%; height: 340px; touch-action: pan-y; }
+  .chart svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .axis text { fill: var(--faint); font-size: 11px; font-variant-numeric: tabular-nums; }
+  .gridline { stroke: var(--grid); stroke-width: 1; }
+  .baseline { stroke: var(--line); stroke-width: 1; }
+  .series { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .series.on { stroke: var(--on); }
+  .series.off { stroke: var(--off); stroke-dasharray: 6 4; }
+  .dlabel { font-size: 12px; fill: var(--text); font-weight: 600; }
+  .dlabel-sub { font-size: 11px; fill: var(--muted); }
+  .cross { stroke: var(--muted); stroke-width: 1; }
+  .dot { stroke: var(--surface); stroke-width: 2; }
+
+  .tip {
+    position: absolute; pointer-events: none; z-index: 2;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    padding: 8px 10px; font-size: .82rem; min-width: 150px;
+    opacity: 0; transition: opacity .1s;
+  }
+  .tip.show { opacity: 1; }
+  .tip .t { font-weight: 650; margin-bottom: 4px; }
+  .tip .r { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .tip .r span:first-child { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+  .tip .r b { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .88rem; font-variant-numeric: tabular-nums; }
+  th, td { padding: 6px 10px; text-align: right; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--muted); font-weight: 600; position: sticky; top: 0; background: var(--surface); }
+  tr.peak td { font-weight: 650; }
+  [hidden] { display: none !important; }
+  .note { margin-top: 14px; font-size: .8rem; color: var(--faint); }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 1.3rem; }
+    .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile .v { font-size: 1.1rem; }
+    .chart { height: 280px; }
+    .card { padding: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>서울역 시간대별 승하차</h1>
+  <p class="sub">2026년 7월 교통카드 이용 기준 · 서울 열린데이터광장 (CardSubwayTime_202607)</p>
+
+  <div class="controls">
+    <div class="group" role="group" aria-label="노선 선택" id="lines"></div>
+    <div class="group" role="group" aria-label="집계 단위" id="units">
+      <button class="chip" data-unit="month" aria-pressed="true">월 합계</button>
+      <button class="chip" data-unit="day" aria-pressed="false">일평균</button>
+    </div>
+  </div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <section class="card">
+    <div class="card-head">
+      <h2 id="chartTitle">시간대별 승하차 인원</h2>
+      <div class="legend" aria-hidden="true">
+        <span><i class="key on"></i>승차</span>
+        <span><i class="key off"></i>하차</span>
+      </div>
+      <div class="group" role="group" aria-label="보기 방식" id="views">
+        <button class="chip" data-view="chart" aria-pressed="true">그래프</button>
+        <button class="chip" data-view="table" aria-pressed="false">표</button>
+      </div>
+    </div>
+    <div class="chart" id="chart" role="img" aria-label="시간대별 승하차 선 그래프">
+      <svg id="svg"></svg>
+      <div class="tip" id="tip" role="status" aria-live="polite"></div>
+    </div>
+    <div class="table-wrap" id="tableWrap" hidden>
+      <table>
+        <thead><tr><th>시간대</th><th>승차</th><th>하차</th><th>합계</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="note">01~03시는 운행 종료 시간대라 0명에 가깝습니다. 일평균은 7월 31일로 나눈 값입니다.</p>
+</div>
+
+<script>
+// 2026년 7월, 04시 → 03시 순서 (원본: data/seoul/CardSubwayTime_202607_서울역.csv)
+const DATA = {"1호선":{"on":[671,11781,39125,116841,187960,134699,112714,119266,139912,129232,111896,143276,162278,238882,273665,150712,112107,118866,79563,38785,4509,22,0,0],"off":[50,12529,65359,140067,274196,188801,111604,112514,126137,117370,107158,126804,137016,177118,214060,139659,100543,95939,70059,36173,7903,241,0,0]},"4호선":{"on":[295,5098,7210,14773,17854,15650,15139,17353,18041,17212,17973,20526,26074,54711,72667,27676,18861,16177,11925,5489,676,1,0,0],"off":[14,1095,16707,45035,101365,60274,33577,34627,37502,36056,33681,37749,40587,45245,46181,33461,25719,25292,21377,10461,2961,268,0,0]},"경부선":{"on":[23,98,141,13172,23889,21937,17388,22359,22770,20120,7061,22790,18830,24156,27363,27072,16077,26470,17409,12758,2012,0,0,0],"off":[6,688,5099,8099,10606,7108,6455,4630,6535,5417,4994,6384,6795,10221,10584,6895,5057,4614,3726,900,53,0,0,0]},"경의선":{"on":[0,642,1087,3205,3304,1791,1560,1918,2503,3347,3490,5768,7609,13231,21542,8939,5261,4877,770,2267,2,0,0,0],"off":[0,12,7843,18279,25894,16128,6041,4628,4084,4764,3720,2533,3274,4615,4842,2788,1459,1291,176,796,117,0,0,0]},"공항철도 1호선":{"on":[349,3940,5316,14164,18793,18588,19490,23753,28586,28426,21590,30944,31888,39254,40410,32643,22652,28312,19255,12305,230,0,0,0],"off":[2,1512,15899,23530,35164,27954,25245,25157,26154,22044,20696,24816,23837,27309,27929,22384,14614,15712,10708,5281,3349,1,0,0]}};
+const HOURS = [...Array(20)].map((_, i) => i + 4).concat([0, 1, 2, 3]);
+const DAYS = 31;
+const ALL = "전체";
+const STORE_KEY = "seoul-station-view";
+const fmt = n => Math.round(n).toLocaleString("ko-KR");
+const hh = h => String(h).padStart(2, "0") + "시";
+
+const state = Object.assign({ line: ALL, unit: "month", view: "chart" }, load());
+if (state.line !== ALL && !DATA[state.line]) state.line = ALL;
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch { return {}; }
+}
+function save() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch {}
+}
+
+function series() {
+  const names = state.line === ALL ? Object.keys(DATA) : [state.line];
+  const div = state.unit === "day" ? DAYS : 1;
+  const sum = key => HOURS.map((_, i) => names.reduce((s, n) => s + DATA[n][key][i], 0) / div);
+  return { on: sum("on"), off: sum("off") };
+}
+
+// ---------- 컨트롤 ----------
+const linesEl = document.getElementById("lines");
+[ALL, ...Object.keys(DATA)].forEach(name => {
+  const b = document.createElement("button");
+  b.className = "chip";
+  b.dataset.line = name;
+  b.textContent = name === ALL ? "전체 노선" : name;
+  linesEl.appendChild(b);
+});
+function bindGroup(el, attr, key) {
+  el.addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    state[key] = b.dataset[attr];
+    save();
+    render();
+  });
+}
+bindGroup(linesEl, "line", "line");
+bindGroup(document.getElementById("units"), "unit", "unit");
+bindGroup(document.getElementById("views"), "view", "view");
+
+function syncButtons() {
+  document.querySelectorAll("[data-line]").forEach(b => b.setAttribute("aria-pressed", b.dataset.line === state.line));
+  document.querySelectorAll("[data-unit]").forEach(b => b.setAttribute("aria-pressed", b.dataset.unit === state.unit));
+  document.querySelectorAll("[data-view]").forEach(b => b.setAttribute("aria-pressed", b.dataset.view === state.view));
+}
+
+// ---------- 요약 타일 ----------
+function peakIdx(arr) { return arr.reduce((best, v, i) => v > arr[best] ? i : best, 0); }
+function renderTiles(s) {
+  const unit = state.unit === "day" ? "하루 평균" : "7월 합계";
+  const tot = a => a.reduce((x, y) => x + y, 0);
+  const pOn = peakIdx(s.on), pOff = peakIdx(s.off);
+  document.getElementById("tiles").innerHTML = `
+    <div class="tile"><div class="k"><i class="key on"></i>승차</div><div class="v">${fmt(tot(s.on))}명</div><div class="s">${unit}</div></div>
+    <div class="tile"><div class="k"><i class="key off"></i>하차</div><div class="v">${fmt(tot(s.off))}명</div><div class="s">${unit}</div></div>
+    <div class="tile"><div class="k">승차 최다 시간</div><div class="v">${hh(HOURS[pOn])}</div><div class="s">${fmt(s.on[pOn])}명</div></div>
+    <div class="tile"><div class="k">하차 최다 시간</div><div class="v">${hh(HOURS[pOff])}</div><div class="s">${fmt(s.off[pOff])}명</div></div>`;
+}
+
+// ---------- 표 ----------
+function renderTable(s) {
+  const pOn = peakIdx(s.on), pOff = peakIdx(s.off);
+  document.getElementById("tbody").innerHTML = HOURS.map((h, i) =>
+    `<tr class="${i === pOn || i === pOff ? "peak" : ""}"><td>${hh(h)}</td><td>${fmt(s.on[i])}</td><td>${fmt(s.off[i])}</td><td>${fmt(s.on[i] + s.off[i])}</td></tr>`
+  ).join("");
+}
+
+// ---------- 그래프 ----------
+const chartEl = document.getElementById("chart");
+const svg = document.getElementById("svg");
+const tip = document.getElementById("tip");
+let geom = null;
+
+function niceMax(v) {
+  if (v <= 0) return 1;
+  const p = Math.pow(10, Math.floor(Math.log10(v)));
+  const n = v / p;
+  const step = n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10;
+  return step * p;
+}
+function shortNum(v) {
+  if (v >= 10000) return (v / 10000).toLocaleString("ko-KR", { maximumFractionDigits: 1 }) + "만";
+  return fmt(v);
+}
+
+function renderChart(s) {
+  const W = chartEl.clientWidth, H = chartEl.clientHeight;
+  const narrow = W < 500;
+  const m = { t: 28, r: 12, b: 26, l: narrow ? 40 : 52 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const top = Math.max(...s.on, ...s.off) * 1.08;
+  const stepV = niceMax(top / 4);
+  const ticks = Math.ceil(top / stepV);
+  const max = stepV * ticks;
+  const x = i => m.l + (iw * i) / (HOURS.length - 1);
+  const y = v => m.t + ih - (v / max) * ih;
+  geom = { x, y, m, iw, ih, W, s };
+
+  let out = "";
+  for (let k = 0; k <= ticks; k++) {
+    const v = (max * k) / ticks, yy = y(v);
+    out += `<line class="${k === 0 ? "baseline" : "gridline"}" x1="${m.l}" x2="${W - m.r}" y1="${yy}" y2="${yy}"/>`;
+    out += `<g class="axis"><text x="${m.l - 6}" y="${yy + 4}" text-anchor="end">${shortNum(v)}</text></g>`;
+  }
+  const every = narrow ? 4 : 2;
+  HOURS.forEach((h, i) => {
+    if (i % every === 0)
+      out += `<g class="axis"><text x="${x(i)}" y="${H - 6}" text-anchor="middle">${String(h).padStart(2, "0")}</text></g>`;
+  });
+  const path = arr => arr.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("");
+  out += `<path class="series on" d="${path(s.on)}"/>`;
+  out += `<path class="series off" d="${path(s.off)}"/>`;
+
+  // 피크 직접 라벨
+  const pOn = peakIdx(s.on), pOff = peakIdx(s.off);
+  const label = (i, v, name, color, below) => {
+    const px = x(i), py = y(v);
+    const anchor = px > W - 70 ? "end" : px < m.l + 50 ? "start" : "middle";
+    const ly = below ? py + 18 : py - 10;
+    return `<circle cx="${px}" cy="${py}" r="4" fill="${color}" class="dot"/>` +
+      `<text class="dlabel" x="${px}" y="${ly}" text-anchor="${anchor}">${name} ${hh(HOURS[i])}</text>`;
+  };
+  const same = pOn === pOff;
+  out += label(pOff, s.off[pOff], "하차", "var(--off)", same && s.off[pOff] < s.on[pOn]);
+  out += label(pOn, s.on[pOn], "승차", "var(--on)", same && s.on[pOn] < s.off[pOff]);
+
+  out += `<g id="hover" visibility="hidden"><line class="cross" id="cross" y1="${m.t}" y2="${m.t + ih}"/>` +
+    `<circle id="hOn" r="5" fill="var(--on)" class="dot"/><circle id="hOff" r="5" fill="var(--off)" class="dot"/></g>`;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.innerHTML = out;
+}
+
+function showAt(clientX) {
+  if (!geom) return;
+  const r = chartEl.getBoundingClientRect();
+  const px = clientX - r.left;
+  const { x, y, m, iw, W, s } = geom;
+  const i = Math.max(0, Math.min(HOURS.length - 1, Math.round(((px - m.l) / iw) * (HOURS.length - 1))));
+  const cx = x(i);
+  const hover = svg.querySelector("#hover");
+  hover.setAttribute("visibility", "visible");
+  const cross = svg.querySelector("#cross");
+  cross.setAttribute("x1", cx); cross.setAttribute("x2", cx);
+  svg.querySelector("#hOn").setAttribute("cx", cx); svg.querySelector("#hOn").setAttribute("cy", y(s.on[i]));
+  svg.querySelector("#hOff").setAttribute("cx", cx); svg.querySelector("#hOff").setAttribute("cy", y(s.off[i]));
+  const h = HOURS[i];
+  tip.innerHTML = `<div class="t">${hh(h)}–${hh((h + 1) % 24)}</div>
+    <div class="r"><span><i class="key on"></i>승차</span><b>${fmt(s.on[i])}명</b></div>
+    <div class="r"><span><i class="key off"></i>하차</span><b>${fmt(s.off[i])}명</b></div>`;
+  tip.classList.add("show");
+  const tw = tip.offsetWidth;
+  let left = cx + 12;
+  if (left + tw > W) left = cx - tw - 12;
+  tip.style.left = Math.max(0, left) + "px";
+  tip.style.top = m.t + "px";
+}
+function hide() {
+  tip.classList.remove("show");
+  const hover = svg.querySelector("#hover");
+  if (hover) hover.setAttribute("visibility", "hidden");
+}
+chartEl.addEventListener("pointermove", e => showAt(e.clientX));
+chartEl.addEventListener("pointerdown", e => showAt(e.clientX));
+chartEl.addEventListener("pointerleave", hide);
+
+// ---------- 전체 렌더 ----------
+function render() {
+  syncButtons();
+  const s = series();
+  const name = state.line === ALL ? "전체 노선" : state.line;
+  document.getElementById("chartTitle").textContent = `${name} · 시간대별 승하차 (${state.unit === "day" ? "일평균" : "월 합계"})`;
+  renderTiles(s);
+  renderTable(s);
+  const isChart = state.view === "chart";
+  chartEl.hidden = !isChart;
+  document.getElementById("tableWrap").hidden = isChart;
+  hide();
+  if (isChart) renderChart(s);
+}
+new ResizeObserver(() => { if (state.view === "chart") renderChart(series()); }).observe(chartEl);
+render();
+</script>
+</body>
+</html>

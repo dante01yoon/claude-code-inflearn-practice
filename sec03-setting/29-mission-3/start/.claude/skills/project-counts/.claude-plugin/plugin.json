@@ -1,0 +1,6 @@
+{
+  "name": "project-counts",
+  "version": "0.1.0",
+  "description": "Shows this project's skill, agent and hook counts above the prompt",
+  "types": "./types/index.d.ts"
+}

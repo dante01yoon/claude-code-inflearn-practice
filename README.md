@@ -53,3 +53,22 @@
 | [sec02-mcp/16-must-have-mcp](sec02-mcp/16-must-have-mcp/) | Context7로 deck.gl 문서 찾아 3D 지도(`map.html`), Playwright 스크린샷, 깃허브는 MCP 대신 `gh`, 🆕 `claude mcp login` | 꼭 쓰는 MCP |
 | [sec02-mcp/17-mcp-context](sec02-mcp/17-mcp-context/) | 📏 MCP가 시작 컨텍스트를 얼마나 쓰나(`mcp_context_check.py`, 도구 검색 켬/끔), `/context`, `/mcp`에서 서버 끄기 | 도구가 많아질 때 컨텍스트 관리 |
 | [sec02-mcp/18-mission-2](sec02-mcp/18-mission-2/) | 미션 2: 기둥 위 한글 역 이름 + 08시 vs 18시 비교(`compare.html`), 짧은 프롬프트 → 자세한 프롬프트 두 버전 + 정답 | 미션 2 |
+
+## 섹션 3. [프로젝트 1] 나만의 클로드 코드 세팅 만들기
+
+완성 템플릿: **[dante01yoon/claude-code-starter-setting](https://github.com/dante01yoon/claude-code-starter-setting)** (GitHub 템플릿 저장소 — Use this template)
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec03-setting/19-design](sec03-setting/19-design/) | 반복하는 말·일 찾기 → `SETTING-PLAN.md`(CLAUDE.md·스킬·서브에이전트·훅·MCP 중 어디에 둘지) | 내 세팅 설계 |
+| [sec03-setting/20-commands-skills](sec03-setting/20-commands-skills/) | 커스텀 명령과 스킬의 차이·합치기, `/web-page` 스킬, `$ARGUMENTS` | 커스텀 명령과 스킬 |
+| [sec03-setting/21-skill-design](sec03-setting/21-skill-design/) | 설명 한 줄, `scripts/`·`reference/`, 자가 수정 체크리스트 — `seoul-data` 스킬(서울 열린데이터광장) | 스킬 설계 |
+| [sec03-setting/22-skill-doctor](sec03-setting/22-skill-doctor/) | 🆕 `/skill-doctor`로 스킬별 비용·사용 빈도 보기, `skillOverrides`로 끄기 (📏 `/context` 6.0k → 4.7k 토큰) | /skill-doctor |
+| [sec03-setting/23-subagents](sec03-setting/23-subagents/) | `.claude/agents/reviewer.md`(역할·도구 제한·모델), 🆕 `/subtask` | 서브에이전트 |
+| [sec03-setting/24-hooks](sec03-setting/24-hooks/) | 수정 후 prettier, 위험 명령 차단(exit 2), 🆕 PreModelSwitch 확인 | 훅 |
+| [sec03-setting/25-mods](sec03-setting/25-mods/) | 🆕 `/plugin-authoring`으로 프롬프트 위 "스킬·에이전트·훅" 개수 mod → `.claude/skills/`로 옮겨 매번 로드 | Mods |
+| [sec03-setting/26-settings](sec03-setting/26-settings/) | 설정 계층(관리 > CLI > 로컬 > 프로젝트 > 사용자), 팀 공유 vs 로컬, `.gitignore`, `/statusline` | 설정 계층·팀 공유 |
+| [sec03-setting/27-measure-split](sec03-setting/27-measure-split/) | 📏 혼자 vs 서브에이전트 나눔 3회씩(`measure_split.py`, `results.json`) — 시간 같음, 비용 +20%, 메인 대화 토큰 −84% | 서브에이전트 나눔 vs 혼자 |
+| [sec03-setting/28-github-template](sec03-setting/28-github-template/) | 세팅만 골라 템플릿 폴더 → `gh repo create --public` → `gh repo edit --template` | GitHub 템플릿 |
+| [sec03-setting/28-1-with-vs-without](sec03-setting/28-1-with-vs-without/) | 📏 같은 한 줄 부탁을 세팅 있음/없음 3회씩 — 결과물 위치·화면 확인의 일관성 비교 | 세팅 있을 때 vs 없을 때 |
+| [sec03-setting/29-mission-3](sec03-setting/29-mission-3/) | 미션 3: screen-checker 서브에이전트 + data deny 규칙(`Edit(/data/**)`) → `/web-page`로 확인 → 템플릿 push + 정답·채점표 | 미션 3 |

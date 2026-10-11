@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>서울 지하철 노선 카드</title>
+    <link rel="icon" href="data:,">
+    <style>
+      :root {
+        --bg: #f4f5f7;
+        --card: #fff;
+        --text: #1d1f23;
+        --muted: #6b7079;
+        --line: #e3e5e9;
+        --focus: #2563eb;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+          "Noto Sans KR", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+      }
+      header {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 28px 16px 8px;
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: 1.6rem;
+      }
+      header p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .toolbar {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 12px 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        background: var(--bg);
+        z-index: 2;
+      }
+      .search {
+        flex: 1 1 220px;
+        min-width: 0;
+        padding: 10px 12px;
+        font-size: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+      }
+      .toggle {
+        padding: 10px 14px;
+        font-size: 0.95rem;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .toggle[aria-pressed="true"] {
+        background: #1d1f23;
+        color: #fff;
+        border-color: #1d1f23;
+      }
+      .status {
+        width: 100%;
+        color: var(--muted);
+        font-size: 0.85rem;
+        margin: 0;
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 4px 16px 40px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 14px;
+      }
+      @media (max-width: 400px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 14px;
+        border-top: 6px solid var(--c);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 14px 10px;
+      }
+      .badge {
+        flex: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--c);
+        color: #fff;
+        font-weight: 800;
+        font-size: 1.3rem;
+        display: grid;
+        place-items: center;
+      }
+      .title {
+        flex: 1;
+        min-width: 0;
+      }
+      .title h2 {
+        margin: 0;
+        font-size: 1.15rem;
+      }
+      .route {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        overflow-wrap: anywhere;
+      }
+      .star {
+        flex: none;
+        width: 40px;
+        height: 40px;
+        border: none;
+        background: none;
+        font-size: 1.5rem;
+        color: #c4c7cd;
+        cursor: pointer;
+        border-radius: 50%;
+      }
+      .star[aria-pressed="true"] {
+        color: #f5b301;
+      }
+      .star:hover {
+        background: #f1f2f4;
+      }
+
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 0 14px 12px;
+        margin: 0;
+        list-style: none;
+      }
+      .meta li {
+        font-size: 0.8rem;
+        background: #f1f2f4;
+        border-radius: 999px;
+        padding: 3px 10px;
+      }
+
+      .more {
+        width: 100%;
+        border: none;
+        border-top: 1px solid var(--line);
+        background: #fafbfc;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        color: var(--text);
+      }
+      .more .arrow {
+        transition: transform 0.2s;
+      }
+      .more[aria-expanded="true"] .arrow {
+        transform: rotate(180deg);
+      }
+
+      .stations {
+        list-style: none;
+        margin: 0;
+        padding: 12px 14px 14px 30px;
+        position: relative;
+      }
+      .stations::before {
+        content: "";
+        position: absolute;
+        left: 19px;
+        top: 20px;
+        bottom: 22px;
+        width: 4px;
+        background: var(--c);
+        border-radius: 2px;
+      }
+      .stations li {
+        position: relative;
+        padding: 4px 0 4px 14px;
+        font-size: 0.92rem;
+      }
+      .stations li::before {
+        content: "";
+        position: absolute;
+        left: -15px;
+        top: 50%;
+        width: 10px;
+        height: 10px;
+        margin-top: -5px;
+        border-radius: 50%;
+        background: #fff;
+        border: 3px solid var(--c);
+      }
+      .xfer {
+        display: inline-flex;
+        gap: 3px;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+      .xfer span {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: inline-grid;
+        place-items: center;
+      }
+      mark {
+        background: #fff1a8;
+        border-radius: 3px;
+        padding: 0 2px;
+      }
+      .empty {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: var(--muted);
+        padding: 40px 0;
+      }
+
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 2px;
+      }
+      footer {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.8rem;
+        padding: 0 16px 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>서울 지하철 노선 카드</h1>
+      <p>
+        1~9호선을 한눈에. 카드를 눌러 주요 역을 보고, ★로 자주 타는 노선을
+        저장하세요.
+      </p>
+    </header>
+
+    <div class="toolbar">
+      <input
+        id="q"
+        class="search"
+        type="search"
+        placeholder="역 이름 (예: 강남)"
+        aria-label="역 이름 검색"
+      />
+      <button id="favOnly" class="toggle" type="button" aria-pressed="false">
+        ★ 즐겨찾기만
+      </button>
+      <p id="status" class="status" aria-live="polite"></p>
+    </div>
+
+    <main id="list"></main>
+
+    <footer>노선 정보는 요약본이며 실제 운행 구간과 다를 수 있습니다.</footer>
+
+    <script>
+      const LINES = [
+        {
+          no: 1,
+          color: "#0052A4",
+          from: "소요산",
+          to: "인천 · 신창",
+          opened: 1974,
+          operator: "코레일 · 서울교통공사",
+          stations: [
+            "소요산",
+            "의정부",
+            "창동",
+            "청량리",
+            "종로3가",
+            "시청",
+            "서울역",
+            "용산",
+            "노량진",
+            "신도림",
+            "구로",
+            "부평",
+            "인천",
+          ],
+        },
+        {
+          no: 2,
+          color: "#00A84D",
+          from: "시청",
+          to: "시청 (순환)",
+          opened: 1980,
+          operator: "서울교통공사",
+          stations: [
+            "시청",
+            "을지로3가",
+            "동대문역사문화공원",
+            "왕십리",
+            "건대입구",
+            "잠실",
+            "삼성",
+            "강남",
+            "교대",
+            "사당",
+            "신림",
+            "신도림",
+            "합정",
+            "홍대입구",
+            "신촌",
+            "충정로",
+          ],
+        },
+        {
+          no: 3,
+          color: "#EF7C1C",
+          from: "대화",
+          to: "오금",
+          opened: 1985,
+          operator: "코레일 · 서울교통공사",
+          stations: [
+            "대화",
+            "연신내",
+            "불광",
+            "경복궁",
+            "종로3가",
+            "충무로",
+            "약수",
+            "옥수",
+            "고속터미널",
+            "교대",
+            "양재",
+            "수서",
+            "가락시장",
+            "오금",
+          ],
+        },
+        {
+          no: 4,
+          color: "#00A5DE",
+          from: "진접",
+          to: "오이도",
+          opened: 1985,
+          operator: "서울교통공사 · 코레일",
+          stations: [
+            "진접",
+            "당고개",
+            "노원",
+            "창동",
+            "동대문",
+            "동대문역사문화공원",
+            "충무로",
+            "서울역",
+            "삼각지",
+            "이촌",
+            "동작",
+            "사당",
+            "금정",
+            "안산",
+            "오이도",
+          ],
+        },
+        {
+          no: 5,
+          color: "#996CAC",
+          from: "방화",
+          to: "하남검단산 · 마천",
+          opened: 1995,
+          operator: "서울교통공사",
+          stations: [
+            "방화",
+            "김포공항",
+            "까치산",
+            "영등포구청",
+            "여의도",
+            "공덕",
+            "광화문",
+            "종로3가",
+            "동대문역사문화공원",
+            "왕십리",
+            "군자",
+            "천호",
+            "강동",
+            "하남검단산",
+          ],
+        },
+        {
+          no: 6,
+          color: "#CD7C2F",
+          from: "응암",
+          to: "신내",
+          opened: 2000,
+          operator: "서울교통공사",
+          stations: [
+            "응암",
+            "연신내",
+            "불광",
+            "디지털미디어시티",
+            "합정",
+            "공덕",
+            "삼각지",
+            "이태원",
+            "약수",
+            "동묘앞",
+            "고려대",
+            "석계",
+            "태릉입구",
+            "신내",
+          ],
+        },
+        {
+          no: 7,
+          color: "#747F00",
+          from: "장암",
+          to: "석남",
+          opened: 1996,
+          operator: "서울교통공사",
+          stations: [
+            "장암",
+            "도봉산",
+            "노원",
+            "태릉입구",
+            "군자",
+            "건대입구",
+            "청담",
+            "강남구청",
+            "고속터미널",
+            "이수",
+            "대림",
+            "가산디지털단지",
+            "온수",
+            "부평구청",
+            "석남",
+          ],
+        },
+        {
+          no: 8,
+          color: "#E6186C",
+          from: "별내",
+          to: "모란",
+          opened: 1996,
+          operator: "서울교통공사",
+          stations: [
+            "별내",
+            "암사",
+            "천호",
+            "몽촌토성",
+            "잠실",
+            "석촌",
+            "가락시장",
+            "문정",
+            "복정",
+            "남한산성입구",
+            "모란",
+          ],
+        },
+        {
+          no: 9,
+          color: "#BDB092",
+          from: "개화",
+          to: "중앙보훈병원",
+          opened: 2009,
+          operator: "서울시메트로9호선 등",
+          stations: [
+            "개화",
+            "김포공항",
+            "가양",
+            "염창",
+            "당산",
+            "여의도",
+            "노량진",
+            "동작",
+            "고속터미널",
+            "신논현",
+            "선정릉",
+            "종합운동장",
+            "석촌",
+            "중앙보훈병원",
+          ],
+        },
+      ];
+
+      // 역 이름 → 지나는 호선 목록 (위 데이터 안에서 계산)
+      const stationLines = {};
+      LINES.forEach((l) =>
+        l.stations.forEach((s) => (stationLines[s] ||= new Set()).add(l.no)),
+      );
+      const colorOf = Object.fromEntries(LINES.map((l) => [l.no, l.color]));
+
+      const STORE_KEY = "subway-cards";
+      function load() {
+        try {
+          return JSON.parse(localStorage.getItem(STORE_KEY)) || {};
+        } catch {
+          return {};
+        }
+      }
+      function save() {
+        try {
+          localStorage.setItem(STORE_KEY, JSON.stringify(state));
+        } catch {}
+      }
+      const saved = load();
+      const state = {
+        favs: Array.isArray(saved.favs) ? saved.favs : [],
+        open: Array.isArray(saved.open) ? saved.open : [],
+        favOnly: !!saved.favOnly,
+        q: typeof saved.q === "string" ? saved.q : "",
+      };
+
+      const $list = document.getElementById("list");
+      const $q = document.getElementById("q");
+      const $favOnly = document.getElementById("favOnly");
+      const $status = document.getElementById("status");
+
+      function esc(s) {
+        return s.replace(
+          /[&<>"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        );
+      }
+      function highlight(name, q) {
+        if (!q) return esc(name);
+        const i = name.indexOf(q);
+        if (i < 0) return esc(name);
+        return (
+          esc(name.slice(0, i)) +
+          "<mark>" +
+          esc(name.slice(i, i + q.length)) +
+          "</mark>" +
+          esc(name.slice(i + q.length))
+        );
+      }
+
+      function render() {
+        const q = state.q.trim();
+        $favOnly.setAttribute("aria-pressed", state.favOnly);
+
+        const shown = LINES.filter(
+          (l) =>
+            (!state.favOnly || state.favs.includes(l.no)) &&
+            (!q || l.stations.some((s) => s.includes(q))),
+        );
+
+        $list.innerHTML = shown.length
+          ? shown
+              .map((l) => {
+                const fav = state.favs.includes(l.no);
+                // 검색 중이면 맞는 역이 있는 카드는 자동으로 펼친다
+                const open = state.open.includes(l.no) || !!q;
+                const items = l.stations
+                  .map((s) => {
+                    const others = [...stationLines[s]].filter(
+                      (n) => n !== l.no,
+                    );
+                    const xfer = others.length
+                      ? `<span class="xfer" aria-label="환승 ${others.join(", ")}호선">${others
+                          .map(
+                            (n) =>
+                              `<span style="background:${colorOf[n]}">${n}</span>`,
+                          )
+                          .join("")}</span>`
+                      : "";
+                    return `<li>${highlight(s, q)}${xfer}</li>`;
+                  })
+                  .join("");
+                const xferCount = l.stations.filter(
+                  (s) => stationLines[s].size > 1,
+                ).length;
+
+                return `
+      <article class="card" style="--c:${l.color}">
+        <div class="card-head">
+          <div class="badge" aria-hidden="true">${l.no}</div>
+          <div class="title">
+            <h2>${l.no}호선</h2>
+            <p class="route">${esc(l.from)} ↔ ${esc(l.to)}</p>
+          </div>
+          <button class="star" type="button" data-fav="${l.no}" aria-pressed="${fav}"
+            aria-label="${l.no}호선 즐겨찾기${fav ? " 해제" : ""}">${fav ? "★" : "☆"}</button>
+        </div>
+        <ul class="meta">
+          <li>개통 ${l.opened}년</li>
+          <li>${esc(l.operator)}</li>
+          <li>환승역 ${xferCount.toLocaleString("ko-KR")}곳</li>
+        </ul>
+        <button class="more" type="button" data-open="${l.no}" aria-expanded="${open}" aria-controls="st-${l.no}">
+          <span>주요 역 ${l.stations.length.toLocaleString("ko-KR")}곳</span><span class="arrow" aria-hidden="true">▾</span>
+        </button>
+        <ul class="stations" id="st-${l.no}" ${open ? "" : "hidden"}>${items}</ul>
+      </article>`;
+              })
+              .join("")
+          : `<p class="empty">${
+              state.favOnly && !state.favs.length
+                ? "아직 즐겨찾기한 노선이 없어요. 카드의 ☆을 눌러 보세요."
+                : "조건에 맞는 노선이 없어요."
+            }</p>`;
+
+        $status.textContent =
+          `${shown.length}개 노선 표시 중` +
+          (q ? ` · "${q}" 검색` : "") +
+          (state.favOnly ? " · 즐겨찾기만" : "");
+      }
+
+      $list.addEventListener("click", (e) => {
+        const favBtn = e.target.closest("[data-fav]");
+        if (favBtn) {
+          const n = +favBtn.dataset.fav;
+          state.favs = state.favs.includes(n)
+            ? state.favs.filter((x) => x !== n)
+            : [...state.favs, n];
+          save();
+          render();
+          document.querySelector(`[data-fav="${n}"]`)?.focus();
+          return;
+        }
+        const openBtn = e.target.closest("[data-open]");
+        if (openBtn) {
+          const n = +openBtn.dataset.open;
+          if (state.q.trim()) {
+            // 검색 중 펼침 상태는 검색어가 정하므로, 누르면 검색을 지우고 그 카드만 토글
+            state.q = "";
+            $q.value = "";
+            if (!state.open.includes(n)) state.open.push(n);
+            else state.open = state.open.filter((x) => x !== n);
+          } else {
+            state.open = state.open.includes(n)
+              ? state.open.filter((x) => x !== n)
+              : [...state.open, n];
+          }
+          save();
+          render();
+          document.querySelector(`[data-open="${n}"]`)?.focus();
+        }
+      });
+
+      $q.addEventListener("input", () => {
+        state.q = $q.value;
+        save();
+        render();
+        $q.focus();
+      });
+      $favOnly.addEventListener("click", () => {
+        state.favOnly = !state.favOnly;
+        save();
+        render();
+      });
+
+      $q.value = state.q;
+
+      render();
+    </script>
+  </body>
+</html>

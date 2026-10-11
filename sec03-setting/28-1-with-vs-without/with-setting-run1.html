@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>서울역 시간대별 승하차</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f4f4f2;
+        --surface-1: #fcfcfb;
+        --border: #e3e2de;
+        --grid: #ebeae6;
+        --text-primary: #0b0b0b;
+        --text-secondary: #52514e;
+        --text-muted: #7a7974;
+        --series-on: #2a78d6;
+        --series-off: #eb6834;
+        --chip-on-bg: #0b0b0b;
+        --chip-on-text: #fcfcfb;
+        --focus: #2a78d6;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          color-scheme: dark;
+          --bg: #111110;
+          --surface-1: #1a1a19;
+          --border: #2e2d2b;
+          --grid: #262624;
+          --text-primary: #f0efec;
+          --text-secondary: #c3c2b7;
+          --text-muted: #8d8c85;
+          --series-on: #3987e5;
+          --series-off: #d95926;
+          --chip-on-bg: #f0efec;
+          --chip-on-text: #111110;
+          --focus: #3987e5;
+        }
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #111110;
+        --surface-1: #1a1a19;
+        --border: #2e2d2b;
+        --grid: #262624;
+        --text-primary: #f0efec;
+        --text-secondary: #c3c2b7;
+        --text-muted: #8d8c85;
+        --series-on: #3987e5;
+        --series-off: #d95926;
+        --chip-on-bg: #f0efec;
+        --chip-on-text: #111110;
+        --focus: #3987e5;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text-primary);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+          "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        word-break: keep-all;
+      }
+      .wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 24px 16px 48px;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      header p {
+        margin: 4px 0 0;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 20px;
+        align-items: center;
+        margin: 20px 0 16px;
+      }
+      .control-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+      }
+      .control-label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-right: 2px;
+      }
+      .chip {
+        font: inherit;
+        font-size: 0.85rem;
+        min-height: 36px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--surface-1);
+        color: var(--text-secondary);
+        cursor: pointer;
+      }
+      .chip[aria-pressed="true"] {
+        background: var(--chip-on-bg);
+        color: var(--chip-on-text);
+        border-color: var(--chip-on-bg);
+      }
+      .chip:focus-visible,
+      .chart-svg:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+      }
+
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .kpi {
+        background: var(--surface-1);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        min-width: 0;
+      }
+      .kpi-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .kpi-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        font-variant-numeric: tabular-nums;
+        margin-top: 2px;
+      }
+      .kpi-sub {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+      .swatch {
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+        display: inline-block;
+        flex: none;
+      }
+
+      .card {
+        background: var(--surface-1);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        position: relative;
+      }
+      .card-head {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: baseline;
+        margin-bottom: 8px;
+      }
+      .card-head h2 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+      .legend {
+        display: flex;
+        gap: 14px;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+      .legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .chart {
+        position: relative;
+        width: 100%;
+      }
+      .chart-svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        touch-action: pan-y;
+      }
+      .chart-svg text {
+        font-family: inherit;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .tooltip {
+        position: absolute;
+        pointer-events: none;
+        z-index: 2;
+        background: var(--surface-1);
+        color: var(--text-primary);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        padding: 8px 10px;
+        font-size: 0.8rem;
+        min-width: 150px;
+        opacity: 0;
+        transition: opacity 0.1s;
+      }
+      .tooltip.show {
+        opacity: 1;
+      }
+      .tooltip .tt-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .tooltip .tt-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+      .tooltip .tt-row span:first-child {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-secondary);
+      }
+      .tooltip .tt-row b {
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+      }
+      .tooltip .tt-total {
+        border-top: 1px solid var(--border);
+        margin-top: 4px;
+        padding-top: 4px;
+      }
+
+      .empty {
+        padding: 48px 0;
+        text-align: center;
+        color: var(--text-muted);
+      }
+
+      details {
+        margin-top: 16px;
+      }
+      summary {
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        padding: 8px 0;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+        font-variant-numeric: tabular-nums;
+      }
+      th,
+      td {
+        padding: 6px 8px;
+        border-bottom: 1px solid var(--grid);
+        text-align: right;
+        white-space: nowrap;
+      }
+      th:first-child,
+      td:first-child {
+        text-align: left;
+      }
+      th {
+        color: var(--text-secondary);
+        font-weight: 600;
+      }
+      tr.peak td {
+        font-weight: 700;
+      }
+
+      footer {
+        margin-top: 24px;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+      footer a {
+        color: inherit;
+      }
+
+      @media (max-width: 600px) {
+        header h1 {
+          font-size: 1.3rem;
+        }
+        .kpis {
+          grid-template-columns: 1fr 1fr;
+        }
+        .kpi.peak-kpi {
+          grid-column: 1 / -1;
+        }
+        .kpi-value {
+          font-size: 1.25rem;
+        }
+        .card {
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>서울역 시간대별 승하차</h1>
+        <p id="subtitle"></p>
+      </header>
+
+      <div class="controls">
+        <div class="control-group" role="group" aria-labelledby="lbl-lines">
+          <span class="control-label" id="lbl-lines">노선</span>
+          <div id="line-chips" class="control-group"></div>
+        </div>
+        <div class="control-group" role="group" aria-labelledby="lbl-unit">
+          <span class="control-label" id="lbl-unit">단위</span>
+          <button class="chip" data-unit="day" type="button">하루 평균</button>
+          <button class="chip" data-unit="month" type="button">월 합계</button>
+        </div>
+      </div>
+
+      <section class="kpis" aria-label="요약">
+        <div class="kpi">
+          <div class="kpi-label">
+            <i class="swatch" style="background: var(--series-on)"></i>승차
+          </div>
+          <div class="kpi-value" id="kpi-on">–</div>
+          <div class="kpi-sub" id="kpi-on-sub"></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">
+            <i class="swatch" style="background: var(--series-off)"></i>하차
+          </div>
+          <div class="kpi-value" id="kpi-off">–</div>
+          <div class="kpi-sub" id="kpi-off-sub"></div>
+        </div>
+        <div class="kpi peak-kpi">
+          <div class="kpi-label">가장 붐비는 시간</div>
+          <div class="kpi-value" id="kpi-peak">–</div>
+          <div class="kpi-sub" id="kpi-peak-sub"></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="chart-title">
+        <div class="card-head">
+          <h2 id="chart-title">시간대별 승하차 인원</h2>
+          <div class="legend" aria-hidden="true">
+            <span
+              ><i class="swatch" style="background: var(--series-on)"></i
+              >승차</span
+            >
+            <span
+              ><i class="swatch" style="background: var(--series-off)"></i
+              >하차</span
+            >
+          </div>
+        </div>
+        <div class="chart" id="chart">
+          <div
+            class="tooltip"
+            id="tooltip"
+            role="status"
+            aria-live="polite"
+          ></div>
+        </div>
+
+        <details id="table-details">
+          <summary>표로 보기</summary>
+          <div class="table-wrap"><table id="table"></table></div>
+        </details>
+      </section>
+
+      <footer>
+        출처: 서울 열린데이터광장 「서울시 지하철 호선별 역별 시간대별 승하차
+        인원 정보」(CardSubwayTime) · 교통카드 기준 · 시간대 “08시”는
+        08:00~08:59를 뜻합니다.
+      </footer>
+    </div>
+
+    <script>
+      const DATA = {"month":"202609","updated":"20261003","hours":[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,0,1,2,3],"lines":[{"name":"1호선","on":[892,12204,40415,119513,195766,137732,122265,120318,134614,134139,115050,152664,167102,236091,257311,153238,110668,114301,81234,39135,5380,19,0,0],"off":[55,12821,66505,137797,256379,175977,110409,109920,118511,122000,110867,137752,152111,182662,213402,141784,105749,101519,74368,36930,9351,248,0,0]},{"name":"4호선","on":[373,4655,6838,14729,17368,15816,15102,16842,17400,16783,18178,20862,26506,52158,64318,27028,18206,15171,11268,5021,598,1,0,0],"off":[15,1097,16642,43592,92966,56780,32773,32779,34833,35000,32852,38167,40051,44795,44383,33346,25126,24988,20269,9838,2867,396,0,0]},{"name":"경부선","on":[15,102,185,12989,23334,20738,16429,20143,21741,20934,6933,23915,18385,22734,27656,25291,15902,25634,17761,11059,2129,0,0,0],"off":[3,790,4939,8206,9257,6566,5922,4084,5560,5522,4601,6383,7619,10201,9279,6879,5030,5041,3768,853,67,0,0,0]},{"name":"경의선","on":[2,588,1052,3120,3451,2113,1778,2017,2598,3823,3578,6282,8141,15002,16231,8400,5559,4794,733,2243,5,0,0,0],"off":[0,8,7547,17726,25662,14581,6346,4902,4412,5506,2869,2788,3475,4515,4174,2341,1406,1304,160,756,129,0,0,0]},{"name":"공항철도 1호선","on":[330,3654,5418,14072,19387,19163,20655,23909,27648,31785,23027,34360,34364,40559,39900,34925,23340,27626,19747,11679,218,0,0,0],"off":[6,1608,16900,24777,35622,28340,26485,24428,24950,24005,20764,25072,25722,26984,25854,21408,14399,16062,10810,5057,3339,15,0,0]}]};
+
+      const STORE_KEY = "seoul-station-hourly:v1";
+      const HOURS = DATA.hours;
+      const allLines = DATA.lines.map((l) => l.name);
+      const year = +DATA.month.slice(0, 4),
+        mon = +DATA.month.slice(4, 6);
+      const daysInMonth = new Date(year, mon, 0).getDate();
+
+      // ---- 상태 (localStorage 저장) ----
+      const state = { lines: allLines.slice(), unit: "day" };
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
+        if (saved) {
+          if (Array.isArray(saved.lines)) {
+            const valid = saved.lines.filter((n) => allLines.includes(n));
+            if (valid.length) state.lines = valid;
+          }
+          if (saved.unit === "day" || saved.unit === "month")
+            state.unit = saved.unit;
+        }
+      } catch (e) {}
+      function save() {
+        try {
+          localStorage.setItem(STORE_KEY, JSON.stringify(state));
+        } catch (e) {}
+      }
+
+      // ---- 포맷 ----
+      const nf = new Intl.NumberFormat("ko-KR");
+      const fmt = (n) => nf.format(Math.round(n));
+      function compact(n) {
+        if (n >= 10000) {
+          const v = n / 10000;
+          return (v >= 100 ? Math.round(v) : Math.round(v * 10) / 10) + "만";
+        }
+        if (n >= 1000) return Math.round(n / 100) / 10 + "천";
+        return String(Math.round(n));
+      }
+      const hh = (h) => String(h).padStart(2, "0") + "시";
+      const hourRange = (h) =>
+        `${String(h).padStart(2, "0")}:00~${String(h).padStart(2, "0")}:59`;
+
+      document.getElementById("subtitle").textContent =
+        `${year}년 ${mon}월 · 교통카드 기준 · ${allLines.join(", ")}`;
+
+      // ---- 집계 ----
+      function series() {
+        const div = state.unit === "day" ? daysInMonth : 1;
+        const on = HOURS.map(() => 0),
+          off = HOURS.map(() => 0);
+        DATA.lines.forEach((l) => {
+          if (!state.lines.includes(l.name)) return;
+          l.on.forEach((v, i) => (on[i] += v));
+          l.off.forEach((v, i) => (off[i] += v));
+        });
+        return { on: on.map((v) => v / div), off: off.map((v) => v / div) };
+      }
+
+      // ---- 컨트롤 ----
+      const chipsEl = document.getElementById("line-chips");
+      const allChip = document.createElement("button");
+      allChip.className = "chip";
+      allChip.type = "button";
+      allChip.textContent = "전체";
+      allChip.addEventListener("click", () => {
+        state.lines = allLines.slice();
+        update();
+      });
+      chipsEl.appendChild(allChip);
+      const lineChips = allLines.map((name) => {
+        const b = document.createElement("button");
+        b.className = "chip";
+        b.type = "button";
+        b.textContent = name;
+        b.addEventListener("click", () => {
+          const allOn = state.lines.length === allLines.length;
+          if (allOn)
+            state.lines = [name]; // 전체 상태에서 누르면 그 노선만
+          else if (state.lines.includes(name))
+            state.lines = state.lines.filter((n) => n !== name);
+          else
+            state.lines = allLines.filter(
+              (n) => n === name || state.lines.includes(n),
+            );
+          if (!state.lines.length) state.lines = allLines.slice();
+          update();
+        });
+        chipsEl.appendChild(b);
+        return b;
+      });
+      const unitChips = [...document.querySelectorAll("[data-unit]")];
+      unitChips.forEach((b) =>
+        b.addEventListener("click", () => {
+          state.unit = b.dataset.unit;
+          update();
+        }),
+      );
+
+      function syncControls() {
+        const allOn = state.lines.length === allLines.length;
+        allChip.setAttribute("aria-pressed", allOn);
+        lineChips.forEach((b, i) =>
+          b.setAttribute(
+            "aria-pressed",
+            !allOn && state.lines.includes(allLines[i]),
+          ),
+        );
+        unitChips.forEach((b) =>
+          b.setAttribute("aria-pressed", b.dataset.unit === state.unit),
+        );
+      }
+
+      // ---- KPI ----
+      function renderKpis(s) {
+        const unitTxt = state.unit === "day" ? "하루 평균" : `${mon}월 합계`;
+        const tOn = s.on.reduce((a, b) => a + b, 0),
+          tOff = s.off.reduce((a, b) => a + b, 0);
+        document.getElementById("kpi-on").textContent = fmt(tOn) + "명";
+        document.getElementById("kpi-off").textContent = fmt(tOff) + "명";
+        document.getElementById("kpi-on-sub").textContent = unitTxt;
+        document.getElementById("kpi-off-sub").textContent = unitTxt;
+        let pi = 0;
+        HOURS.forEach((_, i) => {
+          if (s.on[i] + s.off[i] > s.on[pi] + s.off[pi]) pi = i;
+        });
+        document.getElementById("kpi-peak").textContent = hh(HOURS[pi]);
+        document.getElementById("kpi-peak-sub").textContent =
+          `승하차 ${fmt(s.on[pi] + s.off[pi])}명 · ${unitTxt}`;
+        return pi;
+      }
+
+      // ---- 차트 ----
+      const chartEl = document.getElementById("chart");
+      const tip = document.getElementById("tooltip");
+      const NS = "http://www.w3.org/2000/svg";
+      let svg,
+        groups = [],
+        active = -1,
+        cur = null,
+        geom = null;
+
+      function el(tag, attrs, parent) {
+        const n = document.createElementNS(NS, tag);
+        for (const k in attrs) n.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(n);
+        return n;
+      }
+      // 눈금 간격을 1·2·5 단위로 맞춘다
+      function niceStep(v) {
+        if (v <= 0) return 1;
+        const p = Math.pow(10, Math.floor(Math.log10(v)));
+        const m = v / p;
+        return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10) * p;
+      }
+      // 위쪽 모서리만 둥근 막대
+      function barPath(x, y, w, h, r) {
+        r = Math.min(r, w / 2, h);
+        if (h <= 0) return "";
+        return `M${x},${y + h}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + h}Z`;
+      }
+
+      function renderChart(s) {
+        cur = s;
+        if (svg) svg.remove();
+        const W = Math.max(300, chartEl.clientWidth);
+        const narrow = W < 560;
+        const H = narrow ? 260 : 340;
+        const m = { t: 22, r: 4, b: 28, l: narrow ? 38 : 48 };
+        const pw = W - m.l - m.r,
+          ph = H - m.t - m.b;
+        const max = Math.max(...s.on, ...s.off);
+        const yStep = niceStep((max * 1.08) / 4);
+        const ticks = Math.max(1, Math.ceil((max * 1.08) / yStep));
+        const yMax = yStep * ticks;
+        const y = (v) => m.t + ph - (v / yMax) * ph;
+
+        svg = el("svg", {
+          class: "chart-svg",
+          viewBox: `0 0 ${W} ${H}`,
+          width: W,
+          height: H,
+          role: "img",
+          tabindex: "0",
+          "aria-label": `서울역 시간대별 승차·하차 인원 막대 차트. 좌우 화살표로 시간대를 옮겨 볼 수 있습니다.`,
+        });
+        chartEl.insertBefore(svg, tip);
+
+        // 격자·Y축
+        for (let i = 0; i <= ticks; i++) {
+          const v = (yMax * i) / ticks,
+            yy = y(v);
+          el(
+            "line",
+            {
+              x1: m.l,
+              x2: W - m.r,
+              y1: yy,
+              y2: yy,
+              stroke: i === 0 ? "var(--text-muted)" : "var(--grid)",
+              "stroke-width": 1,
+            },
+            svg,
+          );
+          const t = el(
+            "text",
+            {
+              x: m.l - 6,
+              y: yy + 4,
+              "text-anchor": "end",
+              "font-size": 11,
+              fill: "var(--text-muted)",
+            },
+            svg,
+          );
+          t.textContent = i === 0 ? "0" : compact(v);
+        }
+
+        const gw = pw / HOURS.length;
+        const gap = 2;
+        const bw = Math.max(2, Math.min(16, (gw - (narrow ? 3 : 8) - gap) / 2));
+        geom = { m, gw, W, H };
+        groups = [];
+
+        const step = narrow ? 3 : 2;
+        HOURS.forEach((h, i) => {
+          const gx = m.l + i * gw;
+          const cx = gx + gw / 2;
+          const g = el("g", { class: "grp" }, svg);
+          const hi = el(
+            "rect",
+            {
+              x: gx,
+              y: m.t,
+              width: gw,
+              height: ph,
+              fill: "var(--grid)",
+              opacity: 0,
+            },
+            g,
+          );
+          const x1 = cx - gap / 2 - bw,
+            x2 = cx + gap / 2;
+          const bOn = el(
+            "path",
+            {
+              d: barPath(x1, y(s.on[i]), bw, y(0) - y(s.on[i]), 4),
+              fill: "var(--series-on)",
+            },
+            g,
+          );
+          const bOff = el(
+            "path",
+            {
+              d: barPath(x2, y(s.off[i]), bw, y(0) - y(s.off[i]), 4),
+              fill: "var(--series-off)",
+            },
+            g,
+          );
+          if (i % step === 0) {
+            const t = el(
+              "text",
+              {
+                x: cx,
+                y: H - 8,
+                "text-anchor": "middle",
+                "font-size": 11,
+                fill: "var(--text-muted)",
+              },
+              svg,
+            );
+            t.textContent = String(h).padStart(2, "0");
+          }
+          groups.push({ g, hi, bars: [bOn, bOff], cx });
+        });
+
+        // 최댓값 직접 라벨 (승차·하차 각 1개)
+        const iOn = s.on.indexOf(Math.max(...s.on)),
+          iOff = s.off.indexOf(Math.max(...s.off));
+        [
+          [iOn, s.on, -1],
+          [iOff, s.off, 1],
+        ].forEach(([i, arr, side]) => {
+          const cx = groups[i].cx + side * (gap / 2 + bw / 2);
+          const lift = iOn === iOff && side === -1 ? 14 : 0;
+          const t = el(
+            "text",
+            {
+              x: cx,
+              y: y(arr[i]) - 6 - lift,
+              "text-anchor": "middle",
+              "font-size": 11,
+              "font-weight": 600,
+              fill: "var(--text-secondary)",
+            },
+            svg,
+          );
+          t.textContent = fmt(arr[i]);
+        });
+
+        // 히트 영역 (막대보다 넓게: 시간대 칸 전체)
+        const hit = el(
+          "rect",
+          { x: m.l, y: 0, width: pw, height: H, fill: "transparent" },
+          svg,
+        );
+        const idxAt = (evt) => {
+          const r = svg.getBoundingClientRect();
+          const px = (evt.clientX - r.left) * (W / r.width);
+          return Math.max(
+            0,
+            Math.min(HOURS.length - 1, Math.floor((px - m.l) / gw)),
+          );
+        };
+        hit.addEventListener("pointermove", (e) => setActive(idxAt(e)));
+        hit.addEventListener("pointerdown", (e) => setActive(idxAt(e)));
+        hit.addEventListener("pointerleave", (e) => {
+          if (e.pointerType === "mouse") setActive(-1);
+        });
+        svg.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+            e.preventDefault();
+            const d = e.key === "ArrowRight" ? 1 : -1;
+            setActive(
+              active < 0
+                ? d > 0
+                  ? 0
+                  : HOURS.length - 1
+                : (active + d + HOURS.length) % HOURS.length,
+            );
+          } else if (e.key === "Escape") setActive(-1);
+        });
+        svg.addEventListener("blur", () => setActive(-1));
+
+        const prev = active;
+        active = -1;
+        if (prev >= 0) setActive(prev);
+      }
+
+      function setActive(i) {
+        if (i === active) return;
+        active = i;
+        groups.forEach((gr, k) => {
+          gr.hi.setAttribute("opacity", k === i ? 0.6 : 0);
+          gr.bars.forEach((b) =>
+            b.setAttribute("opacity", i < 0 || k === i ? 1 : 0.45),
+          );
+        });
+        if (i < 0) {
+          tip.classList.remove("show");
+          return;
+        }
+        const on = cur.on[i],
+          off = cur.off[i];
+        tip.innerHTML =
+          `<div class="tt-title">${hh(HOURS[i])} <span style="color:var(--text-muted);font-weight:400">${hourRange(HOURS[i])}</span></div>` +
+          `<div class="tt-row"><span><i class="swatch" style="background:var(--series-on)"></i>승차</span><b>${fmt(on)}명</b></div>` +
+          `<div class="tt-row"><span><i class="swatch" style="background:var(--series-off)"></i>하차</span><b>${fmt(off)}명</b></div>` +
+          `<div class="tt-row tt-total"><span>합계</span><b>${fmt(on + off)}명</b></div>`;
+        tip.classList.add("show");
+        const r = svg.getBoundingClientRect();
+        const scale = r.width / geom.W;
+        const cx = groups[i].cx * scale;
+        const tw = tip.offsetWidth;
+        let left = cx + 12;
+        if (left + tw > r.width) left = cx - tw - 12;
+        tip.style.left = Math.max(0, left) + "px";
+        tip.style.top = geom.m.t * scale + "px";
+      }
+
+      // ---- 표 ----
+      function renderTable(s, pi) {
+        const unitTxt = state.unit === "day" ? "하루 평균" : "월 합계";
+        let html =
+          `<caption style="text-align:left;color:var(--text-muted);font-size:0.8rem;padding-bottom:4px">단위: 명 (${unitTxt})</caption>` +
+          `<thead><tr><th scope="col">시간대</th><th scope="col">승차</th><th scope="col">하차</th><th scope="col">합계</th></tr></thead><tbody>`;
+        HOURS.forEach((h, i) => {
+          html += `<tr${i === pi ? ' class="peak"' : ""}><td>${hourRange(h)}</td><td>${fmt(s.on[i])}</td><td>${fmt(s.off[i])}</td><td>${fmt(s.on[i] + s.off[i])}</td></tr>`;
+        });
+        const tOn = s.on.reduce((a, b) => a + b, 0),
+          tOff = s.off.reduce((a, b) => a + b, 0);
+        html += `</tbody><tfoot><tr><th scope="row">합계</th><th>${fmt(tOn)}</th><th>${fmt(tOff)}</th><th>${fmt(tOn + tOff)}</th></tr></tfoot>`;
+        document.getElementById("table").innerHTML = html;
+      }
+
+      // ---- 갱신 ----
+      function update() {
+        save();
+        syncControls();
+        const s = series();
+        const pi = renderKpis(s);
+        renderChart(s);
+        renderTable(s, pi);
+      }
+
+      document
+        .getElementById("table-details")
+        .addEventListener("toggle", (e) => {
+          try {
+            localStorage.setItem(
+              STORE_KEY + ":table",
+              e.target.open ? "1" : "0",
+            );
+          } catch (err) {}
+        });
+      try {
+        if (localStorage.getItem(STORE_KEY + ":table") === "1")
+          document.getElementById("table-details").open = true;
+      } catch (e) {}
+
+      let rt;
+      window.addEventListener("resize", () => {
+        clearTimeout(rt);
+        rt = setTimeout(() => cur && renderChart(cur), 120);
+      });
+      document.addEventListener("pointerdown", (e) => {
+        if (!chartEl.contains(e.target)) setActive(-1);
+      });
+
+      update();
+    </script>
+  </body>
+</html>
