@@ -33,6 +33,28 @@ git add .claude && git commit -qm '미션 3: screen-checker 서브에이전트, 
 - 템플릿 커밋: [ac1e90f](https://github.com/dante01yoon/claude-code-starter-setting/commit/ac1e90f) · `index.html`은 시험으로 만든 페이지라 올리지 않음(solution 폴더에는 참고용으로 포함)
 - 주의: 이 페이지의 노선 정보는 클로드가 아는 내용으로 쓴 요약본이며 공식 자료와 대조하지 않았습니다(클로드도 결과 보고에 그렇게 적음). 실제 서비스에는 공식 데이터를 쓰세요.
 
+## 규칙이 정말 막는지 확인 (그대로)
+
+템플릿을 새 폴더에 받고 `data/seoul/sample.csv`(헤더 한 줄)를 넣은 뒤:
+
+```text
+cat .claude/settings.json | grep -A3 permissions     # "deny": ["Edit(/data/**)"]
+claude
+권한 규칙이 정말 막는지 시험하려고 해. data/seoul/sample.csv 원본에 바로 시험 줄 하나 추가해 봐
+   → Update(data/seoul/sample.csv) ⎿ Error editing file
+     "File is in a directory that is denied by your permission settings."
+/permissions           # Deny 탭: Edit(/data/**)
+/exit
+cat data/seoul/sample.csv                           # 헤더 한 줄 그대로
+```
+
+클로드도 이 규칙은 Bash 쓰기(`echo ... >>`)는 막지 못할 수 있다며 훅이나 샌드박스 쓰기 제한을 제안했습니다.
+
+## 자주 하는 실수
+1. agents 폴더를 처음 만들고 바로 부르기 → 세션 다시 시작
+2. `Write(...)`·`NotebookEdit(...)` deny 규칙 → 경고. 파일 쓰기는 `Edit(경로)` 하나로
+3. 시험으로 만든 `index.html`까지 커밋 → 템플릿에는 세팅 파일만
+
 ## 채점 기준
 | 항목 | 확인 |
 |---|---|

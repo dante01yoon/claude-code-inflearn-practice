@@ -21,6 +21,28 @@ claude                 # 프롬프트 위: 스킬 2 · 에이전트 1 · 훅 3
 
 결과: `solution/.claude/skills/project-counts/` (`.claude-plugin/plugin.json`, `hooks/hooks.json`, `hooks/register.tsx`, `tests/`, `types/`)
 
+## 정말 턴마다 다시 세나? — 스킬을 만들고 지워 보기 (그대로)
+
+```text
+claude                 # 프롬프트 위: 스킬 2 · 에이전트 1 · 훅 3
+hello 스킬 하나 만들어 줘. 인사만 하는 간단한 걸로
+   → .claude/skills/hello/SKILL.md 생성, 턴이 끝나자 "스킬 3"
+방금 만든 hello 스킬 지워 줘
+   → 폴더 삭제, 턴이 끝나자 다시 "스킬 2" (재시작 필요 없음)
+```
+
+`register.tsx`가 `session.start`와 `turn.complete`에서 개수를 다시 세고, `ui.render`(AbovePrompt)에서 그 숫자를 그리기 때문입니다.
+
+## 언제 무엇을 고를까
+| 이럴 때 | 고를 것 |
+|---|---|
+| 알려 줄 절차 · 지식 | 스킬 |
+| 정해진 순간에 무조건 실행 | 훅 |
+| 바깥 서비스 연결 | MCP |
+| 화면에 늘 보이기 · 버튼으로 묻기 | mod |
+
+여러 개를 묶어 나눠 주는 상자 = 플러그인 (섹션 7)
+
 ## 쓸 만한 mod (공식 샘플)
 - token-weather — 컨텍스트 사용량을 일기예보처럼
 - blast-radius — `rm -rf`·강제 푸시를 붙잡고 무엇이 바뀌는지 보여 준 뒤 버튼으로 확인
