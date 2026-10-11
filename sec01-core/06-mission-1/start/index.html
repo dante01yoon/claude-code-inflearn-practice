@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>서울 라이브 3D</title>
+<style>
+  :root {
+    --surface: #10131a;
+    --text-primary: #e8e6df;
+    --text-secondary: #b4b2aa;
+    --text-muted: #8a8880;
+    --grid: #262a33;
+    --series-on: #3987e5;  /* 승차 */
+    --series-off: #d95926; /* 하차 */
+  }
+  body { font-family: system-ui, sans-serif; background: var(--surface); color: var(--text-primary); margin: 40px; }
+  h1 { font-size: 28px; }
+  h2 { font-size: 20px; margin-top: 40px; }
+  table { border-collapse: collapse; margin-top: 16px; }
+  td, th { border: 1px solid #333; padding: 6px 12px; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .legend { display: flex; gap: 20px; color: var(--text-secondary); font-size: 14px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .key { width: 16px; height: 2px; border-radius: 1px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; margin-top: 16px; }
+  .card h3 { font-size: 15px; font-weight: 600; margin: 0 0 4px; }
+  .card svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .card text { fill: var(--text-muted); font-size: 11px; }
+  .summary { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; }
+  .summary .card { border: 1px solid var(--grid); border-radius: 8px; padding: 14px 16px; }
+  .summary dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 10px 0 0; font-size: 14px; }
+  .summary dt { display: inline-flex; align-items: center; gap: 6px; color: var(--text-secondary); }
+  .summary dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .summary .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .tip { position: fixed; pointer-events: none; background: #1d212b; border: 1px solid #333; border-radius: 6px;
+         padding: 6px 10px; font-size: 13px; line-height: 1.5; display: none; white-space: nowrap; }
+  .tip .row { display: flex; align-items: center; gap: 6px; }
+  .tip .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .tip b { font-variant-numeric: tabular-nums; margin-left: auto; padding-left: 12px; }
+
+  .controls { display: flex; align-items: center; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .controls input[type=range] { flex: 1; min-width: 160px; accent-color: var(--text-secondary); }
+  .controls output { font-variant-numeric: tabular-nums; min-width: 4.5em; font-weight: 600; }
+  .controls button { background: #1d212b; color: var(--text-primary); border: 1px solid #333; border-radius: 6px;
+                     padding: 4px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+  .scene { position: relative; height: 420px; margin-top: 12px; border: 1px solid var(--grid); border-radius: 8px; overflow: hidden; }
+  .scene canvas { display: block; touch-action: none; }
+  .label3d { color: var(--text-secondary); font-size: 12px; background: rgba(16, 19, 26, 0.75); padding: 2px 6px; border-radius: 4px; }
+  @media (max-width: 600px) { body { margin: 16px; } .grid { grid-template-columns: 1fr; } .scene { height: 300px; } }
+</style>
+</head>
+<body>
+<h1>서울 라이브 3D</h1>
+<p>2026년 7월 한 달 동안 역별 승하차 인원 (합계)</p>
+
+<h2>역별 하루 요약</h2>
+<p style="color: var(--text-muted); font-size: 13px">2026년 7월 한 달 합계를 31일로 나눈 하루 평균과, 승차·하차가 가장 많은 시간대입니다.</p>
+<div class="summary" id="summary"></div>
+
+<h2>시간대별 3D 승하차</h2>
+<div class="legend">
+  <span><i class="key" style="background: var(--series-on); height: 10px"></i>승차</span>
+  <span><i class="key" style="background: var(--series-off); height: 10px"></i>하차</span>
+</div>
+<p style="color: var(--text-muted); font-size: 13px" id="scene-note">기둥 높이는 아래 차트와 같은 눈금을 씁니다. 드래그로 회전, 휠로 확대합니다.</p>
+<div class="controls">
+  <button type="button" id="play">▶ 재생</button>
+  <input type="range" id="hour" min="0" max="23" step="1" value="4" aria-label="시간대">
+  <output id="hour-label" for="hour">08시대</output>
+</div>
+<div class="scene" id="scene"></div>
+
+<h2>시간대별 승하차</h2>
+<div class="legend">
+  <span><i class="key" style="background: var(--series-on)"></i>승차</span>
+  <span><i class="key" style="background: var(--series-off)"></i>하차</span>
+</div>
+<p style="color: var(--text-muted); font-size: 13px">모든 역이 같은 세로 눈금을 씁니다. 04시부터 다음 날 03시까지, 해당 시간대 한 달 합계.</p>
+<div class="grid" id="charts"></div>
+<div class="tip" id="tip"></div>
+
+<h2>역별 합계</h2>
+<table id="t"><tr><th>호선</th><th>역</th><th>승차</th><th>하차</th></tr></table>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { CSS2DRenderer, CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
+import { HOURS, count, busiestHours, quietestHours } from "./stats.mjs";
+
+const W = 340, H = 180, M = { top: 10, right: 8, bottom: 22, left: 40 };
+const fmt = (n) => n.toLocaleString("ko-KR");
+const DAYS = 31; // 2026년 7월 일수
+const compact = (n) => (n >= 1000 ? `${n / 1000}K` : `${n}`);
+const hourName = (h) => `${String(h).padStart(2, "0")}시대`;
+
+const tip = document.getElementById("tip");
+function showTip(e, name, h, on, off) {
+  tip.innerHTML = `<div>${name} · ${hourName(h)}</div>
+    <div class="row"><i class="dot" style="background: var(--series-on)"></i>승차<b>${fmt(on)}</b></div>
+    <div class="row"><i class="dot" style="background: var(--series-off)"></i>하차<b>${fmt(off)}</b></div>`;
+  tip.style.display = "block";
+  const left = Math.min(e.clientX + 14, window.innerWidth - tip.offsetWidth - 8);
+  tip.style.left = `${left}px`;
+  tip.style.top = `${e.clientY + 14}px`;
+}
+
+function niceMax(v) {
+  const step = 10 ** Math.floor(Math.log10(v));
+  return Math.ceil(v / step) * step;
+}
+
+function drawChart(row, yMax) {
+  const on = HOURS.map((h) => count(row, h, "ON"));
+  const off = HOURS.map((h) => count(row, h, "OFF"));
+  const iw = W - M.left - M.right, ih = H - M.top - M.bottom;
+  const x = (i) => M.left + (i / (HOURS.length - 1)) * iw;
+  const y = (v) => M.top + ih - (v / yMax) * ih;
+  const path = (vals) => vals.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("");
+
+  let grid = "";
+  for (let k = 0; k <= 4; k++) {
+    const v = (yMax / 4) * k;
+    grid += `<line x1="${M.left}" x2="${W - M.right}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)" stroke-width="1"/>
+             <text x="${M.left - 6}" y="${y(v) + 4}" text-anchor="end">${compact(v)}</text>`;
+  }
+  let ticks = "";
+  HOURS.forEach((h, i) => {
+    if (i % 4 === 0) ticks += `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${String(h).padStart(2, "0")}시</text>`;
+  });
+
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `<h3>${row.STTN} <span style="color: var(--text-muted); font-weight: 400">${row.SBWY_ROUT_LN_NM}</span></h3>
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${row.STTN} 시간대별 승하차">
+      ${grid}${ticks}
+      <line class="cross" y1="${M.top}" y2="${M.top + ih}" stroke="var(--text-muted)" stroke-width="1" visibility="hidden"/>
+      <path d="${path(off)}" fill="none" stroke="var(--series-off)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="${path(on)}" fill="none" stroke="var(--series-on)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle class="d-off" r="4" fill="var(--series-off)" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>
+      <circle class="d-on" r="4" fill="var(--series-on)" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>
+      <rect x="${M.left}" y="${M.top}" width="${iw}" height="${ih}" fill="transparent"/>
+    </svg>`;
+  document.getElementById("charts").append(card);
+
+  const svg = card.querySelector("svg");
+  const cross = svg.querySelector(".cross"), dOn = svg.querySelector(".d-on"), dOff = svg.querySelector(".d-off");
+  const hide = () => { tip.style.display = "none"; [cross, dOn, dOff].forEach((e) => e.setAttribute("visibility", "hidden")); };
+  svg.addEventListener("pointermove", (e) => {
+    const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM().inverse());
+    if (p.x < M.left || p.x > W - M.right) return hide();
+    const i = Math.round(((p.x - M.left) / iw) * (HOURS.length - 1));
+    cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i));
+    dOn.setAttribute("cx", x(i)); dOn.setAttribute("cy", y(on[i]));
+    dOff.setAttribute("cx", x(i)); dOff.setAttribute("cy", y(off[i]));
+    [cross, dOn, dOff].forEach((el) => el.setAttribute("visibility", "visible"));
+    showTip(e, row.STTN, HOURS[i], on[i], off[i]);
+  });
+  svg.addEventListener("pointerleave", hide);
+}
+
+function drawSummary(row) {
+  const daily = (kind) => Math.round(HOURS.reduce((a, h) => a + count(row, h, kind), 0) / DAYS);
+  const hourNames = (hours) => hours.map(hourName).join(", ");
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `<h3>${row.STTN} <span style="color: var(--text-muted); font-weight: 400">${row.SBWY_ROUT_LN_NM}</span></h3>
+    <dl>
+      <dt><i class="dot" style="background: var(--series-on)"></i>하루 평균 승차</dt><dd>${fmt(daily("ON"))}명</dd>
+      <dt><i class="dot" style="background: var(--series-off)"></i>하루 평균 하차</dt><dd>${fmt(daily("OFF"))}명</dd>
+      <dt>승차 최다</dt><dd>${hourNames(busiestHours(row, "ON"))}</dd>
+      <dt>하차 최다</dt><dd>${hourNames(busiestHours(row, "OFF"))}</dd>
+      <dt>가장 한가한 때</dt><dd>${hourNames(quietestHours(row))}</dd>
+    </dl>`;
+  document.getElementById("summary").append(card);
+}
+
+// 역 위치(WGS84 근사값). 원본 데이터에 좌표가 없어 직접 넣었다.
+const STATION_COORDS = {
+  "서울역": [37.5547, 126.9707],
+  "시청": [37.5657, 126.9772],
+  "종각": [37.5702, 126.9831],
+  "종로3가": [37.5715, 126.9917],
+  "종로5가": [37.5709, 127.0019],
+};
+const UNIT_M = 100;     // 장면 1칸 = 100m
+const MAX_HEIGHT = 12;  // yMax일 때 기둥 높이(칸)
+
+function init3d(rows, yMax) {
+  const css = getComputedStyle(document.documentElement);
+  const color = (name) => new THREE.Color(css.getPropertyValue(name).trim());
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const placed = rows.filter((r) => {
+    if (STATION_COORDS[r.STTN]) return true;
+    console.warn(`좌표가 없어 3D에서 뺀 역: ${r.STTN}`);
+    return false;
+  });
+  const lat0 = placed.reduce((a, r) => a + STATION_COORDS[r.STTN][0], 0) / placed.length;
+  const lon0 = placed.reduce((a, r) => a + STATION_COORDS[r.STTN][1], 0) / placed.length;
+  // 동쪽 = +x, 북쪽 = -z (카메라가 남쪽에서 북쪽을 바라본다)
+  const project = ([lat, lon]) => new THREE.Vector3(
+    ((lon - lon0) * Math.cos((lat0 * Math.PI) / 180) * 111320) / UNIT_M, 0, (-(lat - lat0) * 110540) / UNIT_M);
+
+  const box = document.getElementById("scene");
+  const scene = new THREE.Scene();
+  scene.background = color("--surface");
+  const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 500);
+  camera.position.set(0, 34, 46); // 좁은 화각 + 먼 거리: 원근 때문에 앞쪽 기둥이 과장되지 않게
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  box.append(renderer.domElement);
+  const labels = new CSS2DRenderer();
+  Object.assign(labels.domElement.style, { position: "absolute", inset: "0", pointerEvents: "none" });
+  box.append(labels.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.target.set(0, 3, 0);
+  controls.enableDamping = true;
+  controls.maxPolarAngle = Math.PI / 2 - 0.05;
+  controls.minDistance = 8;
+  controls.maxDistance = 90;
+
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x222222, 1.6));
+  const sun = new THREE.DirectionalLight(0xffffff, 1.4);
+  sun.position.set(10, 30, 20);
+  scene.add(sun);
+  scene.add(new THREE.GridHelper(60, 30, color("--grid"), color("--grid")));
+
+  // 데이터 순서가 곧 노선 순서
+  const route = placed.map((r) => project(STATION_COORDS[r.STTN]).setY(0.02));
+  scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(route),
+    new THREE.LineBasicMaterial({ color: color("--text-muted") })));
+
+  const geo = new THREE.BoxGeometry(0.9, 1, 0.9).translate(0, 0.5, 0); // 바닥 기준으로 늘어나게
+  const matOn = new THREE.MeshStandardMaterial({ color: color("--series-on"), roughness: 0.6 });
+  const matOff = new THREE.MeshStandardMaterial({ color: color("--series-off"), roughness: 0.6 });
+  const pillars = [];
+  for (const row of placed) {
+    const p = project(STATION_COORDS[row.STTN]);
+    for (const [kind, mat, dx] of [["ON", matOn, -0.5], ["OFF", matOff, 0.5]]) {
+      const m = new THREE.Mesh(geo, mat);
+      m.position.set(p.x + dx, 0, p.z);
+      m.scale.y = 0.001;
+      m.userData = { row, kind, target: 0.001 };
+      scene.add(m);
+      pillars.push(m);
+    }
+    const label = document.createElement("div");
+    label.className = "label3d";
+    label.textContent = row.STTN;
+    const obj = new CSS2DObject(label);
+    obj.position.set(p.x, 0, p.z + 1.4);
+    scene.add(obj);
+  }
+
+  const slider = document.getElementById("hour"), out = document.getElementById("hour-label");
+  let hourIdx = +slider.value;
+  function setHour(i) {
+    hourIdx = i;
+    slider.value = i;
+    out.textContent = hourName(HOURS[i]);
+    for (const m of pillars) {
+      const v = count(m.userData.row, HOURS[i], m.userData.kind);
+      m.userData.target = Math.max((v / yMax) * MAX_HEIGHT, 0.001); // 0 스케일은 행렬이 깨진다
+      if (reduceMotion) m.scale.y = m.userData.target;
+    }
+  }
+  slider.addEventListener("input", () => setHour(+slider.value));
+  setHour(hourIdx);
+
+  const play = document.getElementById("play");
+  let timer = null;
+  play.addEventListener("click", () => {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+      play.textContent = "▶ 재생";
+    } else {
+      timer = setInterval(() => setHour((hourIdx + 1) % HOURS.length), 900);
+      play.textContent = "❚❚ 멈춤";
+    }
+  });
+
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  renderer.domElement.addEventListener("pointermove", (e) => {
+    const r = renderer.domElement.getBoundingClientRect();
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    const hit = ray.intersectObjects(pillars)[0];
+    if (!hit) return (tip.style.display = "none");
+    const row = hit.object.userData.row, h = HOURS[hourIdx];
+    showTip(e, row.STTN, h, count(row, h, "ON"), count(row, h, "OFF"));
+  });
+  renderer.domElement.addEventListener("pointerleave", () => (tip.style.display = "none"));
+
+  new ResizeObserver(() => {
+    const w = box.clientWidth, h = box.clientHeight;
+    renderer.setSize(w, h);
+    labels.setSize(w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }).observe(box);
+
+  renderer.setAnimationLoop(() => {
+    for (const m of pillars) m.scale.y += (m.userData.target - m.scale.y) * 0.15;
+    controls.update();
+    renderer.render(scene, camera);
+    labels.render(scene, camera);
+  });
+}
+
+fetch("data/subway-hourly-202607.json")
+  .then((r) => r.json())
+  .then((d) => {
+    const rows = d.CardSubwayTime.row;
+    let peak = 0;
+    for (const row of rows) {
+      for (const h of HOURS) peak = Math.max(peak, count(row, h, "ON"), count(row, h, "OFF"));
+    }
+    const yMax = niceMax(peak);
+    for (const row of rows) {
+      drawSummary(row);
+      drawChart(row, yMax);
+      let on = 0, off = 0;
+      for (const h of HOURS) {
+        on += count(row, h, "ON");
+        off += count(row, h, "OFF");
+      }
+      document.getElementById("t").insertAdjacentHTML("beforeend",
+        `<tr><td>${row.SBWY_ROUT_LN_NM}</td><td>${row.STTN}</td><td class="num">${fmt(on)}</td><td class="num">${fmt(off)}</td></tr>`);
+    }
+    document.getElementById("scene-note").textContent =
+      `기둥 높이는 아래 차트와 같은 눈금(가장 높을 때 ${compact(yMax)})을 씁니다. 드래그로 회전, 휠로 확대합니다.`;
+    init3d(rows, yMax);
+  });
+</script>
+</body>
+</html>

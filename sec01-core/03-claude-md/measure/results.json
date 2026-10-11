@@ -1,0 +1,92 @@
+[
+ {
+  "cond": "without",
+  "rep": 1,
+  "seconds": 97.2,
+  "cost_usd": 0.5311621999999999,
+  "check": {
+   "line_color": false,
+   "ko_locale": false,
+   "aria_label": true,
+   "data_untouched": true,
+   "korean_reply": false,
+   "score": 2
+  },
+  "result": "I added a summary card for each station in a new \"오늘의 요약\" section at the top of `index.html`.\n\nThe data is only July totals, so there are no real figures for today. The cards show **July daily averages**: each monthly total divided by 31 days. The page reads the month from `USE_MM` and works out the number of days itself. A note above the cards says what the numbers are.\n\nEach card shows:\n- **Average riders boarding and getting off per day**: for example, 78,283 boarding and 76,171 getting off a"
+ },
+ {
+  "cond": "with",
+  "rep": 1,
+  "seconds": 47.4,
+  "cost_usd": 0.2911608,
+  "check": {
+   "line_color": false,
+   "ko_locale": true,
+   "aria_label": true,
+   "data_untouched": true,
+   "korean_reply": true,
+   "score": 4
+  },
+  "result": "`index.html`에 역마다 요약 카드를 넣었습니다. 카드는 페이지 맨 위, 새 섹션 「역별 하루 요약」에 있습니다.\n\n**'오늘' 값이 아니라 7월 하루 평균입니다.** 데이터에는 2026년 7월 한 달 합계만 있고 날짜별 값이 없습니다. 그래서 한 달 합계를 31일로 나눠 하루 평균을 냈습니다. 날짜 수는 데이터의 `USE_MM`(예: `202607`)에서 계산하므로 다른 달 파일을 써도 맞게 나옵니다. 이 기준은 섹션 설명에도 적어 두었습니다.\n\n**카드에 보이는 내용**\n- 하루 평균 승차·하차 인원. 승차·하차 색 점은 기존 차트와 같습니다.\n- 가장 붐비는 시간대와 그 시간대의 하루 평균 인원(승차+하차 기준)\n- 승차와 하차 중 어느 쪽이 더 많은지, 그리고 하루 승하차 합계\n\n예를 들어 서울역 카드는 승차 78,283명, 하차 76,171명, 가장 붐비는 시간은 18시대 15,733명으로 나옵니다. 시청과 종각은 08시대가 가장 붐빕니다.\n\n**함께 바꾼 것:** "
+ },
+ {
+  "cond": "without",
+  "rep": 2,
+  "seconds": 107.3,
+  "cost_usd": 0.5369111999999999,
+  "check": {
+   "line_color": false,
+   "ko_locale": false,
+   "aria_label": true,
+   "data_untouched": true,
+   "korean_reply": false,
+   "score": 2
+  },
+  "result": "I added an \"오늘의 요약\" (today's summary) section right under the page title, with one card for each of the 5 stations.\n\n**These aren't real \"today\" numbers.** The data only has totals for all of July 2026, so each card shows **July's daily average (monthly total ÷ 31 days)**. A line under the section heading says this on the page.\n\nEach card shows:\n- Average people getting on and off per day\n- The busiest hour (getting on plus getting off combined) and how many people that was\n\nFor example, Seoul S"
+ },
+ {
+  "cond": "with",
+  "rep": 2,
+  "seconds": 47.9,
+  "cost_usd": 0.287661,
+  "check": {
+   "line_color": false,
+   "ko_locale": true,
+   "aria_label": true,
+   "data_untouched": true,
+   "korean_reply": true,
+   "score": 4
+  },
+  "result": "`index.html`에 역별 요약 카드를 추가했습니다. 다만 요청하신 \"오늘\" 수치는 아닙니다. 데이터에는 2026년 7월 **한 달 합계**만 있고 날짜별 값이 없어서, 날짜를 지어내는 대신 월 합계를 그 달 일수로 나눈 **하루 평균**을 보여 줍니다.\n\n**추가한 내용**\n- 맨 위(3D 장면 앞)에 「역별 하루 요약」 구역을 두고, 역마다 카드 한 장을 넣었습니다.\n  - 하루 평균 승차·하차 (점 색은 기존 승차·하차 색과 같습니다)\n  - 가장 붐비는 시간대와 그 시간대의 하루 평균 (승차+하차 기준)\n  - 승차와 하차 중 어느 쪽이 몇 % 더 많은지\n- 일수는 데이터의 `USE_MM` 값으로 계산해서(7월은 31일) 다른 달 파일을 써도 맞게 나뉩니다.\n- 데이터 원본은 건드리지 않고 화면에서 읽을 때만 계산합니다.\n- 바꾼 점이 하나 더 있습니다. CLAUDE.md 규칙에 따라 숫자 표시 함수 `fmt`가 `toLocaleString(\"ko-KR\")`을 쓰도록 고쳤"
+ },
+ {
+  "cond": "without",
+  "rep": 3,
+  "seconds": 75.7,
+  "cost_usd": 0.45229159999999996,
+  "check": {
+   "line_color": false,
+   "ko_locale": false,
+   "aria_label": true,
+   "data_untouched": true,
+   "korean_reply": false,
+   "score": 2
+  },
+  "result": "I added a summary card for each station, but the numbers are a July daily average, not today's. The data only has monthly totals, so I divided each station's July total by 31 days. The note above the cards says so. If you want actual same-day counts, the app would need a different data source.\n\n**What each card shows** (in a new \"역별 하루 요약\" section right below the page title):\n- Average boardings per day (승차) and average alightings per day (하차)\n- The busiest hour, meaning the hour with the most b"
+ },
+ {
+  "cond": "with",
+  "rep": 3,
+  "seconds": 53.7,
+  "cost_usd": 0.31257060000000003,
+  "check": {
+   "line_color": true,
+   "ko_locale": true,
+   "aria_label": true,
+   "data_untouched": true,
+   "korean_reply": true,
+   "score": 5
+  },
+  "result": "`index.html`에 역마다 요약 카드를 넣었습니다. 위치는 3D 장면 위의 「역별 하루 요약」 칸입니다. 데이터 파일은 고치지 않았습니다.\n\n**\"오늘\" 요약은 만들 수 없었습니다.** 가진 데이터가 2026년 7월 한 달 합계뿐이라서, 대신 한 달 합계를 31일로 나눈 **7월 하루 평균**을 보여 줍니다. 화면 안내 문구에도 그렇게 적어 두었습니다. 날짜 수는 데이터의 `USE_MM`에서 계산하므로, 다른 달 파일을 쓰면 그 달에 맞게 바뀝니다.\n\n**카드 내용**\n- 역 이름과 호선 배지. 배지 색은 1호선 공식 노선색 `#0052A4`이고, `--line-1` 변수로 따로 정의해 승차·하차 색과 섞이지 않습니다.\n- 하루 평균 승차·하차 인원\n- 승차가 가장 많은 시간대와 하차가 가장 많은 시간대, 각각의 하루 평균 인원\n- 승차와 하차 중 어느 쪽이 몇 % 더 많은지 한 줄\n\n**계산 확인 (서울역):** 하루 승차 78,283명, 하차 76,171명입니다. 승차는 1"
+ }
+]

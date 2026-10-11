@@ -1,0 +1,15 @@
+1회차 manual: 물어봤을 횟수 4 · 22.6초 · ['npm test 2>&1 | tail -30; echo "=== exit $?"; echo; npm run check 2>&1 | tail -40', 'npm test', 'npm run check', 'node -e \'const r=JSON.parse(require("fs").readFileSync("data/subway-hourly-202607.json","utf8")).CardSubwayTime.row;console.log(r.length, Object.keys(r[0]).join(" "))\'']
+1회차 manual+allowlist: 물어봤을 횟수 3 · 17.3초 · ['npm test 2>&1 | tail -40; echo "=== EXIT $? ==="; npm run check 2>&1 | tail -40', 'npm test', 'npm run check']
+1회차 auto: 물어봤을 횟수 0 · 12.8초 · []
+2회차 manual: 물어봤을 횟수 5 · 19.6초 · ['npm test 2>&1 | tail -40; echo "=== exit: ${PIPESTATUS[0]}"; npm run check 2>&1 | tail -40; echo "=== exit: ${PIPESTATUS[0]}"', 'npm test 2>&1; echo "=== exit: $?"', 'npm run check 2>&1; echo "=== exit: $?"', 'npm test', 'npm run check']
+2회차 manual+allowlist: 물어봤을 횟수 4 · 17.8초 · ['npm test 2>&1 | tail -40; echo "=== check ==="; npm run check 2>&1 | tail -40', 'npm test', 'npm run check', 'npm test']
+2회차 auto: 물어봤을 횟수 0 · 10.4초 · []
+3회차 manual: 물어봤을 횟수 5 · 18.8초 · ['npm test 2>&1 | tail -40; echo "=== exit: ${PIPESTATUS[0]}"; npm run check 2>&1 | tail -40; echo "=== exit: ${PIPESTATUS[0]}"', 'npm test 2>&1; echo "=== exit: $?"', 'npm run check 2>&1; echo "=== exit: $?"', 'npm test', 'npm run check']
+3회차 manual+allowlist: 물어봤을 횟수 3 · 18.5초 · ['npm test 2>&1 | tail -40; echo "=== CHECK ==="; npm run check 2>&1 | tail -40', 'npm test', 'npm run check']
+3회차 auto: 물어봤을 횟수 0 · 15.1초 · []
+
+설정 | 평균 물어봤을 횟수 | 평균 시간
+manual | 4.7 | 20초
+manual+allowlist | 3.3 | 18초
+auto | 0.0 | 13초
+MEASURE_DONE

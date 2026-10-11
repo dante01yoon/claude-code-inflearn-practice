@@ -1,0 +1,9 @@
+{
+ "name": "seoul-live-3d",
+ "private": true,
+ "type": "module",
+ "scripts": {
+  "test": "node --test",
+  "check": "node scripts/check-data.mjs"
+ }
+}
