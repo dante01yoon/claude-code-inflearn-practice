@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>서울 라이브 3D</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #10131a; color: #e8e6df; margin: 40px; }
+  h1 { font-size: 28px; }
+  table { border-collapse: collapse; margin-top: 16px; }
+  td, th { border: 1px solid #333; padding: 6px 12px; }
+</style>
+</head>
+<body>
+<h1>서울 라이브 3D</h1>
+<p>2026년 7월 한 달 동안 역별 승하차 인원 (합계)</p>
+<table id="t"><tr><th>호선</th><th>역</th><th>승차</th><th>하차</th></tr></table>
+<script>
+fetch("data/subway-hourly-202607.json")
+  .then((r) => r.json())
+  .then((d) => {
+    for (const row of d.CardSubwayTime.row) {
+      let on = 0, off = 0;
+      for (let h = 0; h < 24; h++) {
+        on += row[`HR_${h}_GET_ON_NOPE`];
+        off += row[`HR_${h}_GET_OFF_NOPE`];
+      }
+      document.getElementById("t").insertAdjacentHTML("beforeend",
+        `<tr><td>${row.SBWY_ROUT_LN_NM}</td><td>${row.STTN}</td><td>${on.toLocaleString()}</td><td>${off.toLocaleString()}</td></tr>`);
+    }
+  });
+</script>
+</body>
+</html>

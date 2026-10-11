@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>서울 라이브 3D — 지도</title>
+<script src="https://unpkg.com/deck.gl@9.4.0/dist.min.js"></script>
+<script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+<link href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+  html, body { margin: 0; width: 100vw; height: 100vh; overflow: hidden; background: #10131a; }
+  #panel {
+    position: absolute; top: 16px; left: 16px; z-index: 1;
+    max-width: calc(100vw - 64px); width: 320px;
+    padding: 14px 16px; border-radius: 10px;
+    background: rgba(16, 19, 26, 0.88); color: #e8e6df;
+    font-family: system-ui, sans-serif; font-size: 13px;
+  }
+  #panel h1 { font-size: 18px; margin: 0 0 4px; }
+  #panel p { margin: 0 0 10px; color: #a9a69c; }
+  #panel label { display: block; margin-top: 8px; }
+  #panel input[type=range] { width: 100%; }
+  #panel .row { display: flex; gap: 12px; margin-top: 6px; }
+  #hourLabel { font-weight: 600; font-variant-numeric: tabular-nums; }
+  #panel small { display: block; margin-top: 10px; color: #77746b; }
+  #panel a { color: #a9a69c; }
+</style>
+</head>
+<body>
+<div id="panel">
+  <h1>서울 라이브 3D</h1>
+  <p>2026년 7월 한 달 합계 · 기둥 높이 = 인원</p>
+  <div class="row">
+    <label><input type="radio" name="metric" value="total" checked> 승+하차</label>
+    <label><input type="radio" name="metric" value="on"> 승차</label>
+    <label><input type="radio" name="metric" value="off"> 하차</label>
+  </div>
+  <label>
+    시간대: <span id="hourLabel">전체</span>
+    <input id="hour" type="range" min="-1" max="23" step="1" value="-1">
+  </label>
+  <small>출처: 서울특별시 열린데이터광장 (공공누리 제1유형) · <a href="index.html">표 보기</a></small>
+</div>
+<script>
+const {DeckGL, ColumnLayer, TextLayer} = deck;
+
+// 데이터의 시간대 순서: 04시 … 23시, 00시 … 03시
+const HOURS = [...Array(24).keys()].map((i) => (i + 4) % 24);
+
+const state = {metric: "total", hourIndex: -1};
+let stations = [];
+
+const deckgl = new DeckGL({
+  mapStyle: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+  initialViewState: {longitude: 126.9815, latitude: 37.5655, zoom: 13.6, pitch: 50, bearing: -15},
+  controller: true,
+  getTooltip: ({object}) => object && {
+    html: `<b>${object.line} ${object.name}</b><br>` +
+          `승차 ${fmt(sum(object, "on"))}<br>하차 ${fmt(sum(object, "off"))}`,
+    style: {fontFamily: "system-ui, sans-serif", fontSize: "13px"}
+  }
+});
+
+const fmt = (n) => Math.round(n).toLocaleString("ko-KR") + "명";
+
+function sum(st, kind) {
+  const hours = state.hourIndex < 0 ? HOURS : [HOURS[state.hourIndex]];
+  return hours.reduce((acc, h) => acc + st[kind][h], 0);
+}
+
+function value(st) {
+  return state.metric === "total" ? sum(st, "on") + sum(st, "off") : sum(st, state.metric);
+}
+
+// 한 시간대 한 역의 값 (선택한 지표 기준)
+function hourValue(st, h) {
+  return state.metric === "total" ? st.on[h] + st.off[h] : st[state.metric][h];
+}
+
+// 시간대를 고르면 하루 전체(모든 역·시간대)의 최댓값을 기준으로 고정해 시간대끼리 높이를 비교할 수 있게 함
+function scaleMax() {
+  if (state.hourIndex < 0) return Math.max(1, ...stations.map(value));
+  return Math.max(1, ...stations.flatMap((st) => HOURS.map((h) => hourValue(st, h))));
+}
+
+function render() {
+  const max = scaleMax();
+  // 기준값이 약 1,500m가 되도록 정규화
+  const elevation = (d) => (value(d) / max) * 1500;
+  deckgl.setProps({
+    layers: [
+      new ColumnLayer({
+        id: "stations",
+        data: stations,
+        diskResolution: 24,
+        radius: 60,
+        extruded: true,
+        pickable: true,
+        autoHighlight: true,
+        getPosition: (d) => d.position,
+        getElevation: elevation,
+        getFillColor: (d) => {
+          const t = value(d) / max;
+          return [255, 140 + 80 * (1 - t), 60, 230];
+        },
+        updateTriggers: {getElevation: [state.metric, state.hourIndex], getFillColor: [state.metric, state.hourIndex]},
+        transitions: {getElevation: 400}
+      }),
+      new TextLayer({
+        id: "station-names",
+        data: stations,
+        // 기둥 꼭대기(z = 높이)에 이름을 띄움
+        getPosition: (d) => [d.position[0], d.position[1], elevation(d)],
+        getText: (d) => d.name,
+        // 기본 글자 집합은 ASCII뿐이라 한글을 쓰려면 'auto'가 필요
+        characterSet: "auto",
+        fontFamily: "system-ui, sans-serif",
+        getSize: 14,
+        getColor: [232, 230, 223, 255],
+        getAlignmentBaseline: "bottom",
+        getPixelOffset: [0, -6],
+        outlineWidth: 3,
+        outlineColor: [16, 19, 26, 255],
+        fontSettings: {sdf: true},
+        // 다른 기둥에 가려지지 않도록 깊이 검사 생략
+        parameters: {depthCompare: "always"},
+        updateTriggers: {getPosition: [state.metric, state.hourIndex]},
+        transitions: {getPosition: 400}
+      })
+    ]
+  });
+}
+
+Promise.all([
+  fetch("data/subway-hourly-202607.json").then((r) => r.json()),
+  fetch("data/stations.json").then((r) => r.json())
+]).then(([d, coords]) => {
+  for (const row of d.CardSubwayTime.row) {
+    const position = coords[`${row.SBWY_ROUT_LN_NM}|${row.STTN}`];
+    if (!position) { console.warn("좌표 없음:", row.SBWY_ROUT_LN_NM, row.STTN); continue; }
+    const on = {}, off = {};
+    for (let h = 0; h < 24; h++) {
+      on[h] = row[`HR_${h}_GET_ON_NOPE`];
+      off[h] = row[`HR_${h}_GET_OFF_NOPE`];
+    }
+    stations.push({line: row.SBWY_ROUT_LN_NM, name: row.STTN, position, on, off});
+  }
+  render();
+});
+
+document.getElementById("hour").addEventListener("input", (e) => {
+  state.hourIndex = Number(e.target.value);
+  document.getElementById("hourLabel").textContent =
+    state.hourIndex < 0 ? "전체" : `${String(HOURS[state.hourIndex]).padStart(2, "0")}시대`;
+  render();
+});
+for (const el of document.querySelectorAll("input[name=metric]")) {
+  el.addEventListener("change", (e) => { state.metric = e.target.value; render(); });
+}
+</script>
+</body>
+</html>

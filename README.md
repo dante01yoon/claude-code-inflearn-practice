@@ -36,3 +36,12 @@
 |---|---|---|
 | [sec01-core/01-model-effort](sec01-core/01-model-effort/) | `/model` 별칭, `opusplan`, `/effort`, `ultrathink`, `/fast` 실습. 모델·생각 깊이·비용을 보여 주는 상태 줄 설정, 생각 깊이 4단계 비교 스크립트(`effort_check.py`) | 모델·생각 깊이 고르기 |
 | [sec01-core/02-opus-vs-opusplan-vs-sonnet](sec01-core/02-opus-vs-opusplan-vs-sonnet/) | 같은 가계부 페이지를 Opus만·opusplan·Sonnet만으로 만들고 시간·토큰·비용을 재는 `measure.py`, 결과 페이지 9개와 `results.json` | 📏 Opus만 vs opusplan vs Sonnet만 |
+
+## 섹션 2. MCP 기본
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec02-mcp/15-what-is-mcp](sec02-mcp/15-what-is-mcp/) | MCP = 만능 USB 허브, `claude mcp add/list/get/remove`, 클로드 코드 문서 서버로 첫 연결, 범위 local·project(`.mcp.json` + 승인)·user | MCP란 — 연결 구조와 범위 |
+| [sec02-mcp/16-must-have-mcp](sec02-mcp/16-must-have-mcp/) | Context7로 deck.gl 문서 찾아 3D 지도(`map.html`), Playwright 스크린샷, 깃허브 서버(토큰은 `${GITHUB_PAT}`), 🆕 `claude mcp login` | 꼭 쓰는 MCP |
+| [sec02-mcp/17-mcp-context](sec02-mcp/17-mcp-context/) | 📏 MCP가 시작 컨텍스트를 얼마나 쓰나(`mcp_context_check.py`, 도구 검색 켬/끔), `/context`, `/mcp`에서 서버 끄기 | 도구가 많아질 때 컨텍스트 관리 |
+| [sec02-mcp/18-mission-2](sec02-mcp/18-mission-2/) | 미션 2: 기둥 위 한글 역 이름 + 08시 vs 18시 비교(`compare.html`), 짧은 프롬프트 → 자세한 프롬프트 두 버전 + 정답 | 미션 2 |

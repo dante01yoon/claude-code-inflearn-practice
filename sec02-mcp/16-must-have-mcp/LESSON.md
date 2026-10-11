@@ -1,0 +1,68 @@
+# 섹션 2 · 16강 꼭 쓰는 MCP — Context7(문서) · Playwright(브라우저) · 깃허브 · 🆕 `claude mcp login`
+
+결과: 서울 라이브 3D 폴더에 **역마다 3D 기둥이 서는 지도 페이지 `map.html`** (deck.gl ColumnLayer + MapLibre 기본 지도)와 Playwright가 찍은 스크린샷.
+
+## 이번 수업에서 입력한 것 (그대로)
+
+시작 폴더: `start/` (15강과 같은 서울 라이브 3D 폴더, MCP 설정 없음)
+
+```bash
+claude mcp add --scope project --transport http context7 https://mcp.context7.com/mcp
+claude                     # 승인 화면 → "Use this and all future MCP servers in this project"
+```
+
+클로드에게 (짧은 프롬프트 한 번으로 됨):
+
+```text
+context7로 deck.gl 문서 찾아보고, data 폴더 지하철 데이터로 역마다 3D 기둥이 서는 지도 페이지 만들어 줘
+```
+
+```bash
+/exit
+claude mcp add --scope project playwright -- npx -y @playwright/mcp@latest --headless --isolated
+cat .mcp.json
+claude --continue
+```
+
+```text
+playwright로 방금 만든 페이지 열어서 스크린샷 찍어 줘
+```
+
+깃허브 서버 (토큰은 파일에 쓰지 않고 환경 변수 이름만):
+
+```bash
+claude mcp add --scope project --transport http github https://api.githubcopilot.com/mcp/ --header 'Authorization: Bearer ${GITHUB_PAT}'
+cat .mcp.json
+claude mcp list            # github: ✘ Failed to connect … / [Warning] Missing environment variables: GITHUB_PAT
+```
+
+실제로 연결할 때(영상에서는 하지 않음): 깃허브 설정에서 fine-grained 토큰을 만든 뒤 `export GITHUB_PAT=내_토큰` → `claude`.
+
+OAuth 서버 로그인 (영상에서는 주소가 나온 뒤 Ctrl+C로 취소):
+
+```bash
+claude mcp add --transport http notion https://mcp.notion.com/mcp
+claude mcp login notion --no-browser   # 주소를 브라우저에서 열고 승인 → (브라우저가 없으면) 돌아온 주소를 붙여 넣기
+claude mcp remove notion               # 지우면 저장된 로그인 정보도 함께 삭제
+```
+
+## 핵심 정리 (공식 문서·저장소 확인, Claude Code v2.1.296)
+
+| 항목 | 내용 | 근거 |
+|---|---|---|
+| Context7 | Upstash가 만든 최신 라이브러리 문서 MCP. 원격 주소 `https://mcp.context7.com/mcp`, API 키는 선택(무료 키 = 더 높은 한도). 도구 `resolve-library-id`, `query-docs` | [upstash/context7](https://github.com/upstash/context7) |
+| Playwright MCP | 마이크로소프트. 접근성 트리로 페이지를 읽어 조작("not pixel-based"). `--headless`(창 없이), `--isolated`(프로필을 메모리에만) | [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) |
+| 깃허브 MCP | 깃허브 공식 서버. 원격 `https://api.githubcopilot.com/mcp/`, 공식 문서는 PAT를 `Authorization` 헤더로 | [mcp 문서](https://code.claude.com/docs/en/mcp#example-connect-to-github-for-code-reviews), [github/github-mcp-server](https://github.com/github/github-mcp-server) |
+| `${VAR}` | `.mcp.json`의 `url`·`headers` 등에서 환경 변수로 바뀜. 값이 없으면 `claude mcp list`에 경고 | [mcp 문서](https://code.claude.com/docs/en/mcp#environment-variable-expansion-in-mcp-json) |
+| 🆕 `claude mcp login <이름>` | OAuth 서버를 `/mcp` 없이 셸에서 로그인. `--no-browser`는 주소만 출력. v2.1.186(2026-06-22) 추가 | [mcp 문서](https://code.claude.com/docs/en/mcp#authenticate-from-the-command-line), changelog |
+| 승인 기록 | "Use this and all future…"를 고르면 `.claude/settings.local.json`에 `enableAllProjectMcpServers: true` | 녹화 결과 파일 |
+
+## 화면에서 확인한 것
+- Context7 검색어: `ColumnLayer 3D columns on map with MapLibre basemap standalone script` 등 2회
+- 첫 부탁에서 클로드가 MCP 없이 스스로 헤드리스 Chrome으로 확인(약 2분) → Playwright MCP로는 46초
+- 결과 파일: `solution/map.html`, `solution/data/stations.json`(역 좌표는 데이터에 없어 **근사값**), `solution/.playwright-mcp/map-screenshot.png`
+- 데이터: 서울 열린데이터광장 「지하철 호선별 역별 시간대별 승하차 인원」 2026년 7월 (공공누리 제1유형)
+- 보기: `solution/`에서 `python3 -m http.server 8000` → http://127.0.0.1:8000/map.html (`file://`로는 fetch가 막힘)
+
+## 연습 과제
+Context7·Playwright를 project 범위로 추가하고, 관심 있는 라이브러리 하나로 작은 페이지를 만든 뒤 Playwright 스크린샷으로 확인하기.

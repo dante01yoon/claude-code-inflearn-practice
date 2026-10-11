@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>출퇴근 하차 비교</title>
+<style>
+  body { margin: 0; padding: 24px; background: #10131a; color: #e8e6df; font-family: system-ui, sans-serif; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  p { margin: 0 0 16px; color: #a9a69c; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  figure { margin: 0; }
+  figcaption { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  figcaption span { font-weight: 400; color: #a9a69c; font-size: 13px; }
+  img { display: block; width: 100%; border-radius: 8px; border: 1px solid #2a2e38; }
+  table { border-collapse: collapse; margin-top: 20px; font-size: 14px; font-variant-numeric: tabular-nums; }
+  td, th { border: 1px solid #2a2e38; padding: 6px 12px; text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  small { display: block; margin-top: 12px; color: #77746b; }
+  @media (max-width: 720px) { body { padding: 16px; } .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<h1>출근 vs 퇴근 — 하차 인원</h1>
+<p>2026년 7월 한 달 합계 · 기둥 높이는 하루 전체 최댓값(종각 08시대 285,007명 = 1,500m)에 고정</p>
+<div class="grid">
+  <figure>
+    <figcaption>08시대 <span>출근</span></figcaption>
+    <img src="screenshots/off-08.png" alt="08시대 하차 인원 3D 지도">
+  </figure>
+  <figure>
+    <figcaption>18시대 <span>퇴근</span></figcaption>
+    <img src="screenshots/off-18.png" alt="18시대 하차 인원 3D 지도">
+  </figure>
+</div>
+<table>
+  <tr><th>역</th><th>08시대 하차</th><th>18시대 하차</th><th>18시 / 08시</th></tr>
+  <tr><td>서울역</td><td>274,196</td><td>214,060</td><td>78%</td></tr>
+  <tr><td>시청</td><td>216,414</td><td>25,706</td><td>12%</td></tr>
+  <tr><td>종각</td><td>285,007</td><td>53,109</td><td>19%</td></tr>
+  <tr><td>종로3가</td><td>66,235</td><td>38,219</td><td>58%</td></tr>
+  <tr><td>종로5가</td><td>97,217</td><td>31,841</td><td>33%</td></tr>
+</table>
+<small>출처: 서울특별시 열린데이터광장 (공공누리 제1유형) · <a href="map.html" style="color:#a9a69c">지도 보기</a></small>
+</body>
+</html>
