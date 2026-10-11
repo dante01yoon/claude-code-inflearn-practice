@@ -34,16 +34,16 @@
 
 | 폴더 | 내용 | 수업 |
 |---|---|---|
-| [sec01-core/00-1-harness-map](sec01-core/00-1-harness-map/) | 하네스 여섯 칸(컨텍스트·도구·권한·검증·격리·자동화)과 강의 섹션 지도, `/context`·`/permissions`·`/mcp`·`/hooks`, 역별 승하차 표 → 시간대 그래프 | 하네스 지도 |
-| [sec01-core/00-2-plan-mode](sec01-core/00-2-plan-mode/) | `Shift+Tab` 계획 모드, 공식 워크플로(살펴보기→계획→구현→커밋), 계획서 승인 선택지, 3D 기둥 + 시간 슬라이더. 📏 계획 모드를 쓸 때 vs 안 쓸 때 3회씩(`measure_plan.py`) | 계획 모드와 공식 워크플로 |
-| [sec01-core/00-3-auto-mode](sec01-core/00-3-auto-mode/) | manual vs auto 모드, 분류기가 막는 것, `/fewer-permission-prompts`. 📏 권한 질문 횟수 manual·허용 목록·auto 비교(`measure_prompts.py`) | auto 모드 제대로 알기 |
-| [sec01-core/00-4-permission-rules](sec01-core/00-4-permission-rules/) | `.claude/settings.json`의 allow·ask·deny(`.env` 읽기 금지, `git push` 확인), 적용 순서, `/sandbox` | 권한 규칙 allow/ask/deny와 샌드박스 |
-| [sec01-core/01-model-effort](sec01-core/01-model-effort/) | `/model` 별칭, `opusplan`, `/effort`, `ultrathink`, `/fast` 실습. 모델·생각 깊이·비용을 보여 주는 상태 줄 설정, 생각 깊이 4단계 비교 스크립트(`effort_check.py`) | 모델·생각 깊이 고르기 |
-| [sec01-core/02-opus-vs-opusplan-vs-sonnet](sec01-core/02-opus-vs-opusplan-vs-sonnet/) | 같은 가계부 페이지를 Opus만·opusplan·Sonnet만으로 만들고 시간·토큰·비용을 재는 `measure.py`, 결과 페이지 9개와 `results.json` | 📏 Opus만 vs opusplan vs Sonnet만 |
-| [sec01-core/03-claude-md](sec01-core/03-claude-md/) | `/init`, 폴더별 `CLAUDE.md`, `.claude/rules`(paths), AGENTS.md. 📏 CLAUDE.md 있을 때 vs 없을 때 규칙 지킨 횟수(`measure_claudemd.py`) | CLAUDE.md 잘 쓰기 |
-| [sec01-core/04-context](sec01-core/04-context/) | `/context`, `/btw`, `/rewind`, `/compact`·`/autocompact`, `/clear`, 단계마다 토큰 수 | 컨텍스트 관리 |
-| [sec01-core/05-git-code-review](sec01-core/05-git-code-review/) | 동료 브랜치(`make-teammate-branch.sh`) 설명받기 → `/code-review` → 고치기 → 커밋·main에 합치기 (GitHub 없이 내 컴퓨터 안에서) | Git·GitHub와 /code-review |
-| [sec01-core/06-mission-1](sec01-core/06-mission-1/) | 미션 1: 역 카드를 누르면 3D 화면이 그 역으로 — CLAUDE.md 규칙·계획 모드·auto·`/code-review`·브랜치 합치기 + 정답·채점표 | 미션 1 |
+| [sec01-core/01-harness-map](sec01-core/01-harness-map/) | 하네스 여섯 칸(컨텍스트·도구·권한·검증·격리·자동화)과 강의 섹션 지도, `/context`·`/permissions`·`/mcp`·`/hooks`, 역별 승하차 표 → 시간대 그래프 | 하네스 지도 |
+| [sec01-core/02-plan-mode](sec01-core/02-plan-mode/) | `Shift+Tab` 계획 모드, 공식 워크플로(살펴보기→계획→구현→커밋), 계획서 승인 선택지, 3D 기둥 + 시간 슬라이더. 📏 계획 모드를 쓸 때 vs 안 쓸 때 3회씩(`measure_plan.py`) | 계획 모드와 공식 워크플로 |
+| [sec01-core/03-auto-mode](sec01-core/03-auto-mode/) | manual vs auto 모드, 분류기가 막는 것, `/fewer-permission-prompts`. 📏 권한 질문 횟수 manual·허용 목록·auto 비교(`measure_prompts.py`) | auto 모드 제대로 알기 |
+| [sec01-core/04-permission-rules](sec01-core/04-permission-rules/) | `.claude/settings.json`의 allow·ask·deny(`.env` 읽기 금지, `git push` 확인), 적용 순서, `/sandbox` | 권한 규칙 allow/ask/deny와 샌드박스 |
+| [sec01-core/05-model-effort](sec01-core/05-model-effort/) | `/model` 별칭, `opusplan`, `/effort`, `ultrathink`, `/fast` 실습. 모델·생각 깊이·비용을 보여 주는 상태 줄 설정, 생각 깊이 4단계 비교 스크립트(`effort_check.py`) | 모델·생각 깊이 고르기 |
+| [sec01-core/06-opus-vs-opusplan-vs-sonnet](sec01-core/06-opus-vs-opusplan-vs-sonnet/) | 같은 가계부 페이지를 Opus만·opusplan·Sonnet만으로 만들고 시간·토큰·비용을 재는 `measure.py`, 결과 페이지 9개와 `results.json` | 📏 Opus만 vs opusplan vs Sonnet만 |
+| [sec01-core/07-claude-md](sec01-core/07-claude-md/) | `/init`, 폴더별 `CLAUDE.md`, `.claude/rules`(paths), AGENTS.md. 📏 CLAUDE.md 있을 때 vs 없을 때 규칙 지킨 횟수(`measure_claudemd.py`) | CLAUDE.md 잘 쓰기 |
+| [sec01-core/08-context](sec01-core/08-context/) | `/context`, `/btw`, `/rewind`, `/compact`·`/autocompact`, `/clear`, 단계마다 토큰 수 | 컨텍스트 관리 |
+| [sec01-core/09-git-code-review](sec01-core/09-git-code-review/) | 동료 브랜치(`make-teammate-branch.sh`) 설명받기 → `/code-review` → 고치기 → 커밋·main에 합치기 (GitHub 없이 내 컴퓨터 안에서) | Git·GitHub와 /code-review |
+| [sec01-core/10-mission-1](sec01-core/10-mission-1/) | 미션 1: 역 카드를 누르면 3D 화면이 그 역으로 — CLAUDE.md 규칙·계획 모드·auto·`/code-review`·브랜치 합치기 + 정답·채점표 | 미션 1 |
 
 ## 섹션 2. MCP 기본
 
