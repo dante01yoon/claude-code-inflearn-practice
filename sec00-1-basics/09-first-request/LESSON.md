@@ -30,3 +30,11 @@ index.html을 아래 내용대로 다시 만들어 줘.
 `index.html`을 브라우저로 열고(파일 더블클릭) 메뉴를 눌러 합계가 맞는지 직접 확인합니다.
 
 근거: [best-practices](https://code.claude.com/docs/en/best-practices), [how-claude-code-works#its-a-conversation](https://code.claude.com/docs/en/how-claude-code-works)
+
+## 녹화에서 나온 결과
+| | 작업 시간(화면 표시) | 가게 이름 | 메뉴 | 주문·합계 |
+|---|---|---|---|---|
+| 짧은 프롬프트 | 47초 | "오늘의 카페"(예시) | 22개(예시) | 없음 |
+| 자세한 프롬프트 | 35초 | 단테 커피 | 6개 | 있음 · 아메리카노 2 + 치즈케이크 + 레몬에이드 = 19,500원 확인 |
+
+결과 파일: `solution/short/index.html`(짧은 프롬프트), `solution/index.html`(자세한 프롬프트).

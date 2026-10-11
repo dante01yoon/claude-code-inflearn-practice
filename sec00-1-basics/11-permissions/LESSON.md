@@ -7,8 +7,8 @@ claude --permission-mode manual            # 매번 물어보는 Manual 모드�
 memo.txt 파일을 만들고 '첫 메모'라고 적어 줘     → 권한 질문 → 1. Yes
 memo.txt를 지워 줘                            → 권한 질문 → Esc (거절)
 지우지 말고 이름을 old-memo.txt로 바꿔 줘        → 권한 질문 → 1. Yes
-1부터 30까지 숫자마다 재미있는 사실을 하나씩 붙여서 facts.md로 만들어 줘
-Esc                                        # 하던 일 멈추기
+폴더에 뭐가 있는지 먼저 확인하고, 1부터 30까지 숫자마다 재미있는 사실을 하나씩 붙여서 facts.md로 만들어 줘
+Esc                                        # 폴더 확인(Listed 1 directory) 뒤 멈추기 → Interrupted
 그만하고 1부터 5까지만 만들어 줘                 → 권한 질문 → 1. Yes
 Shift+Tab                                  # auto 모드로 돌아가기
 /exit
@@ -24,3 +24,19 @@ Shift+Tab                                  # auto 모드로 돌아가기
 | 권한 질문에서 Esc | 거절(**No**와 같음) | [interactive-mode](https://code.claude.com/docs/en/interactive-mode) |
 | 일하는 중 Esc | 지금 응답·도구 실행을 멈춤. 한 일은 남고 다음 지시를 기다림 | 같은 문서 |
 | 빈 입력창에서 Esc 두 번 | 되돌리기(rewind) 메뉴 | 같은 문서 |
+
+## 화면에서 확인한 것
+- 파일 만들기 질문: `1. Yes` / `2. Yes, and switch to accept edits …` / `3. No`
+- 명령 질문: `1. Yes` / `2. Yes, and always allow access to <폴더> from this project` / `3. Yes, and switch to auto mode` / `4. No`
+- 권한 질문에서 Esc → `Interrupted · What should Claude do instead?`
+- 아직 아무 결과도 나오기 전에 Esc를 누르면 보낸 부탁이 입력창으로 돌아옵니다(지우려면 Esc 두 번). 그래서 녹화에서는 "폴더 먼저 확인하고"를 붙여, 폴더를 본 다음 멈추게 했습니다.
+- 결과 파일: `solution/old-memo.txt`, `solution/facts.md`
+
+## 연습 과제 정답 예시
+
+```text
+claude --permission-mode manual
+hello.txt 만들어 줘                 → 1. Yes
+hello.txt 지워 줘                   → Esc
+지우지 말고 내용 끝에 '안녕'을 한 줄 더 써 줘 → 1. Yes
+```

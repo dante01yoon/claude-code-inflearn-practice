@@ -10,6 +10,15 @@ index.html에 '안녕하세요' 한 줄이 보이는 웹 페이지를 만들어 
 /exit
 ```
 
+편집기와 함께 쓰기 (index.html을 편집기에 열어 둔 채로):
+
+```text
+제목 글자를 파란색으로 크게 바꿔 줘          # → 편집기 내용이 바로 바뀜 (style에 color: blue; font-size: 48px;)
+방금 바꾼 부분만 짧게 설명해 줘
+```
+
+결과 파일: `solution/index.html`(처음), `solution/edited/index.html`(파란 제목).
+
 ## 핵심 정리 (공식 문서 확인)
 
 | 항목 | 내용 | 근거 |

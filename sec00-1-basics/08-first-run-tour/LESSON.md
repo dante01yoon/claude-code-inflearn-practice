@@ -3,7 +3,7 @@
 ## 이번 수업에서 입력한 것 (그대로)
 
 ```text
-claude                       # 처음 여는 폴더 → "이 폴더를 믿나요?" → Yes, I trust this folder
+claude                       # 처음 여는 폴더(녹화: first-look) → "이 폴더를 믿나요?" → Yes, I trust this folder
 ?                            # 단축키 도움말 열기/닫기
 Shift+Tab (여러 번)          # 권한 모드 바꾸기: auto → manual → accept edits → plan → auto
 /he → Enter                  # / 로 명령 목록, 글자를 치면 걸러짐 → /help

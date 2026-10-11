@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>단테 커피</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --surface: #fffaf3;
+      --text: #2b211a;
+      --muted: #7a6a5c;
+      --line: #e3d7c6;
+      --accent: #8a5a32;
+      --accent-soft: #f0e2d0;
+      --on-accent: #fffaf3;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #1c1713;
+        --surface: #26201b;
+        --text: #f1e7da;
+        --muted: #b3a291;
+        --line: #3a3029;
+        --accent: #d9a46c;
+        --accent-soft: #3a2d22;
+        --on-accent: #1c1713;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #1c1713;
+      --surface: #26201b;
+      --text: #f1e7da;
+      --muted: #b3a291;
+      --line: #3a3029;
+      --accent: #d9a46c;
+      --accent-soft: #3a2d22;
+      --on-accent: #1c1713;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans KR", system-ui, sans-serif;
+      line-height: 1.5;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+
+    header { text-align: center; padding: 48px 0 24px; }
+    header .eyebrow {
+      font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--accent); font-weight: 700;
+    }
+    header h1 {
+      font-family: "Gowun Batang", serif;
+      font-size: clamp(34px, 9vw, 52px);
+      margin: 6px 0 4px;
+    }
+    header p { color: var(--muted); margin: 0; font-size: 15px; }
+
+    h2 {
+      font-family: "Gowun Batang", serif;
+      font-size: 22px; margin: 28px 0 4px;
+    }
+    .hint { color: var(--muted); font-size: 14px; margin: 0 0 14px; }
+
+    /* 메뉴 */
+    .menu { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (min-width: 600px) { .menu { grid-template-columns: repeat(3, 1fr); } }
+    .menu button {
+      font: inherit; color: inherit; text-align: left;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 14px;
+      min-height: 92px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      cursor: pointer;
+      transition: transform .08s, border-color .15s;
+    }
+    .menu button:hover { border-color: var(--accent); }
+    .menu button:active { transform: scale(.97); }
+    .menu button.added { border-color: var(--accent); background: var(--accent-soft); }
+    .menu .name { font-weight: 700; font-size: 16px; }
+    .menu .price { color: var(--accent); font-weight: 700; font-size: 15px; }
+
+    /* 주문 목록 */
+    .order {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 4px 16px;
+    }
+    .order ul { list-style: none; margin: 0; padding: 0; }
+    .order li {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .order li:last-child { border-bottom: 0; }
+    .order .info { flex: 1; min-width: 0; }
+    .order .info .name { font-weight: 500; }
+    .order .info .unit { color: var(--muted); font-size: 13px; }
+    .qty { display: flex; align-items: center; gap: 6px; }
+    .qty button {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid var(--line); background: transparent; color: var(--text);
+      font-size: 18px; line-height: 1; cursor: pointer;
+    }
+    .qty span { min-width: 20px; text-align: center; font-weight: 700; }
+    .order .sub { min-width: 72px; text-align: right; font-weight: 700; }
+    .empty { color: var(--muted); text-align: center; padding: 24px 0; margin: 0; }
+
+    .clear {
+      display: block; margin: 10px 0 0 auto;
+      font: inherit; font-size: 13px; color: var(--muted);
+      background: none; border: 0; text-decoration: underline; cursor: pointer;
+    }
+
+    /* 하단 합계 바 */
+    .spacer { height: 110px; }
+    .total-bar {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+      padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+    }
+    .total-bar .wrap { display: flex; align-items: center; gap: 12px; }
+    .total-bar .label { color: var(--muted); font-size: 13px; }
+    .total-bar .sum { font-size: 22px; font-weight: 700; }
+    .total-bar .count {
+      margin-left: auto;
+      background: var(--accent); color: var(--on-accent);
+      border-radius: 999px; padding: 8px 16px;
+      font-weight: 700; font-size: 15px; white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="eyebrow">Coffee &amp; Dessert</div>
+    <h1>단테 커피</h1>
+    <p>메뉴를 누르면 주문 목록에 담겨요</p>
+  </header>
+
+  <main class="wrap">
+    <h2>메뉴</h2>
+    <div class="menu" id="menu"></div>
+
+    <h2>주문 목록</h2>
+    <p class="hint">수량은 − / + 버튼으로 조절할 수 있어요</p>
+    <div class="order">
+      <ul id="order"></ul>
+    </div>
+    <button class="clear" id="clear" hidden>전체 비우기</button>
+  </main>
+
+  <div class="spacer"></div>
+
+  <div class="total-bar">
+    <div class="wrap">
+      <div>
+        <div class="label">합계</div>
+        <div class="sum" id="sum">0원</div>
+      </div>
+      <div class="count" id="count">0개 담음</div>
+    </div>
+  </div>
+
+  <script>
+    const MENU = [
+      { name: "아메리카노", price: 4000 },
+      { name: "카페라테", price: 4500 },
+      { name: "바닐라라테", price: 5000 },
+      { name: "콜드브루", price: 4800 },
+      { name: "레몬에이드", price: 5500 },
+      { name: "치즈케이크", price: 6000 },
+    ];
+
+    const won = n => n.toLocaleString("ko-KR") + "원";
+    const cart = {}; // 메뉴 이름 → 수량
+
+    const menuEl = document.getElementById("menu");
+    const orderEl = document.getElementById("order");
+    const sumEl = document.getElementById("sum");
+    const countEl = document.getElementById("count");
+    const clearBtn = document.getElementById("clear");
+
+    MENU.forEach(item => {
+      const btn = document.createElement("button");
+      btn.innerHTML = `<span class="name">${item.name}</span><span class="price">${won(item.price)}</span>`;
+      btn.onclick = () => change(item.name, 1);
+      item.button = btn;
+      menuEl.appendChild(btn);
+    });
+
+    function change(name, delta) {
+      cart[name] = (cart[name] || 0) + delta;
+      if (cart[name] <= 0) delete cart[name];
+      render();
+    }
+
+    function render() {
+      const lines = MENU.filter(m => cart[m.name]);
+
+      orderEl.innerHTML = lines.length
+        ? lines.map(m => `
+            <li>
+              <div class="info">
+                <div class="name">${m.name}</div>
+                <div class="unit">${won(m.price)}</div>
+              </div>
+              <div class="qty">
+                <button data-name="${m.name}" data-delta="-1" aria-label="${m.name} 하나 빼기">−</button>
+                <span>${cart[m.name]}</span>
+                <button data-name="${m.name}" data-delta="1" aria-label="${m.name} 하나 더하기">+</button>
+              </div>
+              <div class="sub">${won(m.price * cart[m.name])}</div>
+            </li>`).join("")
+        : `<p class="empty">아직 담은 메뉴가 없어요</p>`;
+
+      const total = lines.reduce((s, m) => s + m.price * cart[m.name], 0);
+      const count = lines.reduce((s, m) => s + cart[m.name], 0);
+      sumEl.textContent = won(total);
+      countEl.textContent = `${count}개 담음`;
+      clearBtn.hidden = count === 0;
+      MENU.forEach(m => m.button.classList.toggle("added", !!cart[m.name]));
+    }
+
+    orderEl.addEventListener("click", e => {
+      const b = e.target.closest("button[data-name]");
+      if (b) change(b.dataset.name, Number(b.dataset.delta));
+    });
+
+    clearBtn.onclick = () => {
+      Object.keys(cart).forEach(k => delete cart[k]);
+      render();
+    };
+
+    render();
+  </script>
+</body>
+</html>

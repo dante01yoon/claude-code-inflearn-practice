@@ -37,3 +37,13 @@ Windows 화면은 녹화하지 않았습니다. PowerShell의 `ls`·`cat`·`pwd`
 - macOS: `Cmd + Space` → `Terminal` 입력 → Enter
 - Windows: `Win + X` → **Windows PowerShell**(또는 **Terminal**). 줄 앞이 `PS C:\Users\이름>`이면 PowerShell, `PS` 없이 `C:\Users\이름>`이면 CMD
 - 근거: [terminal-guide](https://code.claude.com/docs/en/terminal-guide)
+
+## 연습 과제 정답
+
+```text
+mkdir dante          # 내 이름으로
+cd dante
+pwd                  # …/dante 로 끝나면 성공
+cd ..
+ls                   # 목록에 dante 가 보임
+```

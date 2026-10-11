@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나의 등산 이야기</title>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --surface: #ffffff;
+      --text: #2a2f2a;
+      --muted: #5f6b5f;
+      --accent: #2f6b4f;
+      --accent-soft: #e3eee6;
+      --border: #dcd8cf;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #161a17;
+        --surface: #1f2520;
+        --text: #e8ebe6;
+        --muted: #a3ada3;
+        --accent: #7cc49b;
+        --accent-soft: #24332a;
+        --border: #333b34;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    header {
+      position: relative;
+      padding: 96px 16px 72px;
+      text-align: center;
+      overflow: hidden;
+    }
+    header svg {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      width: 100%;
+      height: 140px;
+      color: var(--accent-soft);
+    }
+    header h1 {
+      position: relative;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      letter-spacing: -0.02em;
+    }
+    header p {
+      position: relative;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 16px 64px;
+    }
+
+    section { margin-bottom: 56px; }
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .card h3 { font-size: 1.1rem; margin-bottom: 4px; }
+    .card .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 8px; }
+
+    ul.checklist { list-style: none; }
+    ul.checklist li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    ul.checklist li::before {
+      content: "✓";
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 10px;
+    }
+
+    blockquote {
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      padding: 20px 24px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <svg viewBox="0 0 1200 140" preserveAspectRatio="none" aria-hidden="true">
+      <path fill="currentColor" d="M0 140 L0 90 L180 30 L320 80 L480 10 L640 70 L800 25 L960 85 L1080 45 L1200 75 L1200 140 Z"/>
+    </svg>
+    <h1>⛰️ 나의 취미, 등산</h1>
+    <p>한 걸음씩 오르며 만나는 풍경과 나 자신</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>등산을 좋아하는 이유</h2>
+      <p>
+        등산은 몸과 마음을 동시에 단련할 수 있는 취미입니다. 숨이 차오르는 오르막을 지나
+        정상에 섰을 때 펼쳐지는 풍경은 그 어떤 것과도 바꿀 수 없는 보상이에요.
+        사계절마다 다른 얼굴을 보여 주는 산 덕분에 같은 길도 매번 새롭게 느껴집니다.
+      </p>
+    </section>
+
+    <section>
+      <h2>다녀온 산</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>북한산</h3>
+          <div class="meta">서울 · 836m</div>
+          <p>도심 가까이에서 만나는 웅장한 바위 능선. 백운대 정상의 탁 트인 전망이 최고예요.</p>
+        </div>
+        <div class="card">
+          <h3>설악산</h3>
+          <div class="meta">강원 · 1,708m</div>
+          <p>가을 단풍이 가장 아름다운 산. 대청봉에서 바라본 일출은 잊을 수 없습니다.</p>
+        </div>
+        <div class="card">
+          <h3>한라산</h3>
+          <div class="meta">제주 · 1,947m</div>
+          <p>남한에서 가장 높은 산. 백록담을 직접 본 순간의 감동이 아직도 생생해요.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>나의 등산 준비물</h2>
+      <ul class="checklist">
+        <li>발목을 잡아 주는 등산화</li>
+        <li>땀이 잘 마르는 기능성 옷과 여벌 바람막이</li>
+        <li>충분한 물과 간단한 간식</li>
+        <li>등산 스틱과 작은 배낭</li>
+        <li>지도 앱과 보조 배터리</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>등산 팁</h2>
+      <p>
+        처음이라면 왕복 2~3시간 정도의 낮은 산부터 시작해 보세요. 오르막에서는 보폭을 좁게,
+        내리막에서는 무릎에 무리가 가지 않도록 천천히 걷는 것이 중요합니다. 그리고 무엇보다
+        <strong>내가 가져간 쓰레기는 꼭 다시 가져오기!</strong>
+      </p>
+    </section>
+
+    <section>
+      <blockquote>
+        “산은 오르는 사람에게만 정상을 허락한다.”
+      </blockquote>
+    </section>
+  </main>
+
+  <footer>
+    다음 목표: 지리산 종주 🥾
+  </footer>
+</body>
+</html>
