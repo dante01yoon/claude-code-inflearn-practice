@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>가계부</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7;
+    --surface: #fcfcfb;
+    --ink: #0b0b0b;
+    --ink-2: #52514e;
+    --muted: #898781;
+    --line: #e1e0d9;
+    --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6;
+    --danger: #d03b3b;
+    --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a; --c4: #eda100;
+    --c5: #e87ba4; --c6: #008300; --c7: #6250d6; --c8: #e34948;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7;
+      --line: #2c2c2a; --border: rgba(255,255,255,0.10); --accent: #3987e5;
+      --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500;
+      --c5: #d55181; --c6: #008300; --c7: #9085e9; --c8: #e66767;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; display: grid; gap: 16px; }
+  h1 { font-size: 22px; margin: 0; }
+  h2 { font-size: 15px; margin: 0 0 12px; color: var(--ink-2); font-weight: 600; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .filter { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; color: var(--ink-2); }
+  .filter label { display: inline-flex; gap: 6px; align-items: center; }
+  input, select, button {
+    font: inherit; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-width: 0;
+  }
+  input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  form .wide { grid-column: 1 / -1; }
+  form label { display: grid; gap: 4px; font-size: 13px; color: var(--ink-2); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; cursor: pointer; }
+  .err { color: var(--danger); font-size: 13px; min-height: 1.2em; margin: 0; }
+  .chart-wrap { display: grid; grid-template-columns: minmax(0, 240px) 1fr; gap: 20px; align-items: center; }
+  .donut { position: relative; width: 100%; max-width: 240px; margin: 0 auto; }
+  .donut svg { width: 100%; height: auto; display: block; }
+  .donut .center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; pointer-events: none; }
+  .center small { color: var(--muted); font-size: 12px; }
+  .center strong { font-size: 18px; }
+  .slice { transition: opacity .15s; cursor: pointer; }
+  .dim .slice:not(.on) { opacity: .3; }
+  .legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .legend li { display: grid; grid-template-columns: 12px 1fr auto auto; gap: 8px; align-items: center; padding: 4px 6px; border-radius: 6px; }
+  .legend li.on { background: var(--line); }
+  .chip { width: 12px; height: 12px; border-radius: 3px; }
+  .legend .pct { color: var(--muted); font-size: 13px; min-width: 3.5em; text-align: right; }
+  .legend .amt, .list .amt { font-variant-numeric: tabular-nums; }
+  .empty { color: var(--muted); text-align: center; margin: 8px 0 0; }
+  .list { list-style: none; margin: 0; padding: 0; }
+  .list li { display: grid; grid-template-columns: 12px 1fr auto auto; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+  .list li:first-child { border-top: 0; }
+  .list .meta { min-width: 0; }
+  .list .meta div { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .list .sub { color: var(--muted); font-size: 12px; }
+  .del { padding: 4px 8px; cursor: pointer; color: var(--ink-2); }
+  .del:hover { color: var(--danger); border-color: var(--danger); }
+  #tip {
+    position: fixed; z-index: 10; pointer-events: none; display: none;
+    background: var(--ink); color: var(--page); padding: 6px 10px; border-radius: 8px; font-size: 13px; white-space: nowrap;
+  }
+  @media (max-width: 560px) {
+    .chart-wrap { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>가계부</h1>
+
+  <section class="card">
+    <h2>지출 입력</h2>
+    <form id="form" novalidate>
+      <label>날짜<input type="date" id="date" required></label>
+      <label>카테고리<select id="category"></select></label>
+      <label>금액 (원)<input type="number" id="amount" min="1" step="1" inputmode="numeric" placeholder="예: 12000" required></label>
+      <label>메모 (선택)<input type="text" id="memo" maxlength="60" placeholder="예: 점심"></label>
+      <button class="primary wide" type="submit">추가</button>
+      <p class="err wide" id="err" role="alert"></p>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="filter">
+      <label>월<input type="month" id="month"></label>
+      <label><input type="checkbox" id="all"> 전체 기간</label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>카테고리별 지출</h2>
+    <div class="chart-wrap">
+      <div class="donut" id="donut"></div>
+      <ul class="legend" id="legend"></ul>
+    </div>
+    <p class="empty" id="empty" hidden>이 기간에 기록된 지출이 없습니다.</p>
+  </section>
+
+  <section class="card">
+    <h2>내역</h2>
+    <ul class="list" id="list"></ul>
+  </section>
+</main>
+<div id="tip"></div>
+
+<script>
+const CATS = ['식비', '교통', '주거·통신', '쇼핑', '여가', '의료', '교육', '기타'];
+const KEY = 'budget-entries';
+const $ = id => document.getElementById(id);
+const won = n => n.toLocaleString('ko-KR') + '원';
+const color = i => `var(--c${i + 1})`;
+
+function load() {
+  try {
+    const v = JSON.parse(localStorage.getItem(KEY));
+    return Array.isArray(v) ? v.filter(e => e && CATS.includes(e.category) && Number.isInteger(e.amount)) : [];
+  } catch { return []; }
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(entries)); } catch {}
+}
+let entries = load();
+
+function today() {
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().slice(0, 10);
+}
+
+CATS.forEach(c => $('category').add(new Option(c, c)));
+$('date').value = today();
+$('month').value = today().slice(0, 7);
+
+function visible() {
+  const m = $('month').value;
+  return entries.filter(e => $('all').checked || !m || e.date.startsWith(m));
+}
+
+function arc(cx, cy, r, a0, a1) {
+  const p = a => [cx + r * Math.sin(a), cy - r * Math.cos(a)];
+  const [x0, y0] = p(a0), [x1, y1] = p(a1);
+  return `M${x0.toFixed(2)} ${y0.toFixed(2)}A${r} ${r} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+}
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+function renderChart(list) {
+  const totals = CATS.map(() => 0);
+  list.forEach(e => totals[CATS.indexOf(e.category)] += e.amount);
+  const sum = totals.reduce((a, b) => a + b, 0);
+
+  const svg = document.createElementNS(SVGNS, 'svg');
+  svg.setAttribute('viewBox', '0 0 200 200');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', '카테고리별 지출 도넛 차트');
+  const R = 72, W = 26, gap = 2 / R;
+
+  const track = document.createElementNS(SVGNS, 'circle');
+  Object.entries({ cx: 100, cy: 100, r: R, fill: 'none', stroke: 'var(--line)', 'stroke-width': W }).forEach(([k, v]) => track.setAttribute(k, v));
+  if (!sum) svg.append(track);
+
+  const legend = $('legend');
+  legend.replaceChildren();
+  const used = totals.map((t, i) => i).filter(i => totals[i] > 0).sort((a, b) => totals[b] - totals[a]);
+  let angle = 0;
+  const shapes = {}, rows = {};
+
+  used.forEach(i => {
+    const frac = totals[i] / sum, span = frac * Math.PI * 2;
+    let el;
+    if (used.length === 1) {
+      el = document.createElementNS(SVGNS, 'circle');
+      Object.entries({ cx: 100, cy: 100, r: R }).forEach(([k, v]) => el.setAttribute(k, v));
+    } else {
+      el = document.createElementNS(SVGNS, 'path');
+      const g = Math.min(gap, span * 0.5);
+      el.setAttribute('d', arc(100, 100, R, angle + g / 2, angle + span - g / 2));
+    }
+    el.setAttribute('fill', 'none');
+    el.setAttribute('stroke', color(i));
+    el.setAttribute('stroke-width', W);
+    el.setAttribute('class', 'slice');
+    const pct = (frac * 100).toFixed(1);
+    el.addEventListener('mousemove', ev => showTip(ev, `${CATS[i]} · ${won(totals[i])} (${pct}%)`, i));
+    el.addEventListener('mouseleave', () => hideTip());
+    svg.append(el);
+    shapes[i] = el;
+    angle += span;
+
+    const li = document.createElement('li');
+    const chip = document.createElement('span'); chip.className = 'chip'; chip.style.background = color(i);
+    const name = document.createElement('span'); name.textContent = CATS[i];
+    const amt = document.createElement('span'); amt.className = 'amt'; amt.textContent = won(totals[i]);
+    const pc = document.createElement('span'); pc.className = 'pct'; pc.textContent = pct + '%';
+    li.append(chip, name, amt, pc);
+    li.addEventListener('mouseenter', () => highlight(i));
+    li.addEventListener('mouseleave', () => highlight(null));
+    legend.append(li);
+    rows[i] = li;
+  });
+
+  const center = document.createElement('div');
+  center.className = 'center';
+  const s = document.createElement('small'); s.textContent = '총지출';
+  const b = document.createElement('strong'); b.textContent = won(sum);
+  center.append(s, b);
+  $('donut').replaceChildren(svg, center);
+  $('empty').hidden = sum > 0;
+
+  function highlight(i) {
+    svg.classList.toggle('dim', i !== null);
+    Object.keys(shapes).forEach(k => {
+      shapes[k].classList.toggle('on', +k === i);
+      rows[k].classList.toggle('on', +k === i);
+    });
+  }
+  function showTip(ev, text, i) {
+    const t = $('tip');
+    t.textContent = text; t.style.display = 'block';
+    t.style.left = Math.min(ev.clientX + 12, innerWidth - t.offsetWidth - 8) + 'px';
+    t.style.top = (ev.clientY + 14) + 'px';
+    highlight(i);
+  }
+  function hideTip() { $('tip').style.display = 'none'; highlight(null); }
+}
+
+function renderList(list) {
+  const ul = $('list');
+  ul.replaceChildren();
+  if (!list.length) {
+    const li = document.createElement('li');
+    li.style.display = 'block';
+    li.className = 'empty';
+    li.textContent = '내역이 없습니다.';
+    ul.append(li);
+    return;
+  }
+  [...list].sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id).forEach(e => {
+    const li = document.createElement('li');
+    const chip = document.createElement('span'); chip.className = 'chip'; chip.style.background = color(CATS.indexOf(e.category));
+    const meta = document.createElement('div'); meta.className = 'meta';
+    const t = document.createElement('div'); t.textContent = e.memo ? `${e.category} · ${e.memo}` : e.category;
+    const sub = document.createElement('div'); sub.className = 'sub'; sub.textContent = e.date;
+    meta.append(t, sub);
+    const amt = document.createElement('span'); amt.className = 'amt'; amt.textContent = won(e.amount);
+    const del = document.createElement('button'); del.className = 'del'; del.type = 'button'; del.textContent = '삭제';
+    del.setAttribute('aria-label', `${e.category} ${won(e.amount)} 삭제`);
+    del.addEventListener('click', () => { entries = entries.filter(x => x.id !== e.id); save(); render(); });
+    li.append(chip, meta, amt, del);
+    ul.append(li);
+  });
+}
+
+function render() {
+  const list = visible();
+  renderChart(list);
+  renderList(list);
+}
+
+$('form').addEventListener('submit', ev => {
+  ev.preventDefault();
+  const raw = $('amount').value.trim();
+  const amount = Number(raw);
+  const date = $('date').value;
+  const err = $('err');
+  if (!date) { err.textContent = '날짜를 입력해 주세요.'; return; }
+  if (!raw || !Number.isInteger(amount) || amount < 1) { err.textContent = '금액은 1 이상의 정수로 입력해 주세요.'; return; }
+  err.textContent = '';
+  entries.push({ id: Date.now() + Math.random(), date, category: $('category').value, amount, memo: $('memo').value.trim() });
+  save();
+  $('amount').value = ''; $('memo').value = '';
+  // 입력한 지출이 현재 필터에 가려지지 않도록 해당 월로 이동
+  if (!$('all').checked) $('month').value = date.slice(0, 7);
+  render();
+  $('amount').focus();
+});
+$('month').addEventListener('change', render);
+$('all').addEventListener('change', () => { $('month').disabled = $('all').checked; render(); });
+
+render();
+</script>
+</body>
+</html>

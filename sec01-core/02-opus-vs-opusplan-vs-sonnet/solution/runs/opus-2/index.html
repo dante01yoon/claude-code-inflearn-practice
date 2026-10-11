@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>가계부</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --surface: #ffffff;
+    --text: #1d2330;
+    --muted: #6b7280;
+    --border: #e3e6eb;
+    --accent: #2f6fed;
+    --accent-text: #ffffff;
+    --danger: #d0453a;
+    --empty-ring: #e6e8ec;
+    --shadow: 0 1px 3px rgba(16, 24, 40, .06), 0 1px 2px rgba(16, 24, 40, .04);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151b;
+      --surface: #1b1f27;
+      --text: #e7e9ee;
+      --muted: #9aa1ad;
+      --border: #2c323d;
+      --accent: #5b8cff;
+      --accent-text: #0d1117;
+      --danger: #ff7a70;
+      --empty-ring: #2c323d;
+      --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 24px 16px 48px; }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap; margin-bottom: 20px;
+  }
+  h1 { font-size: 1.5rem; margin: 0; }
+  h2 { font-size: 1rem; margin: 0 0 14px; }
+  .month-picker { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .9rem; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  .col { display: grid; gap: 16px; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px; box-shadow: var(--shadow);
+  }
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  label { display: grid; gap: 4px; font-size: .85rem; color: var(--muted); }
+  .full { grid-column: 1 / -1; }
+  input, select, button { font: inherit; }
+  input, select {
+    width: 100%; padding: 9px 10px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
+  }
+  input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .btn {
+    padding: 10px 14px; border: 0; border-radius: 8px; cursor: pointer;
+    background: var(--accent); color: var(--accent-text); font-weight: 600;
+  }
+  .error { color: var(--danger); font-size: .85rem; min-height: 1.2em; margin: 0; }
+  .chart-box { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .donut { position: relative; width: min(260px, 100%); aspect-ratio: 1; }
+  .donut svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .donut circle { transition: stroke-dasharray .3s, stroke-dashoffset .3s; }
+  .donut-center {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center; pointer-events: none;
+  }
+  .donut-center .label { font-size: .8rem; color: var(--muted); }
+  .donut-center .total { font-size: 1.35rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .legend { list-style: none; margin: 0; padding: 0; width: 100%; display: grid; gap: 6px; }
+  .legend li {
+    display: grid; grid-template-columns: 12px 1fr auto 52px; gap: 10px;
+    align-items: center; font-size: .9rem;
+  }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; }
+  .num { font-variant-numeric: tabular-nums; text-align: right; }
+  .pct { color: var(--muted); }
+  .empty { color: var(--muted); font-size: .9rem; text-align: center; margin: 0; }
+  .list { list-style: none; margin: 0; padding: 0; }
+  .list li {
+    display: grid; grid-template-columns: auto 1fr auto auto; gap: 10px;
+    align-items: center; padding: 10px 0; border-top: 1px solid var(--border);
+  }
+  .list li:first-child { border-top: 0; }
+  .tag {
+    font-size: .75rem; padding: 2px 8px; border-radius: 999px;
+    color: #fff; white-space: nowrap;
+  }
+  .meta { min-width: 0; }
+  .meta .memo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .meta .date { font-size: .78rem; color: var(--muted); }
+  .amount { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .del {
+    border: 0; background: none; color: var(--muted); cursor: pointer;
+    padding: 4px 6px; border-radius: 6px; font-size: 1rem; line-height: 1;
+  }
+  .del:hover { color: var(--danger); background: var(--bg); }
+  .list-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .count { color: var(--muted); font-size: .85rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>가계부</h1>
+    <label class="month-picker">조회 월
+      <input type="month" id="month">
+    </label>
+  </header>
+
+  <div class="grid">
+    <div class="col">
+      <section class="card">
+        <h2>지출 추가</h2>
+        <form id="form" novalidate>
+          <label>날짜
+            <input type="date" id="date" required>
+          </label>
+          <label>카테고리
+            <select id="category"></select>
+          </label>
+          <label class="full">금액 (원)
+            <input type="number" id="amount" inputmode="numeric" min="1" step="1" placeholder="예: 12000" required>
+          </label>
+          <label class="full">메모 (선택)
+            <input type="text" id="memo" maxlength="60" placeholder="예: 점심 김치찌개">
+          </label>
+          <p class="error full" id="error" role="alert"></p>
+          <button class="btn full" type="submit">추가하기</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="list-head">
+          <h2>지출 내역</h2>
+          <span class="count" id="count"></span>
+        </div>
+        <ul class="list" id="list"></ul>
+        <p class="empty" id="list-empty">이번 달 지출 내역이 없습니다.</p>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>카테고리별 지출</h2>
+      <div class="chart-box">
+        <div class="donut">
+          <svg viewBox="0 0 42 42" id="donut" aria-label="카테고리별 지출 도넛 차트" role="img"></svg>
+          <div class="donut-center">
+            <span class="label">총지출</span>
+            <span class="total" id="total">0원</span>
+          </div>
+        </div>
+        <ul class="legend" id="legend"></ul>
+        <p class="empty" id="chart-empty">지출을 추가해 보세요.</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'budget.expenses.v1';
+  const CATEGORIES = [
+    { name: '식비', color: '#4269d0' },
+    { name: '교통', color: '#efb118' },
+    { name: '주거·공과금', color: '#ff725c' },
+    { name: '쇼핑', color: '#6cc5b0' },
+    { name: '문화·여가', color: '#a463f2' },
+    { name: '의료', color: '#3ca951' },
+    { name: '기타', color: '#9498a0' },
+  ];
+  const colorOf = name => (CATEGORIES.find(c => c.name === name) || CATEGORIES.at(-1)).color;
+  const won = new Intl.NumberFormat('ko-KR');
+  const fmt = n => won.format(n) + '원';
+
+  const $ = id => document.getElementById(id);
+  const pad = n => String(n).padStart(2, '0');
+  const today = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  };
+
+  function load() {
+    try {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      return Array.isArray(data) ? data : [];
+    } catch {
+      return [];
+    }
+  }
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(expenses));
+    } catch {
+      $('error').textContent = '저장 공간을 사용할 수 없어 새로고침하면 기록이 사라질 수 있습니다.';
+    }
+  }
+
+  let expenses = load();
+
+  function render() {
+    const month = $('month').value;
+    const items = expenses
+      .filter(e => e.date.startsWith(month))
+      .sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+    const total = items.reduce((s, e) => s + e.amount, 0);
+
+    const sums = new Map();
+    for (const e of items) sums.set(e.category, (sums.get(e.category) || 0) + e.amount);
+    const slices = [...sums].map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
+
+    renderDonut(slices, total);
+    renderLegend(slices, total);
+    renderList(items);
+    $('total').textContent = fmt(total);
+  }
+
+  function renderDonut(slices, total) {
+    const svg = $('donut');
+    const NS = 'http://www.w3.org/2000/svg';
+    const R = 15.9155; // 둘레가 100이 되는 반지름
+    const ring = (color) => {
+      const c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', 21); c.setAttribute('cy', 21); c.setAttribute('r', R);
+      c.setAttribute('fill', 'none'); c.setAttribute('stroke', color);
+      c.setAttribute('stroke-width', 6);
+      return c;
+    };
+    svg.replaceChildren();
+    const bg = ring('var(--empty-ring)');
+    svg.appendChild(bg);
+
+    let offset = 0;
+    const gap = slices.length > 1 ? 0.4 : 0;
+    for (const s of slices) {
+      const pct = (s.value / total) * 100;
+      const c = ring(colorOf(s.name));
+      const len = Math.max(pct - gap, 0.1);
+      c.setAttribute('stroke-dasharray', `${len} ${100 - len}`);
+      c.setAttribute('stroke-dashoffset', -offset);
+      const title = document.createElementNS(NS, 'title');
+      title.textContent = `${s.name}: ${fmt(s.value)} (${pct.toFixed(1)}%)`;
+      c.appendChild(title);
+      svg.appendChild(c);
+      offset += pct;
+    }
+    $('chart-empty').hidden = slices.length > 0;
+  }
+
+  function renderLegend(slices, total) {
+    $('legend').replaceChildren(...slices.map(s => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="swatch"></span><span></span><span class="num"></span><span class="num pct"></span>`;
+      li.children[0].style.background = colorOf(s.name);
+      li.children[1].textContent = s.name;
+      li.children[2].textContent = fmt(s.value);
+      li.children[3].textContent = ((s.value / total) * 100).toFixed(1) + '%';
+      return li;
+    }));
+  }
+
+  function renderList(items) {
+    $('list').replaceChildren(...items.map(e => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span class="tag"></span>
+        <div class="meta"><div class="memo"></div><div class="date"></div></div>
+        <span class="amount"></span>
+        <button class="del" type="button" title="삭제" aria-label="삭제">✕</button>`;
+      const tag = li.querySelector('.tag');
+      tag.textContent = e.category;
+      tag.style.background = colorOf(e.category);
+      li.querySelector('.memo').textContent = e.memo || e.category;
+      li.querySelector('.date').textContent = e.date;
+      li.querySelector('.amount').textContent = fmt(e.amount);
+      li.querySelector('.del').addEventListener('click', () => {
+        expenses = expenses.filter(x => x.id !== e.id);
+        save();
+        render();
+      });
+      return li;
+    }));
+    $('list-empty').hidden = items.length > 0;
+    $('count').textContent = items.length ? `${items.length}건` : '';
+  }
+
+  // 초기화
+  $('category').replaceChildren(...CATEGORIES.map(c => new Option(c.name, c.name)));
+  $('date').value = today();
+  $('month').value = today().slice(0, 7);
+
+  $('form').addEventListener('submit', ev => {
+    ev.preventDefault();
+    const date = $('date').value;
+    const amount = Number($('amount').value);
+    if (!date) { $('error').textContent = '날짜를 선택해 주세요.'; return; }
+    if (!Number.isInteger(amount) || amount <= 0) {
+      $('error').textContent = '금액은 1원 이상의 정수로 입력해 주세요.';
+      return;
+    }
+    $('error').textContent = '';
+    expenses.push({
+      id: Date.now(),
+      date,
+      category: $('category').value,
+      amount,
+      memo: $('memo').value.trim(),
+    });
+    save();
+    // 추가한 지출이 보이도록 해당 월로 이동
+    $('month').value = date.slice(0, 7);
+    $('amount').value = '';
+    $('memo').value = '';
+    $('amount').focus();
+    render();
+  });
+
+  $('month').addEventListener('change', render);
+  render();
+</script>
+</body>
+</html>

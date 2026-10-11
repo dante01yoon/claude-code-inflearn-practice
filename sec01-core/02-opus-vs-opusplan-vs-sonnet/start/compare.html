@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>세 결과 나란히</title>
+<style>
+body{margin:0;background:#101217;color:#e8e6df;font-family:"Apple SD Gothic Neo",sans-serif;height:100vh;display:flex;gap:18px;padding:18px;box-sizing:border-box}
+.col{flex:1;display:flex;flex-direction:column;min-width:0}
+.col h2{margin:0 0 10px;font-size:30px;text-align:center}
+.col h2 small{display:block;font-size:18px;color:#a8a49a;font-weight:400}
+.box{flex:1;position:relative;overflow:hidden;border:2px solid #2c3040;border-radius:14px;background:#000}
+iframe{position:absolute;left:0;top:0;border:0;width:860px;height:1600px;transform-origin:0 0}
+</style></head><body>
+<div class="col"><h2>Opus만<small>계획·구현 모두 Opus 5.5</small></h2><div class="box"><iframe id="f-opus"></iframe></div></div>
+<div class="col"><h2>opusplan<small>계획 Opus 5.5 → 구현 Sonnet 5.5</small></h2><div class="box"><iframe id="f-opusplan"></iframe></div></div>
+<div class="col"><h2>Sonnet만<small>계획·구현 모두 Sonnet 5.5</small></h2><div class="box"><iframe id="f-sonnet"></iframe></div></div>
+<script>
+const rep = new URLSearchParams(location.search).get('rep') || '1';
+for (const m of ['opus', 'opusplan', 'sonnet']) {
+  const f = document.getElementById('f-' + m);
+  f.src = `runs/${m}-${rep}/index.html`;
+  const fit = () => { const w = f.parentElement.clientWidth; f.style.transform = `scale(${w / 860})`; f.style.height = (f.parentElement.clientHeight * 860 / w) + 'px'; };
+  addEventListener('resize', fit); fit();
+}
+</script></body></html>

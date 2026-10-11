@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>자기소개 카드</title>
+<style>
+  :root {
+    --bg: #eef1f7;
+    --card: #ffffff;
+    --text: #1d2433;
+    --muted: #5d667a;
+    --chip-bg: #e8edff;
+    --chip-text: #3646a8;
+    --btn-bg: #3b4cca;
+    --btn-text: #ffffff;
+    --btn-hover: #2d3ba3;
+    --shadow: 0 10px 30px rgba(30, 40, 90, 0.12);
+    --grad-a: #6a7bff;
+    --grad-b: #b06cff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12141c;
+      --card: #1c2030;
+      --text: #eef0f7;
+      --muted: #a0a8be;
+      --chip-bg: #2a3050;
+      --chip-text: #b8c3ff;
+      --btn-bg: #6a7bff;
+      --btn-text: #10122a;
+      --btn-hover: #8795ff;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+    line-height: 1.6;
+  }
+  .card {
+    width: 100%;
+    max-width: 380px;
+    padding: 36px 28px 28px;
+    text-align: center;
+    background: var(--card);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover { transform: translateY(-4px); }
+  .avatar {
+    width: 96px; height: 96px;
+    margin: 0 auto 16px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+    color: #fff;
+    font-size: 40px; font-weight: 700;
+  }
+  h1 { margin: 0; font-size: 24px; }
+  .role { margin: 2px 0 16px; color: var(--muted); font-size: 15px; }
+  .bio { margin: 0 0 20px; font-size: 15px; }
+  .tags {
+    list-style: none; padding: 0; margin: 0 0 24px;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+  }
+  .tags li {
+    padding: 4px 12px;
+    background: var(--chip-bg); color: var(--chip-text);
+    border-radius: 999px; font-size: 13px; font-weight: 600;
+  }
+  .links { display: flex; flex-direction: column; gap: 10px; }
+  .links a {
+    padding: 10px 16px;
+    background: var(--btn-bg); color: var(--btn-text);
+    border-radius: 12px;
+    text-decoration: none; font-weight: 600; font-size: 15px;
+    transition: background .15s ease;
+  }
+  .links a:hover, .links a:focus-visible { background: var(--btn-hover); }
+</style>
+</head>
+<body>
+  <!-- 아래 내용을 본인 정보로 바꿔 쓰세요 -->
+  <main class="card">
+    <div class="avatar" aria-hidden="true">홍</div>
+    <h1>홍길동</h1>
+    <p class="role">웹 개발 공부 중</p>
+    <p class="bio">안녕하세요! 새로운 것을 배우고 만드는 일을 좋아합니다. 작은 프로젝트부터 하나씩 완성해 가는 중이에요.</p>
+    <ul class="tags">
+      <li>웹</li>
+      <li>디자인</li>
+      <li>독서</li>
+      <li>커피</li>
+    </ul>
+    <nav class="links">
+      <a href="mailto:hello@example.com">이메일</a>
+      <a href="#">GitHub</a>
+      <a href="#">블로그</a>
+    </nav>
+  </main>
+</body>
+</html>

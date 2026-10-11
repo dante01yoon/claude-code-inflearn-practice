@@ -1,0 +1,17 @@
+{
+ "opus": {
+  "added": 4,
+  "persisted": 2,
+  "chart": true
+ },
+ "opusplan": {
+  "added": 4,
+  "persisted": 4,
+  "chart": true
+ },
+ "sonnet": {
+  "added": 4,
+  "persisted": 4,
+  "chart": true
+ }
+}
