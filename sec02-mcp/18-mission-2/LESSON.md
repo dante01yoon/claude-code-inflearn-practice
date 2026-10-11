@@ -8,7 +8,7 @@
 3. 결과가 원하는 모습과 다르면 프롬프트를 자세히 고쳐서 다시 시키기
 4. 끝나면 `/context`로 대화가 얼마나 찼는지 확인하기
 
-준비: `start/` = 16강 끝 상태(`.mcp.json`에 context7 · playwright · github). 17강에서 Playwright를 껐다면 `/mcp`에서 다시 켜기.
+준비: `start/` = 16강 끝 상태(`.mcp.json`에 context7 · playwright). 17강에서 Playwright를 껐다면 `/mcp`에서 다시 켜기.
 
 ## 풀이에서 입력한 것 (그대로)
 

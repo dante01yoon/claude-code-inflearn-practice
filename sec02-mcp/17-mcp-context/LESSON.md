@@ -4,7 +4,7 @@
 
 ## 이번 수업에서 입력한 것 (그대로)
 
-시작 폴더: `start/` (16강 끝 상태: `.mcp.json`에 context7 · playwright · github, `mcp_context_check.py` 추가)
+시작 폴더: `start/` (16강 끝 상태 + `mcp_context_check.py`). `.mcp.json`에는 context7 · playwright와 함께, **연결에 실패하는 서버가 어떻게 보이는지 보려고 일부러 넣은 토큰 없는 github 서버**가 있습니다(16강에서 깃허브는 MCP 대신 `gh`를 씁니다). 실습 뒤에는 `claude mcp remove github --scope project`로 지워도 됩니다.
 
 ```bash
 python3 mcp_context_check.py     # claude -p /context를 세 가지 설정으로 실행해 표로

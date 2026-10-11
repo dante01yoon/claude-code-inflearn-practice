@@ -1,4 +1,4 @@
-# 섹션 2 · 16강 꼭 쓰는 MCP — Context7(문서) · Playwright(브라우저) · 깃허브 · 🆕 `claude mcp login`
+# 섹션 2 · 16강 꼭 쓰는 MCP — Context7(문서) · Playwright(브라우저) · 깃허브는 MCP 대신 `gh` · 🆕 `claude mcp login`
 
 결과: 서울 라이브 3D 폴더에 **역마다 3D 기둥이 서는 지도 페이지 `map.html`** (deck.gl ColumnLayer + MapLibre 기본 지도)와 Playwright가 찍은 스크린샷.
 
@@ -28,15 +28,19 @@ claude --continue
 playwright로 방금 만든 페이지 열어서 스크린샷 찍어 줘
 ```
 
-깃허브 서버 (토큰은 파일에 쓰지 않고 환경 변수 이름만):
+깃허브는 MCP 서버 없이 `gh` 명령으로 (gh를 설치하고 `gh auth login`으로 한 번 로그인해 둔 상태):
 
 ```bash
-claude mcp add --scope project --transport http github https://api.githubcopilot.com/mcp/ --header 'Authorization: Bearer ${GITHUB_PAT}'
-cat .mcp.json
-claude mcp list            # github: ✘ Failed to connect … / [Warning] Missing environment variables: GITHUB_PAT
+claude
 ```
 
-실제로 연결할 때(영상에서는 하지 않음): 깃허브 설정에서 fine-grained 토큰을 만든 뒤 `export GITHUB_PAT=내_토큰` → `claude`.
+```text
+dante01yoon/claude-code-inflearn-practice 저장소 최근 커밋이랑 PR, 이슈 보여 줘
+```
+
+→ 클로드가 `gh api repos/…/commits`, `gh pr list`, 이슈 조회 같은 **읽기 전용** gh 명령을 직접 실행. 결과: 최근 커밋 7개 표, PR·이슈는 아직 없음.
+
+왜 MCP를 안 쓰나: 깃허브처럼 좋은 CLI가 있는 서비스는 클로드 코드가 그 명령을 바로 쓰는 편이 더 간단하고(설정·토큰 전달 없음) 도구 설명서가 컨텍스트를 차지하지도 않습니다. MCP는 CLI가 없거나, 최신 문서 검색·브라우저 조작처럼 명령어로 하기 어려운 일에 씁니다.
 
 OAuth 서버 로그인 (영상에서는 주소가 나온 뒤 Ctrl+C로 취소):
 
@@ -52,8 +56,7 @@ claude mcp remove notion               # 지우면 저장된 로그인 정보도
 |---|---|---|
 | Context7 | Upstash가 만든 최신 라이브러리 문서 MCP. 원격 주소 `https://mcp.context7.com/mcp`, API 키는 선택(무료 키 = 더 높은 한도). 도구 `resolve-library-id`, `query-docs` | [upstash/context7](https://github.com/upstash/context7) |
 | Playwright MCP | 마이크로소프트. 접근성 트리로 페이지를 읽어 조작("not pixel-based"). `--headless`(창 없이), `--isolated`(프로필을 메모리에만) | [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) |
-| 깃허브 MCP | 깃허브 공식 서버. 원격 `https://api.githubcopilot.com/mcp/`, 공식 문서는 PAT를 `Authorization` 헤더로 | [mcp 문서](https://code.claude.com/docs/en/mcp#example-connect-to-github-for-code-reviews), [github/github-mcp-server](https://github.com/github/github-mcp-server) |
-| `${VAR}` | `.mcp.json`의 `url`·`headers` 등에서 환경 변수로 바뀜. 값이 없으면 `claude mcp list`에 경고 | [mcp 문서](https://code.claude.com/docs/en/mcp#environment-variable-expansion-in-mcp-json) |
+| 깃허브 | 공식 MCP 서버도 있지만(토큰 필요) 이 강의는 `gh` CLI로. 클로드 코드는 셸 명령을 직접 실행 | [GitHub CLI](https://cli.github.com/), [github/github-mcp-server](https://github.com/github/github-mcp-server) |
 | 🆕 `claude mcp login <이름>` | OAuth 서버를 `/mcp` 없이 셸에서 로그인. `--no-browser`는 주소만 출력. v2.1.186(2026-06-22) 추가 | [mcp 문서](https://code.claude.com/docs/en/mcp#authenticate-from-the-command-line), changelog |
 | 승인 기록 | "Use this and all future…"를 고르면 `.claude/settings.local.json`에 `enableAllProjectMcpServers: true` | 녹화 결과 파일 |
 
