@@ -54,7 +54,7 @@
 | [sec02-mcp/17-mcp-context](sec02-mcp/17-mcp-context/) | 📏 MCP가 시작 컨텍스트를 얼마나 쓰나(`mcp_context_check.py`, 도구 검색 켬/끔), `/context`, `/mcp`에서 서버 끄기 | 도구가 많아질 때 컨텍스트 관리 |
 | [sec02-mcp/18-mission-2](sec02-mcp/18-mission-2/) | 미션 2: 기둥 위 한글 역 이름 + 08시 vs 18시 비교(`compare.html`), 짧은 프롬프트 → 자세한 프롬프트 두 버전 + 정답 | 미션 2 |
 
-## 섹션 3. [프로젝트 1] 나만의 클로드 코드 세팅 만들기
+## 섹션 3. [프로젝트 1] 나만의 클로드 코드 세팅 — 스킬·서브에이전트·훅·Mods
 
 완성 템플릿: **[dante01yoon/claude-code-starter-setting](https://github.com/dante01yoon/claude-code-starter-setting)** (GitHub 템플릿 저장소 — Use this template)
 
