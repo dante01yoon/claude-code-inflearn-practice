@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>아침 서울 데이터 리포트</title>
+<style>
+  :root {
+    --surface: #10131a;
+    --panel: #171b23;
+    --text-primary: #e8e6df;
+    --text-secondary: #b4b2aa;
+    --text-muted: #8a8880;
+    --border: #343a48;
+    --answer: #f2b552;       /* 헤드라인 강조 */
+    --congest-1: #40c057;    /* 도시데이터 혼잡도: 여유 */
+    --congest-2: #fab005;    /* 보통 */
+    --congest-3: #fd7e14;    /* 약간 붐빔 */
+    --congest-4: #f03e3e;    /* 붐빔 */
+    --congest-none: #5b6273; /* 값 없음 */
+    --bike: #b197fc;         /* 따릉이 */
+  }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: var(--surface); color: var(--text-primary); margin: 24px; line-height: 1.55; }
+  main { max-width: 860px; margin: 0 auto; }
+  header { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
+  h1 { font-size: 1.3rem; margin: 0; }
+  select { font: inherit; color: inherit; background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; max-width: 100%; }
+  .headline { font-size: 1.15rem; color: var(--answer); margin: 20px 0 6px; }
+  .meta, small, .muted { color: var(--text-muted); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 16px; margin-top: 16px; }
+  section { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; min-width: 0; }
+  h2 { font-size: 1rem; margin: 0 0 8px; }
+  h3 { font-size: .9rem; margin: 14px 0 6px; color: var(--text-secondary); }
+  ul { margin: 0; padding-left: 1.2em; }
+  li { overflow-wrap: anywhere; }
+  .bar { display: flex; height: 14px; border-radius: 4px; overflow: hidden; background: var(--congest-none); margin: 8px 0 4px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: .85rem; color: var(--text-secondary); }
+  .legend i, .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin: 8px 0; }
+  .stat { border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; }
+  .stat b { display: block; font-size: 1.1rem; }
+  .stat span { font-size: .8rem; color: var(--text-secondary); }
+  .rows li { display: flex; justify-content: space-between; gap: 8px; list-style: none; }
+  .rows { padding: 0; }
+  .rows li span:last-child { color: var(--text-secondary); white-space: nowrap; }
+  .diff { margin-top: 16px; }
+  .diff table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+  .diff th, .diff td { padding: 3px 8px; border-bottom: 1px solid var(--border); text-align: right; white-space: nowrap; }
+  .diff th:first-child, .diff td:first-child { text-align: left; }
+  .diff thead th { color: var(--text-muted); font-weight: normal; }
+  .diff h2 a { color: inherit; }
+  .delta { color: var(--text-secondary); }
+  .scroll { overflow-x: auto; }
+  .visit { margin-top: 16px; }
+  .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 6px; list-style: none; padding: 0; margin: 8px 0; }
+  .slot { border: 1px solid var(--border); border-top: 4px solid var(--congest-none); border-radius: 8px; padding: 4px 6px; font-size: .8rem; color: var(--text-secondary); }
+  .slot b { display: block; font-size: .95rem; color: var(--text-primary); }
+  .slot.off { opacity: .45; }
+  .slot.pick { outline: 2px solid var(--answer); outline-offset: 1px; }
+  .slot.pick b::after { content: " 추천"; font-size: .75rem; font-weight: normal; color: var(--answer); }
+  .warn { border-left: 4px solid var(--congest-3); padding-left: 8px; color: var(--text-secondary); }
+  footer { margin-top: 24px; font-size: .8rem; color: var(--text-muted); }
+  @media (max-width: 600px) {
+    body { margin: 14px; }
+    .rows li { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>아침 서울 데이터 리포트</h1>
+    <label>날짜 <select id="day" aria-label="리포트 날짜"></select></label>
+  </header>
+  <div id="report"><p class="muted">불러오는 중…</p></div>
+  <footer>
+    <p>요약은 claude -p가 아래 숫자만 보고 쓴 글입니다. 리포트는 <code>npm run report</code>로 만듭니다.</p>
+    <p>데이터: 서울시 실시간 도시데이터(인구), 서울시 주요 121장소 영역, 서울시 공공자전거 실시간 대여정보 — 서울특별시, 공공누리 제1유형(출처 표시)</p>
+  </footer>
+</main>
+<script type="module">
+const CONGEST = [["여유", "--congest-1"], ["보통", "--congest-2"], ["약간 붐빔", "--congest-3"], ["붐빔", "--congest-4"]];
+const fmt = (n) => (Number.isFinite(n) ? n.toLocaleString("ko-KR") : "–");
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const congestCss = (level) => CONGEST.find(([l]) => l === level)?.[1] ?? "--congest-none";
+const pop = (p) => (p ? `${fmt(p.min)}~${fmt(p.max)}명` : "인구 정보 없음");
+const kstTime = (iso) => new Date(iso).toLocaleString("ko-KR", { timeZone: "Asia/Seoul", hour: "2-digit", minute: "2-digit", hour12: false });
+
+const $report = document.getElementById("report");
+const $day = document.getElementById("day");
+
+async function getJson(path) {
+  const res = await fetch(path, { cache: "no-store" });
+  if (!res.ok) throw new Error(`${path}: HTTP ${res.status}`);
+  return res.json();
+}
+
+function summaryHtml(s, error) {
+  if (!s) return `<p class="warn">요약이 없습니다${error ? `(${esc(error)})` : "(--no-claude로 만든 리포트)"}. 아래 숫자만 보여 줍니다.</p>`;
+  return `<p class="headline">${esc(s.headline)}</p><p>${esc(s.overview)}</p>
+    ${s.tips.length ? `<h3>오늘 참고</h3><ul>${s.tips.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}`;
+}
+
+// 차이: +1,234 / −12 / 0. 색 대신 부호로만 보인다(늘어난 게 좋은지 나쁜지는 항목마다 다르다).
+const delta = (d) => (!Number.isFinite(d) ? "–" : d > 0 ? `+${fmt(d)}` : d < 0 ? `−${fmt(-d)}` : "0");
+const diffRow = (label, c) => `<tr><td>${label}</td><td>${fmt(c.prev)}</td><td>${fmt(c.now)}</td><td class="delta">${delta(c.delta)}</td></tr>`;
+const diffTable = (rows) => `<div class="scroll"><table><thead><tr><th></th><th>지난번</th><th>이번</th><th>차이</th></tr></thead><tbody>${rows.join("")}</tbody></table></div>`;
+const sampleNote = (x) => (x.sampleChanged ? ` <small>· 지난번과 받은 범위(sample 키 여부)가 달라 비교가 어렵습니다</small>` : "");
+
+function diffHtml(d, s) {
+  if (!d) return "";
+  const moved = (title, list, total) => list.length
+    ? `<h3>${title} <small>${fmt(total)}곳${total > list.length ? `, 앞 ${fmt(list.length)}곳` : ""}</small></h3><ul class="rows">${list.map((m) =>
+      `<li><span>${esc(m.name)}</span><span>${esc(m.from)} → <i class="dot" style="background:var(${congestCss(m.to)})"></i>${esc(m.to)}</span></li>`).join("")}</ul>`
+    : "";
+  const p = d.places;
+  const places = p.error ? `<p class="warn">장소 혼잡도: ${esc(p.error)}</p>` : `
+    <h3>장소 혼잡도${sampleNote(p)}</h3>
+    ${diffTable([diffRow("받은 장소", p.received), ...CONGEST.map(([l]) => diffRow(l, p.levels[l]))])}
+    ${!p.worse ? `<p class="muted">지난 리포트에 장소별 단계가 없어 어느 곳이 바뀌었는지는 모릅니다.</p>`
+      : p.worseCount || p.betterCount ? moved("더 붐비게 된 곳", p.worse, p.worseCount) + moved("한가해진 곳", p.better, p.betterCount)
+      : `<p class="muted">두 리포트에 모두 있는 ${fmt(p.compared)}곳 중 단계가 바뀐 곳이 없습니다.</p>`}`;
+  const b = d.bikes;
+  const bikes = b.error ? `<p class="warn">따릉이: ${esc(b.error)}</p>` : `
+    <h3>따릉이${sampleNote(b)}</h3>
+    ${diffTable([diffRow("대여소", b.stations), diffRow("주차된 자전거", b.bikes), diffRow("거치대", b.racks), diffRow("빈 대여소(0대)", b.empty), diffRow("1~2대 남은 곳", b.low), diffRow("거치율 100% 이상", b.full)])}`;
+  return `<section class="diff">
+    <h2>지난 리포트와 비교 <small><a href="?day=${esc(d.previous.date)}">${esc(d.previous.date)}(${esc(d.previous.weekday)}) ${esc(kstTime(d.previous.generatedAt))}</a>${Number.isFinite(d.hours) ? ` · ${fmt(d.hours)}시간 전` : ""}</small></h2>
+    ${s?.changes ? `<p>${esc(s.changes)}</p>` : ""}
+    <div class="grid" style="margin-top:0"><div>${places}</div><div>${bikes}</div></div>
+  </section>`;
+}
+
+// 오늘 VISIT_PLACE 가기 좋은 시각: 지금과 예측을 시각 칸으로 늘어놓고, claude가 고른 시각(summary.visit.best)에 테두리를 친다.
+// 낮 시간(v.hours) 밖의 칸은 흐리게 그린다(추천 후보가 아니다). hours가 없는 옛 리포트는 모두 보통으로.
+function visitHtml(v, s) {
+  if (!v) return "";
+  const title = `오늘 ${esc(v.name)} 가기 좋은 시각`;
+  if (v.error) return `<section class="visit"><h2>${title}</h2><p class="warn">받지 못했습니다: ${esc(v.error)}</p></section>`;
+  const best = s?.visit?.best ?? [];
+  const picks = new Set(best.map((b) => b.time));
+  const off = (x) => v.hours && !(x.time >= v.hours.from && x.time <= v.hours.to);
+  const slot = (x, label) => `<li class="slot${picks.has(x.time) ? " pick" : ""}${off(x) ? " off" : ""}" style="border-top-color:var(${congestCss(x.level)})">
+    <b>${esc(x.time ?? "–")}</b>${label ? `<small>${label} · </small>` : ""}${esc(x.level)}<br><small>${x.population ? `${fmt(x.population.min)}~${fmt(x.population.max)}` : "–"}</small></li>`;
+  return `<section class="visit">
+    <h2>${title}</h2>
+    ${v.hours ? `<p class="muted">추천은 낮 시간 ${esc(v.hours.from)}~${esc(v.hours.to)} 안에서만 고릅니다.</p>` : ""}
+    ${v.candidates && !v.candidates.length ? `<p class="warn">아직 예측 없음 — 오늘 낮 시간 예측이 아직 나오지 않았습니다.</p>` : ""}
+    ${s?.visit ? `<p>${esc(s.visit.summary)}</p>` : ""}
+    ${best.length ? `<ul>${best.map((b) => `<li><b>${esc(b.time)}</b> — ${esc(b.note)}</li>`).join("")}</ul>` : ""}
+    ${s?.visit?.avoid ? `<p class="muted">${esc(s.visit.avoid)}</p>` : ""}
+    <ul class="slots" aria-label="시각별 혼잡도 예측">${slot(v.now, "지금")}${v.forecast.map((f) => slot(f)).join("")}</ul>
+    <small>${v.forecast.length ? "칸 위 색은 혼잡도, 아래 숫자는 추정 인구(명)입니다. 지금 다음 칸부터는 서울시 12시간 예측입니다." : "오늘 남은 시각의 예측이 없습니다."}</small>
+  </section>`;
+}
+
+function placesHtml(p, s) {
+  if (p.error) return `<section><h2>장소 혼잡도</h2><p class="warn">받지 못했습니다: ${esc(p.error)}</p></section>`;
+  const total = CONGEST.reduce((n, [l]) => n + (p.levels[l] ?? 0), 0);
+  const bar = CONGEST.map(([l, css]) => p.levels[l] ? `<span style="width:${(p.levels[l] / total) * 100}%;background:var(${css})"></span>` : "").join("");
+  const place = (a) => `<li><span><i class="dot" style="background:var(${congestCss(a.level)})"></i>${esc(a.name)}</span><span>${esc(a.level)} · ${pop(a.population)}</span></li>`;
+  return `<section>
+    <h2>장소 혼잡도 <small>${fmt(p.received)}곳${p.failed ? `, 오류 ${fmt(p.failed)}곳` : ""}${p.sample ? " · sample 키" : ""}</small></h2>
+    ${s ? `<p>${esc(s.crowd.summary)}</p>` : ""}
+    <div class="bar" role="img" aria-label="${CONGEST.map(([l]) => `${l} ${p.levels[l] ?? 0}곳`).join(", ")}">${bar}</div>
+    <div class="legend">${CONGEST.map(([l, css]) => `<span><i style="background:var(${css})"></i>${l} ${fmt(p.levels[l] ?? 0)}</span>`).join("")}</div>
+    ${s?.crowd.hotspots.length ? `<h3>눈여겨볼 곳</h3><ul>${s.crowd.hotspots.map((h) => `<li><b>${esc(h.place)}</b> — ${esc(h.note)}</li>`).join("")}</ul>` : ""}
+    <h3>가장 붐비는 곳</h3><ul class="rows">${p.mostCrowded.map(place).join("")}</ul>
+    <h3>가장 여유로운 곳</h3><ul class="rows">${p.calmest.map(place).join("")}</ul>
+    ${p.rising.length ? `<h3>12시간 안에 더 붐빌 곳</h3><ul class="rows">${p.rising.map((r) =>
+      `<li><span>${esc(r.name)}</span><span>${esc(r.now)} → <i class="dot" style="background:var(${congestCss(r.peak)})"></i>${esc(r.peak)} (${esc(r.peakTime.slice(11, 16))})</span></li>`).join("")}</ul>` : ""}
+  </section>`;
+}
+
+function bikesHtml(b, s) {
+  if (b.error) return `<section><h2>따릉이</h2><p class="warn">받지 못했습니다: ${esc(b.error)}</p></section>`;
+  const stat = (v, label) => `<div class="stat"><b>${fmt(v)}</b><span>${label}</span></div>`;
+  return `<section>
+    <h2><i class="dot" style="background:var(--bike)"></i>따릉이 <small>대여소 ${fmt(b.stations)}곳${b.sample ? " · sample 키" : ""}</small></h2>
+    ${s ? `<p>${esc(s.bike.summary)}</p>` : ""}
+    <div class="stats">${stat(b.bikes, "주차된 자전거")}${stat(b.racks, "거치대")}${stat(b.empty, "빈 대여소(0대)")}${stat(b.low, "1~2대 남은 곳")}${stat(b.full, "거치율 100% 이상")}</div>
+    ${s?.bike.notes.length ? `<ul>${s.bike.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>` : ""}
+    <h3>자전거가 몰린 대여소</h3><ul class="rows">${b.fullest.map((x) =>
+      `<li><span>${esc(x.name)}</span><span>${fmt(x.bikes)}대 / 거치대 ${fmt(x.racks)} · ${fmt(x.shared)}%</span></li>`).join("")}</ul>
+  </section>`;
+}
+
+async function show(date) {
+  try {
+    const r = await getJson(`${date}.json`);
+    const meta = [`${r.date}(${r.weekday}) ${kstTime(r.generatedAt)} 기준`, r.model, r.costUsd != null ? `$${r.costUsd.toFixed(4)}` : null].filter(Boolean).join(" · ");
+    $report.innerHTML = `<p class="meta">${esc(meta)}</p>${summaryHtml(r.summary, r.summaryError)}${visitHtml(r.facts.visit, r.summary)}${diffHtml(r.diff, r.summary)}
+      <div class="grid">${placesHtml(r.facts.places, r.summary)}${bikesHtml(r.facts.bikes, r.summary)}</div>`;
+  } catch (err) {
+    $report.innerHTML = `<p class="warn">리포트를 읽지 못했습니다: ${esc(err.message)}</p>`;
+  }
+}
+
+try {
+  const index = await getJson("index.json");
+  if (!index.length) throw new Error("빈 목록");
+  $day.innerHTML = index.map((e) => `<option value="${esc(e.date)}">${esc(e.date)}(${esc(e.weekday)})</option>`).join("");
+  const wanted = new URLSearchParams(location.search).get("day");
+  $day.value = index.some((e) => e.date === wanted) ? wanted : index[0].date;
+  $day.addEventListener("change", () => {
+    history.replaceState(null, "", `?day=${$day.value}`);
+    show($day.value);
+  });
+  show($day.value);
+} catch {
+  $report.innerHTML = `<p class="warn">아직 리포트가 없습니다. <code>npm run report</code>로 만들어 주세요.</p>`;
+}
+</script>
+</body>
+</html>

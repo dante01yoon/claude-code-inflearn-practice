@@ -158,3 +158,15 @@
 | [sec09-parallel-bike/70-1-combine-layers](sec09-parallel-bike/70-1-combine-layers/) | 지하철·붐빔·따릉이를 시간 슬라이더 하나로, `recommend.mjs` 추천 규칙(걸어서·따릉이·지하철) | 세 레이어 합치기 |
 | [sec09-parallel-bike/71-measure-parallel](sec09-parallel-bike/71-measure-parallel/) | 📏 같은 일 1회씩: 혼자 3분 6초·$0.64 / worktree 병렬 1분 28초·$0.85(+합치기 $0.35) / Agent Teams 3분 12초·$1.09, `measure/cost.py` | 📏 혼자 vs 병렬 vs 팀 |
 | [sec09-parallel-bike/72-mission-9](sec09-parallel-bike/72-mission-9/) | 미션 9: 평일(6/10) 하루를 더해 토요일과 비교(08:30 이동 중 1,148대 vs 2,913대) — 채점표·정답 | 미션 9 |
+
+## 섹션 10. 자동화 — 헤드리스·CI·루틴 (서울 라이브 3D 아침 리포트)
+
+앱 저장소: **[dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d)** (섹션 10 작업 = 브랜치 `sec10-automation`, PR #3, main 병합 `cc3d56f`). 시작 상태는 [sec10-automation/start](sec10-automation/start/). Claude Code 2.1.296. 루틴·ultrareview는 연구 미리보기(2026-10 기준). 비밀값은 저장소에 없습니다.
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec10-automation/73-headless-json](sec10-automation/73-headless-json/) | `claude -p` · `--output-format json \| jq` · `--json-schema` → `structured_output`, 아침 서울 데이터 리포트 `npm run report`(sample 키) | claude -p와 JSON |
+| [sec10-automation/74-actions-review](sec10-automation/74-actions-review/) | claude-code-action 워크플로, secret·GitHub App, `/code-review --fix`(6개 찾아 5개 고침), 워크플로는 main에 먼저, PR 리뷰 댓글, ultrareview(문서로만) | GitHub Actions PR 자동 리뷰 |
+| [sec10-automation/75-routines](sec10-automation/75-routines/) | `/schedule` 매일 07:10 KST, GitHub 연결(401), 한 번 실행 → 클라우드 네트워크에 막힘(fetch failed), 끄기 | 루틴 |
+| [sec10-automation/76-loop](sec10-automation/76-loop/) | 간격 없는 `/loop`: 기준점 → 6분 뒤 스스로 깨어나 비교 → 멈춤, CronList | /loop |
+| [sec10-automation/77-mission-10](sec10-automation/77-mission-10/) | 미션 10: 리포트에 광화문·덕수궁 '가기 좋은 시각'(짧게 → 새벽 6~8시 → 자세히 → 10·18·11시) — 채점표·정답 | 미션 10 |
