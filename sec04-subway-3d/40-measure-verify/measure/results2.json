@@ -1,0 +1,56 @@
+[
+ {
+  "variant": "A",
+  "run": 1,
+  "seconds": 170.9,
+  "cost_usd": 0.785,
+  "turns": 21,
+  "bugs": 0,
+  "failed": []
+ },
+ {
+  "variant": "B",
+  "run": 1,
+  "seconds": 206.2,
+  "cost_usd": 0.792,
+  "turns": 24,
+  "bugs": 0,
+  "failed": []
+ },
+ {
+  "variant": "A",
+  "run": 2,
+  "seconds": 134.0,
+  "cost_usd": 0.487,
+  "turns": 12,
+  "bugs": 0,
+  "failed": []
+ },
+ {
+  "variant": "B",
+  "run": 2,
+  "seconds": 534.6,
+  "cost_usd": 1.28,
+  "turns": 39,
+  "bugs": 0,
+  "failed": []
+ },
+ {
+  "variant": "A",
+  "run": 3,
+  "seconds": 250.3,
+  "cost_usd": 0.495,
+  "turns": 16,
+  "bugs": 0,
+  "failed": []
+ },
+ {
+  "variant": "B",
+  "run": 3,
+  "seconds": 288.7,
+  "cost_usd": 1.041,
+  "turns": 32,
+  "bugs": 0,
+  "failed": []
+ }
+]

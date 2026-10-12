@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>서울 라이브 3D · 지하철</title>
+<style>
+  :root {
+    --surface: #10131a;
+    --panel: #171b23;
+    --text-primary: #e8e6df;
+    --text-secondary: #b4b2aa;
+    --text-muted: #8a8880;
+    --grid: #262a33;
+    --border: #343a48;
+    --answer: #f2b552;       /* 답 시간대·선택 역 강조 */
+    --answer-ink: #1a1406;   /* --answer 위 글자 */
+    --answer-bg: #1d1b16;    /* 답 카드 바탕 */
+    --answer-line: #5a4523;  /* 답 카드 테두리 */
+    --window-bg: #2b2618;    /* 시간 창 띠 */
+    --ramp-low: #ffd43b;     /* 기둥: 인원 적음 */
+    --ramp-high: #e03131;    /* 기둥: 인원 많음 */
+    --bar: #5b6273;          /* 2D 차트 막대(답이 아닌 시간대) */
+    --band-quiet: #1c2a24;   /* 하루 띠: 한산(피크 대비 30% 미만) */
+    --band-mid: #3a3320;     /* 하루 띠: 보통(30–60%) */
+    --band-busy: #4a2422;    /* 하루 띠: 붐빔(60% 이상) */
+    --train: #5ce1e6;        /* 실시간 열차 점 */
+  }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: var(--surface); color: var(--text-primary); margin: 24px; }
+  button, input, select { font: inherit; color: inherit; }
+  .muted { color: var(--text-muted); }
+
+  .page { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px;
+         padding-bottom: 16px; border-bottom: 1px solid var(--grid); }
+  .top h1 { margin: 0; font-size: 22px; }
+  .top .sub { color: var(--text-secondary); font-size: 15px; margin-left: 12px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; color: var(--text-secondary); }
+  .badges > span { padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; }
+
+  /* 왼쪽 패널 + 오른쪽 지도. 좁으면 패널이 위로 쌓인다. */
+  .layout { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+  .side { flex: 1 1 320px; max-width: 400px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .main { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+
+  .panel { background: var(--panel); border: 1px solid var(--grid); border-radius: 14px; padding: 16px;
+           display: flex; flex-direction: column; gap: 12px; }
+  .panel h2, .panel > label { margin: 0; font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  .panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .panel-head small { font-size: 11px; color: var(--text-muted); }
+
+  /* 역 찾기 */
+  .search { width: 100%; height: 44px; padding: 0 12px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 10px; font-size: 15px; }
+  .results { list-style: none; margin: 0; padding: 4px; border: 1px solid var(--grid); border-radius: 10px; }
+  .results:empty { display: none; }
+  .results button { width: 100%; min-height: 44px; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center;
+                    gap: 8px; border: 0; border-radius: 8px; background: transparent; text-align: left; cursor: pointer; }
+  .results button:hover, .results button:focus-visible { background: var(--grid); }
+  .results small { color: var(--text-muted); font-size: 12px; text-align: right; }
+  .results .empty { padding: 10px; font-size: 13px; color: var(--text-muted); }
+  .chips:empty { display: none; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border);
+          background: transparent; color: var(--text-secondary); font-size: 13px; cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--text-primary); border-color: var(--text-primary); color: var(--surface); font-weight: 600; }
+
+  /* 지금 시간대 혼잡 TOP 5 */
+  .top5-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-top: 4px;
+               font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  .top5-head output { font-size: 12px; font-weight: 400; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .top5 { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+  .top5 button { width: 100%; min-height: 44px; padding: 6px 10px; display: grid; grid-template-columns: 1.5em minmax(0, 1fr) auto;
+                 align-items: center; gap: 8px; border: 1px solid transparent; border-radius: 8px; background: transparent;
+                 text-align: left; cursor: pointer; }
+  .top5 button:hover, .top5 button:focus-visible { background: var(--grid); }
+  .top5 button[aria-current="true"] { border-color: var(--answer); }
+  .top5 .rank { font-weight: 700; color: var(--answer); font-variant-numeric: tabular-nums; }
+  .top5 .name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .top5 .name small { margin-left: 6px; color: var(--text-muted); font-size: 12px; }
+  .top5 .empty { padding: 10px; font-size: 13px; color: var(--text-muted); }
+  .top5 .count { font-size: 13px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+
+  /* 시간 창 */
+  .presets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .preset { min-height: 52px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px;
+            padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface);
+            text-align: left; cursor: pointer; }
+  .preset b { font-size: 14px; }
+  .preset span { font-size: 12px; font-variant-numeric: tabular-nums; opacity: 0.85; }
+  .preset[aria-pressed="true"] { background: var(--answer); border-color: var(--answer); color: var(--answer-ink); }
+  .preset.wide { grid-column: span 2; }
+  .custom { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .custom[hidden] { display: none; }
+  .custom label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-secondary); }
+  .custom select { height: 44px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0 8px; }
+
+  /* 답 카드 */
+  .answer { background: var(--answer-bg); border-color: var(--answer-line); padding: 20px; gap: 8px; }
+  .answer .station { font-size: 18px; font-weight: 700; }
+  .answer .line { font-size: 13px; color: var(--text-secondary); margin-left: 6px; font-weight: 400; }
+  .answer .window { font-size: 13px; color: var(--text-secondary); }
+  .answer .hour { font-size: 44px; line-height: 1.05; font-weight: 700; color: var(--answer); }
+  .answer .detail { font-size: 15px; line-height: 1.5; }
+  .answer .detail b { font-variant-numeric: tabular-nums; }
+  .ratio { height: 8px; border-radius: 4px; background: #2b2a26; overflow: hidden; }
+  .ratio i { display: block; height: 100%; width: 0; background: var(--answer); }
+  .answer .basis { margin: 6px 0 0; font-size: 12px; line-height: 1.6; color: var(--text-secondary); }
+
+  /* 하루 띠: 24칸, 칸마다 글자(한·보·붐)를 함께 쓴다 */
+  .dayband { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; }
+  .dayband div { height: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+                 border-radius: 5px; background: #12151c; color: var(--text-muted); }
+  .dayband small { font-size: 10px; font-variant-numeric: tabular-nums; opacity: 0.8; }
+  .dayband b { font-size: 12px; }
+  .dayband .quiet { background: var(--band-quiet); color: var(--text-primary); }
+  .dayband .mid { background: var(--band-mid); color: var(--text-primary); }
+  .dayband .busy { background: var(--band-busy); color: var(--text-primary); }
+  .dayband .is-answer { outline: 2px solid var(--answer); outline-offset: -2px; }
+  .dayband .is-answer b { color: var(--answer); }
+
+  /* 2D 차트 */
+  .chart { position: relative; }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .chart text { fill: var(--text-muted); font-size: 10px; font-variant-numeric: tabular-nums; }
+  .chart-tip { position: absolute; top: 0; pointer-events: none; padding: 6px 8px; border-radius: 8px; background: var(--surface);
+               border: 1px solid var(--border); font-size: 12px; line-height: 1.5; white-space: nowrap; }
+  .chart-tip[hidden] { display: none; }
+  .chart-tip b { font-variant-numeric: tabular-nums; }
+
+  .chart-slot { height: 170px; border: 1px dashed var(--border); border-radius: 10px; display: grid; place-items: center;
+                font-size: 13px; color: var(--text-muted); }
+
+  /* 3D 지도 자리 */
+  .scene { position: relative; height: 70vh; border: 1px solid var(--grid); border-radius: 16px; overflow: hidden;
+           background: radial-gradient(ellipse at 50% 55%, #1a2030 0%, var(--surface) 70%); }
+  .scene-map { position: absolute; inset: 0; }
+  .scene-status { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; text-align: center;
+                  color: var(--text-muted); font-size: 14px; line-height: 1.6; pointer-events: none; }
+  .scene-status:empty { display: none; }
+  .views, .zoom, .scene-legend { z-index: 1; }
+  .views { position: absolute; left: 16px; top: 16px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .views .chip { border-radius: 8px; background: rgba(16, 19, 26, 0.8); color: var(--text-primary); }
+  .views .chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface); }
+  .zoom { position: absolute; right: 16px; top: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .icon-btn { width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--border); background: rgba(16, 19, 26, 0.85);
+              display: grid; place-items: center; cursor: pointer; font-size: 18px; }
+  .scene-legend { position: absolute; left: 16px; bottom: 16px; padding: 10px 12px; border-radius: 10px;
+                  background: rgba(16, 19, 26, 0.85); border: 1px solid var(--grid); font-size: 12px; color: var(--text-secondary);
+                  display: flex; flex-direction: column; gap: 6px; }
+  .scene-legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .scene-legend i { width: 10px; height: 10px; border-radius: 2px; }
+  .scene-legend .ramp { width: 48px; background: linear-gradient(to right, var(--ramp-low), var(--ramp-high)); }
+  .scene-legend .train { width: 10px; border-radius: 50%; background: var(--train); }
+  .scene-legend .live { flex-wrap: wrap; }
+  .scene-legend .live-text { align-items: flex-start; }
+  .scene-legend .live-text i { flex: none; margin-top: 4px; }
+  .scene-legend .live .chip { min-height: 28px; padding: 0 10px; font-size: 12px; }
+
+  /* 시간 슬라이더 */
+  .timeline { flex-direction: row; align-items: center; gap: 14px; }
+  .play { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--text-primary); color: var(--surface);
+          cursor: pointer; font-size: 14px; }
+  .track { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .track-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: var(--text-secondary); }
+  .track-head output { font-size: 18px; font-weight: 700; color: var(--answer); font-variant-numeric: tabular-nums; }
+  .track input[type=range] { width: 100%; margin: 0; accent-color: var(--answer); }
+  .ticks { display: grid; grid-template-columns: repeat(24, minmax(0, 1fr)); gap: 1px; }
+  .ticks span { font-size: 10px; text-align: center; padding: 2px 0; border-radius: 3px; color: var(--text-muted);
+                font-variant-numeric: tabular-nums; }
+  .ticks .in-window { background: var(--window-bg); color: #f2d9a6; }
+  .ticks .current { background: var(--answer); color: var(--answer-ink); font-weight: 600; }
+
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 16px;
+          border-top: 1px solid var(--grid); font-size: 12px; line-height: 1.6; color: var(--text-secondary); }
+  .foot p { margin: 0; max-width: 560px; }
+
+  @media (max-width: 600px) {
+    body { margin: 16px; }
+    .top .sub { display: block; margin: 4px 0 0; }
+    .side { max-width: none; }
+    .ticks span:nth-child(even):not(.current) { visibility: hidden; }
+    /* 홀수 시간대가 현재일 때 양옆 눈금과 겹치지 않게 숨긴다. */
+    .ticks span:has(+ .current), .ticks .current + span { visibility: hidden; }
+    .ticks .current { justify-self: center; width: max-content; padding: 2px 3px; }
+    /* 좁은 화면에서는 범례가 지도를 가리지 않게 지도 아래로 내린다. */
+    .scene { height: auto; }
+    .scene-map { position: relative; height: 60vh; }
+    .scene-legend { position: static; border: 0; border-top: 1px solid var(--grid); border-radius: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <div>
+      <h1 style="display: inline">서울 라이브 3D</h1>
+      <span class="sub">지하철 · 내 역은 몇 시에 가장 한가할까</span>
+    </div>
+    <div class="badges">
+      <span>데이터 기준 <span class="data-month">2026년 9월</span></span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="side">
+      <section class="panel">
+        <label for="q">역 찾기</label>
+        <input id="q" class="search" type="search" placeholder="역 이름 일부 (예: 가산)" autocomplete="off">
+        <ul class="results" id="results" aria-label="검색 결과"></ul>
+        <div class="chips" id="lines" role="group" aria-label="노선"></div>
+        <div class="top5-head"><span id="top5-title">지금 시간대 혼잡 TOP 5</span><output id="top5-hour" for="hour"></output></div>
+        <ol class="top5" id="top5" aria-labelledby="top5-title"></ol>
+      </section>
+
+      <section class="panel">
+        <h2>언제 움직일 수 있나요</h2>
+        <div class="presets" role="group" aria-label="시간 창">
+          <button type="button" class="preset" data-window="morning" aria-pressed="false" aria-label="출근 06–09시대"><b>출근</b><span>06–09시대</span></button>
+          <button type="button" class="preset" data-window="day" aria-pressed="true" aria-label="낮 10–15시대"><b>낮</b><span>10–15시대</span></button>
+          <button type="button" class="preset" data-window="evening" aria-pressed="false" aria-label="퇴근 16–19시대"><b>퇴근</b><span>16–19시대</span></button>
+          <button type="button" class="preset" data-window="night" aria-pressed="false" aria-label="저녁 20–23시대"><b>저녁</b><span>20–23시대</span></button>
+          <button type="button" class="preset wide" data-window="custom" aria-pressed="false" aria-label="시간 창 직접 고르기"><b>직접 고르기</b><span>시작–끝</span></button>
+        </div>
+        <div class="custom" id="custom" hidden>
+          <label>시작<select id="win-start"></select></label>
+          <label>끝<select id="win-end"></select></label>
+        </div>
+      </section>
+
+      <section class="panel answer" id="answer" aria-live="polite">
+        <div><span class="station">역을 골라 주세요</span><span class="line"></span></div>
+        <div class="window">낮 · 10–15시대 중에서</div>
+        <div class="hour">—</div>
+        <div class="detail">역을 고르면 이 시간 창에서 가장 한가한 시간대를 알려 드립니다.</div>
+        <div class="ratio" aria-hidden="true"><i></i></div>
+        <p class="basis">데이터 기준 <span class="data-month">2026년 9월</span>, 한 달 합계를 일수로 나눈 값.<br>평일과 주말이 섞여 있고 개찰구 승하차 기준입니다(갈아타는 사람 제외).<br>역이 한가한 정도이고, 열차 안 혼잡도와는 다를 수 있습니다.</p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>하루 띠 · 피크 대비</h2>
+          <small>한 &lt;30% · 보 30–60% · 붐 ≥60%</small>
+        </div>
+        <div class="dayband" id="dayband"></div>
+      </section>
+
+      <section class="panel">
+        <h2>시간대별 하루 평균 (승차+하차)</h2>
+        <div class="chart chart-slot" id="chart">역을 고르면 시간대 그래프가 나옵니다.</div>
+        <p class="muted" style="margin: 0; font-size: 11px">2D 차트와 3D 기둥은 같은 눈금을 씁니다.</p>
+      </section>
+    </aside>
+
+    <main class="main">
+      <div class="scene" id="scene">
+        <div class="scene-map" id="map"></div>
+        <div class="scene-status" id="scene-status">데이터를 불러오는 중…</div>
+        <div class="views" role="group" aria-label="시점">
+          <button type="button" class="chip" data-view="near" aria-pressed="false" aria-label="선택 역 주변 보기">선택 역 주변</button>
+          <button type="button" class="chip" data-view="center" aria-pressed="true" aria-label="도심 보기">도심</button>
+          <button type="button" class="chip" data-view="metro" aria-pressed="false" aria-label="수도권 전체 보기">수도권 전체</button>
+        </div>
+        <div class="zoom">
+          <button type="button" class="icon-btn" id="zoom-in" aria-label="확대">+</button>
+          <button type="button" class="icon-btn" id="zoom-out" aria-label="축소">−</button>
+          <button type="button" class="icon-btn" id="view-reset" aria-label="선택 역으로 시점 되돌리기">◎</button>
+        </div>
+        <div class="scene-legend">
+          <span><i style="background: var(--answer)"></i>선택한 역</span>
+          <span>적음 <i class="ramp"></i> 많음 (그 시간대 인원)</span>
+          <span id="legend-scale">기둥 높이 = 하루 평균 승차+하차</span>
+          <span class="live"><span class="live-text"><i class="train"></i><span id="trains-status">실시간 열차 불러오는 중…</span></span>
+            <button type="button" class="chip" id="trains-toggle" aria-pressed="true" aria-label="실시간 열차 숨기기">숨기기</button></span>
+        </div>
+      </div>
+
+      <div class="panel timeline">
+        <button type="button" class="play" id="play" aria-label="시간대 자동 재생">▶</button>
+        <div class="track">
+          <div class="track-head">
+            <label for="hour">시간대</label>
+            <output id="hour-label" for="hour">11시대</output>
+          </div>
+          <input type="range" id="hour" min="0" max="23" step="1" value="7">
+          <div class="ticks" id="ticks" aria-hidden="true"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="foot">
+    <p>한 달 합계를 일수로 나눈 값입니다. 평일과 주말이 섞여 있습니다.<br>
+       개찰구를 지난 승하차 기준입니다. 갈아타는 사람은 포함되지 않습니다.<br>
+       역이 한가한 정도이고, 열차 안 혼잡도와는 다를 수 있습니다.</p>
+    <p>데이터: 서울시 지하철 호선별 역별 시간대별 승하차 인원 정보(2026년 9월), 서울시 역사마스터 정보, 서울시 지하철 실시간 열차 위치정보 — 서울특별시, 공공누리 제1유형(출처 표시)</p>
+  </footer>
+</div>
+
+<!-- deck.gl 단일 번들. 전역 deck(Deck, ColumnLayer, PathLayer …)을 만든다. 배경 지도 타일은 쓰지 않는다. -->
+<script src="https://cdn.jsdelivr.net/npm/deck.gl@9.0.38/dist.min.js"></script>
+<script type="module">
+// 역 검색 → 답 카드·하루 띠·2D 차트, 그리고 3D 지도(deck.gl)와 시간 재생. 지도 기둥을 눌러도 역이 골라진다.
+// 실시간 열차 위치는 server.mjs(/api/trains)가 인증키를 붙여 받아 온다. 브라우저에는 키가 없다.
+import { HOURS, total, usageMonth, quietestInWindow, peakRatio, WINDOW_PRESETS, DEFAULT_WINDOW_ID } from "./stats.mjs";
+import { SUBWAY_CSV, STATION_MASTER_CSV, fetchCsv, toSubwayRows, mergeStations, stationLocator } from "./subway-csv.mjs";
+import { SUBWAY_LINES, DUPLICATE_STATIONS, parseStop } from "./subway-lines.mjs";
+import { lineGeometry, placeTrain } from "./train-positions.mjs";
+
+const pad = (h) => String(h).padStart(2, "0");
+const hourLabel = (h) => `${pad(h)}시대`;
+const fmt = (n) => Math.round(n).toLocaleString("ko-KR");
+
+// 시간 칸, 하루 띠, 직접 고르기 목록은 HOURS 순서로 만든다.
+const ticks = document.getElementById("ticks");
+const band = document.getElementById("dayband");
+for (const h of HOURS) {
+  const t = document.createElement("span");
+  t.textContent = pad(h);
+  ticks.append(t);
+
+  const cell = document.createElement("div");
+  cell.innerHTML = `<small>${pad(h)}</small><b>–</b>`;
+  band.append(cell);
+}
+const winStart = document.getElementById("win-start");
+const winEnd = document.getElementById("win-end");
+for (const sel of [winStart, winEnd]) HOURS.forEach((h, i) => sel.append(new Option(hourLabel(h), i)));
+// 직접 고르기의 처음 값은 기본 창(낮)과 같게 둔다.
+const defaultHours = WINDOW_PRESETS.find((p) => p.id === DEFAULT_WINDOW_ID).hours;
+winStart.value = HOURS.indexOf(defaultHours[0]);
+winEnd.value = HOURS.indexOf(defaultHours.at(-1));
+
+// ---- 상태 ----
+let entries = [];       // 역 검색 항목(환승역은 합친 행 하나). { id, name, lines, merged, byLine, station }
+let selected = null;    // { entry, line } — line이 null이면 노선 합산
+let windowId = DEFAULT_WINDOW_ID;
+let days = 30;          // 기준 달의 일수
+let yMax = 0;           // 2D 차트와 3D 기둥이 함께 쓰는 눈금
+let refreshMap = () => {};
+
+const selectedRow = () => selected && (selected.line ? selected.entry.byLine.get(selected.line) : selected.entry.merged);
+
+// 지금 고른 시간 창. hours는 HOURS 순서로 이어진 시간대다(22–01시대 = [22, 23, 0, 1]).
+function currentWindow() {
+  if (windowId !== "custom") {
+    const p = WINDOW_PRESETS.find((w) => w.id === windowId);
+    return { label: p.label, hours: p.hours };
+  }
+  let a = Number(winStart.value), b = Number(winEnd.value);
+  if (a > b) [a, b] = [b, a];
+  return { label: "직접 고르기", hours: HOURS.slice(a, b + 1) };
+}
+const windowSpan = (hours) => (hours.length > 1 ? `${pad(hours[0])}–${pad(hours.at(-1))}시대` : hourLabel(hours[0]));
+
+// 슬라이더 표시. 3D 기둥은 refreshMap으로 함께 바꾼다.
+const slider = document.getElementById("hour");
+const output = document.getElementById("hour-label");
+const showHour = () => {
+  const i = Number(slider.value);
+  output.textContent = hourLabel(HOURS[i]);
+  [...ticks.children].forEach((t, j) => t.classList.toggle("current", j === i));
+  renderTop5();
+  refreshMap();
+};
+slider.addEventListener("input", () => {
+  stop(); // 손으로 옮기면 재생을 멈춘다
+  showHour();
+});
+
+// 재생: 한 시간대씩 넘기고 03시대 다음은 04시대로 돌아간다.
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const STEP_MS = 900;
+const play = document.getElementById("play");
+let timer = null;
+function stop() {
+  clearInterval(timer);
+  timer = null;
+  play.textContent = "▶";
+  play.setAttribute("aria-label", "시간대 자동 재생");
+}
+function start() {
+  timer = setInterval(() => {
+    slider.value = (Number(slider.value) + 1) % HOURS.length;
+    showHour();
+  }, STEP_MS);
+  play.textContent = "❚❚";
+  play.setAttribute("aria-label", "시간대 자동 재생 멈춤");
+}
+play.addEventListener("click", () => (timer ? stop() : start()));
+
+// ---- 시간 창 ----
+document.querySelectorAll(".preset").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    windowId = btn.dataset.window;
+    document.querySelectorAll(".preset").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+    document.getElementById("custom").hidden = windowId !== "custom";
+    render();
+  });
+});
+for (const sel of [winStart, winEnd]) sel.addEventListener("change", render);
+
+// ---- 역 찾기 ----
+const q = document.getElementById("q");
+const results = document.getElementById("results");
+const linesEl = document.getElementById("lines");
+
+// 공백을 무시하고, 괄호 부역명은 뺀 이름을 먼저 본다("잠실" → 잠실(송파구청)).
+const norm = (s) => s.replace(/\s/g, "").toLowerCase();
+const baseName = (s) => s.replace(/\(.*?\)/g, "");
+const MAX_RESULTS = 8;
+function search(text) {
+  const k = norm(text);
+  if (!k) return [];
+  const score = (e) => {
+    const b = norm(baseName(e.name));
+    if (b === k) return 0;
+    if (b.startsWith(k)) return 1;
+    if (b.includes(k)) return 2;
+    return norm(e.name).includes(k) ? 3 : -1; // 부역명으로도 찾는다(예: DDP)
+  };
+  return entries
+    .map((e) => [score(e), e])
+    .filter(([s]) => s >= 0)
+    .sort((a, b) => a[0] - b[0] || a[1].name.localeCompare(b[1].name, "ko"))
+    .slice(0, MAX_RESULTS)
+    .map(([, e]) => e);
+}
+
+function showResults() {
+  results.replaceChildren();
+  if (!norm(q.value) || !entries.length) return;
+  const found = search(q.value);
+  if (!found.length) {
+    results.innerHTML = `<li class="empty">찾는 역이 없습니다.</li>`;
+    return;
+  }
+  for (const e of found) {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", `${e.name} ${e.lines.join("·")} 고르기`);
+    b.innerHTML = `<span></span><small></small>`;
+    b.firstChild.textContent = e.name;
+    b.lastChild.textContent = e.lines.join("·");
+    b.addEventListener("click", () => selectEntry(e));
+    li.append(b);
+    results.append(li);
+  }
+}
+q.addEventListener("input", showResults);
+q.addEventListener("keydown", (ev) => {
+  if (ev.key === "Enter") {
+    const first = search(q.value)[0];
+    if (first) selectEntry(first);
+  } else if (ev.key === "Escape") {
+    results.replaceChildren();
+  }
+});
+
+// ---- 지금 시간대 혼잡 TOP 5 ----
+// 슬라이더 시간대에 하루 평균 승차+하차가 가장 많은 역 5곳. 누르면 그 역을 고른다.
+// 재생 중에도 포커스가 사라지지 않게 버튼 5개는 한 번만 만들고 글자만 바꾼다.
+const TOP_N = 5;
+const top5El = document.getElementById("top5");
+const top5Hour = document.getElementById("top5-hour");
+const top5Buttons = Array.from({ length: TOP_N }, () => {
+  const li = document.createElement("li");
+  const b = document.createElement("button");
+  b.type = "button";
+  li.hidden = true;
+  b.innerHTML = `<span class="rank"></span><span class="name"><span></span><small></small></span><span class="count"></span>`;
+  b.addEventListener("click", () => b.entry && selectEntry(b.entry));
+  li.append(b);
+  top5El.append(li);
+  return b;
+});
+const top5Empty = document.createElement("li");
+top5Empty.className = "empty";
+top5Empty.textContent = "이 시간대는 열차가 거의 다니지 않아 승하차가 하루 1명도 안 됩니다.";
+top5Empty.hidden = true;
+top5El.append(top5Empty);
+function renderTop5() {
+  const i = Number(slider.value);
+  top5Hour.textContent = hourLabel(HOURS[i]);
+  // 02·03시대처럼 한 달에 몇 명뿐인 시간대는 "0명"으로 보이므로 하루 평균 0.5명(반올림 1명) 미만은 뺀다.
+  const top = entries.filter((e) => e.daily[i] >= 0.5).sort((a, b) => b.daily[i] - a.daily[i]).slice(0, TOP_N);
+  top5Empty.hidden = top.length > 0 || !entries.length;
+  top5Buttons.forEach((b, k) => {
+    const e = top[k];
+    b.parentElement.hidden = !e;
+    b.entry = e ?? null;
+    if (!e) return;
+    const [rank, name, count] = b.children;
+    rank.textContent = k + 1;
+    name.firstChild.textContent = e.name;
+    name.lastChild.textContent = e.lines.join("·");
+    count.textContent = `${fmt(e.daily[i])}명`;
+    b.setAttribute("aria-label", `${k + 1}위 ${e.name} ${e.lines.join("·")}, ${hourLabel(HOURS[i])} 하루 평균 ${fmt(e.daily[i])}명, 고르기`);
+    b.setAttribute("aria-current", String(e === selected?.entry));
+  });
+}
+
+function selectEntry(entry) {
+  selected = { entry, line: null };
+  q.value = entry.name;
+  results.replaceChildren();
+  // 고른 역이 화면 밖에 있을 수 있으므로 "선택 역 주변" 시점으로 옮긴다.
+  if (entry.station) {
+    VIEWS.near = { ...VIEWS.near, longitude: entry.station.position[0], latitude: entry.station.position[1] };
+    selectView("near");
+  }
+  renderLines();
+  render();
+}
+
+// 환승역이면 노선 합산과 노선별 칩을 보여 준다.
+function renderLines() {
+  linesEl.replaceChildren();
+  if (!selected || selected.entry.lines.length < 2) return;
+  for (const line of [null, ...selected.entry.lines]) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip";
+    b.textContent = line ?? "노선 합산";
+    b.setAttribute("aria-label", line ? `${line}만 보기` : "노선 합산");
+    b.setAttribute("aria-pressed", String(selected.line === line));
+    b.addEventListener("click", () => {
+      selected.line = line;
+      renderLines();
+      render();
+    });
+    linesEl.append(b);
+  }
+}
+
+// ---- 답 카드 ----
+const answer = document.getElementById("answer");
+const el = (sel) => answer.querySelector(sel);
+
+// 반올림하면 0%가 되는 작은 비율은 "1% 미만"으로 쓴다.
+const pct = (r) => (r > 0 && r < 0.005 ? "1% 미만" : `${Math.round(r * 100)}%`);
+
+function renderAnswer(row, win, quiet) {
+  el(".window").textContent = `${win.label} · ${windowSpan(win.hours)} 중에서`;
+  if (!row) return;
+  el(".station").textContent = selected.entry.name;
+  el(".line").textContent = selected.line ?? (selected.entry.lines.length > 1 ? `${row.SBWY_ROUT_LN_NM} 합산` : row.SBWY_ROUT_LN_NM);
+  const ratioBar = el(".ratio i");
+  if (!quiet.length) {
+    el(".hour").textContent = "기록 없음";
+    el(".detail").textContent = "이 시간대에는 승하차 기록이 없습니다.";
+    ratioBar.style.width = "0";
+    return;
+  }
+  const peak = Math.max(...HOURS.map((h) => total(row, h)));
+  const peakHours = HOURS.filter((h) => total(row, h) === peak);
+  const ratio = peakRatio(row, quiet[0]);
+  el(".hour").textContent = quiet.map(hourLabel).join(", ");
+  el(".detail").innerHTML = `하루 평균 <b>${fmt(total(row, quiet[0]) / days)}</b>명 · 가장 붐비는 ${peakHours.map(hourLabel).join(", ")}(<b>${fmt(peak / days)}</b>명)의 <b>${pct(ratio)}</b>`;
+  ratioBar.style.width = `${ratio * 100}%`;
+}
+
+// ---- 하루 띠: 피크 대비 한(<30%)·보(30–60%)·붐(≥60%). 0명인 시간대는 운행하지 않는 때라 "–" ----
+function renderBand(row, quiet) {
+  const peak = row ? Math.max(...HOURS.map((h) => total(row, h))) : 0;
+  HOURS.forEach((h, i) => {
+    const cell = band.children[i];
+    const v = row ? total(row, h) : 0;
+    const r = peak ? v / peak : 0;
+    const [cls, word] = !v ? ["", "–"] : r < 0.3 ? ["quiet", "한"] : r < 0.6 ? ["mid", "보"] : ["busy", "붐"];
+    cell.className = cls;
+    cell.classList.toggle("is-answer", quiet.includes(h));
+    cell.querySelector("b").textContent = word;
+    cell.title = row ? `${hourLabel(h)} 하루 평균 ${fmt(v / days)}명 · 피크의 ${pct(r)}` : "";
+  });
+}
+
+// ---- 2D 차트: 시간대별 하루 평균 막대. 시간 창은 띠로, 답 시간대는 --answer로 칠한다. ----
+const chart = document.getElementById("chart");
+const CW = 360, CH = 170, CM = { top: 8, right: 4, bottom: 20, left: 34 };
+const compact = (n) => (n >= 1000 ? `${(n / 1000).toLocaleString("ko-KR")}K` : `${n}`);
+
+function renderChart(row, win, quiet) {
+  if (!row) return;
+  chart.classList.remove("chart-slot");
+  const iw = CW - CM.left - CM.right, ih = CH - CM.top - CM.bottom;
+  const slot = iw / HOURS.length;
+  const base = CM.top + ih;
+  const y = (v) => base - (v / yMax) * ih;
+  const daily = HOURS.map((h) => total(row, h) / days);
+
+  // 위쪽 모서리만 둥근 막대. 막대 사이는 2px 띄운다.
+  const bar = (x, w, h) => {
+    const r = Math.min(2, w / 2, h);
+    return `M${x},${base}V${base - h + r}Q${x},${base - h} ${x + r},${base - h}H${x + w - r}Q${x + w},${base - h} ${x + w},${base - h + r}V${base}Z`;
+  };
+  const first = HOURS.indexOf(win.hours[0]);
+  let svg = `<rect x="${CM.left + first * slot}" y="${CM.top}" width="${win.hours.length * slot}" height="${ih}" fill="var(--window-bg)"/>`;
+  for (const v of [0, yMax / 2, yMax]) {
+    svg += `<line x1="${CM.left}" x2="${CW - CM.right}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/>
+            <text x="${CM.left - 6}" y="${y(v) + 3}" text-anchor="end">${compact(v)}</text>`;
+  }
+  HOURS.forEach((h, i) => {
+    const x = CM.left + i * slot;
+    const hgt = (daily[i] / yMax) * ih;
+    if (hgt > 0) svg += `<path d="${bar(x + 1, slot - 2, hgt)}" fill="${quiet.includes(h) ? "var(--answer)" : "var(--bar)"}"/>`;
+    if (i % 4 === 0) svg += `<text x="${x + slot / 2}" y="${CH - 6}" text-anchor="middle">${pad(h)}시</text>`;
+    svg += `<rect class="hit" data-i="${i}" x="${x}" y="${CM.top}" width="${slot}" height="${ih}" fill="transparent"/>`;
+  });
+  chart.innerHTML = `<svg viewBox="0 0 ${CW} ${CH}" role="img"></svg><div class="chart-tip" hidden></div>`;
+  const svgEl = chart.querySelector("svg");
+  svgEl.setAttribute("aria-label", `${selected.entry.name} 시간대별 하루 평균 승차+하차`);
+  svgEl.innerHTML = svg;
+
+  const tip = chart.querySelector(".chart-tip");
+  svgEl.addEventListener("pointermove", (e) => {
+    const i = e.target.dataset?.i;
+    if (i === undefined) return (tip.hidden = true);
+    tip.innerHTML = `${hourLabel(HOURS[i])} · 하루 평균 <b>${fmt(daily[i])}</b>명`;
+    tip.hidden = false;
+    const box = chart.getBoundingClientRect();
+    const left = e.clientX - box.left + 12;
+    tip.style.left = `${Math.min(left, box.width - tip.offsetWidth)}px`;
+  });
+  svgEl.addEventListener("pointerleave", () => (tip.hidden = true));
+}
+
+// 고른 역·노선·시간 창이 바뀔 때마다 답 카드, 하루 띠, 차트, 시간 칸, 지도 강조를 함께 다시 그린다.
+function render() {
+  const win = currentWindow();
+  const row = selectedRow();
+  const quiet = row ? quietestInWindow(row, win.hours) : [];
+  [...ticks.children].forEach((t, j) => t.classList.toggle("in-window", win.hours.includes(HOURS[j])));
+  renderAnswer(row, win, quiet);
+  renderBand(row, quiet);
+  renderChart(row, win, quiet);
+  renderTop5();
+  refreshMap();
+}
+render();
+showHour();
+
+// ---- 3D 지도 ----
+
+// 모든 역·시간대의 최댓값을 올려 잡은 공통 눈금(index.html과 같은 방식)
+function niceMax(v) {
+  const step = 10 ** Math.floor(Math.log10(v));
+  return Math.ceil(v / step) * step;
+}
+
+const SEOUL_STATION = [126.9707, 37.5547]; // [경도, 위도]
+const VIEWS = {
+  near: { longitude: SEOUL_STATION[0], latitude: SEOUL_STATION[1], zoom: 13.2, pitch: 55, bearing: -20 },
+  center: { longitude: 126.99, latitude: 37.545, zoom: 11.3, pitch: 45, bearing: -15 },
+  metro: { longitude: 126.95, latitude: 37.5, zoom: 9.3, pitch: 40, bearing: 0 },
+};
+const MAX_ELEVATION_M = 8000; // 기둥 높이: yMax = 8km
+const COLUMN_RADIUS_M = 220;
+
+// 기둥 색: 그 시간대 인원 ÷ yMax에 따라 --ramp-low(노랑) → --ramp-high(빨강). 고른 역은 --answer.
+const cssRgb = (name) => {
+  const hex = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return [1, 3, 5].map((k) => parseInt(hex.slice(k, k + 2), 16));
+};
+const RAMP = [cssRgb("--ramp-low"), cssRgb("--ramp-high")];
+const rampColor = (t) => RAMP[0].map((c, k) => Math.round(c + (RAMP[1][k] - c) * Math.min(1, t)));
+const ANSWER_RGB = cssRgb("--answer");
+const DIM_ALPHA = 60; // 역을 골랐을 때 다른 기둥의 불투명도(0–255)
+const LINE_COLOR = [70, 78, 96];
+
+const statusEl = document.getElementById("scene-status");
+let viewName = "center";
+let viewState = { ...VIEWS.center };
+let deckgl = null;
+
+function goTo(next) {
+  viewState = { ...next, transitionDuration: reduceMotion ? 0 : 600, transitionInterpolator: new deck.FlyToInterpolator() };
+  deckgl?.setProps({ initialViewState: viewState });
+}
+function selectView(name) {
+  viewName = name;
+  document.querySelectorAll(".views .chip").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === name)));
+  goTo(VIEWS[name]);
+}
+document.querySelectorAll(".views .chip").forEach((b) => b.addEventListener("click", () => selectView(b.dataset.view)));
+document.getElementById("view-reset").addEventListener("click", () => selectView(viewName));
+for (const [id, dz] of [["zoom-in", 1], ["zoom-out", -1]]) {
+  document.getElementById(id).addEventListener("click", () => goTo({ ...viewState, zoom: viewState.zoom + dz }));
+}
+
+// ---- 실시간 열차 ----
+// 화면이 보이고 "숨기기"를 누르지 않았을 때만 TRAINS_MS마다 다시 받는다(서버도 20초 동안 같은 응답을 돌려준다).
+const TRAINS_MS = 30_000;
+const TRAIN_RGB = cssRgb("--train");
+const trainsStatus = document.getElementById("trains-status");
+const trainsToggle = document.getElementById("trains-toggle");
+let trainGeo = null; // lineGeometry(역사마스터)
+let trains = [];     // API 행 + placeTrain 결과
+let showTrains = true;
+let trainTimer = null;
+let pollGen = 0;
+const unplaced = new Set(); // 지도에 못 놓은 "노선 역" (콘솔 경고는 한 번만)
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+
+async function loadTrains() {
+  try {
+    const res = await fetch("api/trains");
+    if (!res.ok || !res.headers.get("content-type")?.includes("json")) {
+      throw new Error(res.status === 404 ? "npm start로 연 서버에서만 보입니다" : `HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    trains = data.trains.flatMap((t) => {
+      const placed = placeTrain(trainGeo, t);
+      const key = `${t.subwayNm} ${t.statnNm}`;
+      if (!placed && !unplaced.has(key)) {
+        unplaced.add(key);
+        console.warn("노선 순서에서 역을 찾지 못해 지도에서 뺀 열차", key);
+      }
+      return placed ? [{ ...t, ...placed }] : [];
+    });
+    const at = new Date(data.updatedAt).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    trainsStatus.textContent = `실시간 열차 ${fmt(trains.length)}대 · ${at} 기준${data.sample ? " (sample 키: 노선마다 5대)" : ""}`;
+    const missing = data.trains.length - trains.length;
+    if (missing) trainsStatus.textContent += ` · 역 위치를 몰라 ${fmt(missing)}대 뺌`;
+    if (data.errors.length) trainsStatus.textContent += ` · ${data.errors.map((e) => e.line).join("·")} 못 받음`;
+  } catch (err) {
+    trains = [];
+    trainsStatus.textContent = `실시간 열차를 불러오지 못했습니다: ${err.message}`;
+  }
+  refreshMap();
+}
+async function pollTrains() {
+  clearTimeout(trainTimer);
+  const gen = ++pollGen;
+  if (!showTrains || document.hidden || !trainGeo) return;
+  await loadTrains();
+  if (gen === pollGen && showTrains && !document.hidden) trainTimer = setTimeout(pollTrains, TRAINS_MS);
+}
+document.addEventListener("visibilitychange", pollTrains);
+trainsToggle.addEventListener("click", () => {
+  showTrains = !showTrains;
+  trainsToggle.textContent = showTrains ? "숨기기" : "보이기";
+  trainsToggle.setAttribute("aria-label", showTrains ? "실시간 열차 숨기기" : "실시간 열차 보이기");
+  trainsToggle.setAttribute("aria-pressed", String(showTrains));
+  pollTrains();
+  refreshMap();
+});
+
+function trainTooltip(t) {
+  const tags = [t.directAt === "1" ? "급행" : t.directAt === "7" ? "특급" : "", t.lstcarAt === "1" ? "막차" : ""].filter(Boolean);
+  return `<b>${esc(t.subwayNm)} ${esc(t.trainNo)} 열차</b>${tags.length ? ` <small>${esc(tags.join("·"))}</small>` : ""}<br>`
+    + `${esc(t.statnNm)} ${esc(t.status)} · ${esc(String(t.statnTnm).replace(/종착$/, ""))}행<br>`
+    + `<small>${esc(String(t.recptnDt).slice(11))} 수신</small>`;
+}
+
+// 노선 선: SUBWAY_LINES의 역 순서를 역사마스터 좌표로 잇는다. 공식 노선색을 확인하기 전이라 한 가지 회색으로 그린다.
+function linePaths(master) {
+  const byId = new Map(master.map((r) => [r["역사_ID"], [Number(r["경도"]), Number(r["위도"])]]));
+  const paths = [];
+  for (const [line, branches] of Object.entries(SUBWAY_LINES)) {
+    for (const branch of branches) {
+      const path = branch.stops.map((s) => { const { id } = parseStop(s); return byId.get(DUPLICATE_STATIONS[id] ?? id); }).filter(Boolean);
+      if (branch.loop) path.push(path[0]);
+      paths.push({ line, path });
+    }
+  }
+  return paths;
+}
+
+Promise.all([fetchCsv(SUBWAY_CSV), fetchCsv(STATION_MASTER_CSV)])
+  .then(([records, master]) => {
+    const rows = toSubwayRows(records);
+    const month = usageMonth(rows[0]);
+    if (month) document.querySelectorAll(".data-month").forEach((el) => (el.textContent = month.label));
+    days = month?.days ?? 30;
+
+    // 환승역은 합쳐서 역마다 기둥 하나. daily[i] = HOURS[i] 시간대 하루 평균 승차+하차
+    const coordOf = stationLocator(master);
+    const stations = [];
+    for (const merged of mergeStations(rows)) {
+      const entry = {
+        id: entries.length, name: merged.STTN, lines: merged.LINES, merged,
+        byLine: new Map(rows.filter((r) => r.STTN === merged.STTN && merged.LINES.includes(r.SBWY_ROUT_LN_NM)).map((r) => [r.SBWY_ROUT_LN_NM, r])),
+        station: null, daily: HOURS.map((h) => total(merged, h) / days),
+      };
+      const at = coordOf(merged);
+      if (at) {
+        entry.station = { entry, name: merged.STTN, lines: merged.SBWY_ROUT_LN_NM, position: [at[1], at[0]], daily: entry.daily };
+        stations.push(entry.station);
+      } else {
+        console.warn("좌표가 없어 3D에서 뺀 역", merged.STTN);
+      }
+      entries.push(entry);
+    }
+    console.log(`3D에 세운 역 ${stations.length}곳`);
+
+    yMax = niceMax(Math.max(...stations.flatMap((s) => s.daily)));
+    document.getElementById("legend-scale").textContent = `기둥 높이 = 하루 평균 승차+하차 (최대 눈금 ${fmt(yMax)}명)`;
+    const paths = linePaths(master);
+    trainGeo = lineGeometry(master);
+
+    const layers = (i) => [
+      new deck.PathLayer({
+        id: "lines", data: paths, getPath: (d) => d.path, getColor: LINE_COLOR,
+        getWidth: 2, widthUnits: "pixels", widthMinPixels: 1,
+      }),
+      new deck.ColumnLayer({
+        id: "stations", data: stations, diskResolution: 16, radius: COLUMN_RADIUS_M, extruded: true, pickable: true,
+        getPosition: (d) => d.position,
+        getElevation: (d) => d.daily[i],
+        elevationScale: MAX_ELEVATION_M / yMax,
+        // 역을 고르면 그 기둥만 --answer로 또렷하게, 나머지는 흐리게 한다.
+        getFillColor: (d) => (d.entry === selected?.entry ? ANSWER_RGB : [...rampColor(d.daily[i] / yMax), selected ? DIM_ALPHA : 255]),
+        autoHighlight: true, highlightColor: [232, 230, 223, 255],
+        updateTriggers: { getElevation: i, getFillColor: [i, selected?.entry.id] },
+        // 색은 전환하지 않는다. getFillColor에 transitions를 걸면 짧은 기둥의 윗면이 비어 보인다(deck.gl 9.0.38).
+        transitions: reduceMotion ? {} : { getElevation: { duration: STEP_MS * 0.85, easing: (t) => t * (2 - t) } },
+        onClick: ({ object }) => object && selectEntry(object.entry),
+      }),
+      // 열차 점은 기둥에 가려지지 않게 깊이 검사 없이 맨 위에 그린다. 급행·특급은 조금 크게.
+      new deck.ScatterplotLayer({
+        id: "trains", data: showTrains ? trains : [], pickable: true,
+        getPosition: (d) => d.position, getFillColor: TRAIN_RGB,
+        radiusUnits: "pixels", getRadius: (d) => (d.directAt === "1" || d.directAt === "7" ? 6 : 4.5),
+        stroked: true, getLineColor: [16, 19, 26], lineWidthUnits: "pixels", getLineWidth: 1.5,
+        parameters: { depthCompare: "always" },
+      }),
+    ];
+
+    statusEl.textContent = "";
+    deckgl = new deck.Deck({
+      parent: document.getElementById("map"),
+      initialViewState: viewState,
+      controller: true,
+      onViewStateChange: ({ viewState: vs }) => { viewState = vs; },
+      layers: layers(Number(slider.value)),
+      getCursor: ({ isHovering, isDragging }) => (isDragging ? "grabbing" : isHovering ? "pointer" : "grab"),
+      getTooltip: ({ object, layer }) => object && {
+        html: layer.id === "trains" ? trainTooltip(object) : `<b>${object.name}</b> <small>${object.lines}</small><br>${hourLabel(HOURS[Number(slider.value)])} 하루 평균 <b>${fmt(object.daily[Number(slider.value)])}명</b><br><small>눌러서 이 역 고르기</small>`,
+        style: { background: "#171b23", color: "#e8e6df", border: "1px solid #343a48", borderRadius: "8px", fontSize: "13px", padding: "8px 10px" },
+      },
+    });
+    refreshMap = () => deckgl.setProps({ layers: layers(Number(slider.value)) });
+    renderTop5();
+    showResults(); // 불러오는 동안 입력한 검색어가 있으면 결과를 보여 준다
+    pollTrains();
+  })
+  .catch((err) => {
+    console.error(err);
+    statusEl.textContent = `데이터를 불러오지 못했습니다: ${err.message}`;
+  });
+</script>
+</body>
+</html>

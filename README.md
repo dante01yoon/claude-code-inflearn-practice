@@ -72,3 +72,22 @@
 | [sec03-setting/28-github-template](sec03-setting/28-github-template/) | 세팅만 골라 템플릿 폴더 → `gh repo create --public` → `gh repo edit --template` | GitHub 템플릿 |
 | [sec03-setting/28-1-with-vs-without](sec03-setting/28-1-with-vs-without/) | 📏 같은 한 줄 부탁을 세팅 있음/없음 3회씩 — 결과물 위치·화면 확인의 일관성 비교 | 세팅 있을 때 vs 없을 때 |
 | [sec03-setting/29-mission-3](sec03-setting/29-mission-3/) | 미션 3: screen-checker 서브에이전트 + data deny 규칙(`Edit(/data/**)`) → `/web-page`로 확인 → 템플릿 push + 정답·채점표 | 미션 3 |
+
+## 섹션 4. [프로젝트 2] 「서울 라이브 3D」 ① 지하철 24시 — 몇 시에 타면 덜 붐빌까
+
+앱 저장소: **[dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d)** (섹션 4 작업 = [PR #2](https://github.com/dante01yoon/seoul-live-3d/pull/2)). 수업 폴더의 `solution/`에는 그 수업에서 바뀌거나 새로 생긴 파일만 들어 있습니다. 데이터: 서울 열린데이터광장(공공누리 제1유형), 공개 `sample` 키.
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec04-subway-3d/30-public-data](sec04-subway-3d/30-public-data/) | 파일 vs 오픈 API, sample 키 5행 한계, 승하차(OA-12252)·역사마스터(OA-21232) CSV 받기, 역 위치 점 지도, 인증키 보관 4단계 | 공공데이터 고르기 |
+| [sec04-subway-3d/31-prd-roadmap](sec04-subway-3d/31-prd-roadmap/) | PRD·ROADMAP 함께 쓰기 — 클로드가 데이터로 질문을 고침(하루 최솟값 → 시간 창), 짧은 프롬프트 → 자세한 프롬프트(docs/PRD.md) | PRD와 ROADMAP |
+| [sec04-subway-3d/32-design](sec04-subway-3d/32-design/) | 🆕 `/design` 시안 캔버스(보드 4장) → `subway.html` 화면 틀 | /design 시안 먼저 |
+| [sec04-subway-3d/33-tasks](sec04-subway-3d/33-tasks/) | 작업 쪼개기, `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`과 `Ctrl+T` 체크리스트, 조각마다 커밋 | 작업 쪼개기와 진행 관리 |
+| [sec04-subway-3d/34-cleaning](sec04-subway-3d/34-cleaning/) | 역 이름 매핑 11곳(이름 바뀐 역 3곳), 같은 이름 다른 역(양평), 노선 순서·꺾임 검사, 점검 지도 | 데이터 수집·정제 |
+| [sec04-subway-3d/35-timelapse](sec04-subway-3d/35-timelapse/) | deck.gl ColumnLayer 529역 24시간 타임랩스, 짧은 → 자세한 프롬프트(굵기·색·시점·직접 찍어 확인) | MVP 3D 타임랩스 |
+| [sec04-subway-3d/36-quiet-hour](sec04-subway-3d/36-quiet-hour/) | 역 검색, 답 카드(시간 창 안 가장 한가한 때 + 피크 대비 %), 하루 띠, 시간대 그래프 | 내 역 그래프와 추천 |
+| [sec04-subway-3d/37-realtime](sec04-subway-3d/37-realtime/) | 실시간 열차 위치 — `server.mjs` 프록시(키는 서버에만, 20초 캐시), 자체 공격 테스트 | 실시간 열차 · 서버 경유 |
+| [sec04-subway-3d/38-playwright](sec04-subway-3d/38-playwright/) | Playwright MCP(프로젝트 범위)로 넓은 화면·375px 스크린샷과 동작 확인 → 고치고 다시 확인 | 화면 검증 |
+| [sec04-subway-3d/39-deploy](sec04-subway-3d/39-deploy/) | Vercel 미리보기 배포(`api/trains.js`, `vercel.json`, `.vercelignore`), 환경 변수, 🆕 Artifacts 소개 페이지 | 배포와 비밀 관리 |
+| [sec04-subway-3d/40-measure-verify](sec04-subway-3d/40-measure-verify/) | 📏 검증 시킬 때 vs 안 시킬 때 3회씩 × 2실험(`measure/`) — 버그 0 vs 0, 화면 기능에서 시간 1.9배·비용 1.8배 | 검증 시킬 때 vs 안 시킬 때 |
+| [sec04-subway-3d/41-mission-4](sec04-subway-3d/41-mission-4/) | 미션 4: 지금 시간대 혼잡 TOP 5 + Playwright 확인 + push·PR, 정답·채점표 | 미션 4 |

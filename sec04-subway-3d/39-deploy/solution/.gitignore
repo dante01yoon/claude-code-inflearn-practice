@@ -1,0 +1,5 @@
+.env
+.playwright-mcp/
+.vercel
+.env*
+!.env.example

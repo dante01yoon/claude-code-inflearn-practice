@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>역 위치 지도</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  :root {
+    --surface: #10131a;
+    --text-primary: #e8e6df;
+    --text-secondary: #b4b2aa;
+    --text-muted: #8a8880;
+    --grid: #262a33;
+    --station: #3987e5;
+  }
+  body { font-family: system-ui, sans-serif; background: var(--surface); color: var(--text-primary); margin: 40px; }
+  h1 { font-size: 28px; }
+  .note { color: var(--text-muted); font-size: 13px; }
+  #map { height: 640px; margin-top: 16px; border: 1px solid var(--grid); border-radius: 8px; }
+  .leaflet-popup-content { font-size: 13px; line-height: 1.5; }
+  @media (max-width: 600px) { body { margin: 16px; } #map { height: 420px; } }
+</style>
+</head>
+<body>
+<h1>역 위치 지도</h1>
+<p class="note" id="status">역사마스터 CSV를 불러오는 중입니다.</p>
+<div id="map"></div>
+<p class="note">데이터: 서울시 역사마스터 정보 — 서울특별시, 공공누리 제1유형</p>
+
+<script type="module">
+import * as L from "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/+esm";
+
+const CSV_PATH = "data/raw/서울시 역사마스터 정보.csv";
+const fmt = (n) => n.toLocaleString("ko-KR");
+
+// 열린데이터광장 CSV는 CP949라서 바이트로 받아 직접 디코딩한다.
+// 모든 필드가 큰따옴표로 감싸져 있고 필드 안에 쉼표가 없다.
+async function loadStations() {
+  const res = await fetch(encodeURI(CSV_PATH));
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+  const text = new TextDecoder("euc-kr").decode(await res.arrayBuffer());
+  const [header, ...lines] = text.trim().split(/\r?\n/);
+  const keys = header.slice(1, -1).split('","');
+  return lines.map((line) => Object.fromEntries(line.slice(1, -1).split('","').map((v, i) => [keys[i], v])));
+}
+
+const map = L.map("map");
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  maxZoom: 19,
+}).addTo(map);
+map.setView([37.5665, 126.978], 11);
+
+try {
+  const stations = await loadStations();
+  const color = getComputedStyle(document.documentElement).getPropertyValue("--station").trim();
+  const points = stations.map((s) => {
+    const latlng = [Number(s.위도), Number(s.경도)];
+    L.circleMarker(latlng, { radius: 4, color, weight: 1, fillColor: color, fillOpacity: 0.8 })
+      .bindPopup(`<b>${s.역사명}</b><br>${s.호선}<br>역사 ID ${s.역사_ID}<br>${s.위도}, ${s.경도}`)
+      .addTo(map);
+    return latlng;
+  });
+  map.fitBounds(points, { padding: [20, 20] });
+  const names = new Set(stations.map((s) => s.역사명));
+  document.getElementById("status").textContent =
+    `역 ${fmt(names.size)}곳, 노선별 ${fmt(stations.length)}개 지점입니다. 환승역은 노선마다 점이 따로 찍힙니다. 점을 누르면 정보가 보입니다.`;
+} catch (err) {
+  document.getElementById("status").textContent = `CSV를 불러오지 못했습니다: ${err.message}`;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>역 위치 점검 지도</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  :root {
+    --surface: #10131a;
+    --text-primary: #e8e6df;
+    --text-secondary: #b4b2aa;
+    --text-muted: #8a8880;
+    --grid: #262a33;
+    --station: #3987e5;  /* 역사명이 그대로 맞은 역 */
+    --aliased: #e0a526;  /* 매핑표(STATION_NAME_ALIASES)로 맞춘 역 */
+    --missing: #e5484d;  /* 좌표를 못 찾은 역 */
+  }
+  body { font-family: system-ui, sans-serif; background: var(--surface); color: var(--text-primary); margin: 40px; }
+  h1 { font-size: 28px; }
+  .note { color: var(--text-muted); font-size: 13px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--text-secondary); font-size: 14px; margin-top: 12px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  #map { height: 640px; margin-top: 16px; border: 1px solid var(--grid); border-radius: 8px; }
+  .leaflet-popup-content { font-size: 13px; line-height: 1.5; }
+  #missing { margin-top: 16px; border: 1px solid var(--missing); border-radius: 8px; padding: 12px 16px; }
+  #missing h2 { color: var(--missing); font-size: 16px; margin: 0 0 8px; }
+  #missing ul { margin: 0; padding-left: 20px; columns: 3 12em; }
+  @media (max-width: 600px) { body { margin: 16px; } #map { height: 420px; } }
+</style>
+</head>
+<body>
+<h1>역 위치 점검 지도</h1>
+<p class="note" id="status">승하차 CSV와 역사마스터 CSV를 불러오는 중입니다.</p>
+<div class="legend">
+  <span><i class="dot" style="background: var(--station)"></i>역사명이 그대로 맞은 역</span>
+  <span><i class="dot" style="background: var(--aliased)"></i>매핑표로 맞춘 역</span>
+  <span><i class="dot" style="background: var(--missing)"></i>좌표를 못 찾은 역(지도에 찍을 수 없어 아래 목록에 표시)</span>
+</div>
+<div id="map"></div>
+<section id="missing" hidden>
+  <h2 id="missing-title"></h2>
+  <ul id="missing-list"></ul>
+</section>
+<p class="note">데이터: 서울시 지하철 호선별 역별 시간대별 승하차 인원 정보(2026년 9월), 서울시 역사마스터 정보 — 서울특별시, 공공누리 제1유형</p>
+
+<script type="module">
+import * as L from "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/+esm";
+import { STATION_MASTER_CSV, STATION_NAME_ALIASES, SUBWAY_CSV, fetchCsv, stationLocator, toSubwayRows } from "./subway-csv.mjs";
+
+const fmt = (n) => n.toLocaleString("ko-KR");
+const css = getComputedStyle(document.documentElement);
+const color = (name) => css.getPropertyValue(name).trim();
+
+const map = L.map("map");
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  maxZoom: 19,
+}).addTo(map);
+map.setView([37.5665, 126.978], 11);
+
+try {
+  const [records, master] = await Promise.all([fetchCsv(SUBWAY_CSV), fetchCsv(STATION_MASTER_CSV)]);
+  const rows = toSubwayRows(records);
+  const coordOf = stationLocator(master);
+
+  // 좌표가 똑같은 행은 점 하나로 묶는다(창동 경원선처럼 다른 노선 지점을 빌려 쓴 행).
+  const spots = new Map(), missing = [];
+  for (const row of rows) {
+    const c = coordOf(row);
+    if (!c) { missing.push(row); continue; }
+    const key = c.join(",");
+    if (!spots.has(key)) spots.set(key, { c, rows: [] });
+    spots.get(key).rows.push(row);
+  }
+
+  const points = [];
+  for (const { c, rows: here } of spots.values()) {
+    const aliased = here.some((r) => STATION_NAME_ALIASES[r.STTN]);
+    const fill = color(aliased ? "--aliased" : "--station");
+    const lines = here.map((r) => {
+      const alias = STATION_NAME_ALIASES[r.STTN];
+      return `<b>${r.STTN}</b> ${r.SBWY_ROUT_LN_NM}${alias ? `<br>→ 역사마스터 '${alias}'` : ""}`;
+    });
+    L.circleMarker(c, { radius: aliased ? 6 : 4, color: fill, weight: 1, fillColor: fill, fillOpacity: 0.85 })
+      .bindPopup(`${lines.join("<br>")}<br>${c[0].toFixed(6)}, ${c[1].toFixed(6)}`)
+      .addTo(map);
+    points.push(c);
+  }
+  if (points.length) map.fitBounds(points, { padding: [20, 20] });
+
+  if (missing.length) {
+    document.getElementById("missing").hidden = false;
+    document.getElementById("missing-title").textContent = `좌표를 못 찾은 역 ${fmt(missing.length)}곳`;
+    document.getElementById("missing-list").innerHTML =
+      missing.map((r) => `<li>${r.STTN} <span class="note">${r.SBWY_ROUT_LN_NM}</span></li>`).join("");
+    console.warn(`좌표를 못 찾은 역 ${missing.length}곳:`, missing.map((r) => `${r.STTN}(${r.SBWY_ROUT_LN_NM})`).join(", "));
+  }
+
+  const names = new Set(rows.map((r) => r.STTN));
+  const aliasedCount = rows.filter((r) => STATION_NAME_ALIASES[r.STTN]).length;
+  document.getElementById("status").textContent =
+    `2026년 9월 승하차 ${fmt(rows.length)}행(역명 ${fmt(names.size)}개) 중 ${fmt(rows.length - missing.length)}행을 ${fmt(points.length)}개 지점에 찍었습니다. ` +
+    `매핑표로 맞춘 행 ${fmt(aliasedCount)}개, 좌표를 못 찾은 행 ${fmt(missing.length)}개. 환승역은 노선마다 점이 따로 찍히고, 같은 좌표에 찍힌 행만 점 하나로 묶었습니다. 점을 누르면 노선과 좌표가 보입니다.`;
+} catch (err) {
+  document.getElementById("status").textContent = `CSV를 불러오지 못했습니다: ${err.message}`;
+}
+</script>
+</body>
+</html>

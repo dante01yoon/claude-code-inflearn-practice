@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>서울 라이브 3D · 지하철</title>
+<style>
+  :root {
+    --surface: #10131a;
+    --panel: #171b23;
+    --text-primary: #e8e6df;
+    --text-secondary: #b4b2aa;
+    --text-muted: #8a8880;
+    --grid: #262a33;
+    --border: #343a48;
+    --answer: #f2b552;       /* 답 시간대·선택 역 강조 */
+    --answer-ink: #1a1406;   /* --answer 위 글자 */
+    --answer-bg: #1d1b16;    /* 답 카드 바탕 */
+    --answer-line: #5a4523;  /* 답 카드 테두리 */
+    --window-bg: #2b2618;    /* 시간 창 띠 */
+    --ramp-low: #ffd43b;     /* 기둥: 인원 적음 */
+    --ramp-high: #e03131;    /* 기둥: 인원 많음 */
+  }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: var(--surface); color: var(--text-primary); margin: 24px; }
+  button, input, select { font: inherit; color: inherit; }
+  .muted { color: var(--text-muted); }
+
+  .page { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px;
+         padding-bottom: 16px; border-bottom: 1px solid var(--grid); }
+  .top h1 { margin: 0; font-size: 22px; }
+  .top .sub { color: var(--text-secondary); font-size: 15px; margin-left: 12px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; color: var(--text-secondary); }
+  .badges > span { padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; }
+
+  /* 왼쪽 패널 + 오른쪽 지도. 좁으면 패널이 위로 쌓인다. */
+  .layout { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+  .side { flex: 1 1 320px; max-width: 400px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .main { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+
+  .panel { background: var(--panel); border: 1px solid var(--grid); border-radius: 14px; padding: 16px;
+           display: flex; flex-direction: column; gap: 12px; }
+  .panel h2, .panel > label { margin: 0; font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  .panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .panel-head small { font-size: 11px; color: var(--text-muted); }
+
+  /* 역 찾기 */
+  .search { width: 100%; height: 44px; padding: 0 12px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 10px; font-size: 15px; }
+  .results { list-style: none; margin: 0; padding: 4px; border: 1px solid var(--grid); border-radius: 10px; }
+  .results:empty { display: none; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border);
+          background: transparent; color: var(--text-secondary); font-size: 13px; cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--text-primary); border-color: var(--text-primary); color: var(--surface); font-weight: 600; }
+
+  /* 시간 창 */
+  .presets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .preset { min-height: 52px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px;
+            padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface);
+            text-align: left; cursor: pointer; }
+  .preset b { font-size: 14px; }
+  .preset span { font-size: 12px; font-variant-numeric: tabular-nums; opacity: 0.85; }
+  .preset[aria-pressed="true"] { background: var(--answer); border-color: var(--answer); color: var(--answer-ink); }
+  .preset.wide { grid-column: span 2; }
+  .custom { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .custom[hidden] { display: none; }
+  .custom label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-secondary); }
+  .custom select { height: 44px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0 8px; }
+
+  /* 답 카드 */
+  .answer { background: var(--answer-bg); border-color: var(--answer-line); padding: 20px; gap: 8px; }
+  .answer .station { font-size: 18px; font-weight: 700; }
+  .answer .line { font-size: 13px; color: var(--text-secondary); margin-left: 6px; font-weight: 400; }
+  .answer .window { font-size: 13px; color: var(--text-secondary); }
+  .answer .hour { font-size: 44px; line-height: 1.05; font-weight: 700; color: var(--answer); }
+  .answer .detail { font-size: 15px; line-height: 1.5; }
+  .answer .detail b { font-variant-numeric: tabular-nums; }
+  .ratio { height: 8px; border-radius: 4px; background: #2b2a26; overflow: hidden; }
+  .ratio i { display: block; height: 100%; width: 0; background: var(--answer); }
+  .answer .basis { margin: 6px 0 0; font-size: 12px; line-height: 1.6; color: var(--text-secondary); }
+
+  /* 하루 띠: 24칸, 칸마다 글자(한·보·붐)를 함께 쓴다 */
+  .dayband { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; }
+  .dayband div { height: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+                 border-radius: 5px; background: #12151c; color: var(--text-muted); }
+  .dayband small { font-size: 10px; font-variant-numeric: tabular-nums; opacity: 0.8; }
+  .dayband b { font-size: 12px; }
+
+  .chart-slot { height: 170px; border: 1px dashed var(--border); border-radius: 10px; display: grid; place-items: center;
+                font-size: 13px; color: var(--text-muted); }
+
+  /* 3D 지도 자리 */
+  .scene { position: relative; height: 70vh; border: 1px solid var(--grid); border-radius: 16px; overflow: hidden;
+           background: radial-gradient(ellipse at 50% 55%, #1a2030 0%, var(--surface) 70%); }
+  .scene-map { position: absolute; inset: 0; }
+  .scene-status { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; text-align: center;
+                  color: var(--text-muted); font-size: 14px; line-height: 1.6; pointer-events: none; }
+  .scene-status:empty { display: none; }
+  .views, .zoom, .scene-legend { z-index: 1; }
+  .views { position: absolute; left: 16px; top: 16px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .views .chip { border-radius: 8px; background: rgba(16, 19, 26, 0.8); color: var(--text-primary); }
+  .views .chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface); }
+  .zoom { position: absolute; right: 16px; top: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .icon-btn { width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--border); background: rgba(16, 19, 26, 0.85);
+              display: grid; place-items: center; cursor: pointer; font-size: 18px; }
+  .scene-legend { position: absolute; left: 16px; bottom: 16px; padding: 10px 12px; border-radius: 10px;
+                  background: rgba(16, 19, 26, 0.85); border: 1px solid var(--grid); font-size: 12px; color: var(--text-secondary);
+                  display: flex; flex-direction: column; gap: 6px; }
+  .scene-legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .scene-legend i { width: 10px; height: 10px; border-radius: 2px; }
+  .scene-legend .ramp { width: 48px; background: linear-gradient(to right, var(--ramp-low), var(--ramp-high)); }
+
+  /* 시간 슬라이더 */
+  .timeline { flex-direction: row; align-items: center; gap: 14px; }
+  .play { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--text-primary); color: var(--surface);
+          cursor: pointer; font-size: 14px; }
+  .track { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .track-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: var(--text-secondary); }
+  .track-head output { font-size: 18px; font-weight: 700; color: var(--answer); font-variant-numeric: tabular-nums; }
+  .track input[type=range] { width: 100%; margin: 0; accent-color: var(--answer); }
+  .ticks { display: grid; grid-template-columns: repeat(24, minmax(0, 1fr)); gap: 1px; }
+  .ticks span { font-size: 10px; text-align: center; padding: 2px 0; border-radius: 3px; color: var(--text-muted);
+                font-variant-numeric: tabular-nums; }
+  .ticks .in-window { background: var(--window-bg); color: #f2d9a6; }
+  .ticks .current { background: var(--answer); color: var(--answer-ink); font-weight: 600; }
+
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 16px;
+          border-top: 1px solid var(--grid); font-size: 12px; line-height: 1.6; color: var(--text-secondary); }
+  .foot p { margin: 0; max-width: 560px; }
+
+  @media (max-width: 600px) {
+    body { margin: 16px; }
+    .top .sub { display: block; margin: 4px 0 0; }
+    .side { max-width: none; }
+    .ticks span:nth-child(even):not(.current) { visibility: hidden; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <div>
+      <h1 style="display: inline">서울 라이브 3D</h1>
+      <span class="sub">지하철 · 내 역은 몇 시에 가장 한가할까</span>
+    </div>
+    <div class="badges">
+      <span>데이터 기준 <span class="data-month">2026년 9월</span></span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="side">
+      <section class="panel">
+        <label for="q">역 찾기</label>
+        <input id="q" class="search" type="search" placeholder="역 이름 일부 (예: 가산)" autocomplete="off">
+        <ul class="results" id="results" role="listbox" aria-label="검색 결과"></ul>
+        <div class="chips" id="lines" role="group" aria-label="노선">
+          <button type="button" class="chip" aria-pressed="true" aria-label="노선 합산">노선 합산</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>언제 움직일 수 있나요</h2>
+        <div class="presets" role="group" aria-label="시간 창">
+          <button type="button" class="preset" data-window="am" aria-pressed="false" aria-label="출근 06–09시대"><b>출근</b><span>06–09시대</span></button>
+          <button type="button" class="preset" data-window="day" aria-pressed="true" aria-label="낮 10–15시대"><b>낮</b><span>10–15시대</span></button>
+          <button type="button" class="preset" data-window="pm" aria-pressed="false" aria-label="퇴근 16–19시대"><b>퇴근</b><span>16–19시대</span></button>
+          <button type="button" class="preset" data-window="eve" aria-pressed="false" aria-label="저녁 20–23시대"><b>저녁</b><span>20–23시대</span></button>
+          <button type="button" class="preset wide" data-window="custom" aria-pressed="false" aria-label="시간 창 직접 고르기"><b>직접 고르기</b><span>시작–끝</span></button>
+        </div>
+        <div class="custom" id="custom" hidden>
+          <label>시작<select id="win-start"></select></label>
+          <label>끝<select id="win-end"></select></label>
+        </div>
+      </section>
+
+      <section class="panel answer" id="answer" aria-live="polite">
+        <div><span class="station">역을 골라 주세요</span><span class="line"></span></div>
+        <div class="window">낮 · 10–15시대 중에서</div>
+        <div class="hour">—</div>
+        <div class="detail">하루 평균 <b>—</b>명 · 가장 붐비는 —시대(<b>—</b>명)의 <b>—%</b></div>
+        <div class="ratio" aria-hidden="true"><i></i></div>
+        <p class="basis">데이터 기준 <span class="data-month">2026년 9월</span>, 한 달 합계를 일수로 나눈 값.<br>평일과 주말이 섞여 있고 개찰구 승하차 기준입니다.</p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>하루 띠 · 피크 대비</h2>
+          <small>한 &lt;30% · 보 30–60% · 붐 ≥60%</small>
+        </div>
+        <div class="dayband" id="dayband"></div>
+      </section>
+
+      <section class="panel">
+        <h2>시간대별 하루 평균 (승차+하차)</h2>
+        <div class="chart-slot" id="chart">2D 차트 자리</div>
+        <p class="muted" style="margin: 0; font-size: 11px">2D 차트와 3D 기둥은 같은 눈금을 씁니다.</p>
+      </section>
+    </aside>
+
+    <main class="main">
+      <div class="scene" id="scene">
+        <div class="scene-map" id="map"></div>
+        <div class="scene-status" id="scene-status">데이터를 불러오는 중…</div>
+        <div class="views" role="group" aria-label="시점">
+          <button type="button" class="chip" data-view="near" aria-pressed="false" aria-label="선택 역 주변 보기">선택 역 주변</button>
+          <button type="button" class="chip" data-view="center" aria-pressed="true" aria-label="도심 보기">도심</button>
+          <button type="button" class="chip" data-view="metro" aria-pressed="false" aria-label="수도권 전체 보기">수도권 전체</button>
+        </div>
+        <div class="zoom">
+          <button type="button" class="icon-btn" id="zoom-in" aria-label="확대">+</button>
+          <button type="button" class="icon-btn" id="zoom-out" aria-label="축소">−</button>
+          <button type="button" class="icon-btn" id="view-reset" aria-label="선택 역으로 시점 되돌리기">◎</button>
+        </div>
+        <div class="scene-legend">
+          <span><i style="background: var(--answer)"></i>선택한 역</span>
+          <span>적음 <i class="ramp"></i> 많음 (그 시간대 인원)</span>
+          <span id="legend-scale">기둥 높이 = 하루 평균 승차+하차</span>
+        </div>
+      </div>
+
+      <div class="panel timeline">
+        <button type="button" class="play" id="play" aria-label="시간대 자동 재생">▶</button>
+        <div class="track">
+          <div class="track-head">
+            <label for="hour">시간대</label>
+            <output id="hour-label" for="hour">11시대</output>
+          </div>
+          <input type="range" id="hour" min="0" max="23" step="1" value="7">
+          <div class="ticks" id="ticks" aria-hidden="true"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="foot">
+    <p>한 달 합계를 일수로 나눈 값입니다. 평일과 주말이 섞여 있습니다.<br>
+       개찰구를 지난 승하차 기준입니다. 갈아타는 사람은 포함되지 않습니다.<br>
+       역이 한가한 정도이고, 열차 안 혼잡도와는 다를 수 있습니다.</p>
+    <p>데이터: 서울시 지하철 호선별 역별 시간대별 승하차 인원 정보(2026년 9월), 서울시 역사마스터 정보 — 서울특별시, 공공누리 제1유형(출처 표시)</p>
+  </footer>
+</div>
+
+<!-- deck.gl 단일 번들. 전역 deck(Deck, ColumnLayer, PathLayer …)을 만든다. 배경 지도 타일은 쓰지 않는다. -->
+<script src="https://cdn.jsdelivr.net/npm/deck.gl@9.0.38/dist.min.js"></script>
+<script type="module">
+// 3D 지도(deck.gl)와 시간 재생만 붙어 있다. 역 검색·답 카드·2D 차트는 ROADMAP 3–4단계에서 붙인다.
+import { HOURS, total, usageMonth } from "./stats.mjs";
+import { SUBWAY_CSV, STATION_MASTER_CSV, fetchCsv, toSubwayRows, mergeStations, stationLocator } from "./subway-csv.mjs";
+import { SUBWAY_LINES, DUPLICATE_STATIONS, parseStop } from "./subway-lines.mjs";
+
+const hourLabel = (h) => `${String(h).padStart(2, "0")}시대`;
+const DAY = [10, 15]; // 기본 창(낮)
+
+// 시간 칸, 하루 띠, 직접 고르기 목록은 HOURS 순서로 만든다.
+const ticks = document.getElementById("ticks");
+const band = document.getElementById("dayband");
+for (const h of HOURS) {
+  const t = document.createElement("span");
+  t.textContent = String(h).padStart(2, "0");
+  if (h >= DAY[0] && h <= DAY[1]) t.className = "in-window";
+  ticks.append(t);
+
+  const cell = document.createElement("div");
+  cell.innerHTML = `<small>${String(h).padStart(2, "0")}</small><b>–</b>`;
+  band.append(cell);
+}
+for (const id of ["win-start", "win-end"]) {
+  const sel = document.getElementById(id);
+  HOURS.forEach((h, i) => sel.append(new Option(hourLabel(h), i)));
+}
+
+// 슬라이더 표시. 3D 기둥은 onHour로 함께 바꾼다.
+const slider = document.getElementById("hour");
+const output = document.getElementById("hour-label");
+let onHour = () => {};
+const showHour = () => {
+  const i = Number(slider.value);
+  output.textContent = hourLabel(HOURS[i]);
+  [...ticks.children].forEach((t, j) => t.classList.toggle("current", j === i));
+  onHour(i);
+};
+slider.addEventListener("input", () => {
+  stop(); // 손으로 옮기면 재생을 멈춘다
+  showHour();
+});
+showHour();
+
+// 재생: 한 시간대씩 넘기고 03시대 다음은 04시대로 돌아간다.
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const STEP_MS = 900;
+const play = document.getElementById("play");
+let timer = null;
+function stop() {
+  clearInterval(timer);
+  timer = null;
+  play.textContent = "▶";
+  play.setAttribute("aria-label", "시간대 자동 재생");
+}
+function start() {
+  timer = setInterval(() => {
+    slider.value = (Number(slider.value) + 1) % HOURS.length;
+    showHour();
+  }, STEP_MS);
+  play.textContent = "❚❚";
+  play.setAttribute("aria-label", "시간대 자동 재생 멈춤");
+}
+play.addEventListener("click", () => (timer ? stop() : start()));
+
+// 시간 창 버튼은 눌린 상태와 직접 고르기 칸만 바꾼다.
+document.querySelectorAll(".preset").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".preset").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+    document.getElementById("custom").hidden = btn.dataset.window !== "custom";
+  });
+});
+
+// ---- 3D 지도 ----
+const fmt = (n) => Math.round(n).toLocaleString("ko-KR");
+
+// 모든 역·시간대의 최댓값을 올려 잡은 공통 눈금(index.html과 같은 방식)
+function niceMax(v) {
+  const step = 10 ** Math.floor(Math.log10(v));
+  return Math.ceil(v / step) * step;
+}
+
+const SEOUL_STATION = [126.9707, 37.5547]; // [경도, 위도]
+const VIEWS = {
+  near: { longitude: SEOUL_STATION[0], latitude: SEOUL_STATION[1], zoom: 13.2, pitch: 55, bearing: -20 },
+  center: { longitude: 126.99, latitude: 37.545, zoom: 11.3, pitch: 45, bearing: -15 },
+  metro: { longitude: 126.95, latitude: 37.5, zoom: 9.3, pitch: 40, bearing: 0 },
+};
+const MAX_ELEVATION_M = 8000; // 기둥 높이: yMax = 8km
+const COLUMN_RADIUS_M = 220;
+
+// 기둥 색: 그 시간대 인원 ÷ yMax에 따라 --ramp-low(노랑) → --ramp-high(빨강)
+const cssRgb = (name) => {
+  const hex = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return [1, 3, 5].map((k) => parseInt(hex.slice(k, k + 2), 16));
+};
+const RAMP = [cssRgb("--ramp-low"), cssRgb("--ramp-high")];
+const rampColor = (t) => RAMP[0].map((c, k) => Math.round(c + (RAMP[1][k] - c) * Math.min(1, t)));
+const LINE_COLOR = [70, 78, 96];
+
+const statusEl = document.getElementById("scene-status");
+let viewName = "center";
+let viewState = { ...VIEWS.center };
+let deckgl = null;
+
+function goTo(next) {
+  viewState = { ...next, transitionDuration: reduceMotion ? 0 : 600, transitionInterpolator: new deck.FlyToInterpolator() };
+  deckgl?.setProps({ initialViewState: viewState });
+}
+function selectView(name) {
+  viewName = name;
+  document.querySelectorAll(".views .chip").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === name)));
+  goTo(VIEWS[name]);
+}
+document.querySelectorAll(".views .chip").forEach((b) => b.addEventListener("click", () => selectView(b.dataset.view)));
+document.getElementById("view-reset").addEventListener("click", () => selectView(viewName));
+for (const [id, dz] of [["zoom-in", 1], ["zoom-out", -1]]) {
+  document.getElementById(id).addEventListener("click", () => goTo({ ...viewState, zoom: viewState.zoom + dz }));
+}
+
+// 노선 선: SUBWAY_LINES의 역 순서를 역사마스터 좌표로 잇는다. 공식 노선색을 확인하기 전이라 한 가지 회색으로 그린다.
+function linePaths(master) {
+  const byId = new Map(master.map((r) => [r["역사_ID"], [Number(r["경도"]), Number(r["위도"])]]));
+  const paths = [];
+  for (const [line, branches] of Object.entries(SUBWAY_LINES)) {
+    for (const branch of branches) {
+      const path = branch.stops.map((s) => { const { id } = parseStop(s); return byId.get(DUPLICATE_STATIONS[id] ?? id); }).filter(Boolean);
+      if (branch.loop) path.push(path[0]);
+      paths.push({ line, path });
+    }
+  }
+  return paths;
+}
+
+Promise.all([fetchCsv(SUBWAY_CSV), fetchCsv(STATION_MASTER_CSV)])
+  .then(([records, master]) => {
+    const rows = toSubwayRows(records);
+    const month = usageMonth(rows[0]);
+    if (month) document.querySelectorAll(".data-month").forEach((el) => (el.textContent = month.label));
+    const days = month?.days ?? 30;
+
+    // 환승역은 합쳐서 역마다 기둥 하나. daily[i] = HOURS[i] 시간대 하루 평균 승차+하차
+    const coordOf = stationLocator(master);
+    const stations = [];
+    for (const row of mergeStations(rows)) {
+      const at = coordOf(row);
+      if (!at) { console.warn("좌표가 없어 3D에서 뺀 역", row.STTN); continue; }
+      stations.push({ name: row.STTN, lines: row.SBWY_ROUT_LN_NM, position: [at[1], at[0]], daily: HOURS.map((h) => total(row, h) / days) });
+    }
+    console.log(`3D에 세운 역 ${stations.length}곳`);
+
+    const yMax = niceMax(Math.max(...stations.flatMap((s) => s.daily)));
+    document.getElementById("legend-scale").textContent = `기둥 높이 = 하루 평균 승차+하차 (최대 눈금 ${fmt(yMax)}명)`;
+    const paths = linePaths(master);
+
+    const layers = (i) => [
+      new deck.PathLayer({
+        id: "lines", data: paths, getPath: (d) => d.path, getColor: LINE_COLOR,
+        getWidth: 2, widthUnits: "pixels", widthMinPixels: 1,
+      }),
+      new deck.ColumnLayer({
+        id: "stations", data: stations, diskResolution: 16, radius: COLUMN_RADIUS_M, extruded: true, pickable: true,
+        getPosition: (d) => d.position,
+        getElevation: (d) => d.daily[i],
+        elevationScale: MAX_ELEVATION_M / yMax,
+        getFillColor: (d) => rampColor(d.daily[i] / yMax),
+        autoHighlight: true, highlightColor: [232, 230, 223, 255],
+        updateTriggers: { getElevation: i, getFillColor: i },
+        // 색은 전환하지 않는다. getFillColor에 transitions를 걸면 짧은 기둥의 윗면이 비어 보인다(deck.gl 9.0.38).
+        transitions: reduceMotion ? {} : { getElevation: { duration: STEP_MS * 0.85, easing: (t) => t * (2 - t) } },
+      }),
+    ];
+
+    statusEl.textContent = "";
+    deckgl = new deck.Deck({
+      parent: document.getElementById("map"),
+      initialViewState: viewState,
+      controller: true,
+      onViewStateChange: ({ viewState: vs }) => { viewState = vs; },
+      layers: layers(Number(slider.value)),
+      getTooltip: ({ object }) => object && {
+        html: `<b>${object.name}</b> <small>${object.lines}</small><br>${hourLabel(HOURS[Number(slider.value)])} 하루 평균 <b>${fmt(object.daily[Number(slider.value)])}명</b>`,
+        style: { background: "#171b23", color: "#e8e6df", border: "1px solid #343a48", borderRadius: "8px", fontSize: "13px", padding: "8px 10px" },
+      },
+    });
+    onHour = (i) => deckgl.setProps({ layers: layers(i) });
+  })
+  .catch((err) => {
+    console.error(err);
+    statusEl.textContent = `데이터를 불러오지 못했습니다: ${err.message}`;
+  });
+</script>
+</body>
+</html>
