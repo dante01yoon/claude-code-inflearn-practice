@@ -132,3 +132,16 @@
 | [sec07-plugins/59-plugin-eval](sec07-plugins/59-plugin-eval/) | 🆕 `claude plugin eval` — 채점 케이스(prompt.md + graders), 넣기/빼기 비교. 📏 WITH 1.00 vs W/OUT 0.86, 시간 93초 vs 61초, $0.31 vs $0.20 | 플러그인을 넣기 전/후로 채점 |
 | [sec07-plugins/60-setting-plugin](sec07-plugins/60-setting-plugin/) | 섹션 3 세팅 전체 → starter-setting 플러그인(CLAUDE.md·상태 줄·권한은 setup 스킬로), 팀 프로젝트 `extraKnownMarketplaces`+`enabledPlugins`로 새 팀원 자동 설치 | 내 세팅을 플러그인으로 |
 | [sec07-plugins/61-mission-7](sec07-plugins/61-mission-7/) | 미션 7: dark-mode 스킬 + 채점 케이스 + 0.2.0 → 팀원 `marketplace update` + `/reload-plugins` — 채점표·정답 풀이 | 미션 7 |
+
+## 섹션 8. 장시간 자율 작업 — 맡겨 두고 확인하기
+
+앱 저장소: **[dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d)** (섹션 8 작업 = 브랜치 `sec08-auto`, main 병합 `800c2eb`). 시작 상태는 [sec08-autonomous/start](sec08-autonomous/start/). Claude Code 2.1.296 · auto 권한 모드. agent view(백그라운드 세션)는 research preview(2026-10 기준).
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec08-autonomous/62-you-should-know](sec08-autonomous/62-you-should-know/) | 섹션 지도(야간 근무조), 빌트인 mod You should know 켜기 `/plugin enable cc-plugin-you-should-know@builtin`, 역 찾기 초성 검색, 긴 작업에서 뜬 Heads up 노트 | 옆에서 지켜보는 mod "You should know" |
+| [sec08-autonomous/63-goal](sec08-autonomous/63-goal/) | `/goal` = 완료 조건을 적은 작업 지시서, 작은 모델 판정(Stop hook), 짧은 조건 → 끝 상태·확인·지킬 것·턴 제한으로 다시, 두 역 비교 그래프 | `/goal` |
+| [sec08-autonomous/64-workflows](sec08-autonomous/64-workflows/) | dynamic workflows·`ultracode`, `/workflows` 진행 화면, 서버 파일 키 누출 점검(30개 에이전트·약 92만 토큰) | dynamic workflows와 ultracode |
+| [sec08-autonomous/65-background](sec08-autonomous/65-background/) | `claude --bg`, `claude agents`(엿보기·들어가기), `/fork`, 워크트리 격리와 합치기, 비교 주소 공유 `?compare=` | 백그라운드 세션과 agent view |
+| [sec08-autonomous/66-remote-control](sec08-autonomous/66-remote-control/) | `/remote-control 이름`, 상태 창(QR·연결 끊기), 보안(나가는 HTTPS만), 휴대폰에서 되는 명령 | Remote Control |
+| [sec08-autonomous/67-mission-8](sec08-autonomous/67-mission-8/) | 미션 8: 백그라운드 세션에 `/goal` 걸어 피크 이름표 겹침 고치기 → agent view → 합치기 — 채점표·정답 풀이 | 미션 8 |
