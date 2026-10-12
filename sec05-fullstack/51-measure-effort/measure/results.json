@@ -1,0 +1,112 @@
+[
+ {
+  "effort": "low",
+  "run": 1,
+  "seconds": 17.0,
+  "cost_usd": 0.076,
+  "output_tokens": 1981,
+  "turns": 6,
+  "hidden_tests_passed": 10,
+  "own_test_files": 0,
+  "dir": "effort-low-1-er6inj1b"
+ },
+ {
+  "effort": "medium",
+  "run": 1,
+  "seconds": 17.8,
+  "cost_usd": 0.073,
+  "output_tokens": 1998,
+  "turns": 5,
+  "hidden_tests_passed": 10,
+  "own_test_files": 0,
+  "dir": "effort-medium-1-nb5gj87b"
+ },
+ {
+  "effort": "high",
+  "run": 1,
+  "seconds": 30.1,
+  "cost_usd": 0.105,
+  "output_tokens": 4096,
+  "turns": 6,
+  "hidden_tests_passed": 10,
+  "own_test_files": 1,
+  "dir": "effort-high-1-du05ireq"
+ },
+ {
+  "effort": "xhigh",
+  "run": 1,
+  "seconds": 45.8,
+  "cost_usd": 0.135,
+  "output_tokens": 6159,
+  "turns": 7,
+  "hidden_tests_passed": 10,
+  "own_test_files": 1,
+  "dir": "effort-xhigh-1-o1_5peeb"
+ },
+ {
+  "effort": "max",
+  "run": 1,
+  "seconds": 334.5,
+  "cost_usd": 0.724,
+  "output_tokens": 45233,
+  "turns": 17,
+  "hidden_tests_passed": 10,
+  "own_test_files": 1,
+  "dir": "effort-max-1-sw1mhqf4"
+ },
+ {
+  "effort": "low",
+  "run": 2,
+  "seconds": 15.1,
+  "cost_usd": 0.072,
+  "output_tokens": 1755,
+  "turns": 6,
+  "hidden_tests_passed": 10,
+  "own_test_files": 0,
+  "dir": "effort-low-2-65n458cx"
+ },
+ {
+  "effort": "medium",
+  "run": 2,
+  "seconds": 16.9,
+  "cost_usd": 0.076,
+  "output_tokens": 2118,
+  "turns": 5,
+  "hidden_tests_passed": 10,
+  "own_test_files": 0,
+  "dir": "effort-medium-2-smosd2iw"
+ },
+ {
+  "effort": "high",
+  "run": 2,
+  "seconds": 34.1,
+  "cost_usd": 0.112,
+  "output_tokens": 4538,
+  "turns": 7,
+  "hidden_tests_passed": 10,
+  "own_test_files": 1,
+  "dir": "effort-high-2-a85a7ek2"
+ },
+ {
+  "effort": "xhigh",
+  "run": 2,
+  "seconds": 47.5,
+  "cost_usd": 0.138,
+  "output_tokens": 6360,
+  "turns": 7,
+  "hidden_tests_passed": 10,
+  "own_test_files": 1,
+  "dir": "effort-xhigh-2-g84i7d9x"
+ },
+ {
+  "effort": "max",
+  "run": 2,
+  "seconds": 382.9,
+  "cost_usd": 0.912,
+  "output_tokens": 52114,
+  "turns": 36,
+  "hidden_tests_passed": 10,
+  "own_test_files": 0,
+  "dir": "effort-max-2-ju8rf1io"
+ }
+]

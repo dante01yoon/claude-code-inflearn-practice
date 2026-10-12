@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>서울 라이브 3D · 관리자</title>
+<style>
+  :root {
+    --surface: #10131a;
+    --panel: #171b23;
+    --text-primary: #e8e6df;
+    --text-secondary: #b4b2aa;
+    --text-muted: #8a8880;
+    --grid: #262a33;
+    --border: #343a48;
+    --calls-ok: #7a8296;     /* 그래프: 성공한 API 호출 */
+    --calls-failed: #f03e3e; /* 그래프: 실패한 API 호출 */
+    --status-ok: #40c057;    /* 수집 상태: 정상 */
+    --status-warn: #fab005;  /* 지연 */
+    --status-bad: #f03e3e;   /* 멈춤 */
+    --status-none: #5b6273;  /* 기록 없음 */
+  }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: var(--surface); color: var(--text-primary); margin: 24px; }
+  button, input { font: inherit; color: inherit; }
+  .muted { color: var(--text-muted); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .page { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px;
+         padding-bottom: 16px; border-bottom: 1px solid var(--grid); }
+  .top h1 { margin: 0; font-size: 22px; }
+  .top .sub { color: var(--text-secondary); font-size: 15px; margin-left: 12px; }
+  .top-right { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary); }
+
+  .panel { background: var(--panel); border: 1px solid var(--grid); border-radius: 14px; padding: 16px;
+           display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .panel[hidden] { display: none; }
+  .panel h2 { margin: 0; font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  .panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .panel-head small { font-size: 12px; color: var(--text-muted); }
+
+  .btn { min-height: 40px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; }
+  .btn:hover { background: var(--grid); }
+  .btn:disabled { opacity: 0.5; cursor: default; }
+
+  /* 로그인 */
+  .login { max-width: 420px; }
+  .auth-form { display: flex; gap: 8px; }
+  .auth-form[hidden] { display: none; }
+  .auth-form input { flex: 1; min-width: 0; height: 44px; padding: 0 12px; background: var(--surface);
+                     border: 1px solid var(--border); border-radius: 10px; }
+  .auth-msg { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-secondary); }
+  .auth-msg:empty { display: none; }
+
+  .dash { display: flex; flex-direction: column; gap: 16px; }
+  .dash[hidden] { display: none; }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .row.wide { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+  @media (max-width: 860px) { .row.wide { grid-template-columns: minmax(0, 1fr); } }
+
+  /* 수집 상태 */
+  .status { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; }
+  .status .dot { width: 14px; height: 14px; border-radius: 50%; flex: none; background: var(--status-none); }
+  .status[data-state="ok"] .dot { background: var(--status-ok); }
+  .status[data-state="warn"] .dot { background: var(--status-warn); }
+  .status[data-state="bad"] .dot { background: var(--status-bad); }
+  .facts { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; font-size: 14px; }
+  .facts dt { color: var(--text-muted); }
+  .facts dd { margin: 0; }
+
+  /* 숫자 칸 */
+  .tile .value { font-size: 32px; line-height: 1.1; font-weight: 700; }
+  .tile .note { font-size: 13px; color: var(--text-secondary); }
+
+  /* 시간대 그래프 */
+  .legend { display: flex; gap: 14px; font-size: 12px; color: var(--text-secondary); }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+  .chart-wrap { position: relative; }
+  .chart-wrap svg { display: block; width: 100%; height: 220px; }
+  .chart-wrap .axis { fill: var(--text-muted); font-size: 11px; }
+  .chart-wrap .gridline { stroke: var(--grid); }
+  .tip { position: absolute; pointer-events: none; padding: 8px 10px; border-radius: 8px; background: var(--surface);
+         border: 1px solid var(--border); font-size: 12px; line-height: 1.6; white-space: nowrap; }
+  .tip[hidden] { display: none; }
+
+  /* 표 */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--grid); text-align: right; white-space: nowrap; }
+  th { color: var(--text-muted); font-weight: 600; }
+  th:first-child, td:first-child, td.text { text-align: left; }
+  td.text { white-space: normal; overflow-wrap: anywhere; color: var(--text-secondary); }
+  tr.has-error td { border-bottom: 0; padding-bottom: 2px; }
+  td.bad { color: var(--status-bad); font-weight: 600; }
+  .errors { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+  .errors li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 10px; }
+  .errors b { color: var(--status-bad); }
+  .errors span { overflow-wrap: anywhere; }
+  .errors small { grid-column: 2; color: var(--text-muted); }
+  .empty { margin: 0; font-size: 13px; color: var(--text-muted); }
+
+  footer { font-size: 12px; color: var(--text-muted); }
+
+  @media (max-width: 600px) {
+    body { margin: 16px; }
+    .top .sub { display: block; margin: 4px 0 0; }
+    .row { grid-template-columns: minmax(0, 1fr); }
+    /* 실행 표: 걸린 시간·건너뜀 열을 빼고, 오류 문구는 줄을 바꿔 쓴다 */
+    .runs-table .opt { display: none; }
+    th, td { padding: 8px 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <div><h1>관리자<span class="sub">수집 · API 호출 · 사용자</span></h1></div>
+    <div class="top-right">
+      <span id="updated" class="num"></span>
+      <button type="button" class="btn" id="refresh" hidden aria-label="요약 새로고침">새로고침</button>
+      <span id="who-email"></span>
+      <button type="button" class="btn" id="logout" hidden aria-label="로그아웃">로그아웃</button>
+    </div>
+  </header>
+
+  <section class="panel login" id="login">
+    <h2>관리자 로그인</h2>
+    <p class="auth-msg" id="auth-msg">로그인 설정을 확인하는 중…</p>
+    <form class="auth-form" id="email-form" hidden>
+      <input id="email" type="email" required autocomplete="email" placeholder="이메일" aria-label="이메일">
+      <button type="submit" class="btn" aria-label="로그인 코드 받기">코드 받기</button>
+    </form>
+    <form class="auth-form" id="code-form" hidden>
+      <input id="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required placeholder="6자리 코드" aria-label="메일로 받은 6자리 코드">
+      <button type="submit" class="btn" aria-label="코드로 로그인">로그인</button>
+      <button type="button" class="btn" id="code-back" aria-label="이메일 다시 입력">다시</button>
+    </form>
+  </section>
+
+  <main class="dash" id="dash" hidden>
+    <div class="row">
+      <section class="panel" aria-labelledby="status-title">
+        <h2 id="status-title">수집 상태</h2>
+        <div class="status" id="status" data-state="none"><span class="dot" aria-hidden="true"></span><span id="status-text"></span></div>
+        <dl class="facts" id="status-facts"></dl>
+      </section>
+      <section class="panel tile">
+        <h2>API 호출 · 최근 24시간</h2>
+        <div class="value num" id="calls"></div>
+        <div class="note" id="calls-note"></div>
+      </section>
+      <section class="panel tile">
+        <h2>실패 · 최근 24시간</h2>
+        <div class="value num" id="failed"></div>
+        <div class="note" id="failed-note"></div>
+      </section>
+      <section class="panel tile">
+        <h2>사용자</h2>
+        <div class="value num" id="users"></div>
+        <div class="note" id="users-note"></div>
+      </section>
+    </div>
+
+    <div class="row wide">
+      <section class="panel">
+        <div class="panel-head">
+          <h2 id="chart-title">시간대별 API 호출 · 최근 24시간(KST)</h2>
+          <div class="legend"><span><i style="background: var(--calls-ok)"></i>성공</span><span><i style="background: var(--calls-failed)"></i>실패</span></div>
+        </div>
+        <div class="chart-wrap" id="chart-wrap">
+          <svg id="chart" role="img" aria-labelledby="chart-title"></svg>
+          <div class="tip num" id="tip" hidden></div>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h2>자주 난 오류 · 최근 24시간</h2></div>
+        <ul class="errors" id="errors"></ul>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div class="panel-head"><h2>최근 수집 실행</h2><small>npm run collect 한 번 = 한 행, 최근 20번</small></div>
+      <div class="table-wrap">
+        <table class="runs-table">
+          <thead><tr><th>시작</th><th class="opt">걸린 시간</th><th>API 호출</th><th>실패</th><th>새 기록</th><th class="opt">건너뜀</th></tr></thead>
+          <tbody id="runs"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>사용자 자세히</h2></div>
+      <dl class="facts" id="user-facts"></dl>
+    </section>
+  </main>
+
+  <footer>데이터: 서울특별시 실시간 도시데이터(공공누리 제1유형). 이 화면의 숫자는 관리자에게만 보입니다.</footer>
+</div>
+
+<script type="module">
+// 관리자 화면. 로그인은 지하철 화면과 같은 Supabase Auth 이메일 OTP.
+// 숫자는 DB 함수 admin_dashboard() 한 번으로 받는다. 함수가 admin_users에 있는 사용자인지 확인하고, 아니면 42501로 거절한다.
+// 그래서 이 페이지 자체는 누구나 열 수 있어도 관리자가 아니면 숫자를 하나도 받지 못한다.
+const SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm";
+const REFRESH_MS = 60_000;
+// 수집은 5분 간격. 마지막 성공이 이보다 오래되면 지연·멈춤으로 본다.
+const LATE_MIN = 7;
+const STOPPED_MIN = 15;
+
+const $ = (id) => document.getElementById(id);
+const fmt = (n) => Number(n ?? 0).toLocaleString("ko-KR");
+const pct = (part, whole) => (whole ? `${(part / whole * 100).toLocaleString("ko-KR", { maximumFractionDigits: 1 })}%` : "–");
+const kst = (iso, opts = { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false }) =>
+  iso ? new Date(iso).toLocaleString("ko-KR", { timeZone: "Asia/Seoul", ...opts }) : "–";
+function ago(iso) {
+  if (!iso) return "";
+  const min = Math.round((Date.now() - Date.parse(iso)) / 60_000);
+  return min < 1 ? "방금" : min < 60 ? `${fmt(min)}분 전` : min < 48 * 60 ? `${fmt(Math.round(min / 60))}시간 전` : `${fmt(Math.round(min / 1440))}일 전`;
+}
+// 오류 문구 같은 데이터는 textContent로만 넣는다.
+function h(tag, props = {}, ...children) {
+  const el = document.createElement(tag);
+  Object.assign(el, props);
+  el.append(...children.filter((c) => c !== null && c !== undefined));
+  return el;
+}
+
+// ---- 로그인 ----
+let sb = null;
+let user = null;
+let timer = null;
+const say = (text) => ($("auth-msg").textContent = text);
+
+function show(step) {
+  $("login").hidden = step === "dash";
+  $("email-form").hidden = step !== "email";
+  $("code-form").hidden = step !== "code";
+  $("dash").hidden = step !== "dash";
+  $("logout").hidden = !user;
+  $("refresh").hidden = step !== "dash";
+  $("who-email").textContent = user?.email ?? "";
+  if (step !== "dash") $("updated").textContent = "";
+}
+
+async function init() {
+  try {
+    const res = await fetch("api/config");
+    const cfg = res.headers.get("content-type")?.includes("json") ? await res.json() : null;
+    if (!res.ok || !cfg) throw new Error(cfg?.error ?? (res.status === 404 ? "npm start로 연 서버에서만 됩니다" : `HTTP ${res.status}`));
+    const { createClient } = await import(SUPABASE_JS);
+    sb = createClient(cfg.supabaseUrl, cfg.supabaseKey);
+    // 콜백 안에서 바로 Supabase를 부르면 세션 잠금에 걸릴 수 있어 한 박자 늦춘다.
+    sb.auth.onAuthStateChange((_event, session) => setTimeout(() => setUser(session?.user ?? null)));
+  } catch (err) {
+    show(null);
+    say(`로그인을 쓸 수 없습니다: ${err.message}`);
+  }
+}
+
+let authReady = false;
+async function setUser(next) {
+  if (authReady && (next?.id ?? null) === (user?.id ?? null)) return;
+  authReady = true;
+  user = next;
+  clearInterval(timer);
+  if (!user) {
+    show("email");
+    say("관리자 계정으로 로그인해 주세요.");
+    return;
+  }
+  show(null);
+  say("확인하는 중…");
+  if (await load()) timer = setInterval(load, REFRESH_MS);
+}
+
+$("email-form").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const btn = ev.target.querySelector("button");
+  btn.disabled = true;
+  // 관리자 화면에서는 새 계정을 만들지 않는다.
+  const { error } = await sb.auth.signInWithOtp({ email: $("email").value.trim(), options: { shouldCreateUser: false } });
+  btn.disabled = false;
+  if (error) return say(`코드를 보내지 못했습니다: ${error.message}`);
+  show("code");
+  say(`${$("email").value.trim()}로 6자리 코드를 보냈습니다.`);
+  $("code").value = "";
+  $("code").focus();
+});
+$("code-form").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const btn = ev.target.querySelector("button[type=submit]");
+  btn.disabled = true;
+  const { error } = await sb.auth.verifyOtp({ email: $("email").value.trim(), token: $("code").value.trim(), type: "email" });
+  btn.disabled = false;
+  if (error) say(`로그인하지 못했습니다: ${error.message}`);
+});
+$("code-back").addEventListener("click", () => (show("email"), say(""), $("email").focus()));
+$("logout").addEventListener("click", () => sb.auth.signOut());
+$("refresh").addEventListener("click", () => load());
+
+// ---- 요약 ----
+async function load() {
+  const { data, error } = await sb.rpc("admin_dashboard");
+  if (error) {
+    clearInterval(timer);
+    show(null);
+    say(error.code === "42501" ? "이 계정은 관리자가 아닙니다. 다른 계정으로 로그인해 주세요." : `요약을 불러오지 못했습니다: ${error.message}`);
+    return false;
+  }
+  show("dash");
+  render(data);
+  $("updated").textContent = `${kst(data.generated_at, { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false })} 기준 · 1분마다 갱신`;
+  return true;
+}
+
+function render(d) {
+  const { collector: c, totals: t, users: u } = d;
+
+  // 수집 상태: 마지막으로 성공한 실행이 얼마나 지났는지
+  const lastOk = c.last_ok_at;
+  const lateMin = lastOk ? (Date.now() - Date.parse(lastOk)) / 60_000 : Infinity;
+  const [state, label] = !c.last_run ? ["none", "실행 기록 없음"]
+    : lateMin <= LATE_MIN ? ["ok", "정상"]
+    : lateMin <= STOPPED_MIN ? ["warn", "지연"]
+    : ["bad", "멈춤"];
+  $("status").dataset.state = state;
+  $("status-text").textContent = label;
+  const run = c.last_run;
+  const facts = [
+    ["마지막 실행", run ? `${kst(run.started_at)} (${ago(run.started_at)})` : "없음 — npm run collect -- --watch"],
+    ["결과", run ? (run.error ? `실패: ${run.error}` : `${fmt(run.api_calls - run.api_failed)}/${fmt(run.api_calls)}곳 받음, 새 기록 ${fmt(run.inserted)}행`) : "–"],
+    ["마지막 성공", lastOk ? `${kst(lastOk)} (${ago(lastOk)})` : "–"],
+    ["최근 1시간 장소", `${fmt(c.places_last_hour)} / ${fmt(c.places_total)}곳`],
+    ["마지막 관측 시각", c.last_observed_at ? `${kst(c.last_observed_at)} (API 기준)` : "–"],
+    ["쌓인 기록", `${fmt(c.snapshots_total)}행 (24시간 ${fmt(c.snapshots_24h)}행)`],
+  ];
+  if (run?.sample) facts.splice(2, 0, ["인증키", "sample 키 — 1곳만 받습니다"]);
+  $("status-facts").replaceChildren(...facts.flatMap(([k, v]) => [h("dt", { textContent: k }), h("dd", { textContent: v })]));
+
+  $("calls").textContent = fmt(t.calls_24h);
+  $("calls-note").textContent = `실행 ${fmt(t.runs_24h)}번 · 새 기록 ${fmt(t.inserted_24h)}행 · 7일 ${fmt(t.calls_7d)}회`;
+  $("failed").textContent = fmt(t.failed_24h);
+  $("failed-note").textContent = `호출의 ${pct(t.failed_24h, t.calls_24h)} · 실행 전체 실패 ${fmt(t.run_errors_24h)}번 · 7일 ${fmt(t.failed_7d)}회`;
+  $("users").textContent = fmt(u.total);
+  $("users-note").textContent = `7일 신규 ${fmt(u.new_7d)}명 · 7일 로그인 ${fmt(u.active_7d)}명`;
+
+  drawChart(d.hourly);
+
+  $("errors").replaceChildren(...(d.top_errors.length
+    ? d.top_errors.map((e) => h("li", {},
+        h("b", { className: "num", textContent: `${fmt(e.count)}회` }),
+        h("span", { textContent: e.message }),
+        h("small", { textContent: `마지막 ${kst(e.last_at)}` })))
+    : [h("li", { className: "empty", textContent: "최근 24시간 오류 없음" })]));
+
+  $("runs").replaceChildren(...(d.recent_runs.length
+    ? d.recent_runs.flatMap((r) => {
+        const sec = (Date.parse(r.finished_at) - Date.parse(r.started_at)) / 1000;
+        const row = h("tr", { className: r.error ? "has-error" : "" },
+          h("td", { className: "num", textContent: kst(r.started_at) }),
+          h("td", { className: "num opt", textContent: `${sec.toLocaleString("ko-KR", { maximumFractionDigits: 1 })}초` }),
+          h("td", { className: "num", textContent: fmt(r.api_calls) }),
+          h("td", { className: `num${r.api_failed ? " bad" : ""}`, textContent: fmt(r.api_failed) }),
+          h("td", { className: "num", textContent: fmt(r.inserted) }),
+          h("td", { className: "num opt", textContent: fmt(r.skipped) }));
+        // 오류 문구는 길어서 열 대신 그 실행 바로 아래 줄에 전체 폭으로 쓴다(좁은 화면에서 잘리지 않게).
+        return r.error ? [row, h("tr", {}, h("td", { colSpan: 6, className: "text bad", textContent: `실행 실패: ${r.error}` }))] : [row];
+      })
+    : [h("tr", {}, h("td", { colSpan: 6, className: "text", textContent: "아직 실행 기록이 없습니다. npm run collect를 돌리면 여기에 쌓입니다." }))]));
+
+  const userFacts = [
+    ["전체", `${fmt(u.total)}명`],
+    ["최근 7일 가입", `${fmt(u.new_7d)}명`],
+    ["최근 7일 로그인", `${fmt(u.active_7d)}명`],
+    ["즐겨찾기를 쓰는 사용자", `${fmt(u.with_favorites)}명 (${pct(u.with_favorites, u.total)})`],
+    ["알림을 켠 사용자", `${fmt(u.with_alerts)}명 (${pct(u.with_alerts, u.total)})`],
+    ["관리자", `${fmt(u.admins)}명`],
+  ];
+  $("user-facts").replaceChildren(...userFacts.flatMap(([k, v]) => [h("dt", { textContent: k }), h("dd", { className: "num", textContent: v })]));
+}
+
+// 시간대별 막대(성공 아래, 실패 위로 쌓음). 칸의 실제 폭으로 그린다.
+const SVG = "http://www.w3.org/2000/svg";
+const svgEl = (tag, attrs) => {
+  const el = document.createElementNS(SVG, tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+};
+let lastHourly = [];
+// 눈금 4칸. 호출 수는 정수이므로 한 칸은 1, 2, 5, 10, 20, 50…에서 고른다.
+const TICKS = 4;
+function niceStep(v) {
+  const need = Math.max(1, v / TICKS);
+  const p = 10 ** Math.floor(Math.log10(need));
+  return [1, 2, 5, 10].map((m) => m * p).find((m) => m >= need);
+}
+function drawChart(hourly) {
+  lastHourly = hourly;
+  const svg = $("chart");
+  const W = svg.clientWidth || 600;
+  const H = 220;
+  const pad = { top: 10, right: 8, bottom: 24, left: 44 };
+  const iw = W - pad.left - pad.right;
+  const ih = H - pad.top - pad.bottom;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const step = niceStep(Math.max(...hourly.map((b) => b.calls)));
+  const yMax = step * TICKS;
+  const y = (v) => pad.top + ih - (v / yMax) * ih;
+  const slot = iw / hourly.length;
+  const bw = Math.max(2, Math.min(28, slot - 2));
+  const kids = [];
+  for (let i = 0; i <= TICKS; i++) {
+    const v = step * i;
+    kids.push(svgEl("line", { x1: pad.left, x2: W - pad.right, y1: y(v), y2: y(v), class: "gridline" }));
+    const t = svgEl("text", { x: pad.left - 6, y: y(v) + 4, "text-anchor": "end", class: "axis num" });
+    t.textContent = fmt(v);
+    kids.push(t);
+  }
+  hourly.forEach((b, i) => {
+    const x = pad.left + i * slot + (slot - bw) / 2;
+    const ok = b.calls - b.failed;
+    // 위쪽 끝만 둥글게: 둥근 사각형을 그린 뒤 아래쪽 반을 직사각형으로 덮는 대신, 경로로 바로 그린다.
+    const bar = (top, bottom, color, roundTop) => {
+      if (bottom - top <= 0) return;
+      const r = roundTop ? Math.min(4, bw / 2, bottom - top) : 0;
+      kids.push(svgEl("path", {
+        d: `M${x},${bottom} V${top + r} Q${x},${top} ${x + r},${top} H${x + bw - r} Q${x + bw},${top} ${x + bw},${top + r} V${bottom} Z`,
+        fill: color,
+      }));
+    };
+    const gap = b.failed && ok ? 2 : 0; // 쌓인 두 칸 사이 2px 틈
+    bar(y(ok), y(0), "var(--calls-ok)", !b.failed);
+    // 실패가 호출의 1%쯤이면 1–2px라 보이지 않으므로, 한 건이라도 있으면 3px은 보이게 한다(값은 툴팁에).
+    if (b.failed) bar(Math.min(y(b.calls), y(ok) - gap - 3), y(ok) - gap, "var(--calls-failed)", true);
+    // 실행 전체가 실패한 시간대는 호출이 0이어도 바닥에 빨간 표시를 남긴다.
+    if (b.run_errors && !b.calls) kids.push(svgEl("rect", { x, y: y(0) - 3, width: bw, height: 3, fill: "var(--calls-failed)" }));
+    const hour = Number(b.hour.slice(11, 13));
+    if (hour % 3 === 0) {
+      const t = svgEl("text", { x: x + bw / 2, y: H - 6, "text-anchor": "middle", class: "axis num" });
+      t.textContent = `${hour}시`;
+      kids.push(t);
+    }
+    // 마우스 칸은 막대보다 넓게(칸 전체)
+    kids.push(svgEl("rect", { x: pad.left + i * slot, y: pad.top, width: slot, height: ih, fill: "transparent", "data-i": i }));
+  });
+  svg.replaceChildren(...kids);
+}
+
+const tip = $("tip");
+$("chart").addEventListener("pointermove", (ev) => {
+  const i = ev.target.dataset?.i;
+  if (i === undefined) return (tip.hidden = true);
+  const b = lastHourly[i];
+  const date = b.hour.slice(5, 10).replace("-", "/");
+  const hour = Number(b.hour.slice(11, 13));
+  tip.replaceChildren(
+    h("b", { textContent: `${date} ${hour}시대` }), h("br"),
+    `실행 ${fmt(b.runs)}번 · 호출 ${fmt(b.calls)}회`, h("br"),
+    `성공 ${fmt(b.calls - b.failed)} · 실패 ${fmt(b.failed)}`, h("br"),
+    `새 기록 ${fmt(b.inserted)}행`,
+    b.run_errors ? h("br") : null, b.run_errors ? `실행 전체 실패 ${fmt(b.run_errors)}번` : null);
+  tip.hidden = false;
+  const wrap = $("chart-wrap").getBoundingClientRect();
+  const left = Math.min(ev.clientX - wrap.left + 12, wrap.width - tip.offsetWidth - 4);
+  tip.style.left = `${Math.max(4, left)}px`;
+  tip.style.top = `${Math.max(0, ev.clientY - wrap.top - tip.offsetHeight - 8)}px`;
+});
+$("chart").addEventListener("pointerleave", () => (tip.hidden = true));
+new ResizeObserver(() => lastHourly.length && drawChart(lastHourly)).observe($("chart-wrap"));
+
+init();
+</script>
+</body>
+</html>

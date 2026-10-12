@@ -1,0 +1,13 @@
+{
+  "name": "seoul-live-3d",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test",
+    "check": "node scripts/check-data.mjs"
+  },
+  "devDependencies": {
+    "supabase": "^2.101.0"
+  }
+}

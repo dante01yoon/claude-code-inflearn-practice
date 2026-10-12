@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "",
+  "installCommand": "",
+  "outputDirectory": ".",
+  "functions": {
+    "api/citydata.js": { "includeFiles": "data/raw/citydata/*.zip" }
+  }
+}

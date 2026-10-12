@@ -1,0 +1,1 @@
+summary.mjs에 summarize(rows)를 만들어 export해 줘. rows는 data/snapshots.json 같은 붐빔 기록 배열이야. 돌려줄 값은 { count, latest, peak, levels }. latest는 observed_at이 가장 늦은 기록, peak는 인구 가운데값((min+max)/2)이 가장 큰 기록(같으면 더 이른 것), levels는 여유·보통·약간 붐빔·붐빔 각각의 횟수. 기록 순서는 섞여 있을 수 있고 인구 칸이 비어 있을 수도 있어.

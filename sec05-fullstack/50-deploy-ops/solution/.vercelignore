@@ -1,0 +1,11 @@
+# Vercel로 올리지 않을 파일. .env를 비롯해 점으로 시작하는 파일은 모두 뺀다(인증키는 Vercel 환경 변수로).
+.*
+*.md
+server.mjs
+tests/
+tools/
+docs/
+scripts/
+# npm 의존성(supabase CLI)과 로컬 Supabase 설정·마이그레이션·seed(테스트 사용자)는 배포에 필요 없고, 정적 파일로 공개되면 안 된다.
+node_modules/
+supabase/

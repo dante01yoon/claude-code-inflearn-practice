@@ -91,3 +91,21 @@
 | [sec04-subway-3d/39-deploy](sec04-subway-3d/39-deploy/) | Vercel 미리보기 배포(`api/trains.js`, `vercel.json`, `.vercelignore`), 환경 변수, 🆕 Artifacts 소개 페이지 | 배포와 비밀 관리 |
 | [sec04-subway-3d/40-measure-verify](sec04-subway-3d/40-measure-verify/) | 📏 검증 시킬 때 vs 안 시킬 때 3회씩 × 2실험(`measure/`) — 버그 0 vs 0, 화면 기능에서 시간 1.9배·비용 1.8배 | 검증 시킬 때 vs 안 시킬 때 |
 | [sec04-subway-3d/41-mission-4](sec04-subway-3d/41-mission-4/) | 미션 4: 지금 시간대 혼잡 TOP 5 + Playwright 확인 + push·PR, 정답·채점표 | 미션 4 |
+
+## 섹션 5. [프로젝트 3] 「서울 라이브 3D」 ② 지금 어디가 붐비나 — 인증·DB를 붙여 풀스택으로
+
+앱 저장소: **[dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d)** (섹션 5 작업 = 브랜치 `sec05-crowd`, main 병합 `9e43764`). Supabase는 계정 없이 **로컬**(`npx supabase start`, 도커)로 씁니다. 데이터: 서울 실시간 도시데이터(공공누리 제1유형), 공개 `sample` 키(광화문·덕수궁 1곳). 테스트 사용자는 `supabase/seed.sql`의 로컬 시험용 계정입니다.
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec05-fullstack/42-supabase-start](sec05-fullstack/42-supabase-start/) | DB = 앱의 기억, 인증 = 명찰, RLS, publishable vs secret 키, 로컬 Supabase 띄우기(포트 충돌 해결)·Studio | Supabase 시작 |
+| [sec05-fullstack/43-citydata-layer](sec05-fullstack/43-citydata-layer/) | 실시간 도시데이터 121곳 레이어 — 영역 zip 다각형, 인구 높이·혼잡도 색·12시간 예측 슬라이더, `/api/citydata` 서버 경유 | 121곳 레이어 |
+| [sec05-fullstack/44-supabase-mcp](sec05-fullstack/44-supabase-mcp/) | 로컬 Supabase MCP(`/mcp`, 계정 없이) — list_tables·apply_migration·get_advisors, 마이그레이션 파일 | Supabase MCP로 테이블 설계 |
+| [sec05-fullstack/45-snapshots](sec05-fullstack/45-snapshots/) | 5분 수집기(`npm run collect -- --watch`), 장소별 24시간 그래프, 5분 실행 방법 3가지(Vercel Hobby 크론은 하루 1번) | 5분마다 스냅샷 쌓기 |
+| [sec05-fullstack/46-login-favorites](sec05-fullstack/46-login-favorites/) | 이메일 6자리 코드 로그인, 장소·내 역 즐겨찾기와 붐빔 알림, 클로드의 질문 3개, seed 테스트 사용자 | 로그인과 사용자별 데이터 |
+| [sec05-fullstack/47-admin](sec05-fullstack/47-admin/) | 관리자 화면(수집 상태·호출/실패·사용자), `admin_users`·`admin_dashboard()`, 권한 시험에서 찾은 DB 재시작 문제 | 관리자 화면 |
+| [sec05-fullstack/48-tests-first](sec05-fullstack/48-tests-first/) | 같은 장소 알림 1시간 쉬는 시간 — 테스트 먼저 → 실패 → 통과, 빨간불 직접 검증 | 테스트 먼저 쓰고 고치기 |
+| [sec05-fullstack/49-debug-monitor](sec05-fullstack/49-debug-monitor/) | 🆕 Monitor로 서버 로그 지켜보기, DB를 끄고 장애 재현 → 원인 → 친절한 안내 → 복구 확인, `/rewind` | 오류 디버깅 |
+| [sec05-fullstack/50-deploy-ops](sec05-fullstack/50-deploy-ops/) | Vercel 미리보기 배포(DB 없는 배포는 안내만), 공개될 뻔한 파일(`node_modules`·seed) 막기, 운영 점검 4가지 | 배포와 운영 점검 |
+| [sec05-fullstack/51-measure-effort](sec05-fullstack/51-measure-effort/) | 📏 effort 5단계 × 2번(`measure/`) — 품질 모두 10/10, max는 시간 22배·비용 11배, high부터 자체 테스트 | effort 단계별 시간과 품질 |
+| [sec05-fullstack/52-mission-5](sec05-fullstack/52-mission-5/) | 미션 5: 역 답 카드에 가까운 장소의 지금 혼잡도 — 채점표·정답 풀이 | 미션 5 |
