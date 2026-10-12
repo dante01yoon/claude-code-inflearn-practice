@@ -1,0 +1,161 @@
+<title>광화문·덕수궁 인구 예측</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* 레이아웃: 한 칸 리포트 — 요약 한 줄 → 막대그래프 → 표. 혼잡도 색은 subway.html의 --congest-* 를 그대로 쓴다. */
+  :root {
+    --bg: #f6f7f5; --surface: #ffffff; --ink: #1d2320; --ink-2: #4c5650; --muted: #7c8680;
+    --grid: #e3e7e4; --band: #eef3ef;
+    --congest-1: #40c057; --congest-2: #fab005; --congest-3: #fd7e14; --congest-4: #f03e3e;
+    --bar: var(--congest-1); --bar-hover: #2f9e44;
+    --font-display: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #131715; --surface: #1b201d; --ink: #e8ece9; --ink-2: #b3bcb6; --muted: #86908a;
+    --grid: #2b322e; --band: #1f2a23; --bar: #51cf66; --bar-hover: #8ce99a; color-scheme: dark } }
+  :root[data-theme="dark"] {
+    --bg: #131715; --surface: #1b201d; --ink: #e8ece9; --ink-2: #b3bcb6; --muted: #86908a;
+    --grid: #2b322e; --band: #1f2a23; --bar: #51cf66; --bar-hover: #8ce99a; color-scheme: dark }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-display); }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 16px 48px; display: grid; gap: 20px; }
+  header { display: grid; gap: 6px; }
+  .eyebrow { font-size: 12px; letter-spacing: .06em; color: var(--muted); }
+  h1 { margin: 0; font-size: clamp(22px, 4vw, 28px); text-wrap: balance; }
+  .lede { margin: 0; color: var(--ink-2); font-size: 15px; line-height: 1.6; max-width: 62ch; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px;
+    background: var(--band); color: var(--ink); font-size: 13px; font-weight: 600; }
+  .pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--bar); }
+  figure { margin: 0; background: var(--surface); border: 1px solid var(--grid); border-radius: 10px; padding: 16px; position: relative; }
+  figcaption { font-size: 13px; color: var(--ink-2); margin-bottom: 8px; display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; }
+  .chart-wrap { overflow-x: auto; }
+  svg { display: block; width: 100%; min-width: 520px; height: auto; font-family: var(--font-data); }
+  .axis text, .xlab { fill: var(--muted); font-size: 11px; }
+  .gridline { stroke: var(--grid); stroke-width: 1; }
+  .band { fill: var(--band); }
+  .band-label { fill: var(--ink-2); font-size: 11px; font-family: var(--font-display); }
+  .bar { fill: var(--bar); }
+  .hit:hover + .bar, .bar.on { fill: var(--bar-hover); }
+  .hit { fill: transparent; cursor: default; }
+  .val { fill: var(--ink); font-size: 11px; font-weight: 500; }
+  .now-sep { stroke: var(--muted); stroke-dasharray: 3 3; }
+  .tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 12px; line-height: 1.5;
+    padding: 6px 10px; border-radius: 6px; white-space: nowrap; font-variant-numeric: tabular-nums; transform: translate(-50%, -110%); }
+  details { background: var(--surface); border: 1px solid var(--grid); border-radius: 10px; padding: 12px 16px; }
+  summary { cursor: pointer; font-size: 14px; font-weight: 600; }
+  summary:focus-visible { outline: 2px solid var(--bar-hover); outline-offset: 3px; }
+  .table-wrap { overflow-x: auto; margin-top: 10px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--grid); }
+  th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+  th { color: var(--muted); font-weight: 600; }
+  tr.commute td { background: var(--band); }
+  footer { font-size: 12px; color: var(--muted); line-height: 1.6; }
+</style>
+
+<main>
+  <header>
+    <span class="eyebrow">POI009 · 고궁·문화유산 · 실시간 도시데이터</span>
+    <h1>광화문·덕수궁, 지금부터 12시간</h1>
+    <p class="lede">2026년 10월 12일 20:35 기준 추정 인구는 18,000~20,000명입니다. 밤사이 3,000명 안팎까지 줄었다가 출근 시간에 다시 늘어 내일 09시 16,000~18,000명으로 예측됩니다. 모든 시간대가 <span class="pill"><i></i>여유</span> 단계입니다.</p>
+  </header>
+
+  <figure>
+    <figcaption><span>추정 인구 (범위의 가운데 값, 명)</span><span>막대에 마우스를 올리면 범위가 보입니다</span></figcaption>
+    <div class="chart-wrap"><svg id="chart" role="img" aria-label="광화문·덕수궁 시간대별 추정 인구 막대그래프"></svg></div>
+    <div class="tip" id="tip" hidden></div>
+  </figure>
+
+  <details>
+    <summary>표로 보기</summary>
+    <div class="table-wrap"><table id="table">
+      <thead><tr><th>시각</th><th>혼잡도</th><th>최소</th><th>최대</th><th>가운데</th></tr></thead><tbody></tbody>
+    </table></div>
+  </details>
+
+  <footer>출처: 서울특별시 서울 열린데이터광장 실시간 도시데이터(citydata_ppltn), 공공누리 제1유형. 예측은 API가 주는 12시간 예측이며 21시 값은 응답에 없었습니다. 인구는 영역 안에 있는 사람 수 추정치입니다.</footer>
+</main>
+
+<script>
+  const DATA = [
+    { label: "지금", sub: "20:35", time: "10/12 20:35", level: "여유", min: 18000, max: 20000 },
+    { label: "22시", time: "10/12 22:00", level: "여유", min: 14000, max: 16000 },
+    { label: "23시", time: "10/12 23:00", level: "여유", min: 8500, max: 9000 },
+    { label: "00시", sub: "10/13", time: "10/13 00:00", level: "여유", min: 5500, max: 6000 },
+    { label: "01시", time: "10/13 01:00", level: "여유", min: 3500, max: 4000 },
+    { label: "02시", time: "10/13 02:00", level: "여유", min: 3000, max: 3500 },
+    { label: "03시", time: "10/13 03:00", level: "여유", min: 2500, max: 3000 },
+    { label: "04시", time: "10/13 04:00", level: "여유", min: 2500, max: 3000 },
+    { label: "05시", time: "10/13 05:00", level: "여유", min: 2500, max: 3000 },
+    { label: "06시", time: "10/13 06:00", level: "여유", min: 3000, max: 3500 },
+    { label: "07시", time: "10/13 07:00", level: "여유", min: 4000, max: 4500, commute: true },
+    { label: "08시", time: "10/13 08:00", level: "여유", min: 8500, max: 9000, commute: true },
+    { label: "09시", time: "10/13 09:00", level: "여유", min: 16000, max: 18000, commute: true },
+  ];
+  const fmt = (n) => n.toLocaleString("ko-KR");
+  const mid = (d) => (d.min + d.max) / 2;
+
+  const W = 800, H = 340, M = { t: 28, r: 12, b: 48, l: 52 };
+  const iw = W - M.l - M.r, ih = H - M.t - M.b;
+  const yMax = 20000, ticks = [0, 5000, 10000, 15000, 20000];
+  const step = iw / DATA.length, bw = Math.min(36, step * 0.6);
+  const x = (i) => M.l + step * i + step / 2;
+  const y = (v) => M.t + ih - (v / yMax) * ih;
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById("chart");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const el = (tag, attrs, text) => {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    svg.appendChild(e); return e;
+  };
+
+  // 출근 시간(07~09시) 띠
+  const c0 = DATA.findIndex((d) => d.commute), c1 = DATA.length - 1;
+  el("rect", { class: "band", x: M.l + step * c0, y: M.t, width: step * (c1 - c0 + 1), height: ih });
+  el("text", { class: "band-label", x: M.l + step * c0 + 6, y: M.t + 14 }, "출근 시간");
+
+  // 눈금
+  for (const t of ticks) {
+    el("line", { class: "gridline", x1: M.l, x2: W - M.r, y1: y(t), y2: y(t) });
+    el("text", { class: "axis", x: M.l - 8, y: y(t) + 4, "text-anchor": "end", fill: "currentColor" }, fmt(t)).classList.add("xlab");
+  }
+  // 지금 / 예측 경계
+  const sepX = M.l + step;
+  el("line", { class: "now-sep", x1: sepX, x2: sepX, y1: M.t - 8, y2: M.t + ih });
+  el("text", { class: "band-label", x: sepX + 6, y: M.t - 12 }, "예측 →");
+
+  const tip = document.getElementById("tip");
+  const fig = svg.closest("figure");
+  DATA.forEach((d, i) => {
+    const v = mid(d), top = y(v), h = M.t + ih - top, cx = x(i);
+    const hit = el("rect", { class: "hit", x: cx - step / 2, y: M.t, width: step, height: ih });
+    // 위쪽만 둥글게(4px), 바닥은 기준선에 붙인다
+    const r = Math.min(4, h);
+    const bar = el("path", { class: "bar", d: `M${cx - bw / 2},${M.t + ih} V${top + r} Q${cx - bw / 2},${top} ${cx - bw / 2 + r},${top} H${cx + bw / 2 - r} Q${cx + bw / 2},${top} ${cx + bw / 2},${top + r} V${M.t + ih} Z` });
+    el("text", { class: "xlab", x: cx, y: M.t + ih + 18, "text-anchor": "middle" }, d.label);
+    if (d.sub) el("text", { class: "xlab", x: cx, y: M.t + ih + 34, "text-anchor": "middle" }, d.sub);
+    if (i === 0 || i === DATA.length - 1) el("text", { class: "val", x: cx, y: top - 6, "text-anchor": "middle" }, fmt(v));
+    const show = () => {
+      bar.classList.add("on");
+      tip.innerHTML = `<b>${d.time}</b> · ${d.level}<br>${fmt(d.min)}~${fmt(d.max)}명`;
+      const sb = svg.getBoundingClientRect(), fb = fig.getBoundingClientRect();
+      tip.style.left = (sb.left - fb.left + (cx / W) * sb.width) + "px";
+      tip.style.top = (sb.top - fb.top + (top / H) * sb.height - 4) + "px";
+      tip.hidden = false;
+    };
+    const hide = () => { bar.classList.remove("on"); tip.hidden = true; };
+    hit.addEventListener("mouseenter", show); hit.addEventListener("mouseleave", hide);
+    hit.addEventListener("touchstart", show, { passive: true });
+    svg.insertBefore(hit, bar.nextSibling); // 히트 영역을 막대 위에
+  });
+
+  const tbody = document.querySelector("#table tbody");
+  for (const d of DATA) {
+    const tr = document.createElement("tr");
+    if (d.commute) tr.className = "commute";
+    tr.innerHTML = `<td>${d.time}</td><td>${d.level}</td><td>${fmt(d.min)}</td><td>${fmt(d.max)}</td><td>${fmt(mid(d))}</td>`;
+    tbody.appendChild(tr);
+  }
+</script>

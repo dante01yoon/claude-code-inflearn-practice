@@ -109,3 +109,14 @@
 | [sec05-fullstack/50-deploy-ops](sec05-fullstack/50-deploy-ops/) | Vercel 미리보기 배포(DB 없는 배포는 안내만), 공개될 뻔한 파일(`node_modules`·seed) 막기, 운영 점검 4가지 | 배포와 운영 점검 |
 | [sec05-fullstack/51-measure-effort](sec05-fullstack/51-measure-effort/) | 📏 effort 5단계 × 2번(`measure/`) — 품질 모두 10/10, max는 시간 22배·비용 11배, high부터 자체 테스트 | effort 단계별 시간과 품질 |
 | [sec05-fullstack/52-mission-5](sec05-fullstack/52-mission-5/) | 미션 5: 역 답 카드에 가까운 장소의 지금 혼잡도 — 채점표·정답 풀이 | 미션 5 |
+
+## 섹션 6. MCP 서버 직접 만들기 — 「서울 데이터」 MCP 서버
+
+앱 저장소: **[dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d)** (섹션 6 작업 = 브랜치 `sec06-mcp`, main 병합 `7bc358e`). 시작 상태는 [sec06-mcp-server/start](sec06-mcp-server/start/). 공식 TypeScript SDK(v1 `@modelcontextprotocol/sdk` 1.32.1 — v2 `@modelcontextprotocol/server`도 공식), 데이터: 서울 열린데이터광장(공공누리 제1유형) 공개 `sample` 키.
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec06-mcp-server/53-mcp-server-structure](sec06-mcp-server/53-mcp-server-structure/) | 호스트·클라이언트·서버, JSON-RPC, 도구·리소스, stdio vs Streamable HTTP(stdout 규칙·127.0.0.1·Origin), 역 승하차 도구 + 역 목록 리소스, `claude mcp add --scope project`, curl로 `tools/list`, MCP Inspector | MCP 서버 구조 |
+| [sec06-mcp-server/54-api-tools](sec06-mcp-server/54-api-tools/) | 서울 API(CardSubwayTime·citydata_ppltn)를 도구로 감싸기, 키는 `${SEOUL_OPENAPI_KEY:-sample}`·결과에서 지우기, 광화문 12시간 예측 HTML | 공공데이터 API를 MCP 도구로 |
+| [sec06-mcp-server/55-use-in-project](sec06-mcp-server/55-use-in-project/) | `.mcp.json` 커밋으로 팀 공유, 앱 답 카드를 8월 API로 검산, 실제 칸 확인 후 장소 패널 연령대 막대 | 프로젝트에서 내 MCP 서버 쓰기 |
+| [sec06-mcp-server/56-mission-6](sec06-mcp-server/56-mission-6/) | 미션 6: 따릉이 `bikeList` 도구 추가 — 채점표·정답 풀이·Inspector 확인 | 미션 6 |

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "seoul-data": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "mcp-server/src/index.ts"
+      ],
+      "env": {
+        "SEOUL_OPENAPI_KEY": "${SEOUL_OPENAPI_KEY:-sample}"
+      }
+    }
+  }
+}
