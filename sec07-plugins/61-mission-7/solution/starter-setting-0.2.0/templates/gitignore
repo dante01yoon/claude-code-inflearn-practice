@@ -1,0 +1,14 @@
+# 개인 클로드 코드 설정 (팀 공용은 .claude/settings.json)
+.claude/settings.local.json
+CLAUDE.local.md
+
+# 비밀 정보
+.env
+.env.*
+
+# Playwright MCP가 남기는 스크린샷·로그
+.playwright-mcp/
+
+# 의존성·OS 파일
+node_modules/
+.DS_Store

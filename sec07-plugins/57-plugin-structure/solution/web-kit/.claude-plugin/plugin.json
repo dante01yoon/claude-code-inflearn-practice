@@ -1,0 +1,16 @@
+{
+  "name": "web-kit",
+  "version": "0.1.0",
+  "description": "요구사항 체크리스트로 index.html 웹 페이지를 만들고(web-page 스킬) Playwright로 데스크톱·모바일 화면을 확인하는(screen-checker 에이전트) 키트",
+  "author": {
+    "name": "dante01yoon",
+    "email": "6510430+dante01yoon@users.noreply.github.com"
+  },
+  "keywords": [
+    "web",
+    "html",
+    "playwright",
+    "screenshot",
+    "mobile"
+  ]
+}

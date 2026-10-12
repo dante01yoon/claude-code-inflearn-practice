@@ -120,3 +120,15 @@
 | [sec06-mcp-server/54-api-tools](sec06-mcp-server/54-api-tools/) | 서울 API(CardSubwayTime·citydata_ppltn)를 도구로 감싸기, 키는 `${SEOUL_OPENAPI_KEY:-sample}`·결과에서 지우기, 광화문 12시간 예측 HTML | 공공데이터 API를 MCP 도구로 |
 | [sec06-mcp-server/55-use-in-project](sec06-mcp-server/55-use-in-project/) | `.mcp.json` 커밋으로 팀 공유, 앱 답 카드를 8월 API로 검산, 실제 칸 확인 후 장소 패널 연령대 막대 | 프로젝트에서 내 MCP 서버 쓰기 |
 | [sec06-mcp-server/56-mission-6](sec06-mcp-server/56-mission-6/) | 미션 6: 따릉이 `bikeList` 도구 추가 — 채점표·정답 풀이·Inspector 확인 | 미션 6 |
+
+## 섹션 7. 스킬·플러그인·Mods로 팀에 배포
+
+마켓플레이스 저장소: **[dante01yoon/claude-code-practice-marketplace](https://github.com/dante01yoon/claude-code-practice-marketplace)** (web-kit 0.1.0 · starter-setting 0.2.0). 팀원 장면은 클로드 코드 설정이 빈 별도 계정 폴더에서 녹화했습니다.
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec07-plugins/57-plugin-structure](sec07-plugins/57-plugin-structure/) | 플러그인 = 묶음 상품, `plugin.json`·skills·agents·hooks·`.mcp.json`, web-kit 플러그인 만들기, `claude plugin validate`, `--plugin-dir`로 카페 주문 페이지 | 플러그인 구조 |
+| [sec07-plugins/58-team-marketplace](sec07-plugins/58-team-marketplace/) | `marketplace.json`(name·owner·plugins), GitHub 공개 저장소로 올리기, 팀원 `marketplace add` → `install`, 설치 범위 user·project·local | 팀 마켓플레이스 만들고 설치하기 |
+| [sec07-plugins/59-plugin-eval](sec07-plugins/59-plugin-eval/) | 🆕 `claude plugin eval` — 채점 케이스(prompt.md + graders), 넣기/빼기 비교. 📏 WITH 1.00 vs W/OUT 0.86, 시간 93초 vs 61초, $0.31 vs $0.20 | 플러그인을 넣기 전/후로 채점 |
+| [sec07-plugins/60-setting-plugin](sec07-plugins/60-setting-plugin/) | 섹션 3 세팅 전체 → starter-setting 플러그인(CLAUDE.md·상태 줄·권한은 setup 스킬로), 팀 프로젝트 `extraKnownMarketplaces`+`enabledPlugins`로 새 팀원 자동 설치 | 내 세팅을 플러그인으로 |
+| [sec07-plugins/61-mission-7](sec07-plugins/61-mission-7/) | 미션 7: dark-mode 스킬 + 채점 케이스 + 0.2.0 → 팀원 `marketplace update` + `/reload-plugins` — 채점표·정답 풀이 | 미션 7 |

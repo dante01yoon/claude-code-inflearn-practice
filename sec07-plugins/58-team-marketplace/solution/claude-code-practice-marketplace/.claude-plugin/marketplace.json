@@ -1,0 +1,25 @@
+{
+  "name": "claude-code-practice-marketplace",
+  "owner": {
+    "name": "dante01yoon",
+    "email": "6510430+dante01yoon@users.noreply.github.com"
+  },
+  "metadata": {
+    "description": "팀에서 함께 쓰는 Claude Code 플러그인 모음",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "web-kit",
+      "source": "./plugins/web-kit",
+      "description": "체크리스트로 웹 페이지 만들기 + 화면 확인 에이전트",
+      "version": "0.1.0",
+      "author": {
+        "name": "dante01yoon",
+        "email": "6510430+dante01yoon@users.noreply.github.com"
+      },
+      "category": "development",
+      "keywords": ["web", "html", "playwright", "screenshot", "mobile"]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "starter-setting",
+  "version": "0.1.0",
+  "description": "새 프로젝트용 클로드 코드 스타터 세팅: 웹 페이지·서울 데이터 스킬, 리뷰·화면 확인 에이전트, 위험 명령 차단·모델 변경 확인·Prettier 훅, context7·playwright MCP, 프롬프트 위 스킬·에이전트·훅 개수 표시",
+  "author": {
+    "name": "dante01yoon",
+    "email": "6510430+dante01yoon@users.noreply.github.com"
+  },
+  "keywords": ["starter", "template", "hooks", "web", "playwright", "seoul", "review"],
+  "types": "./types/index.d.ts"
+}

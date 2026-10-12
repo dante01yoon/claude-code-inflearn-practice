@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "claude-code-practice-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "dante01yoon/claude-code-practice-marketplace"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "starter-setting@claude-code-practice-marketplace": true
+  }
+}

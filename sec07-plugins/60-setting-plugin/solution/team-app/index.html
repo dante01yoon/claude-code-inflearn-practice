@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>독서 기록</title>
+    <style>
+      :root {
+        --bg: #f6f4ef;
+        --card: #fff;
+        --text: #222;
+        --muted: #777;
+        --line: #e2ded5;
+        --accent: #2f6f4f;
+        --danger: #b3402a;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+          "Noto Sans KR", sans-serif;
+      }
+      main {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 24px 16px 48px;
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: 1.6rem;
+      }
+      .summary {
+        margin: 0 0 20px;
+        color: var(--muted);
+      }
+      form {
+        display: flex;
+        gap: 8px;
+        background: var(--card);
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+      input[type="text"],
+      input[type="number"] {
+        font: inherit;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        min-width: 0;
+      }
+      #title {
+        flex: 1;
+      }
+      #pages {
+        width: 110px;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+        border: 0;
+        border-radius: 8px;
+      }
+      .add {
+        background: var(--accent);
+        color: #fff;
+        padding: 10px 16px;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 16px 0 0;
+        display: grid;
+        gap: 8px;
+      }
+      li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 12px;
+      }
+      li input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        accent-color: var(--accent);
+        flex: none;
+      }
+      .name {
+        flex: 1;
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+      li.done .name {
+        color: var(--muted);
+        text-decoration: line-through;
+      }
+      .page-edit {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--muted);
+        flex: none;
+      }
+      .page-edit input {
+        width: 72px;
+        padding: 6px 8px;
+        text-align: right;
+      }
+      .del {
+        background: none;
+        color: var(--danger);
+        font-size: 1.2rem;
+        width: 32px;
+        height: 32px;
+        flex: none;
+      }
+      .empty {
+        text-align: center;
+        color: var(--muted);
+        padding: 24px 0;
+      }
+      @media (max-width: 480px) {
+        form {
+          flex-wrap: wrap;
+        }
+        #title {
+          flex-basis: 100%;
+        }
+        #pages {
+          flex: 1;
+          width: auto;
+        }
+        li {
+          flex-wrap: wrap;
+        }
+        .name {
+          flex-basis: calc(100% - 70px);
+        }
+        .page-edit {
+          margin-left: 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>독서 기록</h1>
+      <p class="summary" id="summary"></p>
+
+      <form id="form">
+        <input
+          id="title"
+          type="text"
+          placeholder="책 제목"
+          required
+          aria-label="책 제목"
+        />
+        <input
+          id="pages"
+          type="number"
+          min="0"
+          placeholder="읽은 쪽수"
+          aria-label="읽은 쪽수"
+        />
+        <button class="add" type="submit">추가</button>
+      </form>
+
+      <ul id="list"></ul>
+      <p class="empty" id="empty">아직 기록한 책이 없습니다.</p>
+    </main>
+
+    <script>
+      const KEY = "reading-log";
+      let books = load();
+
+      function load() {
+        try {
+          return JSON.parse(localStorage.getItem(KEY)) || [];
+        } catch {
+          return [];
+        }
+      }
+      function save() {
+        try {
+          localStorage.setItem(KEY, JSON.stringify(books));
+        } catch {}
+      }
+      const fmt = (n) => Number(n).toLocaleString("ko-KR");
+
+      function render() {
+        const list = document.getElementById("list");
+        list.innerHTML = "";
+        for (const b of books) {
+          const li = document.createElement("li");
+          li.className = b.done ? "done" : "";
+
+          const check = document.createElement("input");
+          check.type = "checkbox";
+          check.checked = b.done;
+          check.setAttribute("aria-label", `${b.title} 다 읽음`);
+          check.onchange = () => {
+            b.done = check.checked;
+            save();
+            render();
+          };
+
+          const name = document.createElement("span");
+          name.className = "name";
+          name.textContent = b.title;
+
+          const pageWrap = document.createElement("label");
+          pageWrap.className = "page-edit";
+          const pageInput = document.createElement("input");
+          pageInput.type = "number";
+          pageInput.min = "0";
+          pageInput.value = b.pages;
+          pageInput.setAttribute("aria-label", `${b.title} 읽은 쪽수`);
+          pageInput.onchange = () => {
+            b.pages = Math.max(0, parseInt(pageInput.value) || 0);
+            save();
+            render();
+          };
+          pageWrap.append(pageInput, "쪽");
+
+          const del = document.createElement("button");
+          del.className = "del";
+          del.textContent = "×";
+          del.setAttribute("aria-label", `${b.title} 삭제`);
+          del.onclick = () => {
+            books = books.filter((x) => x !== b);
+            save();
+            render();
+          };
+
+          li.append(check, name, pageWrap, del);
+          list.append(li);
+        }
+        const done = books.filter((b) => b.done).length;
+        const total = books.reduce((s, b) => s + b.pages, 0);
+        document.getElementById("summary").textContent =
+          `${fmt(books.length)}권 기록 · ${fmt(done)}권 다 읽음 · 총 ${fmt(total)}쪽`;
+        document.getElementById("empty").hidden = books.length > 0;
+      }
+
+      document.getElementById("form").onsubmit = (e) => {
+        e.preventDefault();
+        const title = document.getElementById("title").value.trim();
+        if (!title) return;
+        const pages = Math.max(
+          0,
+          parseInt(document.getElementById("pages").value) || 0,
+        );
+        books.push({ title, pages, done: false });
+        save();
+        e.target.reset();
+        document.getElementById("title").focus();
+        render();
+      };
+
+      render();
+    </script>
+  </body>
+</html>

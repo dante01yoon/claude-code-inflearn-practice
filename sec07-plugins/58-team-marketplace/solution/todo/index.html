@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>할 일 목록</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2328;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --accent: #2563eb;
+    --danger: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  main {
+    max-width: 560px;
+    margin: 40px auto;
+    padding: 0 16px;
+  }
+  h1 { font-size: 1.6rem; margin: 0 0 16px; }
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    padding: 16px;
+  }
+  form { display: flex; gap: 8px; }
+  input[type="text"] {
+    flex: 1;
+    min-width: 0;
+    font-size: 1rem;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  input[type="text"]:focus { outline: 2px solid var(--accent); border-color: transparent; }
+  .add-btn {
+    font-size: 1rem;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  ul { list-style: none; margin: 16px 0 0; padding: 0; }
+  li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 4px;
+    border-top: 1px solid var(--line);
+  }
+  li input[type="checkbox"] { width: 22px; height: 22px; flex-shrink: 0; accent-color: var(--accent); cursor: pointer; }
+  li label { flex: 1; min-width: 0; overflow-wrap: anywhere; cursor: pointer; }
+  li.done label { text-decoration: line-through; color: var(--muted); }
+  .del-btn {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  .del-btn:hover, .del-btn:focus-visible { background: #fee2e2; color: var(--danger); }
+  .empty { color: var(--muted); text-align: center; padding: 24px 0 8px; margin: 0; }
+  .count { color: var(--muted); font-size: .9rem; margin: 12px 0 0; }
+  @media (max-width: 480px) {
+    main { margin: 20px auto; }
+    .add-btn { padding: 0 14px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>할 일 목록</h1>
+  <div class="card">
+    <form id="form">
+      <input type="text" id="input" placeholder="할 일을 입력하세요" aria-label="새 할 일" autocomplete="off" maxlength="200">
+      <button type="submit" class="add-btn">추가</button>
+    </form>
+    <ul id="list"></ul>
+    <p class="empty" id="empty">할 일이 없습니다.</p>
+    <p class="count" id="count"></p>
+  </div>
+</main>
+<script>
+  const KEY = 'todos';
+  const form = document.getElementById('form');
+  const input = document.getElementById('input');
+  const list = document.getElementById('list');
+  const empty = document.getElementById('empty');
+  const count = document.getElementById('count');
+
+  let todos = load();
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; }
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(todos)); } catch {}
+  }
+
+  function render() {
+    list.innerHTML = '';
+    for (const t of todos) {
+      const li = document.createElement('li');
+      li.className = t.done ? 'done' : '';
+      const id = 'todo-' + t.id;
+
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.id = id;
+      cb.checked = t.done;
+      cb.addEventListener('change', () => { t.done = cb.checked; save(); render(); });
+
+      const label = document.createElement('label');
+      label.htmlFor = id;
+      label.textContent = t.text;
+
+      const del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'del-btn';
+      del.textContent = '✕';
+      del.setAttribute('aria-label', `"${t.text}" 삭제`);
+      del.addEventListener('click', () => {
+        todos = todos.filter(x => x.id !== t.id);
+        save(); render();
+      });
+
+      li.append(cb, label, del);
+      list.append(li);
+    }
+    empty.hidden = todos.length > 0;
+    const left = todos.filter(t => !t.done).length;
+    count.textContent = todos.length
+      ? `남은 할 일 ${left.toLocaleString('ko-KR')}개 / 전체 ${todos.length.toLocaleString('ko-KR')}개`
+      : '';
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) { input.focus(); return; }
+    todos.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), text, done: false });
+    save(); render();
+    input.value = '';
+    input.focus();
+  });
+
+  render();
+</script>
+</body>
+</html>

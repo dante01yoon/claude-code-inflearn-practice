@@ -1,0 +1,22 @@
+{
+  "extraKnownMarketplaces": {
+    "claude-code-practice-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "dante01yoon/claude-code-practice-marketplace"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "starter-setting@claude-code-practice-marketplace": true
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "input=$(cat); model=$(echo \"$input\" | jq -r '.model.display_name'); dir=$(basename \"$(echo \"$input\" | jq -r '.workspace.current_dir')\"); used=$(echo \"$input\" | jq -r '.context_window.used_percentage // empty'); if [ -n \"$used\" ]; then printf '%s | %s | Context: %.0f%%' \"$model\" \"$dir\" \"$used\"; else printf '%s | %s | Context: 0%%' \"$model\" \"$dir\"; fi"
+  },
+  "permissions": {
+    "deny": [
+      "Edit(/data/**)"
+    ]
+  }
+}
