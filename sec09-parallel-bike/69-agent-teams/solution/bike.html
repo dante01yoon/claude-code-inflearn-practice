@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>서울 라이브 3D · 따릉이 하루 이동</title>
+<style>
+  :root {
+    --surface: #10131a;
+    --panel: #171b23;
+    --text-primary: #e8e6df;
+    --text-secondary: #b4b2aa;
+    --text-muted: #8a8880;
+    --grid: #262a33;
+    --border: #343a48;
+    --answer: #f2b552;       /* 현재 시각 표시선·강조 */
+    --answer-ink: #1a1406;   /* --answer 위 글자 */
+    --bar: #5b6273;          /* 시별 대여 막대 */
+    --bar-now: #f2b552;      /* 지금 시각이 속한 시간대 막대 */
+    --trip: #fff3bf;         /* 이동선: 지하철 노선색과 겹치지 않는 옅은 노랑 */
+    --stay: #ff8787;         /* 같은 대여소 반납: 대여소 위 점 */
+    --station: #4a5163;      /* 대여소 점 */
+  }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: var(--surface); color: var(--text-primary); margin: 24px; }
+  button, input, select { font: inherit; color: inherit; }
+  .muted { color: var(--text-muted); }
+
+  .page { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px;
+         padding-bottom: 16px; border-bottom: 1px solid var(--grid); }
+  .top h1 { margin: 0; font-size: 22px; }
+  .top .sub { color: var(--text-secondary); font-size: 15px; margin-left: 12px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; color: var(--text-secondary); }
+  .badges > span { padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; }
+  .badges b { font-variant-numeric: tabular-nums; color: var(--text-primary); }
+
+  .scene { position: relative; height: 66vh; min-height: 360px; border: 1px solid var(--grid); border-radius: 16px;
+           overflow: hidden; background: #0c0f15; }
+  .scene-map { position: absolute; inset: 0; }
+  .scene-status { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+                  padding: 16px; text-align: center; color: var(--text-secondary); pointer-events: none; }
+  .scene-status:empty { display: none; }
+  .legend { position: absolute; left: 12px; bottom: 12px; z-index: 1; display: flex; flex-direction: column; gap: 4px;
+            padding: 8px 10px; background: rgba(23, 27, 35, 0.9); border: 1px solid var(--border); border-radius: 10px;
+            font-size: 12px; color: var(--text-secondary); max-width: calc(100% - 24px); }
+  .legend i { display: inline-block; vertical-align: middle; margin-right: 6px; }
+  .legend .l-trip { width: 18px; height: 3px; background: var(--trip); }
+  .legend .l-stay { width: 10px; height: 10px; border: 2px solid var(--stay); border-radius: 50%; }
+  .legend .l-st { width: 6px; height: 6px; background: var(--station); border-radius: 50%; margin: 0 6px 0 2px; }
+
+  .panel { background: var(--panel); border: 1px solid var(--grid); border-radius: 14px; padding: 16px;
+           display: flex; flex-direction: column; gap: 14px; }
+  .now { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 24px; }
+  .clock { font-size: 44px; line-height: 1.05; font-weight: 700; color: var(--answer); font-variant-numeric: tabular-nums; }
+  .counts { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 15px; }
+  .counts b { font-size: 20px; font-variant-numeric: tabular-nums; }
+  .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+  .play { min-width: 88px; height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: var(--answer);
+          color: var(--answer-ink); font-weight: 700; cursor: pointer; }
+  .speed { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-secondary); }
+  .speed select { height: 44px; padding: 0 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+  .slider-wrap { flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .slider-wrap input { width: 100%; height: 44px; margin: 0; accent-color: var(--answer); }
+  .slider-ticks { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted);
+                  font-variant-numeric: tabular-nums; }
+
+  .hist h2 { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  .hist svg { display: block; width: 100%; height: 120px; cursor: pointer; }
+  .hist .bar { fill: var(--bar); }
+  .hist .bar.on { fill: var(--bar-now); }
+  .hist .axis { fill: var(--text-muted); font-size: 11px; text-anchor: middle; }
+  .hist .val { fill: var(--text-secondary); font-size: 11px; text-anchor: middle; }
+  .hist .nowline { stroke: var(--answer); stroke-width: 1.5; }
+
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 16px;
+          border-top: 1px solid var(--grid); font-size: 12px; line-height: 1.6; color: var(--text-secondary); }
+  .foot p { margin: 0; max-width: 560px; }
+
+  @media (max-width: 600px) {
+    body { margin: 16px; }
+    .top .sub { display: block; margin: 4px 0 0; }
+    /* 좁은 화면에서는 범례가 지도를 가리지 않게 지도 아래로 내린다. */
+    .scene { height: auto; display: flex; flex-direction: column; }
+    .scene-map { position: relative; height: 52vh; }
+    .legend { position: static; border: 0; border-top: 1px solid var(--grid); border-radius: 0; max-width: none; }
+    .clock { font-size: 36px; }
+    .speed, .speed select { flex: 1 1 auto; }
+    .play { flex: 1 1 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <div>
+      <h1 style="display: inline">서울 라이브 3D</h1>
+      <span class="sub">따릉이 · 2026년 6월 13일(토) 하루 이동</span>
+    </div>
+    <div class="badges" id="summary" aria-live="polite"><span class="muted">요약을 불러오는 중…</span></div>
+  </header>
+
+  <section class="scene" aria-label="따릉이 하루 이동 지도">
+    <div class="scene-map" id="map"></div>
+    <div class="scene-status" id="status" role="status">대여 기록을 불러오는 중…</div>
+    <div class="legend">
+      <span><i class="l-trip"></i>대여소 → 반납소 이동(꼬리가 지나온 길)</span>
+      <span><i class="l-stay"></i>같은 대여소 반납: 이용하는 동안 대여소 위 점</span>
+      <span><i class="l-st"></i>대여소 2,789곳</span>
+    </div>
+  </section>
+
+  <section class="panel" aria-label="재생 컨트롤">
+    <div class="now">
+      <div class="clock" id="clock" aria-live="off">--:--</div>
+      <div class="counts" aria-live="off">
+        <span>지금 이동 중 <b id="moving">-</b>대</span>
+        <span class="muted">같은 대여소 반납 이용 중 <b id="staying">-</b>대</span>
+      </div>
+    </div>
+    <div class="controls">
+      <button type="button" class="play" id="play" aria-label="재생" disabled>재생</button>
+      <label class="speed">재생 속도
+        <select id="speed" aria-label="재생 속도">
+          <option value="300">300배 (24시간 4.8분)</option>
+          <option value="600" selected>600배 (24시간 2.4분)</option>
+          <option value="1200">1,200배 (24시간 1.2분)</option>
+          <option value="3600">3,600배 (24시간 24초)</option>
+        </select>
+      </label>
+      <div class="slider-wrap">
+        <input type="range" id="slider" min="0" max="86400" step="60" value="0" disabled aria-label="시각 선택 (00:00부터 24:00까지)">
+        <div class="slider-ticks" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+      </div>
+    </div>
+    <div class="hist">
+      <h2>시간대별 대여 시작 건수 <span class="muted">(눌러서 그 시각으로 이동)</span></h2>
+      <svg id="hist" role="img" aria-label="시간대별 대여 시작 건수 막대 그래프"></svg>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>대여 기준으로 고른 기록이라 6월 12일에 빌려 13일에 반납한 이용은 없고, 24:00을 넘겨 반납한 이용(<span id="over-day"></span>건)은 24:00까지만 그리고 재생은 24:00에서 끝납니다.<br>
+       이동선은 대여소에서 반납소까지의 직선이며 실제 경로가 아닙니다. 지도 배경은 쓰지 않았습니다.</p>
+    <p>데이터: 서울특별시 공공자전거 대여이력 정보(2026년 6월 13일), 공공자전거 대여소 정보(2026년 6월 기준) — 서울특별시, 공공누리 제1유형(출처 표시)</p>
+  </footer>
+</div>
+
+<!-- deck.gl 단일 번들. 전역 deck(Deck, TripsLayer, ScatterplotLayer …)을 만든다. 배경 지도 타일은 쓰지 않는다. -->
+<script src="https://cdn.jsdelivr.net/npm/deck.gl@9.0.38/dist.min.js"></script>
+<script type="module">
+import { loadBikeTrips, hourlyStarts } from "./bike-trips.mjs";
+
+const fmt = (n) => Math.round(n).toLocaleString("ko-KR");
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const DAY_S = 86400;
+const TRAIL_S = 900; // 이동선 꼬리 길이(시뮬레이션 초)
+const SKIP_LABELS = { noCoords: "좌표 없음", badTime: "시각 오류", noStation: "대여소 없음", badRow: "형식 오류", noReturn: "반납 대여소 없음" };
+
+const $ = (id) => document.getElementById(id);
+const statusEl = $("status"), playBtn = $("play"), slider = $("slider"), speedSel = $("speed");
+const hhmm = (s) => {
+  const m = Math.min(1440, Math.floor(s / 60));
+  return `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
+};
+const cssRgb = (name) => {
+  const hex = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return [1, 3, 5].map((k) => parseInt(hex.slice(k, k + 2), 16));
+};
+const TRIP_COLOR = [...cssRgb("--trip"), 230];
+const STAY_FILL = [...cssRgb("--stay"), 70], STAY_LINE = [...cssRgb("--stay"), 255];
+const STATION_FILL = [...cssRgb("--station"), 150];
+
+Promise.all([
+  loadBikeTrips(),
+  fetch("data/bike/station-coords-202606.json").then((r) => {
+    if (!r.ok) throw new Error(`대여소 좌표 ${r.status}`);
+    return r.json();
+  }),
+]).then(([{ trips, skipped, total }, coords]) => {
+  // 요약: 데이터 품질(버린 행)을 숨기지 않는다.
+  const skippedEntries = Object.entries(skipped ?? {});
+  const skippedSum = skippedEntries.reduce((a, [, n]) => a + n, 0);
+  $("summary").innerHTML =
+    `<span>전체 <b>${fmt(total)}</b>행</span><span>지도에 그린 <b>${fmt(trips.length)}</b>건</span>` +
+    `<span>버린 <b>${fmt(skippedSum)}</b>행${skippedEntries.length ? " (" + skippedEntries.map(([k, n]) => `${SKIP_LABELS[k] ?? k} ${fmt(n)}`).join(" · ") + ")" : ""}</span>`;
+
+  // 경로·타임스탬프는 한 번만 만든다. 재생 중에는 currentTime만 바뀐다.
+  $("over-day").textContent = fmt(trips.filter((t) => t.end >= DAY_S).length);
+  const moves = trips.filter((t) => !t.round);
+  const stays = trips.filter((t) => t.round);
+  const endOf = (t) => Math.max(t.end, t.start + 30); // 끝이 시작보다 빠르거나 같은 기록도 보이게
+  const pathBuf = new Float64Array(moves.length * 4);
+  const timeBuf = new Float32Array(moves.length * 2);
+  const startIndices = new Uint32Array(moves.length + 1);
+  moves.forEach((t, i) => {
+    pathBuf.set(t.from, i * 4); pathBuf.set(t.to, i * 4 + 2);
+    timeBuf[i * 2] = t.start; timeBuf[i * 2 + 1] = endOf(t);
+    startIndices[i] = i * 2;
+  });
+  startIndices[moves.length] = moves.length * 2;
+  const tripData = {
+    length: moves.length, startIndices,
+    attributes: { getPath: { value: pathBuf, size: 2 }, getTimestamps: { value: timeBuf, size: 1 } },
+  };
+  // 같은 대여소 반납은 시작 순으로 정렬해 두고, 프레임마다 지금 이용 중인 것만 고른다(시작 ≤ 지금 < 끝).
+  const staySorted = stays.map((t) => ({ position: t.from, start: t.start, end: endOf(t) })).sort((x, y) => x.start - y.start);
+  let stayKey = -1, stayNow = [];
+  const activeStays = (time) => {
+    const key = Math.floor(time);
+    if (key === stayKey) return stayNow; // 같은 초에는 같은 배열을 다시 쓴다
+    let lo = 0, hi = staySorted.length;
+    while (lo < hi) { const mid = (lo + hi) >> 1; if (staySorted[mid].start <= time) lo = mid + 1; else hi = mid; }
+    stayNow = [];
+    for (let i = 0; i < lo; i++) if (staySorted[i].end > time) stayNow.push(staySorted[i]);
+    stayKey = key;
+    return stayNow;
+  };
+
+  // 초 단위 이용 중 대수: 차분 배열의 누적합.
+  const movingAt = new Int32Array(DAY_S + 2), stayingAt = new Int32Array(DAY_S + 2);
+  for (const t of trips) {
+    const a = Math.min(DAY_S, Math.max(0, Math.floor(t.start))), b = Math.min(DAY_S + 1, Math.ceil(endOf(t)));
+    const arr = t.round ? stayingAt : movingAt;
+    arr[a]++; arr[b]--;
+  }
+  for (let i = 1; i < movingAt.length; i++) { movingAt[i] += movingAt[i - 1]; stayingAt[i] += stayingAt[i - 1]; }
+
+  const stations = Object.values(coords).map((c) => [c.lng, c.lat]);
+
+  const layers = (time) => [
+    new deck.ScatterplotLayer({
+      id: "stations", data: stations, getPosition: (d) => d, getFillColor: STATION_FILL,
+      radiusUnits: "pixels", getRadius: 1.8,
+    }),
+    new deck.TripsLayer({
+      id: "trips", data: tripData, getColor: TRIP_COLOR, widthUnits: "pixels", getWidth: 1.6,
+      trailLength: TRAIL_S, currentTime: time, fadeTrail: true, capRounded: true,
+    }),
+    new deck.ScatterplotLayer({
+      id: "stays", data: activeStays(time), getPosition: (d) => d.position, getFillColor: STAY_FILL, stroked: true, getLineColor: STAY_LINE,
+      lineWidthUnits: "pixels", getLineWidth: 1.2, radiusUnits: "pixels", getRadius: 5,
+    }),
+  ];
+
+  let time = reduceMotion ? 7 * 3600 : 0;
+  const deckgl = new deck.Deck({
+    parent: $("map"),
+    initialViewState: { longitude: 126.99, latitude: 37.55, zoom: matchMedia("(max-width: 600px)").matches ? 9.0 : 10.2, pitch: 0, bearing: 0 },
+    controller: true,
+    layers: layers(time),
+    getCursor: ({ isDragging }) => (isDragging ? "grabbing" : "grab"),
+  });
+
+  // 시별 대여 시작 막대 그래프
+  const hours = hourlyStarts(trips);
+  const hMax = Math.max(...hours, 1);
+  const TOP = 16, BASE = 100, H = 120;
+  const svg = $("hist");
+  let BW = 12, bars = [], nowline = null;
+  // 칸의 실제 폭에 맞춰 그려서 글자가 늘어나지 않게 한다.
+  function drawHist() {
+    const W = svg.clientWidth || 288;
+    BW = W / 24;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.innerHTML =
+      hours.map((n, h) => {
+        const bh = (n / hMax) * (BASE - TOP);
+        return `<rect class="bar" data-h="${h}" x="${h * BW + 1}" y="${BASE - bh}" width="${BW - 2}" height="${bh}"><title>${h}시 대여 시작 ${fmt(n)}건</title></rect>`;
+      }).join("") +
+      [0, 6, 12, 18].map((h) => `<text class="axis" x="${h * BW + (h ? BW / 2 : 0)}" y="114"${h ? "" : ' style="text-anchor: start"'}>${h}시</text>`).join("") +
+      `<text class="val" x="${Math.min(W - 20, Math.max(20, hours.indexOf(hMax) * BW + BW / 2))}" y="${TOP - 4}">${fmt(hMax)}</text>` +
+      `<line class="nowline" id="nowline" x1="0" x2="0" y1="${TOP - 2}" y2="${BASE}"></line>`;
+    bars = [...svg.querySelectorAll(".bar")];
+    nowline = $("nowline");
+    if (typeof render === "function") render();
+  }
+  drawHist();
+  new ResizeObserver(() => { if (Math.abs((svg.clientWidth || 0) - BW * 24) > 1) drawHist(); }).observe(svg);
+
+  function render() {
+    const s = Math.min(DAY_S, Math.floor(time));
+    $("clock").textContent = hhmm(time);
+    $("moving").textContent = fmt(movingAt[s]);
+    $("staying").textContent = fmt(stayingAt[s]);
+    slider.value = String(Math.round(time));
+    const x = (time / 3600) * BW;
+    nowline.setAttribute("x1", x); nowline.setAttribute("x2", x);
+    const cur = Math.min(23, Math.floor(time / 3600));
+    bars.forEach((b, h) => b.classList.toggle("on", h === cur));
+    deckgl.setProps({ layers: layers(time) });
+  }
+
+  let playing = false, last = 0, raf = 0;
+  const frame = (now) => {
+    time = Math.min(DAY_S, time + ((now - last) / 1000) * Number(speedSel.value));
+    last = now;
+    render();
+    if (time >= DAY_S) return setPlaying(false);
+    raf = requestAnimationFrame(frame);
+  };
+  function setPlaying(on) {
+    playing = on;
+    playBtn.textContent = on ? "정지" : "재생";
+    playBtn.setAttribute("aria-label", on ? "정지" : "재생");
+    cancelAnimationFrame(raf);
+    if (on) {
+      if (time >= DAY_S) time = 0; // 끝에서 다시 누르면 처음부터
+      last = performance.now();
+      raf = requestAnimationFrame(frame);
+    }
+  }
+  playBtn.addEventListener("click", () => setPlaying(!playing));
+  slider.addEventListener("input", () => { time = Number(slider.value); render(); });
+  svg.addEventListener("click", (e) => {
+    const r = svg.getBoundingClientRect();
+    const h = Math.max(0, Math.min(23, Math.floor(((e.clientX - r.left) / r.width) * 24)));
+    time = h * 3600; render();
+  });
+
+  playBtn.disabled = false; slider.disabled = false;
+  statusEl.textContent = "";
+  render();
+  if (!reduceMotion) setPlaying(true);
+}).catch((err) => {
+  console.error(err);
+  statusEl.textContent = `데이터를 불러오지 못했습니다: ${err.message}`;
+  $("summary").innerHTML = `<span class="muted">요약 없음</span>`;
+});
+</script>
+</body>
+</html>

@@ -145,3 +145,16 @@
 | [sec08-autonomous/65-background](sec08-autonomous/65-background/) | `claude --bg`, `claude agents`(엿보기·들어가기), `/fork`, 워크트리 격리와 합치기, 비교 주소 공유 `?compare=` | 백그라운드 세션과 agent view |
 | [sec08-autonomous/66-remote-control](sec08-autonomous/66-remote-control/) | `/remote-control 이름`, 상태 창(QR·연결 끊기), 보안(나가는 HTTPS만), 휴대폰에서 되는 명령 | Remote Control |
 | [sec08-autonomous/67-mission-8](sec08-autonomous/67-mission-8/) | 미션 8: 백그라운드 세션에 `/goal` 걸어 피크 이름표 겹침 고치기 → agent view → 합치기 — 채점표·정답 풀이 | 미션 8 |
+
+## 섹션 9. 병렬 작업과 Agent Teams — 「서울 라이브 3D」 ③ 따릉이 하루 (완성)
+
+앱 저장소: **[dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d)** (섹션 9 작업 = 브랜치 `sec09-bike`, main 병합 `e586b13`). 시작 상태·데이터 받는 법은 [sec09-parallel-bike/start](sec09-parallel-bike/start/) — 따릉이 대여이력 원본(700MB, 생년·성별 열 포함)은 저장소에 넣지 않습니다. Claude Code 2.1.296. Agent Teams는 실험 기능(2026-10 기준).
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec09-parallel-bike/68-big-data-worktree](sec09-parallel-bike/68-big-data-worktree/) | worktree = 작업대 복사, `claude -w bike-trips` / `-w bike-stations` 두 창 동시에(하루 135,181건 · 대여소 2,789곳), 합치기(README 충돌)·정리 | 큰 데이터 나누기 |
+| [sec09-parallel-bike/69-agent-teams](sec09-parallel-bike/69-agent-teams/) | `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, 팀원 셋(전처리·시각화·검증, Sonnet), 따로 계산해 대조, 원본 CSV를 저장소에서 빼기 | Agent Teams(실험) |
+| [sec09-parallel-bike/70-trips-layer](sec09-parallel-bike/70-trips-layer/) | TripsLayer 네 값(경로·타임스탬프·지금 시각·꼬리 길이), 개인 속성 없는 재생용 JSON 2.9MB, 밤 지도·빛 꼬리·3D | 빛의 궤적으로 재생 |
+| [sec09-parallel-bike/70-1-combine-layers](sec09-parallel-bike/70-1-combine-layers/) | 지하철·붐빔·따릉이를 시간 슬라이더 하나로, `recommend.mjs` 추천 규칙(걸어서·따릉이·지하철) | 세 레이어 합치기 |
+| [sec09-parallel-bike/71-measure-parallel](sec09-parallel-bike/71-measure-parallel/) | 📏 같은 일 1회씩: 혼자 3분 6초·$0.64 / worktree 병렬 1분 28초·$0.85(+합치기 $0.35) / Agent Teams 3분 12초·$1.09, `measure/cost.py` | 📏 혼자 vs 병렬 vs 팀 |
+| [sec09-parallel-bike/72-mission-9](sec09-parallel-bike/72-mission-9/) | 미션 9: 평일(6/10) 하루를 더해 토요일과 비교(08:30 이동 중 1,148대 vs 2,913대) — 채점표·정답 | 미션 9 |
