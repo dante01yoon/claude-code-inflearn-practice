@@ -64,6 +64,7 @@
 | [sec03-setting/20-commands-skills](sec03-setting/20-commands-skills/) | 커스텀 명령과 스킬의 차이·합치기, `/web-page` 스킬, `$ARGUMENTS` | 커스텀 명령과 스킬 |
 | [sec03-setting/21-skill-design](sec03-setting/21-skill-design/) | 설명 한 줄, `scripts/`·`reference/`, 자가 수정 체크리스트 — `seoul-data` 스킬(서울 열린데이터광장) | 스킬 설계 |
 | [sec03-setting/22-skill-doctor](sec03-setting/22-skill-doctor/) | 🆕 `/skill-doctor`로 스킬별 비용·사용 빈도 보기, `skillOverrides`로 끄기 (📏 `/context` 6.0k → 4.7k 토큰) | /skill-doctor |
+| [sec03-setting/22-1-anatomy](sec03-setting/22-1-anatomy/) | 남이 만든 스킬 점검(출처·라이선스·스크립트·외부 전송·시간) → `npx skills add wheresryan22/anatomy -a claude-code` → `/anatomy`로 강남역 9월 승하차 기계 그림(Figure 10분 · Hero 1시간, 소스만·MIT 스킬 키트는 미포함) | 남이 만든 스킬 가져다 쓰기 |
 | [sec03-setting/23-subagents](sec03-setting/23-subagents/) | `.claude/agents/reviewer.md`(역할·도구 제한·모델), 🆕 `/subtask` | 서브에이전트 |
 | [sec03-setting/24-hooks](sec03-setting/24-hooks/) | 수정 후 prettier, 위험 명령 차단(exit 2), 🆕 PreModelSwitch 확인 | 훅 |
 | [sec03-setting/25-mods](sec03-setting/25-mods/) | 🆕 `/plugin-authoring`으로 프롬프트 위 "스킬·에이전트·훅" 개수 mod → `.claude/skills/`로 옮겨 매번 로드 | Mods |
