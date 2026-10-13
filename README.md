@@ -171,3 +171,11 @@
 | [sec10-automation/75-routines](sec10-automation/75-routines/) | `/schedule` 매일 07:10 KST, GitHub 연결(401), 한 번 실행 → 클라우드 네트워크에 막힘(fetch failed), 끄기 | 루틴 |
 | [sec10-automation/76-loop](sec10-automation/76-loop/) | 간격 없는 `/loop`: 기준점 → 6분 뒤 스스로 깨어나 비교 → 멈춤, CronList | /loop |
 | [sec10-automation/77-mission-10](sec10-automation/77-mission-10/) | 미션 10: 리포트에 광화문·덕수궁 '가기 좋은 시각'(짧게 → 새벽 6~8시 → 자세히 → 10·18·11시) — 채점표·정답 | 미션 10 |
+
+## 섹션 11. 하네스 완성 — 프로젝트 3에 하네스 입히기 (서울 라이브 3D)
+
+앱 저장소: **[dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d)** (섹션 11 작업 = 브랜치 `sec11-harness`). Claude Code 2.1.296.
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec11-harness/78-internals](sec11-harness/78-internals/) | 한 바퀴 네 단계(조립·도구 호출·권한 확인·압축), 관찰용 훅 `trace.py` → `.claude/trace.log`, `/context` 25k → 44.4k → `/compact` 뒤 32.2k, ask 규칙이 오토 모드보다 먼저 | 클로드 코드 내부 한 바퀴 |
