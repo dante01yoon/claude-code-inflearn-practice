@@ -18,11 +18,15 @@
 SUPABASE_URL=http://127.0.0.1:54421
 SUPABASE_SERVICE_ROLE_KEY=<npx supabase status 의 Secret 키>
 SUPABASE_PUBLISHABLE_KEY=<npx supabase status 의 Publishable 키>
+SEOUL_OPENAPI_KEY=<43강에서 넣은 일반 인증키>   # 없으면 sample 키 = 광화문·덕수궁 1곳만
 ```
 ```bash
 npm run collect -- --watch
 ```
-촬영 때 쌓인 기록: sample 키 광화문·덕수궁 11행(2026-10-12 14:05~15:15 KST, 모두 보통 42,000~44,000명).
+촬영 때 쌓인 기록(2026-10-13, 내 일반 인증키): 측정 시각 20:05 KST부터 약 3시간, 121곳 기록 2,899행. 5분마다 「받음 121곳, 새 기록 121행」, 같은 측정 시각이면 「이미 있음」. 가끔 몇 곳이 API 오류(JSON 대신 XML 응답)로 빠졌다가(116곳) 다음 차례에 다시 받음 — 수집기는 멈추지 않음.
+- 홍대 관광특구 그래프: 기록 22개, 20:05 보통 76,000~78,000명 → 23:00 여유 48,000~50,000명. 중간 21:45~22:05는 촬영 중 컴퓨터가 다시 켜져 수집기가 멈춘 구간 → 12분 넘게 비어 선이 끊김(지어내지 않음).
+- 참고: sample 키 때(2026-10-12)는 광화문·덕수궁 11행, 모두 보통 42,000~44,000명.
+- 호출량: 수집기는 5분에 121번(서버 5분 저장 안에서는 다시 묻지 않음). 공식 페이지에 이 API 하루 호출 한도는 적혀 있지 않음.
 
 ## 근거
 - [Vercel Cron Jobs Usage & Pricing](https://vercel.com/docs/cron-jobs/usage-and-pricing)
