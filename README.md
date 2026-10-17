@@ -180,6 +180,16 @@
 |---|---|---|
 | [sec11-harness/78-internals](sec11-harness/78-internals/) | 한 바퀴 네 단계(조립·도구 호출·권한 확인·압축), 관찰용 훅 `trace.py` → `.claude/trace.log`, `/context` 25k → 44.4k → `/compact` 뒤 32.2k, ask 규칙이 오토 모드보다 먼저 | 클로드 코드 내부 한 바퀴 |
 
+## 섹션 12. 실전 팁 모음 (업데이트 섹션)
+
+앱 저장소: **[dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d)** (섹션 12 작업 = 브랜치 `sec12-tips`). Claude Code 2.1.299. 새 버전이 나오면 이 섹션에 더해 갑니다.
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec12-tips/88-updates](sec12-tips/88-updates/) | 자동 업데이트·채널(`latest`·`stable`), CHANGELOG.md에서 이 프로젝트에 닿는 변화만 골라 만든 `UPDATES.md`(2.1.299~2.1.302), 원문 대조 | 최신 기능 업데이트 노트 |
+| [sec12-tips/89-token-habits](sec12-tips/89-token-habits/) | `/clear` · 모델·effort 고정 · 큰 출력 거르기, `/context` Messages 실측 27.1k → 9.8k, 19.3k → 9.8k | 토큰 아끼는 습관 정리 |
+| [sec12-tips/90-faq](sec12-tips/90-faq/) | Windows(PowerShell vs CMD · Git Bash · PATH), 사용 한도와 529·429, `claude doctor` · `/doctor` | 자주 받는 질문 정리 |
+
 ## 섹션 13. 마무리
 
 앱 저장소: **[dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d)** (섹션 13 작업 = 브랜치 `sec13-wrap`, PR #5). 체크리스트: **[claude-code-starter-setting/WORKFLOW.md](https://github.com/dante01yoon/claude-code-starter-setting/blob/main/WORKFLOW.md)**. Claude Code 2.1.296.

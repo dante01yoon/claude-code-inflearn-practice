@@ -7,8 +7,8 @@ import { readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
-const TIME_ZONES = ["Asia/Seoul", "UTC", "America/New_York", "Europe/London", "Asia/Kolkata"];
-// 서울 09:04:05 = UTC 00:04:05 (UTC·뉴욕에서는 날짜까지 바뀌는 시각)
+const TIME_ZONES = ["Asia/Seoul", "UTC", "America/Sao_Paulo", "Europe/London", "Asia/Kolkata"];
+// 서울 09:04:05 = UTC 00:04:05 (UTC·상파울루에서는 날짜까지 바뀌는 시각)
 const UPDATED_AT = "2026-10-17T00:04:05.000Z";
 const EXPECTED = { hour: 9, minute: 4, second: 5 };
 

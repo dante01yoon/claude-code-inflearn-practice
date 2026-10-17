@@ -32,7 +32,7 @@ export CLAUDE_CODE_ENABLE_TELEMETRY=1 OTEL_METRICS_EXPORTER=otlp OTEL_EXPORTER_O
 claude -p "서울 라이브 3D의 테스트 파일은 몇 개야? 숫자만"
 ```
 
-## 화면에서 본 것 (녹화 1회, 2026-10-17 04:12~04:18 EDT)
+## 화면에서 본 것 (녹화 1회, 2026-10-17)
 | 시점 | 본 것 |
 |---|---|
 | `/usage` (테스트 1회 뒤) | Total cost $0.2046 · API 16초 · claude-opus-5-5 512 input · 572 output · 122.8k cache read · 20.8k cache write · Prompt cache 3 requests · 81% of input tokens from cache. 요금제 막대는 가림 |

@@ -32,7 +32,7 @@ node bench/kit-ab.mjs        ← 두 번째 녹화(첫 녹화의 실행분은 �
 - `claude -p … --output-format stream-json --verbose --permission-mode auto --settings <조건>`. 다른 건 `--settings` 하나: 키트 없음 = `{"enabledPlugins":{"superpowers@claude-plugins-official":false}}`, 키트 있음 = `{}`. (mod는 두 쪽 모두 켜져 있음 — `-p`에서는 그리지 않음)
 - 잰 것: 걸린 시간, `total_cost_usd`(구독자에게는 참고값), `num_turns`, 출력 토큰, 그 복사본의 `npm test`, 출발 커밋 대비 바뀐 줄(`git add -A` 뒤 `git diff --cached --shortstat`), Skill 도구로 쓴 스킬.
 
-## 화면에서 본 것 (2026-10-17 04:23~04:37 EDT)
+## 화면에서 본 것 (2026-10-17)
 - 설치 뒤 `/context`: 스킬 46개 · 6.9k 토큰(키트 없을 때 32개), 부탁 전 메시지 1.3k 토큰(superpowers의 SessionStart 훅이 사용 안내를 넣음).
 
 | 조건 | 회 | 분 | 비용 추정($) | 턴 | 출력 토큰 | 테스트 | 바뀐 줄 |
