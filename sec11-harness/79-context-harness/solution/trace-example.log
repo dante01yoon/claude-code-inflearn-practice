@@ -1,0 +1,8 @@
+03:31:55  조립        InstructionsLoaded  CLAUDE.md (session_start)
+03:31:55  조립        InstructionsLoaded  ~/.claude/CLAUDE.md (session_start)
+03:32:41  조립        InstructionsLoaded  CLAUDE.md (nested_traversal)
+03:33:26  조립        InstructionsLoaded  .claude/rules/bike.md (path_glob_match)
+03:33:26  조립        InstructionsLoaded  .claude/rules/citydata.md (path_glob_match)
+03:33:26  조립        InstructionsLoaded  .claude/rules/subway-page.md (path_glob_match)
+03:33:26  조립        InstructionsLoaded  .claude/rules/html.md (path_glob_match)
+03:33:26  조립        InstructionsLoaded  .claude/rules/supabase.md (path_glob_match)
