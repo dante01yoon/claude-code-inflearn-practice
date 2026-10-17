@@ -9,5 +9,6 @@
 | [82-hook-gate](82-hook-gate/) | 검증 하네스 ② — 검사 훅(문법·타입·테스트): 통과는 조용히, 실패만 exit 2. PostToolUse + Stop(셸 수정까지) |
 | [84-debug](84-debug/) | 디버깅 하네스 — 로그·재현 스크립트·환경 변수. 「받음」 시각이 보는 컴퓨터 시간대로 나오던 버그를 `TZ`로 5개 시간대에서 재현(`scripts/repro-received-time.mjs`, 틀리면 종료 코드 1) → 고침 → CLAUDE.md 규칙 |
 | [85-observe](85-observe/) | 관측 — `/usage` Session 블록, `/statusline`으로 모델·컨텍스트 %·세션 비용, OpenTelemetry(OTLP http/json)를 받아 토큰·비용을 보여 주는 `tools/otel-view.mjs`(이메일·조직 ID 등 계정 속성은 허용 목록으로 버림) |
+| [86-kit](86-kit/) | 공개 하네스 키트 📏 — 공식 마켓플레이스 superpowers + 내장 mod You should know 설치, `/context` 변화(스킬 32→46), `bench/kit-ab.mjs`로 같은 부탁을 키트 없음/있음 2회씩 비교한 숫자 |
 
-앱 저장소: [dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d) 브랜치 `sec11-harness`(main `cc3d56f` 위). `solution/`에는 그 수업에서 생기거나 바뀐 파일만 있습니다. Claude Code 2.1.296.
+앱 저장소: [dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d) 브랜치 `sec11-harness`(80·84~86강은 `sec11-spec`)(main `cc3d56f` 위). `solution/`에는 그 수업에서 생기거나 바뀐 파일만 있습니다. Claude Code 2.1.296.
