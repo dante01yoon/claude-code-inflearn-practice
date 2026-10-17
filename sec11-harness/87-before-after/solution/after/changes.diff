@@ -1,0 +1,107 @@
+diff --git a/.claude/rules/subway-page.md b/.claude/rules/subway-page.md
+index 5f50668..9abadf3 100644
+--- a/.claude/rules/subway-page.md
++++ b/.claude/rules/subway-page.md
+@@ -7,12 +7,14 @@ paths:
+   - "station-search.mjs"
+   - "station-compare.mjs"
+   - "transfer-lines.mjs"
++  - "next-quiet.mjs"
+   - "tests/alerts.test.mjs"
+   - "tests/recommend.test.mjs"
+   - "tests/nearby-places.test.mjs"
+   - "tests/station-search.test.mjs"
+   - "tests/station-compare*.test.mjs"
+   - "tests/transfer-lines.test.mjs"
++  - "tests/next-quiet.test.mjs"
+ ---
+ 
+ # subway.html 기능(슬라이더·알림·추천·역 찾기·비교)
+@@ -24,3 +26,4 @@ paths:
+ - `station-search.mjs`: 역 찾기(`searchStations`). 이름 일부나 초성으로 찾는다(글자마다 맞춰서 "ㄱㄴ"·"강ㄴ" → 강남, 된소리 초성은 따로 본다). 순서는 이름과 같음 → 앞부분 → 가운데 → 부역명이고, 같으면 하루 승하차(`riders`)가 많은 역 먼저, 그다음 이름순.
+ - `station-compare.mjs`: 「두 역 비교」(`renderCompare`) 계산(`compareDaily`: 하루 합계·각 역 피크·더 많은 시간대 수·차이가 가장 큰 시간대). 고른 역과 비교할 역을 둘 다 전체 노선 합계 하루 평균으로 꺾은선 2개로 그리고(범례에 「전체 노선 합계」), 눈금은 3D 공통 `yMax`가 아니라 두 역의 최댓값(`niceMax`)이다. 색은 `--compare-a`·`--compare-b`. 주소로 공유: `?compare=강남,홍대입구`로 열면 두 역을 골라 바로 비교하고(`readCompareParam`, 이름이 같거나 부역명 뺀 이름이 같은 역만 `findStationByName`), 두 역을 고르면 주소도 `replaceState`로 바꾼다(`compareSearch`, 다른 파라미터는 유지). 「링크 복사」 버튼(`#cmp-share`).
+ - `transfer-lines.mjs`: 환승역 답 카드의 노선 칩·노선별 승하차. CSV 호선명을 승객이 아는 노선으로 묶는다(`passengerLine`·`groupByLine`, 경부·경인선 → 1호선, 경원선은 역으로 나눔). 결정과 단계는 `SPEC.md`.
++- `next-quiet.mjs`: 하루 띠 단계(`bandLevel`, 피크 대비 한 <30% · 보 30–60% · 붐 ≥60%, 0명은 null)와 답 카드의 「지금부터 가장 가까운 한가한 때」(`nextQuietHour(row, date)`: 서울 시각의 지금 시간대부터 자정을 넘어 한 바퀴 돌며 처음 나오는 「한」, 없으면 null). 하루 띠(`renderBand`)도 같은 `bandLevel`을 쓰고, 답 카드 줄(`renderNextQuiet`)은 1분마다 다시 쓴다.
+diff --git a/CLAUDE.md b/CLAUDE.md
+index dd92504..9a7d37b 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -17,7 +17,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
+ ## 파일 지도
+ - 화면: `index.html`(3D 기둥), `subway.html`(지도·실시간·붐빔·따릉이·추천·로그인), `bike.html`(따릉이 하루 재생), `admin.html`(관리자), `stations.html`, `reports/index.html`(리포트 보기)
+ - 서버: `server.mjs`(정적 파일 + `/api/*`), `api/*.js`(같은 API의 Vercel 함수), `vercel.json`·`.vercelignore`
+-- 공용 모듈: `stats.mjs`(`HOURS`·`count`·`total`), `subway-csv.mjs`(CP949 CSV), `subway-lines.mjs`, `train-positions.mjs`, `realtime-*.mjs`, `citydata-*.mjs`, `db-status.mjs`, `alerts.mjs`, `recommend.mjs`, `nearby-places.mjs`, `station-search.mjs`, `station-compare.mjs`, `bike-trips.mjs`, `daily-report.mjs`, `transfer-lines.mjs`(환승역 노선 묶기, `SPEC.md`)
++- 공용 모듈: `stats.mjs`(`HOURS`·`count`·`total`), `subway-csv.mjs`(CP949 CSV), `subway-lines.mjs`, `train-positions.mjs`, `realtime-*.mjs`, `citydata-*.mjs`, `db-status.mjs`, `alerts.mjs`, `recommend.mjs`, `nearby-places.mjs`, `station-search.mjs`, `station-compare.mjs`, `bike-trips.mjs`, `daily-report.mjs`, `transfer-lines.mjs`(환승역 노선 묶기, `SPEC.md`), `next-quiet.mjs`(하루 띠 단계·지금부터 가장 가까운 한가한 시간대)
+ - `tools/otel-view.mjs`(Claude Code 사용량 대시보드, OTLP http/json → http://127.0.0.1:18972. 계정 정보는 허용 목록 `KEEP_ATTRS`로 버리고 저장·표시·출력하지 않는다, `tests/otel-view.test.mjs`), `bench/kit-ab.mjs`(하네스 키트 있음/없음 비교)
+ - `scripts/`(점검·수집·빌드·리포트, `repro-*.mjs` 재현 스크립트), `supabase/`(마이그레이션), `mcp-server/`(MCP 서버), `data/`(원본 데이터), `tests/`
+ 
+diff --git a/subway.html b/subway.html
+index 6e40ce0..2a2d344 100644
+--- a/subway.html
++++ b/subway.html
+@@ -113,6 +113,8 @@
+   .answer .hour { font-size: 44px; line-height: 1.05; font-weight: 700; color: var(--answer); }
+   .answer .detail { font-size: 15px; line-height: 1.5; }
+   .answer .detail b { font-variant-numeric: tabular-nums; }
++  .answer .next-quiet { font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
++  .answer .next-quiet b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+   .ratio { height: 8px; border-radius: 4px; background: #2b2a26; overflow: hidden; }
+   .ratio i { display: block; height: 100%; width: 0; background: var(--answer); }
+   /* 답 카드: 가까운 도시데이터 장소의 지금 혼잡도 */
+@@ -395,6 +397,7 @@
+         <div class="window">낮 · 10–15시대 중에서</div>
+         <div class="hour">—</div>
+         <div class="detail">역을 고르면 이 시간 창에서 가장 한가한 시간대를 알려 드립니다.</div>
++        <div class="next-quiet" hidden></div>
+         <div class="ratio" aria-hidden="true"><i></i></div>
+         <div class="nearby" id="nearby" hidden><h3>가까운 장소 · 지금 혼잡도</h3><ul></ul></div>
+         <p class="basis">데이터 기준 <span class="data-month">2026년 9월</span>, 한 달 합계를 일수로 나눈 값.<br>평일과 주말이 섞여 있고 개찰구 승하차 기준입니다(갈아타는 사람 제외).<br>역이 한가한 정도이고, 열차 안 혼잡도와는 다를 수 있습니다.</p>
+@@ -517,6 +520,7 @@
+ // 역 검색 → 답 카드·하루 띠·2D 차트, 그리고 3D 지도(deck.gl)와 시간 재생. 지도 기둥을 눌러도 역이 골라진다.
+ // 실시간 열차 위치(/api/trains)와 실시간 도시데이터(/api/citydata)는 server.mjs가 인증키를 붙여 받아 온다. 브라우저에는 키가 없다.
+ // 로그인(이메일 6자리 코드)과 즐겨찾기는 Supabase에 바로 붙는다. 주소와 publishable 키는 /api/config로 받고, 남의 행은 RLS가 막는다.
++import { bandLevel, nextQuietHour } from "./next-quiet.mjs";
+ import { HOURS, total, usageMonth, quietestInWindow, peakRatio, WINDOW_PRESETS, DEFAULT_WINDOW_ID } from "./stats.mjs";
+ import { SUBWAY_CSV, STATION_MASTER_CSV, fetchCsv, toSubwayRows, mergeStations, stationLocator } from "./subway-csv.mjs";
+ import { groupByLine } from "./transfer-lines.mjs";
+@@ -778,8 +782,20 @@ const nearbyEl = document.getElementById("nearby"); // 가까운 장소 목록(r
+ // 반올림하면 0%가 되는 작은 비율은 "1% 미만"으로 쓴다.
+ const pct = (r) => (r > 0 && r < 0.005 ? "1% 미만" : `${Math.round(r * 100)}%`);
+ 
++// 지금(KST)부터 가장 가까운 한가한 시간대. 기준은 하루 띠의 "한"(피크 대비 30% 미만)이다.
++function renderNextQuiet(row) {
++  const box = el(".next-quiet");
++  box.hidden = !row;
++  if (!row) return;
++  const h = nextQuietHour(row, new Date());
++  const wait = h === null ? 0 : (h - kstHour() + 24) % 24;
++  box.innerHTML = h === null ? "지금부터: 하루 중 「한」 시간대가 없습니다."
++    : `지금부터 가장 가까운 한가한 때: <b>${hourLabel(h)}</b>${wait ? `(${wait}시간 뒤)` : "(지금)"} · 하루 평균 <b>${fmt(total(row, h) / days)}</b>명`;
++}
++
+ function renderAnswer(row, win, quiet) {
+   el(".window").textContent = `${win.label} · ${windowSpan(win.hours)} 중에서`;
++  renderNextQuiet(row);
+   if (!row) return;
+   el(".station").textContent = selected.entry.name;
+   el(".line").textContent = selected.line ?? (selected.entry.lines.length > 1 ? `${row.SBWY_ROUT_LN_NM} 합산` : row.SBWY_ROUT_LN_NM);
+@@ -805,7 +821,8 @@ function renderBand(row, quiet) {
+     const cell = band.children[i];
+     const v = row ? total(row, h) : 0;
+     const r = peak ? v / peak : 0;
+-    const [cls, word] = !v ? ["", "–"] : r < 0.3 ? ["quiet", "한"] : r < 0.6 ? ["mid", "보"] : ["busy", "붐"];
++    const cls = row ? bandLevel(row, h) ?? "" : "";
++    const word = { quiet: "한", mid: "보", busy: "붐" }[cls] ?? "–";
+     cell.className = cls;
+     cell.classList.toggle("is-answer", quiet.includes(h));
+     cell.querySelector("b").textContent = word;
+@@ -1323,6 +1340,9 @@ function checkAlerts({ quiet = false } = {}) {
+ 
+ initAuth();
+ 
++// 「지금부터 가장 가까운 한가한 때」는 시각이 흐르면 바뀌므로 1분마다 다시 쓴다.
++setInterval(() => renderNextQuiet(selectedRow()), 60_000);
++
+ // 고른 역·노선·시간 창이 바뀔 때마다 답 카드, 하루 띠, 차트, 시간 칸, 지도 강조를 함께 다시 그린다.
+ function render() {
+   const win = currentWindow();

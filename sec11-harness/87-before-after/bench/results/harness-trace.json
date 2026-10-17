@@ -1,0 +1,50 @@
+{
+ "after-1": {
+  "경로규칙_path_glob_match": 5,
+  "폴더CLAUDE_nested_traversal": 0,
+  "Stop": 1,
+  "Write_Edit": 2,
+  "Bash": 9,
+  "Skill": 0,
+  "쓰기_순서": [
+   "tests/next-quiet.test.mjs",
+   "next-quiet.mjs"
+  ]
+ },
+ "after-2": {
+  "경로규칙_path_glob_match": 0,
+  "폴더CLAUDE_nested_traversal": 1,
+  "Stop": 1,
+  "Write_Edit": 2,
+  "Bash": 9,
+  "Skill": 0,
+  "쓰기_순서": [
+   "tests/next-quiet.test.mjs",
+   "next-quiet.mjs"
+  ]
+ },
+ "after-3": {
+  "경로규칙_path_glob_match": 0,
+  "폴더CLAUDE_nested_traversal": 1,
+  "Stop": 1,
+  "Write_Edit": 2,
+  "Bash": 10,
+  "Skill": 0,
+  "쓰기_순서": [
+   "next-quiet.mjs",
+   "tests/next-quiet.test.mjs"
+  ]
+ },
+ "rec-after": {
+  "경로규칙_path_glob_match": 0,
+  "폴더CLAUDE_nested_traversal": 1,
+  "Stop": 1,
+  "Write_Edit": 2,
+  "Bash": 12,
+  "Skill": 0,
+  "쓰기_순서": [
+   "tests/next-quiet.test.mjs",
+   "next-quiet.mjs"
+  ]
+ }
+}

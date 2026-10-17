@@ -1,0 +1,80 @@
+diff --git a/CLAUDE.md b/CLAUDE.md
+index f775c50..bbbcf19 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -33,6 +33,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
+ - `subway.html`의 따릉이 레이어: `loadBikeTrips` → `toServiceDay`(04시 전에 시작한 이동을 하루 끝으로 옮겨 운행 하루로) → `TripsLayer`(`--bike`, 꼬리 20분, 같은 대여소 반납은 그리지 않음). 2026-06-13 기록이라 오늘 값이 아니다.
+ - `recommend.mjs` + `subway.html`의 「어디로 무엇을 타고 갈까」(`renderReco`): 그 시각 혼잡도가 낮은 장소를 고르고(없으면 가까운 역의 피크 대비 승하차로), 수단(걸어서·따릉이·지하철)은 `chooseMode` 규칙(출발 역에서의 거리, 운행 여부, 도착 역 붐빔, `DOCK_RADIUS_M` 안 대여소)으로 정한다. 출발 역 = 고른 역. 운행 여부는 노선 전체 승하차가 피크 시간대의 2% 이상인 시간대에 그 역이 하루 1명 이상(`stationAt`). 장소 근처 역·대여소는 `itemsNearArea`(`nearby-places.mjs`), 대여소별 시간대 건수는 `dockActivity`(`bike-trips.mjs`).
+ - `nearby-places.mjs`: 역 좌표에서 도시데이터 영역 경계까지 거리(m, 안이면 0)를 재서 `NEARBY_RADIUS_M`(500m) 안의 장소를 가까운 순으로 `NEARBY_LIMIT`(3)곳까지 고른다(`nearbyAreas`). `subway.html` 답 카드의 「가까운 장소 · 지금 혼잡도」(`renderNearby`)가 쓰고, 누르면 `selectPlace`로 붐빔 기록을 연다.
++- `next-quiet.mjs`: 답 카드의 「지금부터 가장 가까운 한가한 때」(`nextQuietHour(row, date)` → `{ hour, inHours, ratio }` 또는 null). 한가함은 하루 띠의 「한」(피크 대비 `QUIET_RATIO` 30% 미만, 0명 제외)과 같은 기준이고, 지금 KST 시부터 시계 순서로 24시간을 본다(하루 평균이라 자정을 넘어 되풀이). 시간 창과 상관없고, `subway.html`은 KST 시가 바뀌면 다시 그린다(`renderNextQuiet`).
+ - `station-search.mjs`: `subway.html` 역 찾기(`searchStations`). 이름 일부나 초성으로 찾는다(글자마다 맞춰서 "ㄱㄴ"·"강ㄴ" → 강남, 된소리 초성은 따로 본다). 순서는 이름과 같음 → 앞부분 → 가운데 → 부역명이고, 같으면 하루 승하차(`riders`)가 많은 역 먼저, 그다음 이름순.
+ - `station-compare.mjs`: `subway.html`의 「두 역 비교」(`renderCompare`) 계산(`compareDaily`: 하루 합계·각 역 피크·더 많은 시간대 수·차이가 가장 큰 시간대). 고른 역과 비교할 역을 둘 다 전체 노선 합계 하루 평균으로 꺾은선 2개로 그리고(범례에 「전체 노선 합계」), 눈금은 3D 공통 `yMax`가 아니라 두 역의 최댓값(`niceMax`)이다. 색은 `--compare-a`·`--compare-b`. 주소로 공유: `?compare=강남,홍대입구`로 열면 두 역을 골라 바로 비교하고(`readCompareParam`, 이름이 같거나 부역명 뺀 이름이 같은 역만 `findStationByName`), 두 역을 고르면 주소도 `replaceState`로 바꾼다(`compareSearch`, 다른 파라미터는 유지). 「링크 복사」 버튼(`#cmp-share`).
+ - `train-positions.mjs`: API 열차 행 → 지도 좌표(`placeTrain`). API `statnId`는 역사_ID와 체계가 달라 역 이름(`stopKey`, 괄호 부역명 제거)으로 맞추고, 방향은 종착역 쪽(지선 너머면 갈라지는 역 쪽)으로 정한다. API 역 이름이 다르면 `API_NAME_ALIASES`에 넣는다.
+diff --git a/subway.html b/subway.html
+index 2680122..07145c6 100644
+--- a/subway.html
++++ b/subway.html
+@@ -126,6 +126,9 @@
+   .nearby i { flex: none; width: 10px; height: 10px; border-radius: 50%; }
+   .nearby .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+   .nearby small { flex: none; color: var(--text-muted); font-variant-numeric: tabular-nums; }
++  .next-quiet { font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
++  .next-quiet[hidden] { display: none; }
++  .next-quiet b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+   .answer .basis { margin: 6px 0 0; font-size: 12px; line-height: 1.6; color: var(--text-secondary); }
+ 
+   /* 하루 띠: 24칸, 칸마다 글자(한·보·붐)를 함께 쓴다 */
+@@ -396,6 +399,7 @@
+         <div class="hour">—</div>
+         <div class="detail">역을 고르면 이 시간 창에서 가장 한가한 시간대를 알려 드립니다.</div>
+         <div class="ratio" aria-hidden="true"><i></i></div>
++        <div class="next-quiet" id="next-quiet" hidden></div>
+         <div class="nearby" id="nearby" hidden><h3>가까운 장소 · 지금 혼잡도</h3><ul></ul></div>
+         <p class="basis">데이터 기준 <span class="data-month">2026년 9월</span>, 한 달 합계를 일수로 나눈 값.<br>평일과 주말이 섞여 있고 개찰구 승하차 기준입니다(갈아타는 사람 제외).<br>역이 한가한 정도이고, 열차 안 혼잡도와는 다를 수 있습니다.</p>
+       </section>
+@@ -525,6 +529,7 @@ import { fetchAreas } from "./citydata-areas.mjs";
+ import { NEARBY_RADIUS_M, distanceM, distanceToArea, itemsNearArea, nearbyAreas } from "./nearby-places.mjs";
+ import { SERVICE_START_S, dockActivity, loadBikeTrips, toServiceDay } from "./bike-trips.mjs";
+ import { DOCK_RADIUS_M, RECOMMEND_LIMIT, crowdAtHour, recommend } from "./recommend.mjs";
++import { QUIET_RATIO, nextQuietHour } from "./next-quiet.mjs";
+ import { PLACE_ALERT_LEVELS, STATION_ALERT_RATIOS, activeAlerts, kstHour, newAlerts, throttleAlerts } from "./alerts.mjs";
+ import { DB_DOWN_MESSAGE, dbErrorText } from "./db-status.mjs";
+ import { norm, searchStations } from "./station-search.mjs";
+@@ -797,6 +802,20 @@ function renderAnswer(row, win, quiet) {
+   ratioBar.style.width = `${ratio * 100}%`;
+ }
+ 
++// 지금(KST)부터 가장 가까운 한가한 시간대(하루 띠의 「한」). 시간 창과 상관없이 하루 전체에서 찾는다.
++const nextQuietEl = document.getElementById("next-quiet");
++let nextQuietShownHour = -1; // 마지막으로 그린 KST 시. 시가 바뀌면 다시 그린다.
++function renderNextQuiet(row) {
++  nextQuietShownHour = kstHour();
++  nextQuietEl.hidden = !row;
++  if (!row) return;
++  const next = nextQuietHour(row);
++  nextQuietEl.innerHTML = !next
++    ? "지금부터 가장 가까운 한가한 때: 하루 내내 「한」인 시간대가 없습니다."
++    : `지금부터 가장 가까운 한가한 때: <b>${hourLabel(next.hour)}</b>(${next.inHours ? `${next.inHours}시간 뒤` : "지금"}) · 피크의 <b>${pct(next.ratio)}</b>`;
++}
++setInterval(() => { if (kstHour() !== nextQuietShownHour) renderNextQuiet(selectedRow()); }, 60_000);
++
+ // ---- 하루 띠: 피크 대비 한(<30%)·보(30–60%)·붐(≥60%). 0명인 시간대는 운행하지 않는 때라 "–" ----
+ function renderBand(row, quiet) {
+   const peak = row ? Math.max(...HOURS.map((h) => total(row, h))) : 0;
+@@ -804,7 +823,7 @@ function renderBand(row, quiet) {
+     const cell = band.children[i];
+     const v = row ? total(row, h) : 0;
+     const r = peak ? v / peak : 0;
+-    const [cls, word] = !v ? ["", "–"] : r < 0.3 ? ["quiet", "한"] : r < 0.6 ? ["mid", "보"] : ["busy", "붐"];
++    const [cls, word] = !v ? ["", "–"] : r < QUIET_RATIO ? ["quiet", "한"] : r < 0.6 ? ["mid", "보"] : ["busy", "붐"];
+     cell.className = cls;
+     cell.classList.toggle("is-answer", quiet.includes(h));
+     cell.querySelector("b").textContent = word;
+@@ -1329,6 +1348,7 @@ function render() {
+   const quiet = row ? quietestInWindow(row, win.hours) : [];
+   [...ticks.children].forEach((t, j) => t.classList.toggle("in-window", win.hours.includes(HOURS[j])));
+   renderAnswer(row, win, quiet);
++  renderNextQuiet(row);
+   renderBand(row, quiet);
+   renderChart(row, win, quiet);
+   renderCompare(row);
