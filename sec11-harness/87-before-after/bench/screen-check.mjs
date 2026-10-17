@@ -1,4 +1,4 @@
-// 화면 확인: 미국 동부 시간대 브라우저에서 서울 시각을 2026-10-17 09:20으로 고정하고 subway.html에서 여의도를 골라 답 카드를 읽는다.
+// 화면 확인: 한국과 다른 시간대 브라우저에서(OTHER_TZ, 기본 UTC) 서울 시각을 2026-10-17 09:20으로 고정하고 subway.html에서 여의도를 골라 답 카드를 읽는다.
 // 사용: hypit capture run screen-check.mjs -- <url> <out.png> <out.json>
 import fs from "node:fs";
 export const options = { launch: { defaultViewport: { width: 1600, height: 1000, deviceScaleFactor: 1 } }, timeoutMs: 180_000 };
@@ -8,7 +8,7 @@ export default async ({ page, args, log }) => {
   const errs = [];
   page.on("pageerror", (e) => errs.push(String(e).slice(0, 160)));
   page.on("console", (m) => { if (m.type() === "error") errs.push(m.text().slice(0, 160)); });
-  await page.emulateTimezone("America/New_York");
+  await page.emulateTimezone(process.env.OTHER_TZ ?? "UTC");
   await page.evaluateOnNewDocument((fixed) => {
     const D = Date, now0 = D.now(), off = fixed - now0;
     function F(...a) { if (!new.target) return new D(D.now() + off).toString(); return a.length ? new D(...a) : new D(D.now() + off); }

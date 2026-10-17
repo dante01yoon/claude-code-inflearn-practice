@@ -27,7 +27,7 @@ function run(arm, round) {
       let r = {};
       try { r = JSON.parse(out); } catch { r = { is_error: true, result: out.slice(0, 200) }; }
       const u = r.usage ?? {};
-      // 버그 세기 ① 숨은 채점(실제 역 6곳 × 서울·미국 동부 시간대) ② 그 복사본의 npm test 실패
+      // 버그 세기 ① 숨은 채점(실제 역 6곳 × 서울 시간대·한국과 다른 시간대) ② 그 복사본의 npm test 실패
       const acc = JSON.parse(sh("node", [`${HERE}accept.mjs`, dir]).trim().split("\n").pop() || "{}");
       const test = sh("npm", ["test"], dir);
       const n = (k) => Number(test.match(new RegExp(`ℹ ${k} (\\d+)`))?.[1] ?? NaN);

@@ -1,5 +1,5 @@
 #!/bin/zsh
-# 화면 확인을 복사본마다 차례로: 서버(127.0.0.1:18961) → screen-check.mjs(미국 동부 브라우저, 서울 09:20 고정, 여의도) → 서버 끔
+# 화면 확인을 복사본마다 차례로: 서버(127.0.0.1:18961) → screen-check.mjs(한국과 다른 시간대 브라우저, 서울 09:20 고정, 여의도) → 서버 끔
 # 사용: screen-all.sh  (results/before-after.json의 복사본 전부) → results/screen/<복사본>.png·.json, 판정은 merge-screen.mjs
 B=${0:A:h}; mkdir -p $B/results/screen
 for d in $(python3 -c "import json;[print(r['_']['dir']) for r in json.load(open('$B/results/before-after.json'))['rows']]"); do

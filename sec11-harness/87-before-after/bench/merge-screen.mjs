@@ -2,7 +2,7 @@
 // 사용: node merge-screen.mjs  → results/before-after.json에 화면 칸을 더하고 표를 다시 보여 준다
 import { readFileSync, writeFileSync } from "node:fs";
 const HERE = new URL(".", import.meta.url).pathname, P = `${HERE}results/before-after.json`;
-const WANT = 10;  // 여의도(5·9호선 합산), 서울 09:20 → 9시대 45% → 10시대 26%. 컴퓨터 시각(미국 동부 20:20)으로 계산하면 22시대
+const WANT = 10;  // 여의도(5·9호선 합산), 서울 09:20 → 9시대 45% → 10시대 26%. 컴퓨터 시각(한국과 다른 시간대)으로 계산하면 다른 시대가 나온다
 const data = JSON.parse(readFileSync(P, "utf8"));
 for (const r of data.rows) {
   const n = r._.dir.split("/").pop();

@@ -1,12 +1,12 @@
 // 숨은 채점: 클로드가 만든 next-quiet.mjs의 nextQuietHour(row, date)를 실제 9월 승하차로 확인한다.
-// 클로드는 이 파일을 보지 못한다(복사본 밖에 있음). 같은 케이스를 서울 시간대와 미국 동부 시간대 컴퓨터에서 돌린다.
+// 클로드는 이 파일을 보지 못한다(복사본 밖에 있음). 같은 케이스를 서울 시간대와 한국과 다른 시간대(OTHER_TZ, 기본 UTC) 컴퓨터에서 돌린다.
 // 사용: node accept.mjs <복사본 폴더>   → 마지막 줄에 JSON { pass, total, fails: [...] }
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
-const TZS = ["Asia/Seoul", "America/New_York"];
+const TZS = ["Asia/Seoul", process.env.OTHER_TZ ?? "UTC"];  // 두 번째는 한국과 다른 시간대. 측정 때는 녹화 컴퓨터의 시간대를 넣었다
 // 실존 역 + 서울 시각. 기대값은 아래 ref()가 같은 데이터로 계산한다(손으로 적지 않음).
 const CASES = [
   ["여의도", "5호선", "09:20"],    // 9시대 41% → 10시대 23%
@@ -49,7 +49,7 @@ if (process.argv[3] === "--one") {
   const fails = all.filter((c) => !c.ok);
   // 사람이 볼 표: 케이스마다 기대 시대와 두 시간대 컴퓨터의 결과
   const lab = (v) => (typeof v === "number" ? `${String(v).padStart(2, "0")}시대` : String(v).slice(0, 24));
-  console.log("숨은 채점 — 역 · 서울 시각 → 기대 | 서울 컴퓨터 | 미국 동부 컴퓨터");
+  console.log("숨은 채점 — 역 · 서울 시각 → 기대 | 서울 컴퓨터 | 다른 시간대 컴퓨터");
   for (const [name, line, at] of CASES) {
     const [a, b] = TZS.map((tz) => all.find((c) => c.역 === `${name}(${line})` && c.서울시각 === at && c.tz === tz));
     console.log(`  ${a.역} ${at} → ${lab(a.기대)} | ${lab(a.결과)} ${a.ok ? "✓" : "✗"} | ${lab(b.결과)} ${b.ok ? "✓" : "✗"}`);
