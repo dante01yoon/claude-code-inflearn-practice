@@ -1,0 +1,40 @@
+# PR을 열거나 새 커밋을 올리면 검증 훅(.claude/hooks/check.py)과 같은 검사를 돌린다.
+# PR에서 바뀐 파일을 문법(node --check·json·py_compile) → 타입(mcp-server tsc) → 테스트(node --test) 순으로 본다.
+# 결과는 PR의 Checks 탭과 이 작업의 요약(Summary)에 남는다.
+name: 검증 하네스
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+  workflow_dispatch: # 손으로 돌리면 추적 파일 전체를 검사
+
+concurrency:
+  group: check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+
+    steps:
+      - name: 저장소 받기
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # PR 기준 커밋과 비교하려면 이력이 필요하다
+
+      - name: Node 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: mcp-server/package-lock.json
+
+      - name: mcp-server 의존성 설치(타입 검사용 tsc)
+        run: npm ci
+        working-directory: mcp-server
+
+      - name: 검사
+        run: python3 .claude/hooks/check.py --ci ${{ github.event.pull_request.base.sha }}
