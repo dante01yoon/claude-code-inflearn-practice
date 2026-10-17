@@ -1,0 +1,121 @@
+diff --git a/.claude/rules/subway-page.md b/.claude/rules/subway-page.md
+index 5f50668..7d9e320 100644
+--- a/.claude/rules/subway-page.md
++++ b/.claude/rules/subway-page.md
+@@ -22,5 +22,5 @@ paths:
+ - `recommend.mjs` + 「어디로 무엇을 타고 갈까」(`renderReco`): 그 시각 혼잡도가 낮은 장소를 고르고(없으면 가까운 역의 피크 대비 승하차로), 수단(걸어서·따릉이·지하철)은 `chooseMode` 규칙(출발 역에서의 거리, 운행 여부, 도착 역 붐빔, `DOCK_RADIUS_M` 안 대여소)으로 정한다. 출발 역 = 고른 역. 운행 여부는 노선 전체 승하차가 피크 시간대의 2% 이상인 시간대에 그 역이 하루 1명 이상(`stationAt`). 장소 근처 역·대여소는 `itemsNearArea`(`nearby-places.mjs`), 대여소별 시간대 건수는 `dockActivity`(`bike-trips.mjs`).
+ - `nearby-places.mjs`: 역 좌표에서 도시데이터 영역 경계까지 거리(m, 안이면 0)를 재서 `NEARBY_RADIUS_M`(300m) 안의 장소를 가까운 순으로 `NEARBY_LIMIT`(5)곳까지 고른다(`nearbyAreas`). 답 카드의 「가까운 장소 · 지금 혼잡도」(`renderNearby`)가 쓰고, 누르면 `selectPlace`로 붐빔 기록을 연다.
+ - `station-search.mjs`: 역 찾기(`searchStations`). 이름 일부나 초성으로 찾는다(글자마다 맞춰서 "ㄱㄴ"·"강ㄴ" → 강남, 된소리 초성은 따로 본다). 순서는 이름과 같음 → 앞부분 → 가운데 → 부역명이고, 같으면 하루 승하차(`riders`)가 많은 역 먼저, 그다음 이름순.
+-- `station-compare.mjs`: 「두 역 비교」(`renderCompare`) 계산(`compareDaily`: 하루 합계·각 역 피크·더 많은 시간대 수·차이가 가장 큰 시간대). 고른 역과 비교할 역을 둘 다 전체 노선 합계 하루 평균으로 꺾은선 2개로 그리고(범례에 「전체 노선 합계」), 눈금은 3D 공통 `yMax`가 아니라 두 역의 최댓값(`niceMax`)이다. 색은 `--compare-a`·`--compare-b`. 주소로 공유: `?compare=강남,홍대입구`로 열면 두 역을 골라 바로 비교하고(`readCompareParam`, 이름이 같거나 부역명 뺀 이름이 같은 역만 `findStationByName`), 두 역을 고르면 주소도 `replaceState`로 바꾼다(`compareSearch`, 다른 파라미터는 유지). 「링크 복사」 버튼(`#cmp-share`).
++- `station-compare.mjs`: 답 카드의 전체 순위(`riderRanks`: 불러올 때 한 번 `entry.rank`로, 역 전체 하루 평균 승하차 `riders`의 반올림 값 기준, 동률은 같은 순위, 노선 칩을 골라도 역 전체 기준, aria-live라 역·노선이 바뀔 때만 다시 씀). 「두 역 비교」(`renderCompare`) 계산(`compareDaily`: 하루 합계·각 역 피크·더 많은 시간대 수·차이가 가장 큰 시간대). 고른 역과 비교할 역을 둘 다 전체 노선 합계 하루 평균으로 꺾은선 2개로 그리고(범례에 「전체 노선 합계」), 눈금은 3D 공통 `yMax`가 아니라 두 역의 최댓값(`niceMax`)이다. 색은 `--compare-a`·`--compare-b`. 주소로 공유: `?compare=강남,홍대입구`로 열면 두 역을 골라 바로 비교하고(`readCompareParam`, 이름이 같거나 부역명 뺀 이름이 같은 역만 `findStationByName`), 두 역을 고르면 주소도 `replaceState`로 바꾼다(`compareSearch`, 다른 파라미터는 유지). 「링크 복사」 버튼(`#cmp-share`).
+ - `transfer-lines.mjs`: 환승역 답 카드의 노선 칩·노선별 승하차. CSV 호선명을 승객이 아는 노선으로 묶는다(`passengerLine`·`groupByLine`, 경부·경인선 → 1호선, 경원선은 역으로 나눔). 결정과 단계는 `SPEC.md`.
+diff --git a/station-compare.mjs b/station-compare.mjs
+index 1db687e..3f3c5f1 100644
+--- a/station-compare.mjs
++++ b/station-compare.mjs
+@@ -20,6 +20,16 @@ export function compareDaily(a, b) {
+   };
+ }
+ 
++// 하루 평균 승하차(entries[].riders)로 매긴 전체 순위(답 카드)를 entries 순서대로 돌려준다.
++// 화면에 보이는 반올림 값으로 비교하고, 동률이면 같은 순위(나보다 많은 역 수 + 1)다.
++export function riderRanks(entries) {
++  const shown = entries.map((e) => Math.round(e.riders));
++  const sorted = [...shown].sort((a, b) => b - a);
++  const rankOf = new Map();
++  sorted.forEach((v, i) => rankOf.has(v) || rankOf.set(v, i + 1));
++  return shown.map((v) => rankOf.get(v));
++}
++
+ // ---- 주소로 공유: ?compare=강남,홍대입구 ----
+ // 쉼표는 그대로 두고 역 이름만 인코딩한다(주소창에서 읽기 쉽게). 다른 검색 파라미터는 건드리지 않는다.
+ export const COMPARE_PARAM = "compare";
+diff --git a/subway.html b/subway.html
+index 6e40ce0..d1311ef 100644
+--- a/subway.html
++++ b/subway.html
+@@ -110,6 +110,8 @@
+   .answer .station { font-size: 18px; font-weight: 700; }
+   .answer .line { font-size: 13px; color: var(--text-secondary); margin-left: 6px; font-weight: 400; }
+   .answer .window { font-size: 13px; color: var(--text-secondary); }
++  .answer .rank { font-size: 13px; color: var(--text-secondary); }
++  .answer .rank b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+   .answer .hour { font-size: 44px; line-height: 1.05; font-weight: 700; color: var(--answer); }
+   .answer .detail { font-size: 15px; line-height: 1.5; }
+   .answer .detail b { font-variant-numeric: tabular-nums; }
+@@ -392,6 +394,7 @@
+       <section class="panel answer" id="answer" aria-live="polite">
+         <div class="answer-head"><div><span class="station">역을 골라 주세요</span><span class="line"></span></div>
+           <button type="button" class="star" id="fav-station" hidden aria-pressed="false" aria-label="이 역 즐겨찾기">☆ 내 역</button></div>
++        <div class="rank"></div>
+         <div class="window">낮 · 10–15시대 중에서</div>
+         <div class="hour">—</div>
+         <div class="detail">역을 고르면 이 시간 창에서 가장 한가한 시간대를 알려 드립니다.</div>
+@@ -529,7 +532,7 @@ import { DOCK_RADIUS_M, RECOMMEND_LIMIT, crowdAtHour, recommend } from "./recomm
+ import { PLACE_ALERT_LEVELS, STATION_ALERT_RATIOS, activeAlerts, kstHour, newAlerts, throttleAlerts } from "./alerts.mjs";
+ import { DB_DOWN_MESSAGE, dbErrorText } from "./db-status.mjs";
+ import { norm, searchStations } from "./station-search.mjs";
+-import { compareDaily, compareSearch, findStationByName, placePeakLabels, readCompareParam } from "./station-compare.mjs";
++import { compareDaily, compareSearch, findStationByName, placePeakLabels, readCompareParam, riderRanks } from "./station-compare.mjs";
+ 
+ const pad = (h) => String(h).padStart(2, "0");
+ const hourLabel = (h) => `${pad(h)}시대`;
+@@ -556,7 +559,7 @@ winStart.value = HOURS.indexOf(defaultHours[0]);
+ winEnd.value = HOURS.indexOf(defaultHours.at(-1));
+ 
+ // ---- 상태 ----
+-let entries = [];       // 역 검색 항목(환승역은 합친 행 하나). { id, name, lines, merged, byLine, station, daily, riders } — lines는 CSV 호선명, byLine은 묶은 노선(transfer-lines.mjs)별 행
++let entries = [];       // 역 검색 항목(환승역은 합친 행 하나). { id, name, lines, merged, byLine, station, daily, riders, rank } — lines는 CSV 호선명, byLine은 묶은 노선(transfer-lines.mjs)별 행
+ const entryByName = new Map(); // 역명 → entries 항목(즐겨찾기 역은 역명으로 가리킨다)
+ let selected = null;    // { entry, line } — line이 null이면 노선 합산
+ let windowId = DEFAULT_WINDOW_ID;
+@@ -783,6 +786,14 @@ function renderAnswer(row, win, quiet) {
+   if (!row) return;
+   el(".station").textContent = selected.entry.name;
+   el(".line").textContent = selected.line ?? (selected.entry.lines.length > 1 ? `${row.SBWY_ROUT_LN_NM} 합산` : row.SBWY_ROUT_LN_NM);
++  // 순위는 노선 칩과 상관없이 역 전체(노선 합산) 하루 평균으로 매긴다(entry.rank, 불러올 때 계산).
++  // 답 카드가 aria-live라서 시간 창만 바뀔 때 같은 문장을 다시 읽지 않도록, 역·노선이 바뀔 때만 쓴다.
++  const rankEl = el(".rank");
++  const rankKey = `${selected.entry.id}|${selected.line ?? ""}`;
++  if (rankEl.dataset.key !== rankKey) {
++    rankEl.dataset.key = rankKey;
++    rankEl.innerHTML = `하루 평균 승하차 <b>${fmt(selected.entry.riders)}</b>명 · 전체 ${fmt(entries.length)}역 중 <b>${fmt(selected.entry.rank)}</b>위${selected.line ? " (역 전체 기준)" : ""}`;
++  }
+   const ratioBar = el(".ratio i");
+   if (!quiet.length) {
+     el(".hour").textContent = "기록 없음";
+@@ -2008,6 +2019,7 @@ Promise.all([fetchCsv(SUBWAY_CSV), fetchCsv(STATION_MASTER_CSV)])
+       entries.push(entry);
+       entryByName.set(entry.name, entry);
+     }
++    riderRanks(entries).forEach((rank, k) => (entries[k].rank = rank)); // 답 카드의 전체 순위
+     console.log(`3D에 세운 역 ${stations.length}곳`);
+ 
+     yMax = niceMax(Math.max(...stations.flatMap((s) => s.daily)));
+diff --git a/tests/station-compare.test.mjs b/tests/station-compare.test.mjs
+index 228471f..e5784ae 100644
+--- a/tests/station-compare.test.mjs
++++ b/tests/station-compare.test.mjs
+@@ -1,6 +1,6 @@
+ import assert from "node:assert/strict";
+ import { test } from "node:test";
+-import { compareDaily, compareSearch, findStationByName, readCompareParam } from "../station-compare.mjs";
++import { compareDaily, compareSearch, findStationByName, readCompareParam, riderRanks } from "../station-compare.mjs";
+ 
+ test("합계·피크·더 많은 칸 수·차이가 가장 큰 칸", () => {
+   const r = compareDaily([10, 50, 30, 0], [20, 10, 30, 0]);
+@@ -44,3 +44,14 @@ test("주소의 역 이름 찾기: 같은 이름, 부역명 뺀 이름만", () =
+   assert.equal(findStationByName(entries, "ㄱㄴ"), null);
+   assert.equal(findStationByName(entries, "강"), null);
+ });
++
++test("하루 평균 승하차 순위: 많은 역이 1위, 동률은 같은 순위, entries 순서대로", () => {
++  const entries = [{ riders: 50 }, { riders: 300 }, { riders: 120 }, { riders: 120 }, { riders: 0 }];
++  assert.deepEqual(riderRanks(entries), [4, 1, 2, 2, 5]);
++  assert.deepEqual(riderRanks([]), []);
++});
++
++test("순위는 화면에 보이는 반올림 값으로 매긴다", () => {
++  // 둘 다 "1,234명"으로 보이므로 같은 순위, 1,235명(1234.5)은 그보다 위
++  assert.deepEqual(riderRanks([{ riders: 1234.2 }, { riders: 1234.4 }, { riders: 1234.5 }]), [2, 2, 1]);
++});

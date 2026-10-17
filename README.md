@@ -179,3 +179,12 @@
 | 폴더 | 내용 | 수업 |
 |---|---|---|
 | [sec11-harness/78-internals](sec11-harness/78-internals/) | 한 바퀴 네 단계(조립·도구 호출·권한 확인·압축), 관찰용 훅 `trace.py` → `.claude/trace.log`, `/context` 25k → 44.4k → `/compact` 뒤 32.2k, ask 규칙이 오토 모드보다 먼저 | 클로드 코드 내부 한 바퀴 |
+
+## 섹션 13. 마무리
+
+앱 저장소: **[dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d)** (섹션 13 작업 = 브랜치 `sec13-wrap`, PR #5). 체크리스트: **[claude-code-starter-setting/WORKFLOW.md](https://github.com/dante01yoon/claude-code-starter-setting/blob/main/WORKFLOW.md)**. Claude Code 2.1.296.
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec13-wrap/91-workflow](sec13-wrap/91-workflow/) | 일곱 칸 체크리스트를 답 카드 「하루 평균 승하차 전체 몇 위」 기능으로 한 바퀴: `/context` → 계획 모드 → 테스트 먼저 → `/code-review` → PR(기준 `sec11-all`) → 리뷰 반영 → `gh pr checks` 통과 → 화면(강남 529역 중 5위) | 나만의 워크플로 체크리스트 |
+| [sec13-wrap/92-next](sec13-wrap/92-next/) | 공식 문서 「새로운 기능」 · 변경 기록 · `claude --version` · `/release-notes`, 강의 자료 저장소 네 곳, `claude plugin marketplace add`, 강의 전체 지도 | 다음 단계 |
