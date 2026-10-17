@@ -7,5 +7,6 @@
 | [80-spec](80-spec/) | 스펙 하네스 — AskUserQuestion으로 인터뷰 → `SPEC.md` → 화면으로 확인할 수 있게 세로로 6단계 → 새 세션 계획 모드로 1단계(환승역 노선 칩, `transfer-lines.mjs`). 앱 브랜치 `sec11-spec` |
 | [81-tdd-skill](81-tdd-skill/) | 검증 하네스 ① — 빨강 → 초록 → 리팩터링을 스킬 `/tdd`로, 역 찾기 "강남역" 버그 고치기 |
 | [82-hook-gate](82-hook-gate/) | 검증 하네스 ② — 검사 훅(문법·타입·테스트): 통과는 조용히, 실패만 exit 2. PostToolUse + Stop(셸 수정까지) |
+| [84-debug](84-debug/) | 디버깅 하네스 — 로그·재현 스크립트·환경 변수. 「받음」 시각이 보는 컴퓨터 시간대로 나오던 버그를 `TZ`로 5개 시간대에서 재현(`scripts/repro-received-time.mjs`, 틀리면 종료 코드 1) → 고침 → CLAUDE.md 규칙 |
 
 앱 저장소: [dante01yoon/seoul-live-3d](https://github.com/dante01yoon/seoul-live-3d) 브랜치 `sec11-harness`(main `cc3d56f` 위). `solution/`에는 그 수업에서 생기거나 바뀐 파일만 있습니다. Claude Code 2.1.296.
