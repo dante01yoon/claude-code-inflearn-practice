@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>한·일·미 고령화 정책 브리핑</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --bg: #0b1020;
+    --surface: #141a2e;
+    --surface-2: #1b2340;
+    --line: #262f4f;
+    --text: #e8ecf5;
+    --muted: #8a93ab;
+    --accent: #ff8a3d;
+    --kr: #5ab0ff;
+    --jp: #ff6b8a;
+    --us: #7ad6a0;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    font-size: clamp(16px, 1.15vw + 10px, 20px);
+    line-height: 1.6;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 1440px; margin: 0 auto; padding: clamp(20px, 4vw, 56px) 16px 64px; }
+  header h1 { font-size: clamp(28px, 3.4vw, 52px); line-height: 1.2; margin: 0 0 12px; letter-spacing: -0.02em; }
+  header p { color: var(--muted); margin: 0; max-width: 60ch; }
+  .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .08em; font-size: .8em; margin-bottom: 8px; }
+  .asof { display: inline-block; margin-top: 16px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: .85em; }
+
+  nav.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 32px 0 20px; }
+  nav.tabs button {
+    font: inherit; font-weight: 600; color: var(--text); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 999px; padding: 8px 18px; cursor: pointer;
+  }
+  nav.tabs button[aria-pressed="true"] { background: var(--accent); color: #1a0e05; border-color: var(--accent); }
+
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .grid.single { grid-template-columns: minmax(0, 1fr); max-width: 900px; }
+  @media (max-width: 1100px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+  .country { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; border-top: 4px solid var(--c); }
+  .country[hidden] { display: none; }
+  .country h2 { margin: 0 0 4px; font-size: 1.5em; display: flex; align-items: baseline; gap: 10px; }
+  .country h2 small { font-size: .55em; color: var(--muted); font-weight: 500; }
+  .stage { margin: 14px 0 18px; padding: 14px 16px; background: var(--surface-2); border-radius: 12px; }
+  .stage .big { font-size: 2.2em; font-weight: 800; color: var(--c); line-height: 1.1; }
+  .stage .lbl { color: var(--muted); font-size: .85em; }
+  ol.items { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  ol.items li { border-left: 3px solid var(--line); padding: 4px 0 4px 14px; }
+  .tag { display: inline-block; font-size: .72em; font-weight: 700; color: var(--c); border: 1px solid var(--c); border-radius: 6px; padding: 0 7px; margin-right: 6px; vertical-align: 2px; }
+  .items h3 { display: inline; font-size: 1.05em; margin: 0; }
+  .items p { margin: 6px 0 4px; }
+  .meta { color: var(--muted); font-size: .82em; }
+  .meta a { color: var(--muted); text-decoration-color: var(--accent); }
+  .meta a:hover { color: var(--accent); }
+
+  section.compare { margin-top: 56px; }
+  section h2.sec { font-size: clamp(22px, 2.2vw, 34px); margin: 0 0 16px; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
+  table { border-collapse: collapse; width: 100%; min-width: 760px; background: var(--surface); }
+  th, td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  thead th { background: var(--surface-2); font-size: .95em; }
+  thead th:nth-child(2) { color: var(--kr); } thead th:nth-child(3) { color: var(--jp); } thead th:nth-child(4) { color: var(--us); }
+  tbody th { color: var(--accent); white-space: nowrap; font-size: .95em; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  .takeaways { margin-top: 20px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .takeaways div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .takeaways b { color: var(--accent); }
+
+  section.sources { margin-top: 56px; }
+  .sources ol { padding-left: 1.6em; font-size: .85em; color: var(--muted); columns: 2; column-gap: 40px; }
+  @media (max-width: 900px) { .sources ol { columns: 1; } }
+  .sources li { margin-bottom: 8px; break-inside: avoid; }
+  .sources li a { color: var(--text); }
+  footer { margin-top: 40px; color: var(--muted); font-size: .85em; border-top: 1px solid var(--line); padding-top: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">03 · POLICY BRIEFING</div>
+    <h1>한·일·미 고령화 정책 브리핑</h1>
+    <p>세 나라의 고령화 단계와 2025~2026년 연금·고용·돌봄·인구전략 최신 동향. 항목마다 날짜와 원문 출처를 달았습니다.</p>
+    <span class="asof">조사 기준일: 2026-10-17</span>
+  </header>
+
+  <nav class="tabs" aria-label="국가 선택">
+    <button type="button" data-show="all" aria-pressed="true">3국 비교</button>
+    <button type="button" data-show="kr" aria-pressed="false">🇰🇷 한국</button>
+    <button type="button" data-show="jp" aria-pressed="false">🇯🇵 일본</button>
+    <button type="button" data-show="us" aria-pressed="false">🇺🇸 미국</button>
+  </nav>
+
+  <div class="grid" id="grid">
+    <!-- 한국 -->
+    <article class="country" id="kr" style="--c: var(--kr)">
+      <h2>🇰🇷 한국 <small>초고령사회 진입</small></h2>
+      <div class="stage">
+        <div class="big">20.7%</div>
+        <div class="lbl">65세 이상 인구 비율 · 2025 인구주택총조사(2026-07-28 발표), 생산연령인구 69.2%</div>
+      </div>
+      <ol class="items">
+        <li><span class="tag">인구</span><h3>초고령사회 공식 진입</h3>
+          <p>주민등록 기준 2024-12-23 65세 이상 1,024만 명(20.0%)으로 처음 20% 도달, 2025 센서스에서도 20.7%로 확인.</p>
+          <div class="meta">2024-12-25 · 2026-07-28 · <a href="https://www.newsis.com/view/NISX20241224_0003009655" target="_blank" rel="noopener">뉴시스</a> · <a href="https://www.korea.kr/briefing/policyBriefingView.do?newsId=156772432" target="_blank" rel="noopener">국가데이터처 브리핑</a></div></li>
+        <li><span class="tag">연금</span><h3>국민연금 개혁 시행</h3>
+          <p>2026-01-01부터 보험료율 9→9.5%(매년 0.5%p씩 2033년 13%), 소득대체율 41.5→43%, 출산·군복무 크레딧 확대, 국가 지급보장 명문화.</p>
+          <div class="meta">국회 통과 2025-03-20 · 시행 2026-01-01 · <a href="https://mohw.go.kr/board.es?act=view&amp;bid=0027&amp;list_no=1485039&amp;mid=a10503000000" target="_blank" rel="noopener">복지부(통과)</a> · <a href="https://www.mohw.go.kr/board.es?mid=a10503010100&amp;bid=0027&amp;act=view&amp;list_no=1488390" target="_blank" rel="noopener">복지부(시행 안내)</a></div></li>
+        <li><span class="tag">돌봄</span><h3>돌봄통합지원법 전국 시행</h3>
+          <p>2026-03-27부터 전국 229개 시군구에서 의료·요양·돌봄 통합지원. 65세 이상·중증장애인 대상, 예산 914억 원, 전담인력 5,346명. 시행 2주 만에 8,905명 신청.</p>
+          <div class="meta">2026-03-26 · 2026-04-14 · <a href="https://www.korea.kr/news/policyNewsView.do?newsId=148961536" target="_blank" rel="noopener">정책브리핑(시행)</a> · <a href="https://www.korea.kr/news/policyNewsView.do?newsId=148962660" target="_blank" rel="noopener">정책브리핑(2주 실적)</a></div></li>
+        <li><span class="tag">고용</span><h3>법정 정년 65세 연장 입법 추진</h3>
+          <p>노동부, 정년 60→65세 연장을 2026년 하반기 입법 목표로 제시(‘세대 상생형’). 여당 특위안은 2028~29년 61세부터 단계적으로 2037년 65세. <b>10월 현재 미입법.</b></p>
+          <div class="meta">2026-06-29 · 2026-08-05 · <a href="https://www.lawtimes.co.kr/news/articleViewAmp.html?idxno=222770" target="_blank" rel="noopener">법률신문(법무법인 세종)</a> · <a href="https://www.seoul.co.kr/news/society/2026/08/05/20260805008006" target="_blank" rel="noopener">서울신문</a></div></li>
+        <li><span class="tag">인구전략</span><h3>저출산고령사회위 → 인구전략위원회</h3>
+          <p>「인구전략기본법」 국회 통과(2026-05-07) 후 2026-09-10 인구전략위원회 출범. 2027년 1월부터 인구정책 예산 사전협의제 시행, 연내 제1차 국가인구전략 기본계획 발표 예정.</p>
+          <div class="meta">2026-05-07 · 2026-09-10 · <a href="https://m.news.nate.com/view/20260507n34692" target="_blank" rel="noopener">네이트뉴스(복지부 발표)</a> · <a href="https://news.nate.com/view/20260910n26149" target="_blank" rel="noopener">더팩트</a></div></li>
+        <li><span class="tag">출생</span><h3>출생아 2년 연속 증가</h3>
+          <p>2025년 출생아 25만 4,341명(+6.7%), 합계출산율 0.80명으로 4년 만에 0.8명대 회복.</p>
+          <div class="meta">2026-08-26 · <a href="https://www.korea.kr/news/policyNewsView.do?newsId=148970652" target="_blank" rel="noopener">정책브리핑(2025 출생통계)</a></div></li>
+      </ol>
+    </article>
+
+    <!-- 일본 -->
+    <article class="country" id="jp" style="--c: var(--jp)">
+      <h2>🇯🇵 일본 <small>세계 최고 수준 고령화</small></h2>
+      <div class="stage">
+        <div class="big">29.4%</div>
+        <div class="lbl">65세 이상 인구 비율 · 2025-09-15 추계(3,619만 명), 과거 최고</div>
+      </div>
+      <ol class="items">
+        <li><span class="tag">인구</span><h3>고령화율 29.4% · 고령 취업자 930만 명</h3>
+          <p>65세 이상 비율 과거 최고(비교 38개국 중 1위). 65세 이상 취업자 21년 연속 증가해 930만 명, 전체 취업자의 13.7%.</p>
+          <div class="meta">2025-09-14 · <a href="https://www.stat.go.jp/data/topics/pdf/topics146.pdf" target="_blank" rel="noopener">총무성 통계국</a></div></li>
+        <li><span class="tag">연금</span><h3>연금제도개정법 성립</h3>
+          <p>파트타이머 사회보험 적용 확대(기업규모 요건 단계적 철폐), 재직노령연금 지급정지 기준 50만→62만 엔(2026-04 시행 시 65만 엔), 유족후생연금 남녀차 해소 등.</p>
+          <div class="meta">성립 2025-06-13 · <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html" target="_blank" rel="noopener">후생노동성(개정법)</a> · <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00022.html" target="_blank" rel="noopener">후생노동성(재직노령연금)</a></div></li>
+        <li><span class="tag">고용</span><h3>65세까지 ‘희망자 전원’ 고용 의무화 완성</h3>
+          <p>계속고용 대상자를 노사협정으로 한정하던 경과조치가 2025-03-31 종료. 정년 폐지·65세 정년·희망자 전원 계속고용 중 하나가 필수(정년 65세 의무화는 아님).</p>
+          <div class="meta">2025-03-31 종료 · <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/koyou/koureisha/topics/tp120903-1.html" target="_blank" rel="noopener">후생노동성</a></div></li>
+        <li><span class="tag">돌봄</span><h3>개호보수 기중(期中) 개정 +2.03%</h3>
+          <p>2027년 정기 개정을 기다리지 않고 2026년도에 개호 종사자 월 1.0만 엔 임금인상, 생산성 향상 사업자 직원은 0.7만 엔 추가(최대 월 1.9만 엔).</p>
+          <div class="meta">2026-01-16 · <a href="https://www.mhlw.go.jp/content/12300000/001647819.pdf" target="_blank" rel="noopener">후생노동성 개호급여비분과회 자료</a></div></li>
+        <li><span class="tag">출생</span><h3>출생아 67만 명, 10년 연속 최저</h3>
+          <p>2025년 출생아 671,270명, 합계출산율 1.14로 모두 과거 최저(확정치).</p>
+          <div class="meta">2026-09-30 · <a href="https://www.mhlw.go.jp/toukei/saikin/hw/jinkou/kakutei25/dl/04_houdouR07.pdf" target="_blank" rel="noopener">후생노동성 인구동태통계</a></div></li>
+      </ol>
+    </article>
+
+    <!-- 미국 -->
+    <article class="country" id="us" style="--c: var(--us)">
+      <h2>🇺🇸 미국 <small>고령사회 · 고령화 가속</small></h2>
+      <div class="stage">
+        <div class="big">18.0%</div>
+        <div class="lbl">65세 이상 인구 비율 · 2024년(6,120만 명), 2004년 12.4%에서 상승</div>
+      </div>
+      <ol class="items">
+        <li><span class="tag">인구</span><h3>노인 인구가 아동을 앞지르는 주 11곳</h3>
+          <p>65세 이상 1년 새 3.1% 증가, 18세 미만은 감소. 노인이 아동보다 많은 주 3곳(2020)→11곳(2024). 중위연령 39.4세(2025)로 계속 상승.</p>
+          <div class="meta">2025-06-26 · 2026-06-25 · <a href="https://www.census.gov/newsroom/press-releases/2025/older-adults-outnumber-children.html" target="_blank" rel="noopener">Census Bureau(V2024)</a> · <a href="https://www.census.gov/newsroom/press-releases/2026/vintage-2025-pop-estimates.html" target="_blank" rel="noopener">Census Bureau(V2025)</a></div></li>
+        <li><span class="tag">연금</span><h3>사회보장 OASI 신탁기금 2032년 고갈 전망</h3>
+          <p>2026 신탁이사회 보고서: OASI 2032년 4분기 고갈(작년보다 1분기 앞당김), 이후 급여의 78%만 지급 가능. OASDI 합산 시 2034년 3분기. 장기 출산율 가정을 1.90→1.75로 하향.</p>
+          <div class="meta">2026-06-09 · <a href="https://www.ssa.gov/oact/trsum/" target="_blank" rel="noopener">SSA 보고서 요약</a> · <a href="https://www.cnbc.com/2026/06/09/social-security-trustees-report-depletion-dates.html" target="_blank" rel="noopener">CNBC</a></div></li>
+        <li><span class="tag">연금</span><h3>2027년 COLA 3.6% 인상</h3>
+          <p>사회보장·SSI 수급자 7,600만 명의 급여가 2027년 3.6% 인상(2026년 COLA는 2.8%).</p>
+          <div class="meta">2026-10-14 · <a href="https://www.ssa.gov/news/en/advocates/2026-10-14.html" target="_blank" rel="noopener">SSA</a> · <a href="https://www.cnbc.com/2026/10/14/social-security-cola-2027.html" target="_blank" rel="noopener">CNBC</a></div></li>
+        <li><span class="tag">의료</span><h3>Medicare 병원보험(HI) 2033년 고갈 전망</h3>
+          <p>HI 신탁기금은 2033년 2분기 고갈(1분기 앞당김), 이후 급여의 89% 지급 가능. 일부 서비스 이용 증가·Medicare Advantage 지출 상향 반영.</p>
+          <div class="meta">2026-06-09 · <a href="https://www.ssa.gov/oact/trsum/" target="_blank" rel="noopener">SSA·CMS 보고서 요약</a></div></li>
+        <li><span class="tag">의료</span><h3>Medicare 약가 협상 가격 적용 개시</h3>
+          <p>첫 10개 약품 협상가격 2026-01-01 적용 시작. 2차 15개 약품(오젬픽·위고비 등) 가격은 2027년 적용, 4차부터 최대 20개 추가 선정 규칙안.</p>
+          <div class="meta">2025-11-26 · 2026-06-12 · <a href="https://www.aha.org/news/headline/2025-11-26-cms-announces-latest-negotiated-prices-15-drugs-begin-2027" target="_blank" rel="noopener">AHA News</a> · <a href="https://www.cms.gov/newsroom/press-releases/cms-proposed-rule-locks-lower-prices-fosters-innovation-medicare-drug-price-negotiation-program" target="_blank" rel="noopener">CMS</a></div></li>
+      </ol>
+    </article>
+  </div>
+
+  <section class="compare">
+    <h2 class="sec">공통 쟁점 비교</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">쟁점</th><th scope="col">🇰🇷 한국</th><th scope="col">🇯🇵 일본</th><th scope="col">🇺🇸 미국</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">고령화 단계</th>
+            <td>초고령(20.7%, 2025). 2024년 말 진입</td>
+            <td>초고령(29.4%, 2025). 세계 최고 수준</td>
+            <td>고령사회(18.0%, 2024)</td></tr>
+          <tr><th scope="row">연금 재정</th>
+            <td>‘더 내고 더 받는’ 모수개혁 시행(13%·43%)</td>
+            <td>적용 확대·재직노령연금 완화로 일하는 고령자 지원</td>
+            <td>개혁 입법 없음. OASI 2032년 고갈 시 급여 78%</td></tr>
+          <tr><th scope="row">정년·고령 고용</th>
+            <td>정년 60세 → 65세 입법 추진 중</td>
+            <td>65세까지 희망자 전원 고용 의무 완비</td>
+            <td>연방 차원 정년 제도 없음(본 조사 범위 밖)</td></tr>
+          <tr><th scope="row">돌봄·의료</th>
+            <td>통합돌봄 전국 시행(재가 중심)</td>
+            <td>개호 인력 임금 인상 위해 보수 기중 개정</td>
+            <td>Medicare HI 2033년 고갈 전망, 약가 협상</td></tr>
+          <tr><th scope="row">인구 전략</th>
+            <td>인구전략위원회 출범, 예산 사전협의권</td>
+            <td>출생아 10년 연속 최저(1.14)</td>
+            <td>장기 출산율 가정 1.75로 하향</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="takeaways">
+      <div><b>공통점</b> 세 나라 모두 저출생이 연금·의료 재정 전망을 직접 악화시키는 변수로 다뤄진다.</div>
+      <div><b>한국</b> 가장 빠른 고령화 속도에 맞춰 연금·돌봄·거버넌스를 2026년에 한꺼번에 바꾸는 중.</div>
+      <div><b>일본</b> 제도는 이미 갖춰져, ‘더 오래 일하기’와 돌봄 인력 확보가 정책 중심.</div>
+      <div><b>미국</b> 고령화 수준은 낮지만 신탁기금 고갈 시점이 7년 안팎으로 다가와 입법 압력이 커지는 중.</div>
+    </div>
+  </section>
+
+  <section class="sources">
+    <h2 class="sec">출처</h2>
+    <ol>
+      <li><a href="https://www.newsis.com/view/NISX20241224_0003009655" target="_blank" rel="noopener">뉴시스 — 빨라지는 고령화시계…[초고령사회 진입]</a> (2024-12-25)</li>
+      <li><a href="https://www.korea.kr/briefing/policyBriefingView.do?newsId=156772432" target="_blank" rel="noopener">정책브리핑 — 2025년 인구주택총조사 결과(등록센서스 방식)</a> (2026-07-28)</li>
+      <li><a href="https://mohw.go.kr/board.es?act=view&amp;bid=0027&amp;list_no=1485039&amp;mid=a10503000000" target="_blank" rel="noopener">보건복지부 — 보험료율 13%, 소득대체율 43% 등 담은 연금개혁법안 국회 본회의 통과</a> (2025-03-20)</li>
+      <li><a href="https://www.mohw.go.kr/board.es?mid=a10503010100&amp;bid=0027&amp;act=view&amp;list_no=1488390" target="_blank" rel="noopener">보건복지부 — 국민연금, 새해 재정은 보다 튼튼하게 노후는 더욱 든든하게</a> (2025-12-29)</li>
+      <li><a href="https://www.korea.kr/news/policyNewsView.do?newsId=148961536" target="_blank" rel="noopener">정책브리핑 — 27일부터 ‘통합돌봄’ 전국 시행</a> (2026-03-26)</li>
+      <li><a href="https://www.korea.kr/news/policyNewsView.do?newsId=148962660" target="_blank" rel="noopener">정책브리핑 — 통합돌봄 시행 2주 만에 8905명 신청</a> (2026-04-14)</li>
+      <li><a href="https://www.lawtimes.co.kr/news/articleViewAmp.html?idxno=222770" target="_blank" rel="noopener">법률신문(법무법인 세종) — 정년연장 입법 추진과 기업의 대응방안</a> (2026-06-29)</li>
+      <li><a href="https://www.seoul.co.kr/news/society/2026/08/05/20260805008006" target="_blank" rel="noopener">서울신문 — 청년 일자리 지키는 ‘정년 65세 연장’ 연내 입법 추진</a> (2026-08-05)</li>
+      <li><a href="https://m.news.nate.com/view/20260507n34692" target="_blank" rel="noopener">네이트뉴스 — ‘저출산고령사회위원회’ → ‘인구전략위원회’ (보건복지부 발표)</a> (2026-05-07)</li>
+      <li><a href="https://news.nate.com/view/20260910n26149" target="_blank" rel="noopener">더팩트 — 저고위 ‘인구전략위’로 개편…인구정책 컨트롤타워</a> (2026-09-10)</li>
+      <li><a href="https://www.korea.kr/news/policyNewsView.do?newsId=148970652" target="_blank" rel="noopener">정책브리핑 — 지난해 출생아 25만 4300명, 6.7%↑…합계출산율 0.8명대 회복</a> (2026-08-26)</li>
+      <li><a href="https://www.stat.go.jp/data/topics/pdf/topics146.pdf" target="_blank" rel="noopener">総務省統計局 — 統計からみた我が国の高齢者(統計トピックスNo.146)</a> (2025-09-14)</li>
+      <li><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html" target="_blank" rel="noopener">厚生労働省 — 年金制度改正法が成立しました</a> (2025-06-13 성립)</li>
+      <li><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00022.html" target="_blank" rel="noopener">厚生労働省 — 在職老齢年金制度の見直しについて</a> (2026-02 갱신)</li>
+      <li><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/koyou/koureisha/topics/tp120903-1.html" target="_blank" rel="noopener">厚生労働省 — 高年齢者雇用安定法の改正(経過措置の終了)</a> (2025-03-31 종료)</li>
+      <li><a href="https://www.mhlw.go.jp/content/12300000/001647819.pdf" target="_blank" rel="noopener">厚生労働省 — 令和8年度介護報酬改定について(介護給付費分科会 資料1)</a> (2026-01-16)</li>
+      <li><a href="https://www.mhlw.go.jp/toukei/saikin/hw/jinkou/kakutei25/dl/04_houdouR07.pdf" target="_blank" rel="noopener">厚生労働省 — 令和7年人口動態統計(確定数)</a> (2026-09-30)</li>
+      <li><a href="https://www.census.gov/newsroom/press-releases/2025/older-adults-outnumber-children.html" target="_blank" rel="noopener">U.S. Census Bureau — Older Adults Outnumber Children in 11 States</a> (2025-06-26)</li>
+      <li><a href="https://www.census.gov/newsroom/press-releases/2026/vintage-2025-pop-estimates.html" target="_blank" rel="noopener">U.S. Census Bureau — Vintage 2025 Population Estimates by Age</a> (2026-06-25)</li>
+      <li><a href="https://www.ssa.gov/oact/trsum/" target="_blank" rel="noopener">SSA — A Summary of the 2026 Annual Reports (Social Security &amp; Medicare Trustees)</a> (2026-06-09)</li>
+      <li><a href="https://www.cnbc.com/2026/06/09/social-security-trustees-report-depletion-dates.html" target="_blank" rel="noopener">CNBC — Social Security retirement trust fund may be depleted in 2032</a> (2026-06-09)</li>
+      <li><a href="https://www.ssa.gov/news/en/advocates/2026-10-14.html" target="_blank" rel="noopener">SSA — Cost-of-Living Adjustment (COLA) for 2027</a> (2026-10-14)</li>
+      <li><a href="https://www.cnbc.com/2026/10/14/social-security-cola-2027.html" target="_blank" rel="noopener">CNBC — Social Security announces 3.6% COLA for 2027</a> (2026-10-14)</li>
+      <li><a href="https://www.aha.org/news/headline/2025-11-26-cms-announces-latest-negotiated-prices-15-drugs-begin-2027" target="_blank" rel="noopener">AHA News — CMS announces negotiated prices for 15 drugs to begin in 2027</a> (2025-11-26)</li>
+      <li><a href="https://www.cms.gov/newsroom/press-releases/cms-proposed-rule-locks-lower-prices-fosters-innovation-medicare-drug-price-negotiation-program" target="_blank" rel="noopener">CMS — Proposed Rule for the Medicare Drug Price Negotiation Program</a> (2026-06-12)</li>
+    </ol>
+  </section>
+
+  <footer>조사 기준일: 2026-10-17 · 모든 링크는 기준일에 직접 열어 내용을 확인했습니다. 통계 수치는 각 기관의 기준 시점이 서로 다릅니다.</footer>
+</div>
+<script>
+  const buttons = document.querySelectorAll('nav.tabs button');
+  const grid = document.getElementById('grid');
+  buttons.forEach(btn => btn.addEventListener('click', () => {
+    const show = btn.dataset.show;
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    grid.classList.toggle('single', show !== 'all');
+    grid.querySelectorAll('.country').forEach(c => { c.hidden = show !== 'all' && c.id !== show; });
+  }));
+</script>
+</body>
+</html>

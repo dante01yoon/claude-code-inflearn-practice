@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>세계 고령화 추세 1990–2023</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<style>
+  :root {
+    --bg: #0b1020;
+    --surface: #141a2e;
+    --surface-2: #1b2340;
+    --border: #262f4d;
+    --text: #e8ecf5;
+    --muted: #8a93ab;
+    --accent: #ff8a3d;
+    --kor: #ff8a3d;
+    --jpn: #ff5c7a;
+    --usa: #4da3ff;
+    --wld: #e8ecf5;
+    --up: #5ee0a0;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); }
+  body {
+    font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    font-size: clamp(15px, 1.15vw, 18px);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 1400px; margin: 0 auto; padding: clamp(16px, 3vw, 40px); }
+  header h1 { font-size: clamp(26px, 3.2vw, 44px); margin: 0 0 6px; letter-spacing: -0.02em; }
+  header p { margin: 0; color: var(--muted); font-size: 1.05em; }
+  .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: 0.08em; font-size: 0.85em; margin-bottom: 8px; }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin: 28px 0; }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 22px; }
+  .kpi .label { color: var(--muted); font-size: 0.95em; }
+  .kpi .value { font-size: clamp(32px, 3.4vw, 48px); font-weight: 800; letter-spacing: -0.02em; margin: 6px 0 2px; font-variant-numeric: tabular-nums; }
+  .kpi .value small { font-size: 0.45em; font-weight: 600; color: var(--muted); margin-left: 2px; }
+  .kpi .from { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .kpi .delta { color: var(--up); font-weight: 700; margin-left: 6px; }
+
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 22px; min-width: 0; }
+  .span-12 { grid-column: span 12; }
+  .span-7 { grid-column: span 7; }
+  .span-5 { grid-column: span 5; }
+  .card h2 { font-size: 1.3em; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .card .sub { color: var(--muted); margin: 0 0 12px; font-size: 0.95em; }
+  .chart { width: 100%; height: 440px; }
+  .chart.tall { height: 520px; }
+
+  .picker { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .picker input {
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
+    border-radius: 10px; padding: 9px 14px; font: inherit; width: min(320px, 100%);
+  }
+  .picker input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 999px; padding: 5px 8px 5px 12px; font-size: 0.95em;
+  }
+  .chip i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .chip button { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 1.1em; padding: 0 4px; line-height: 1; }
+  .chip button:hover { color: var(--text); }
+  .chip.fixed { padding-right: 12px; }
+
+  .seg { display: inline-flex; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 3px; margin-bottom: 8px; }
+  .seg button { background: none; border: 0; color: var(--muted); font: inherit; padding: 6px 14px; border-radius: 7px; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: #1a1006; font-weight: 700; }
+
+  footer { color: var(--muted); font-size: 0.9em; margin-top: 24px; }
+  footer a { color: var(--muted); }
+  .error { color: #ff7a7a; }
+
+  @media (max-width: 900px) {
+    .span-7, .span-5 { grid-column: span 12; }
+    .chart { height: 380px; }
+    .chart.tall { height: 460px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">② 추세 대시보드</div>
+    <h1>세계는 얼마나 빨리 늙고 있나 · 1990–2023</h1>
+    <p>65세 이상 인구 비율과 기대수명, 34년간의 변화</p>
+  </header>
+
+  <section class="kpis" id="kpis" aria-label="핵심 지표"></section>
+
+  <section class="grid">
+    <article class="card span-12">
+      <h2>65세 이상 인구 비율 추이</h2>
+      <p class="sub">점선: 7% 고령화사회 · 14% 고령사회 · 20% 초고령사회 (UN 기준)</p>
+      <div class="picker">
+        <span class="chip fixed"><i style="background:var(--wld)"></i>세계</span>
+        <span class="chip fixed"><i style="background:var(--kor)"></i>한국</span>
+        <span class="chip fixed"><i style="background:var(--jpn)"></i>일본</span>
+        <span class="chip fixed"><i style="background:var(--usa)"></i>미국</span>
+        <span id="extraChips" style="display:contents"></span>
+        <input id="countryInput" list="countryList" placeholder="국가 추가 (예: 중국, Germany)" autocomplete="off" aria-label="비교할 국가 검색">
+        <datalist id="countryList"></datalist>
+      </div>
+      <div id="lineChart" class="chart tall"></div>
+    </article>
+
+    <article class="card span-7">
+      <h2>증가폭 상위 15개국</h2>
+      <p class="sub">65세 이상 비율, 1990 → 2023 증가폭 (%p) · 영토 포함</p>
+      <div id="barChart" class="chart"></div>
+    </article>
+
+    <article class="card span-5">
+      <h2>지역·소득 그룹별 비교</h2>
+      <div class="seg" role="group" aria-label="그룹 기준">
+        <button type="button" data-group="region" aria-pressed="true">지역</button>
+        <button type="button" data-group="income" aria-pressed="false">소득</button>
+      </div>
+      <div id="groupChart" class="chart"></div>
+    </article>
+
+    <article class="card span-12">
+      <h2>기대수명 vs 65세 이상 비율 (2023)</h2>
+      <p class="sub">점 하나 = 국가 하나 · 색 = 지역 · 오래 사는 나라일수록 고령 인구 비중이 크다</p>
+      <div id="scatterChart" class="chart tall"></div>
+    </article>
+  </section>
+
+  <footer>
+    출처: World Bank, World Development Indicators —
+    <a href="https://data.worldbank.org/indicator/SP.POP.65UP.TO.ZS" target="_blank" rel="noopener">SP.POP.65UP.TO.ZS</a> (65세 이상 인구 비율),
+    <a href="https://data.worldbank.org/indicator/SP.DYN.LE00.IN" target="_blank" rel="noopener">SP.DYN.LE00.IN</a> (출생 시 기대수명).
+    국가 수는 지역·소득 묶음을 제외한 개별 국가·영토 기준.
+  </footer>
+</main>
+
+<script>
+const Y0 = 1990, Y1 = 2023;
+const YEARS = Array.from({ length: Y1 - Y0 + 1 }, (_, i) => Y0 + i);
+const FIXED = [
+  { id: 'WLD', color: '#e8ecf5', width: 4 },
+  { id: 'KOR', color: '#ff8a3d', width: 4 },
+  { id: 'JPN', color: '#ff5c7a', width: 3 },
+  { id: 'USA', color: '#4da3ff', width: 3 },
+];
+const EXTRA_COLORS = ['#5ee0a0', '#c38bff', '#ffd166', '#4dd6d6', '#ff9ecf', '#a3b86c'];
+const REGIONS = [
+  ['EAS', '동아시아·태평양'], ['ECS', '유럽·중앙아시아'], ['NAC', '북미'],
+  ['LCN', '중남미'], ['MEA', '중동·북아프리카'], ['SAS', '남아시아'], ['SSF', '사하라 이남 아프리카'],
+];
+const INCOMES = [['HIC', '고소득'], ['UMC', '중상위소득'], ['LMC', '중하위소득'], ['LIC', '저소득']];
+const REGION_COLORS = {
+  EAS: '#ff8a3d', ECS: '#4da3ff', NAC: '#c38bff', LCN: '#5ee0a0',
+  MEA: '#ffd166', SAS: '#ff5c7a', SSF: '#4dd6d6',
+};
+const MUTED = '#8a93ab', GRID = '#262f4d', TEXT = '#e8ecf5';
+
+const koNames = new Intl.DisplayNames(['ko'], { type: 'region' });
+const fmt1 = v => v.toFixed(1);
+
+function seriesIndex(rows) {
+  const out = new Map();
+  for (const r of rows) {
+    if (!r.countryiso3code || r.value == null) continue;
+    if (!out.has(r.countryiso3code)) out.set(r.countryiso3code, new Map());
+    out.get(r.countryiso3code).set(+r.date, r.value);
+  }
+  return out;
+}
+
+function koName(c) {
+  if (c.region.value === 'Aggregates') return c.name.trim();
+  try {
+    const n = koNames.of(c.iso2Code);
+    if (n && n !== c.iso2Code) return n;
+  } catch (_) {}
+  return c.name.trim();
+}
+
+async function load() {
+  const get = p => fetch(p).then(r => { if (!r.ok) throw new Error(`${p}: ${r.status}`); return r.json(); });
+  const [pop, le, countries] = await Promise.all([
+    get('../data/pop65.json'), get('../data/life-expectancy.json'), get('../data/countries.json'),
+  ]);
+  const meta = new Map(countries[1].map(c => [c.id, { ...c, ko: koName(c) }]));
+  for (const [id, ko] of [...REGIONS, ...INCOMES, ['WLD', '세계'], ['KOR', '한국']]) if (meta.has(id)) meta.get(id).ko = ko;
+  const nations = countries[1].filter(c => c.region.value !== 'Aggregates').map(c => c.id);
+  return { pop: seriesIndex(pop[1]), le: seriesIndex(le[1]), meta, nations };
+}
+
+function kpiTile(label, from, to, unit, deltaUnit, decimals = 1) {
+  const f = v => decimals ? v.toFixed(decimals) : String(v);
+  const d = to - from;
+  return `<div class="kpi">
+    <div class="label">${label}</div>
+    <div class="value">${f(to)}<small>${unit}</small></div>
+    <div class="from">${Y0}년 ${f(from)}${unit}<span class="delta">${d >= 0 ? '+' : ''}${f(d)}${deltaUnit}</span></div>
+  </div>`;
+}
+
+function computeKpis(D) {
+  const at = (m, id, y) => m.get(id)?.get(y);
+  const superAged = y => D.nations.filter(id => (at(D.pop, id, y) ?? -1) >= 20).length;
+  return {
+    world65: [at(D.pop, 'WLD', Y0), at(D.pop, 'WLD', Y1)],
+    superAged: [superAged(Y0), superAged(Y1)],
+    worldLE: [at(D.le, 'WLD', Y0), at(D.le, 'WLD', Y1)],
+    kor65: [at(D.pop, 'KOR', Y0), at(D.pop, 'KOR', Y1)],
+  };
+}
+
+function renderKpis(k) {
+  document.getElementById('kpis').innerHTML = [
+    kpiTile(`세계 65세 이상 비율 (${Y1})`, ...k.world65, '%', '%p'),
+    kpiTile(`초고령사회(20%+) 국가 수 (${Y1})`, ...k.superAged, '개국', '개국', 0),
+    kpiTile(`세계 기대수명 (${Y1})`, ...k.worldLE, '세', '세'),
+    kpiTile(`한국 65세 이상 비율 (${Y1})`, ...k.kor65, '%', '%p'),
+  ].join('');
+}
+
+const baseAxis = {
+  axisLine: { lineStyle: { color: GRID } },
+  axisLabel: { color: MUTED, fontSize: 14 },
+  splitLine: { lineStyle: { color: GRID } },
+};
+const baseTooltip = {
+  backgroundColor: '#1b2340', borderColor: GRID, textStyle: { color: TEXT, fontSize: 14 },
+};
+
+function makeChart(id) {
+  const chart = echarts.init(document.getElementById(id), null, { renderer: 'canvas' });
+  new ResizeObserver(() => chart.resize()).observe(chart.getDom());
+  return chart;
+}
+
+function lineSeries(D, id, color, width) {
+  const s = D.pop.get(id);
+  return {
+    name: D.meta.get(id).ko, type: 'line', showSymbol: false, smooth: false,
+    data: YEARS.map(y => s?.get(y) ?? null), connectNulls: false,
+    lineStyle: { color, width }, itemStyle: { color },
+    emphasis: { focus: 'series' },
+    endLabel: { show: true, color, fontSize: 14, fontWeight: 600, formatter: p => `${p.seriesName} ${p.value == null ? '' : fmt1(p.value)}` },
+  };
+}
+
+function thresholdSeries() {
+  return {
+    name: '기준선', type: 'line', data: [], silent: true, tooltip: { show: false },
+    markLine: {
+      symbol: 'none', silent: true,
+      lineStyle: { color: MUTED, type: 'dashed', width: 1.5, opacity: 0.8 },
+      label: { color: MUTED, fontSize: 13, position: 'insideStartTop' },
+      data: [
+        { yAxis: 7, label: { formatter: '7% 고령화사회' } },
+        { yAxis: 14, label: { formatter: '14% 고령사회' } },
+        { yAxis: 20, label: { formatter: '20% 초고령사회' } },
+      ],
+    },
+  };
+}
+
+function renderLine(chart, D, extras) {
+  const series = [
+    thresholdSeries(),
+    ...FIXED.map(f => lineSeries(D, f.id, f.color, f.width)),
+    ...extras.map(e => lineSeries(D, e.id, e.color, 2.5)),
+  ];
+  chart.setOption({
+    animationDuration: 600,
+    grid: { left: 48, right: 150, top: 20, bottom: 36 },
+    tooltip: { ...baseTooltip, trigger: 'axis', order: 'valueDesc',
+      valueFormatter: v => v == null ? '–' : `${fmt1(v)}%` },
+    xAxis: { ...baseAxis, type: 'category', data: YEARS, boundaryGap: false, splitLine: { show: false },
+      axisLabel: { ...baseAxis.axisLabel, interval: i => (YEARS[i] - Y0) % 5 === 0 || YEARS[i] === Y1 } },
+    yAxis: { ...baseAxis, type: 'value', min: 0, axisLabel: { ...baseAxis.axisLabel, formatter: '{value}%' } },
+    series,
+  }, { replaceMerge: ['series'] });
+}
+
+function renderBar(chart, D) {
+  const rows = D.nations
+    .map(id => ({ id, a: D.pop.get(id)?.get(Y0), b: D.pop.get(id)?.get(Y1) }))
+    .filter(r => r.a != null && r.b != null)
+    .map(r => ({ ...r, d: r.b - r.a }))
+    .sort((x, y) => y.d - x.d)
+    .slice(0, 15)
+    .reverse();
+  const highlight = new Set(['KOR', 'JPN', 'USA']);
+  chart.setOption({
+    grid: { left: 8, right: 56, top: 8, bottom: 8, containLabel: true },
+    tooltip: { ...baseTooltip, trigger: 'axis', axisPointer: { type: 'shadow' },
+      formatter: ps => { const r = rows[ps[0].dataIndex];
+        return `<b>${D.meta.get(r.id).ko}</b><br>${Y0}년 ${fmt1(r.a)}% → ${Y1}년 ${fmt1(r.b)}%<br>증가 <b>+${fmt1(r.d)}%p</b>`; } },
+    xAxis: { ...baseAxis, type: 'value', axisLabel: { ...baseAxis.axisLabel, formatter: '+{value}' } },
+    yAxis: { ...baseAxis, type: 'category', data: rows.map(r => D.meta.get(r.id).ko),
+      axisLabel: { color: TEXT, fontSize: 14 }, axisTick: { show: false } },
+    series: [{
+      type: 'bar', barWidth: '62%',
+      data: rows.map(r => ({ value: +r.d.toFixed(2),
+        itemStyle: { color: highlight.has(r.id) ? '#ff8a3d' : '#4a5a8c', borderRadius: [0, 6, 6, 0] } })),
+      label: { show: true, position: 'right', color: TEXT, fontSize: 13, formatter: p => `+${fmt1(p.value)}` },
+    }],
+  });
+}
+
+function renderGroups(chart, D, kind) {
+  const groups = (kind === 'region' ? REGIONS : INCOMES).filter(([id]) => D.pop.has(id));
+  const names = groups.map(([, ko]) => ko);
+  const val = (id, y) => +(D.pop.get(id)?.get(y) ?? 0).toFixed(2);
+  chart.setOption({
+    grid: { left: 8, right: 44, top: 36, bottom: 8, containLabel: true },
+    legend: { top: 0, right: 0, textStyle: { color: MUTED, fontSize: 14 }, itemWidth: 14, itemHeight: 10 },
+    tooltip: { ...baseTooltip, trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: v => `${fmt1(v)}%` },
+    xAxis: { ...baseAxis, type: 'value', splitNumber: 4, axisLabel: { ...baseAxis.axisLabel, formatter: '{value}%' } },
+    yAxis: { ...baseAxis, type: 'category', data: names, inverse: true,
+      axisLabel: { color: TEXT, fontSize: 14 }, axisTick: { show: false } },
+    series: [
+      { name: `${Y0}`, type: 'bar', data: groups.map(([id]) => val(id, Y0)), itemStyle: { color: '#4a5a8c', borderRadius: [0, 4, 4, 0] }, barGap: '15%' },
+      { name: `${Y1}`, type: 'bar', data: groups.map(([id]) => val(id, Y1)), itemStyle: { color: '#ff8a3d', borderRadius: [0, 4, 4, 0] },
+        label: { show: true, position: 'right', color: TEXT, fontSize: 13, formatter: p => fmt1(p.value) } },
+    ],
+  }, { replaceMerge: ['series'] });
+}
+
+function renderScatter(chart, D) {
+  const callout = new Set(['KOR', 'JPN', 'USA', 'CHN', 'IND', 'NGA', 'ITA', 'BRA']);
+  const series = REGIONS.map(([rid, rko]) => ({
+    name: rko, type: 'scatter', symbolSize: 11,
+    itemStyle: { color: REGION_COLORS[rid], opacity: 0.8, borderColor: '#0b1020', borderWidth: 1 },
+    data: D.nations
+      .filter(id => D.meta.get(id).region.id === rid)
+      .map(id => ({ id, x: D.le.get(id)?.get(Y1), y: D.pop.get(id)?.get(Y1) }))
+      .filter(p => p.x != null && p.y != null)
+      .map(p => ({
+        name: D.meta.get(p.id).ko, value: [+p.x.toFixed(2), +p.y.toFixed(2)],
+        ...(callout.has(p.id) ? {
+          symbolSize: p.id === 'KOR' ? 20 : 15,
+          itemStyle: p.id === 'KOR' ? { color: '#ff8a3d', borderColor: '#fff', borderWidth: 2, opacity: 1 } : { opacity: 1, borderColor: '#fff', borderWidth: 1.5 },
+          label: { show: true, formatter: '{b}', position: 'top', color: TEXT, fontSize: 14, fontWeight: p.id === 'KOR' ? 800 : 600 },
+        } : {}),
+      })),
+  }));
+  chart.setOption({
+    grid: { left: 56, right: 24, top: 48, bottom: 56 },
+    legend: { type: 'scroll', top: 0, textStyle: { color: MUTED, fontSize: 14 }, pageTextStyle: { color: MUTED }, pageIconColor: TEXT, pageIconInactiveColor: GRID },
+    tooltip: { ...baseTooltip, trigger: 'item',
+      formatter: p => `<b>${p.name}</b><br>기대수명 ${fmt1(p.value[0])}세<br>65세 이상 ${fmt1(p.value[1])}%` },
+    xAxis: { ...baseAxis, type: 'value', name: '기대수명 (세)', nameLocation: 'middle', nameGap: 34,
+      nameTextStyle: { color: MUTED, fontSize: 14 }, min: 50, max: 90 },
+    yAxis: { ...baseAxis, type: 'value', name: '65세 이상 비율 (%)', nameLocation: 'middle', nameGap: 40,
+      nameTextStyle: { color: MUTED, fontSize: 14 }, min: 0, axisLabel: { ...baseAxis.axisLabel, formatter: '{value}%' } },
+    series,
+  });
+}
+
+function setupPicker(D, onChange) {
+  const input = document.getElementById('countryInput');
+  const list = document.getElementById('countryList');
+  const chips = document.getElementById('extraChips');
+  const fixed = new Set(FIXED.map(f => f.id));
+  const candidates = D.nations.filter(id => D.pop.has(id) && !fixed.has(id))
+    .map(id => D.meta.get(id))
+    .sort((a, b) => a.ko.localeCompare(b.ko, 'ko'));
+  list.innerHTML = candidates.map(c => `<option value="${c.ko}">${c.name.trim()}</option>`).join('');
+  const lookup = new Map();
+  for (const c of candidates) {
+    lookup.set(c.ko.toLowerCase(), c.id);
+    lookup.set(c.name.trim().toLowerCase(), c.id);
+    lookup.set(c.id.toLowerCase(), c.id);
+  }
+  const extras = [];
+  const draw = () => {
+    chips.innerHTML = extras.map(e => `<span class="chip"><i style="background:${e.color}"></i>${D.meta.get(e.id).ko}<button type="button" data-id="${e.id}" aria-label="${D.meta.get(e.id).ko} 제거">×</button></span>`).join('');
+    onChange(extras);
+  };
+  const add = id => {
+    if (!id || extras.some(e => e.id === id)) return;
+    if (extras.length >= EXTRA_COLORS.length) extras.shift();
+    const used = new Set(extras.map(e => e.color));
+    extras.push({ id, color: EXTRA_COLORS.find(c => !used.has(c)) });
+    draw();
+  };
+  const tryAdd = () => {
+    const id = lookup.get(input.value.trim().toLowerCase());
+    if (id) { add(id); input.value = ''; }
+  };
+  input.addEventListener('change', tryAdd);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryAdd(); });
+  chips.addEventListener('click', e => {
+    const id = e.target.closest('button')?.dataset.id;
+    if (!id) return;
+    extras.splice(extras.findIndex(x => x.id === id), 1);
+    draw();
+  });
+  add('CHN');
+}
+
+(async () => {
+  let D;
+  try { D = await load(); }
+  catch (err) {
+    document.getElementById('kpis').innerHTML = `<p class="error">데이터를 불러오지 못했습니다 (${err.message}). 프로젝트 루트에서 <code>python3 -m http.server</code>로 열어 주세요.</p>`;
+    return;
+  }
+  const kpis = computeKpis(D);
+  window.__trendsKpis = kpis;
+  renderKpis(kpis);
+
+  const line = makeChart('lineChart');
+  setupPicker(D, extras => renderLine(line, D, extras));
+  renderBar(makeChart('barChart'), D);
+  const group = makeChart('groupChart');
+  renderGroups(group, D, 'region');
+  document.querySelectorAll('.seg button').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    renderGroups(group, D, btn.dataset.group);
+  }));
+  renderScatter(makeChart('scatterChart'), D);
+})();
+</script>
+</body>
+</html>

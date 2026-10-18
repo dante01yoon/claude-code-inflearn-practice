@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>세계 고령화 브리핑</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --bg: #0b1020; --surface: #141a2e; --text: #e8ecf5; --muted: #8a93ab; --accent: #ff8a3d;
+    --line: #232b45; --nav-h: 64px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  }
+  nav {
+    position: sticky; top: 0; z-index: 10; height: var(--nav-h);
+    display: flex; align-items: center; gap: 8px; padding: 0 24px;
+    background: rgba(11, 16, 32, .92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  }
+  nav .brand { font-weight: 800; margin-right: auto; white-space: nowrap; }
+  nav .brand span { color: var(--accent); }
+  nav a {
+    color: var(--muted); text-decoration: none; font-weight: 600; font-size: 15px;
+    padding: 8px 14px; border-radius: 999px; white-space: nowrap;
+  }
+  nav a:hover, nav a.active { color: var(--text); background: var(--surface); }
+  nav a.active { box-shadow: inset 0 0 0 1px var(--accent); }
+
+  .hero { min-height: calc(100vh - var(--nav-h)); display: grid; place-content: center; text-align: center; padding: 48px 16px; }
+  .hero .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .08em; }
+  .hero h1 { font-size: clamp(40px, 7vw, 88px); margin: 12px 0 16px; line-height: 1.1; }
+  .hero p { color: var(--muted); font-size: clamp(16px, 2vw, 22px); max-width: 720px; margin: 0 auto; line-height: 1.6; }
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 48px auto 0; max-width: 960px; }
+  .cards a {
+    display: block; text-align: left; padding: 24px; border-radius: 16px; background: var(--surface);
+    border: 1px solid var(--line); color: var(--text); text-decoration: none; transition: border-color .2s;
+  }
+  .cards a:hover { border-color: var(--accent); }
+  .cards b { display: block; color: var(--accent); font-size: 14px; margin-bottom: 8px; }
+  .cards strong { font-size: 20px; }
+  .cards small { display: block; color: var(--muted); margin-top: 8px; font-size: 14px; line-height: 1.5; }
+
+  section.part { border-top: 1px solid var(--line); }
+  .part header { display: flex; align-items: baseline; gap: 12px; padding: 20px 24px 12px; }
+  .part header b { color: var(--accent); }
+  .part header h2 { margin: 0; font-size: 22px; }
+  .part header a { margin-left: auto; color: var(--muted); font-size: 14px; }
+  .part iframe { display: block; width: 100%; height: calc(100vh - var(--nav-h) - 60px); border: 0; background: var(--bg); }
+  #policy iframe { height: calc(100vh - var(--nav-h) - 60px); }
+
+  footer { color: var(--muted); font-size: 14px; text-align: center; padding: 32px 16px 48px; border-top: 1px solid var(--line); }
+  footer a { color: var(--muted); }
+
+  @media (max-width: 760px) {
+    nav { padding: 0 12px; overflow-x: auto; }
+    nav .brand { display: none; }
+    nav a { padding: 8px 10px; font-size: 14px; }
+    .cards { grid-template-columns: 1fr; }
+    .part header { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand">세계 <span>고령화</span> 브리핑</div>
+  <a href="#globe">① 지구본</a>
+  <a href="#trends">② 추세</a>
+  <a href="#policy">③ 정책</a>
+</nav>
+
+<section class="hero" id="top">
+  <div class="eyebrow">AGING WORLD · 1990–2023</div>
+  <h1>세계는 얼마나<br>늙어가고 있나</h1>
+  <p>세계은행 데이터로 본 나라별 65세 이상 인구 비율, 30여 년의 추세, 그리고 한국·일본·미국의 최신 고령화 정책.</p>
+  <div class="cards">
+    <a href="#globe"><b>①</b><strong>3D 지구본</strong><small>나라별 65세+ 인구 비율을 기둥 높이로</small></a>
+    <a href="#trends"><b>②</b><strong>추세 대시보드</strong><small>1990~2023 고령화·기대수명 변화</small></a>
+    <a href="#policy"><b>③</b><strong>정책 브리핑</strong><small>한·일·미 최신 동향과 출처</small></a>
+  </div>
+</section>
+
+<section class="part" id="globe">
+  <header><b>①</b><h2>나라별 65세 이상 인구 비율</h2><a href="globe/index.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></header>
+  <iframe src="globe/index.html" title="3D 지구본" loading="lazy"></iframe>
+</section>
+
+<section class="part" id="trends">
+  <header><b>②</b><h2>1990~2023 추세</h2><a href="trends/index.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></header>
+  <iframe src="trends/index.html" title="추세 대시보드" loading="lazy"></iframe>
+</section>
+
+<section class="part" id="policy">
+  <header><b>③</b><h2>한·일·미 고령화 정책 동향</h2><a href="policy/index.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></header>
+  <iframe src="policy/index.html" title="정책 브리핑" loading="lazy"></iframe>
+</section>
+
+<footer>
+  데이터: <a href="https://data.worldbank.org" target="_blank" rel="noopener">World Bank Open Data</a> (SP.POP.65UP.TO.ZS, SP.DYN.LE00.IN) · 정책 출처는 ③ 섹션 하단 참조 · 조사 기준일 2026-10-17
+</footer>
+
+<script>
+  const links = [...document.querySelectorAll('nav a')];
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      links.forEach(a => a.classList.toggle('active', a.hash === '#' + e.target.id));
+    }
+  }, { rootMargin: '-45% 0px -45% 0px' });
+  document.querySelectorAll('section[id]').forEach(s => io.observe(s));
+</script>
+</body>
+</html>
