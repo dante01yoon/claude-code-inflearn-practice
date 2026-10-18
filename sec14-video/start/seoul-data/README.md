@@ -1,0 +1,1 @@
+- subway-hourly-202607.json: 서울 열린데이터광장 CardSubwayTime API 응답(2026년 7월, 역 5곳). HR_N_GET_ON_NOPE = N시대 승차 인원, HR_N_GET_OFF_NOPE = N시대 하차 인원(한 달 합계).

@@ -198,3 +198,14 @@
 |---|---|---|
 | [sec13-wrap/91-workflow](sec13-wrap/91-workflow/) | 일곱 칸 체크리스트를 답 카드 「하루 평균 승하차 전체 몇 위」 기능으로 한 바퀴: `/context` → 계획 모드 → 테스트 먼저 → `/code-review` → PR(기준 `sec11-all`) → 리뷰 반영 → `gh pr checks` 통과 → 화면(강남 529역 중 5위) | 나만의 워크플로 체크리스트 |
 | [sec13-wrap/92-next](sec13-wrap/92-next/) | 공식 문서 「새로운 기능」 · 변경 기록 · `claude --version` · `/release-notes`, 강의 자료 저장소 네 곳, `claude plugin marketplace add`, 강의 전체 지도 | 다음 단계 |
+
+## 섹션 14 · 클로드로 영상 만들기·편집하기 (1부)
+
+시작 자료: [sec14-video/start](sec14-video/start/) (쿼카 게임 「달빛 고양이 야시장」 그림, 서울 열린데이터광장 지하철 승하차 2026-07). Claude Code 2.1.299 · Remotion 4.0.536.
+
+| 폴더 | 내용 | 수업 |
+|---|---|---|
+| [sec14-video/93-preview](sec14-video/93-preview/) | 결과물 3가지, 영상을 코드로 만든다는 것, 도구 지도, 측정 방식 | 오늘 끝나면 이런 영상이 내 거 |
+| [sec14-video/94-techniques](sec14-video/94-techniques/) | 촬영·모션 기법 15가지와 갤러리를 만든 프롬프트 원문 | 전문 촬영·모션 기법 15가지 |
+| [sec14-video/95-remotion](sec14-video/95-remotion/) | `npx create-video` · `npx remotion skills add` · motion-design-skill, 한 줄 요청 원문, 결과 코드 `cat-video` | Remotion 설치와 공식 스킬 |
+| [sec14-video/96-data-video](sec14-video/96-data-video/) | 서울역의 하루 — 만들기·대조 요청 원문, 결과 코드 `seoul-video` | 데이터로 만드는 영상 |
