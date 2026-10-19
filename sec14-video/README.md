@@ -15,11 +15,11 @@
 | [103-rough-cut](103-rough-cut/) | 러프컷 자동화 — 실패 테이크 · 추임새 빼기, 자른 목록 남기기 |
 | [104-captions](104-captions/) | 자막 · 고유명사 교정 — 모르면 그대로, 고친 건 근거와 함께 |
 | [105-music-loudness](105-music-loudness/) | 배경음악 · 음량 맞추기 — -14 LUFS, 음악은 목소리보다 약 20 LU 작게 |
-| [106-ai-scene](106-ai-scene/) | AI로 장면 만들기 — Comfy Cloud MCP로 엔딩 그림 → 5초 영상, 크레딧 기록 |
+| [106-ending](106-ending/) | 엔딩 장면 이어 붙이기 — 준비된 재료로, 음악은 재료에서 다시 섞고 다시 재기 |
 
 시작 자료 [start/](start/) — 이 폴더를 받아 작업 폴더에 그대로 두고 시작합니다.
 - `mooncat-assets/` — 쿼카 게임 「달빛 고양이 야시장」 그림 중 실습에 필요한 최소 24개(캐릭터 5 · 배경 7 · 소품 12). 새로 만들 필요 없이 이 폴더를 그대로 쓰세요.
 - `seoul-data/` — 서울 열린데이터광장 CardSubwayTime 응답(2026년 7월 한 달 합계, 역 5곳)과 칸 설명.
-- `dante-run/` — 103~105강 연습용 원본 `raw.mp4`(수업용으로 만든 78초 영상) · 용어 목록 · 배경음악(CC BY 3.0, `music/CREDITS.txt`).
+- `dante-run/` — 3부 연습용 원본 `raw.mp4`(수업용으로 만든 78초 영상) · 용어 목록 · 배경음악(CC BY 3.0, `music/CREDITS.txt`) · 엔딩 장면 재료 `scene/`.
 
 녹화 환경: Claude Code 2.1.299 · Opus 5.5 · Remotion 4.0.536 · Node 24. 실습 폴더 이름은 영상과 같게 `cat-video`, `seoul-video`.
