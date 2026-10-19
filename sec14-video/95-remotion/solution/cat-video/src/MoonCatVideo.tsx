@@ -1,5 +1,5 @@
 import { linearTiming, TransitionSeries } from "@remotion/transitions";
-import { fade } from "@remotion/transitions/fade";
+import { slide } from "@remotion/transitions/slide";
 import { useVideoConfig } from "remotion";
 import { AlleyScene } from "./scenes/AlleyScene";
 import { FestivalScene } from "./scenes/FestivalScene";
@@ -14,14 +14,14 @@ export const MoonCatVideo = () => {
         <AlleyScene style={{ backgroundColor: "#1a0f2e" }} />
       </TransitionSeries.Sequence>
       <TransitionSeries.Transition
-        presentation={fade()}
+        presentation={slide({ direction: "from-right" })}
         timing={linearTiming({ durationInFrames: 0.5 * fps })}
       />
       <TransitionSeries.Sequence name="Plaza" durationInFrames={110}>
         <PlazaScene style={{ backgroundColor: "#1a0f2e" }} />
       </TransitionSeries.Sequence>
       <TransitionSeries.Transition
-        presentation={fade()}
+        presentation={slide({ direction: "from-right" })}
         timing={linearTiming({ durationInFrames: 0.5 * fps })}
       />
       <TransitionSeries.Sequence name="Festival" durationInFrames={110}>

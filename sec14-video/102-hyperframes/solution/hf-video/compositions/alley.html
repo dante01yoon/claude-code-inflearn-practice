@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face {
+          font-family: "Gowun Batang";
+          font-weight: 700;
+          src: url("../assets/fonts/gowun-batang-700.woff2") format("woff2");
+        }
+        #alley-root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #1b1530;
+        }
+        #alley-bg {
+          position: absolute;
+          inset: 0;
+          will-change: transform;
+        }
+        #alley-bg img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        #alley-vignette {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse 75% 70% at 50% 45%, rgba(27, 21, 48, 0) 40%, rgba(27, 21, 48, 0.72) 100%);
+        }
+        #alley-root .glow {
+          position: absolute;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(245, 179, 74, 0.9) 0%, rgba(232, 128, 40, 0.35) 38%, rgba(232, 128, 40, 0) 70%);
+          mix-blend-mode: screen;
+          will-change: transform, opacity;
+        }
+        #alley-root .mote {
+          position: absolute;
+          border-radius: 50%;
+          background: #ffd98a;
+          box-shadow: 0 0 14px 4px rgba(245, 179, 74, 0.7);
+          will-change: transform, opacity;
+        }
+        #alley-motes {
+          position: absolute;
+          inset: 0;
+        }
+        #alley-scrim {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse 50% 45% at 78% 86%, rgba(20, 14, 38, 0.85) 0%, rgba(20, 14, 38, 0.55) 50%, rgba(20, 14, 38, 0) 100%);
+        }
+        #alley-cat {
+          position: absolute;
+          left: 300px;
+          bottom: -40px;
+          width: 573px;
+          height: 860px;
+        }
+        #alley-cat-bob {
+          position: absolute;
+          inset: 0;
+          transform-origin: 50% 100%;
+        }
+        #alley-cat-bob img {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          filter: drop-shadow(0 30px 40px rgba(10, 6, 24, 0.6));
+        }
+        #alley-lantern-glow {
+          left: 316px;
+          top: 250px;
+          width: 360px;
+          height: 360px;
+        }
+        #alley-fly {
+          position: absolute;
+          left: 840px;
+          top: 330px;
+          width: 290px;
+          height: 318px;
+        }
+        #alley-fly-hover {
+          position: absolute;
+          inset: 0;
+        }
+        #alley-fly-hover img {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+        #alley-fly-glow {
+          left: -10px;
+          top: 120px;
+          width: 280px;
+          height: 280px;
+        }
+        #alley-caption {
+          position: absolute;
+          right: 150px;
+          bottom: 150px;
+          width: 900px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 26px;
+        }
+        #alley-rule {
+          display: block;
+          width: 220px;
+          height: 3px;
+          background: #f5b34a;
+          transform-origin: 100% 50%;
+        }
+        #alley-line {
+          font-family: "Gowun Batang", serif;
+          font-weight: 700;
+          font-size: 84px;
+          line-height: 1.15;
+          color: #fbeed6;
+          text-shadow: 0 4px 24px rgba(20, 14, 38, 0.9);
+          white-space: nowrap;
+        }
+      </style>
+
+      <div data-hf-id="hf-fw0s" id="alley-root" data-composition-id="alley" data-width="1920" data-height="1080">
+        <div data-hf-id="hf-gr3h" id="alley-bg" data-layout-allow-overflow><img data-hf-id="hf-rq71" src="../assets/mooncat/backgrounds/246-rainy-lantern-alley.png" alt="" /></div>
+        <div data-hf-id="hf-ulif" id="alley-vignette"></div>
+        <div data-hf-id="hf-2pz3" id="alley-motes"></div>
+        <div data-hf-id="hf-rg2l" id="alley-scrim"></div>
+        <div data-hf-id="hf-1n2g" id="alley-cat" data-layout-allow-overflow>
+          <div data-hf-id="hf-rnip" id="alley-cat-bob">
+            <div data-hf-id="hf-vgq3" class="glow" id="alley-lantern-glow"></div>
+            <img data-hf-id="hf-mhbw" src="../assets/mooncat/characters/003_lantern_shopkeeper.png" alt="등불가게 검은 고양이" />
+          </div>
+        </div>
+        <div data-hf-id="hf-emrk" id="alley-fly">
+          <div data-hf-id="hf-4jml" id="alley-fly-hover">
+            <div data-hf-id="hf-kbpq" class="glow" id="alley-fly-glow"></div>
+            <img data-hf-id="hf-0uht" src="../assets/mooncat/characters/054_lantern_firefly_companion.png" alt="반딧불 친구" />
+          </div>
+        </div>
+        <div data-hf-id="hf-sqz5" id="alley-caption">
+          <span data-hf-id="hf-vqb4" id="alley-rule"></span>
+          <div data-hf-id="hf-umyp" id="alley-line">오늘 밤, 등불을 켭니다</div>
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          const DUR = 5.6;
+
+          // Deterministic floating light motes (index-derived, no Math.random)
+          const box = document.getElementById("alley-motes");
+          for (let i = 0; i < 16; i++) {
+            const h = Math.abs(Math.sin((i + 1) * 12.9898 + 1.7) * 43758.5453) % 1;
+            const k = Math.abs(Math.sin((i + 1) * 78.233 + 1.7) * 12345.678) % 1;
+            const m = document.createElement("div");
+            m.className = "mote";
+            const size = Math.round(5 + ((i * 7) % 5) * 2);
+            m.style.cssText = `left:${Math.round(80 + h * 1760)}px;top:${Math.round(380 + k * 640)}px;width:${size}px;height:${size}px;opacity:0`;
+            box.appendChild(m);
+            tl.fromTo(m, { y: 0, x: 0 }, { y: -(160 + k * 220), x: (h - 0.5) * 120, duration: DUR, ease: "none" }, 0);
+            tl.fromTo(m, { opacity: 0 }, { opacity: 0.85, duration: 1.2, ease: "power1.out" }, (i % 5) * 0.25);
+            tl.to(m, { opacity: 0, duration: 0.8, ease: "power1.in" }, DUR - 1.2 - (i % 4) * 0.2);
+          }
+
+          // multi-phase-camera: slow push across the alley
+          tl.fromTo("#alley-bg", { scale: 1.06, x: 0 }, { scale: 1.16, x: -50, duration: DUR, ease: "none" }, 0);
+
+          // Cat walks in from the left and settles on the left third
+          tl.fromTo("#alley-cat", { x: -880 }, { x: 0, duration: 2.4, ease: "power2.out" }, 0.2);
+          // sine-wave-loop: walking bob (finite yoyo, 8 half-cycles = 2.4s)
+          tl.fromTo(
+            "#alley-cat-bob",
+            { y: 0, rotation: -1.5 },
+            { y: -20, rotation: 1.5, duration: 0.3, repeat: 7, yoyo: true, ease: "sine.inOut" },
+            0.2,
+          );
+          tl.to("#alley-cat-bob", { y: 0, rotation: 0, duration: 0.4, ease: "power2.out" }, 2.6);
+          tl.fromTo(
+            "#alley-cat-bob",
+            { scaleY: 1 },
+            { scaleY: 1.012, duration: 1.2, repeat: 1, yoyo: true, ease: "sine.inOut", immediateRender: false },
+            3.0,
+          );
+
+          // ambient-glow-bloom: the lantern lights as the cat arrives, then breathes
+          tl.fromTo("#alley-lantern-glow", { opacity: 0, scale: 0.6 }, { opacity: 0.42, scale: 1, duration: 1.2, ease: "power2.out" }, 1.6);
+          tl.fromTo(
+            "#alley-lantern-glow",
+            { opacity: 0.42, scale: 1 },
+            { opacity: 0.3, scale: 1.08, duration: 0.9, repeat: 2, yoyo: true, ease: "sine.inOut", immediateRender: false },
+            2.8,
+          );
+
+          // Firefly companion flies in from the top-right and hovers by the lantern
+          tl.fromTo(
+            "#alley-fly",
+            { x: 1000, y: -480, rotation: 18, opacity: 0 },
+            { x: 0, y: 0, rotation: 0, opacity: 1, duration: 1.6, ease: "power3.out" },
+            2.3,
+          );
+          tl.fromTo("#alley-fly-hover", { y: 0 }, { y: -16, duration: 0.55, repeat: 3, yoyo: true, ease: "sine.inOut" }, 3.5);
+          tl.fromTo("#alley-fly-glow", { opacity: 0 }, { opacity: 0.4, duration: 0.8, ease: "power1.out" }, 3.0);
+
+          // Caption
+          tl.fromTo("#alley-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, 1.7);
+          tl.fromTo("#alley-line", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: "expo.out" }, 1.9);
+
+          window.__timelines["alley"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -65,6 +65,18 @@ const FestivalSceneInner = () => {
           filter: "drop-shadow(0 0 40px rgba(190,170,255,0.9))",
         }}
       />
+      <CanvasImage
+        name="Firefly"
+        src={staticFile("mooncat/characters/054_lantern_firefly_companion.png")}
+        width={180}
+        height={197}
+        style={{
+          position: "absolute",
+          left: 620 + Math.cos((frame / fps) * 2.2) * 320,
+          top: 420 + Math.sin((frame / fps) * 2.2) * 90,
+          filter: "drop-shadow(0 0 26px rgba(255,200,90,0.7))",
+        }}
+      />
       <LanternCat
         name="Lantern cat"
         size={800}
@@ -78,18 +90,6 @@ const FestivalSceneInner = () => {
             easing: Easing.spring({ damping: 200 }),
             output: "perceptual-scale",
           }),
-        }}
-      />
-      <CanvasImage
-        name="Firefly"
-        src={staticFile("mooncat/characters/054_lantern_firefly_companion.png")}
-        width={180}
-        height={197}
-        style={{
-          position: "absolute",
-          left: 620 + Math.cos((frame / fps) * 2.2) * 320,
-          top: 420 + Math.sin((frame / fps) * 2.2) * 90,
-          filter: "drop-shadow(0 0 26px rgba(255,200,90,0.7))",
         }}
       />
       <Caption

@@ -4,7 +4,9 @@ import { LanternCat } from "./elements/LanternCat";
 import { Rain } from "./elements/Rain";
 import { Sparkles } from "./elements/Sparkles";
 import { GALLERY_FRAMES, TechniqueGallery } from "./gallery/TechniqueGallery";
+import { MenuVideo } from "./MenuVideo";
 import { MoonCatVideo } from "./MoonCatVideo";
+import { Trailer, TRAILER_FRAMES } from "./Trailer";
 import { AlleyScene } from "./scenes/AlleyScene";
 import { FestivalScene } from "./scenes/FestivalScene";
 import { PlazaScene } from "./scenes/PlazaScene";
@@ -13,8 +15,24 @@ export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
+        id="Trailer"
+        component={Trailer}
+        durationInFrames={TRAILER_FRAMES}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
         id="MoonCat"
         component={MoonCatVideo}
+        durationInFrames={300}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Menu"
+        component={MenuVideo}
         durationInFrames={300}
         fps={30}
         width={1920}
