@@ -15,3 +15,5 @@ claude
 
 📏 같은 데이터 영상 요청 3번씩(가리고 60점): Remotion + 공식 스킬 47.0 / HyperFrames + 공식 스킬 42.7 (빈 프로젝트·한 줄 요청 조건).
 고르기: React·데이터·복잡한 움직임 → Remotion / HTML로 다루기·미리보기에서 바로 고치기·HTML 디자인 틀 → HyperFrames.
+
+프롬프트 원문(복사용): [PROMPTS.md](PROMPTS.md)

@@ -25,3 +25,5 @@ claude
 | 공식 스킬 + 모션 원칙 | 45 · 47 · 49 | 47.0 | $0.94 |
 
 공식 문서: https://www.remotion.dev/docs/ai/claude-code (2026-10-18 확인)
+
+프롬프트 원문(복사용): [PROMPTS.md](PROMPTS.md)

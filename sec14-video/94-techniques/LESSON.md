@@ -14,3 +14,5 @@ public/mooncat의 「달빛 고양이 야시장」 에셋으로 촬영·모션 �
 실제 실행 8분 39초. 결과: `out/final.mp4`(52.5초), `out/midframes_grid.png`(기법별 가운데 프레임 격자). 코드는 [../95-remotion/solution/cat-video/src/gallery](../95-remotion/solution/cat-video/src/gallery).
 
 주의(98강 측정): 카메라 용어만 잔뜩 주면 오히려 점수가 떨어졌음(23.0 vs 이야기+카메라 38.7). 기법은 "무엇을 보여 줄지" 정한 다음에 얹는다.
+
+프롬프트 원문(복사용): [PROMPTS.md](PROMPTS.md)

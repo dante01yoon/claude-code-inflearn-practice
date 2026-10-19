@@ -12,3 +12,5 @@ out/cut-sub.mp4에 music 폴더의 음악을 배경으로 깔아서 out/final.mp
 
 📏 같은 도구(ffmpeg ebur128)로 다시 잼: -14.0 LUFS / -1.2 dBTP, 기록과 같음.
 팁: 목표 숫자를 말하기 · 측정값을 파일로 남기기 · 마지막은 사람이 듣기 · 출처 표기는 설명란에.
+
+프롬프트 원문(복사용): [PROMPTS.md](PROMPTS.md)

@@ -14,3 +14,5 @@ scene 폴더에 엔딩 장면 재료가 있어. scene/ending.mp4를 out/final.mp
 
 📏 같은 도구(ffmpeg ebur128)로 다시 잼: 38.2초 · -14.0 LUFS / -1.2 dBTP, 기록과 같음.
 팁: 규격 먼저 · 음악은 완성본이 아니라 재료에서 다시 섞기 · 붙인 뒤 다시 재고 직접 들어 보기.
+
+프롬프트 원문(복사용): [PROMPTS.md](PROMPTS.md)
