@@ -7,8 +7,8 @@
 | [95-remotion](95-remotion/) | Remotion 설치와 공식 스킬 — 짧은 한 줄로 첫 영상 (📏 스킬 없음 44.7 vs 있음 47.0) |
 | [96-data-video](96-data-video/) | 데이터로 만드는 영상 — 서울역의 하루, 화면 숫자를 원본과 대조 |
 
-시작 자료 [start/](start/)
-- `mooncat-assets/` — 쿼카 게임 「달빛 고양이 야시장」 그림(캐릭터 5 · 배경 7 · 소품 12). 강의 실습용.
+시작 자료 [start/](start/) — 이 폴더를 받아 작업 폴더에 그대로 두고 시작합니다.
+- `mooncat-assets/` — 쿼카 게임 「달빛 고양이 야시장」 그림 중 실습에 필요한 최소 24개(캐릭터 5 · 배경 7 · 소품 12). 새로 만들 필요 없이 이 폴더를 그대로 쓰세요.
 - `seoul-data/` — 서울 열린데이터광장 CardSubwayTime 응답(2026년 7월 한 달 합계, 역 5곳)과 칸 설명.
 
 녹화 환경: Claude Code 2.1.299 · Opus 5.5 · Remotion 4.0.536 · Node 24. 실습 폴더 이름은 영상과 같게 `cat-video`, `seoul-video`.

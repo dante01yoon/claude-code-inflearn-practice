@@ -1,5 +1,7 @@
 # 95강 · Remotion 설치와 공식 스킬 — 한 줄로 첫 영상
 
+시작: 이 저장소의 [`sec14-video/start`](../start/) 안의 `mooncat-assets`·`seoul-data` 두 폴더를 작업 폴더에 두고, 그 작업 폴더에서 아래를 실행합니다.
+
 ```bash
 npx create-video --yes --blank cat-video   # 처음이면 "Ok to proceed? (y)" → y
 cd cat-video
