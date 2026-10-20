@@ -1,0 +1,94 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "requiredStates": [
+    "default",
+    "empty",
+    "error",
+    "loading"
+  ],
+  "screens": [
+    {
+      "id": "map",
+      "name": "지도",
+      "features": [
+        "F0",
+        "F1",
+        "F3"
+      ],
+      "states": [
+        "default",
+        "return",
+        "loading",
+        "empty",
+        "error"
+      ]
+    },
+    {
+      "id": "station",
+      "name": "대여소 시트",
+      "features": [
+        "F2"
+      ],
+      "states": [
+        "default",
+        "zero"
+      ]
+    },
+    {
+      "id": "list",
+      "name": "목록 펼침",
+      "features": [
+        "F1"
+      ],
+      "states": [
+        "default"
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "check-bikes",
+      "goal": "지도에서 근처 대여소에 자전거가 남았는지 확인",
+      "steps": [
+        "map:loading",
+        "map",
+        "station"
+      ]
+    },
+    {
+      "id": "no-bikes",
+      "goal": "고른 대여소가 0대일 때 가까운 대안 찾기",
+      "steps": [
+        "map",
+        "station:zero",
+        "station"
+      ]
+    },
+    {
+      "id": "return",
+      "goal": "반납할 빈 거치대 찾기",
+      "steps": [
+        "map",
+        "map:return"
+      ]
+    },
+    {
+      "id": "load-failed",
+      "goal": "새로고침 실패 시 마지막 정보 유지 + 다시 시도",
+      "steps": [
+        "map",
+        "map:error",
+        "map"
+      ]
+    }
+  ],
+  "decisions": [
+    "목록은 지도 아래 바텀시트(살짝 보임 → 펼침)",
+    "내 위치 데이터가 없으므로 거리는 대여소끼리의 거리(0대 대여소에서 대안 추천)에만 쓴다",
+    "대여소 이름 앞 번호는 원본 그대로",
+    "지도·목록·대여소 시트 모두 대여/반납 전환 유지"
+  ]
+}

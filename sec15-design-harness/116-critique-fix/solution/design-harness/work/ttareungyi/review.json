@@ -1,0 +1,165 @@
+{
+  "reviewer": null,
+  "checklist": [
+    {
+      "id": "hierarchy",
+      "question": "와이어프레임 우선순위 1번 영역이 실제로 가장 먼저 눈에 들어오는가",
+      "suggested": 1,
+      "score": null,
+      "note": "map/default·error: 지도와 숫자 핀(우선순위 1)이 화면 대부분을 차지해 먼저 보이지만, 핀이 겹쳐 숫자를 못 읽는 곳이 있다(102 '16'이 103 '6'에 가림, 107·4207·4208 묶음, 104·105). station/default·zero·list/default는 큰 숫자(6대, 0대)가 먼저 보여 좋다."
+    },
+    {
+      "id": "primary-action",
+      "question": "화면마다 주요 행동이 하나로 분명한가",
+      "suggested": 2,
+      "score": null,
+      "note": "화면마다 행동이 하나다: map은 핀·행 누르기, station은 닫기(0대면 가까운 대여소 행), empty·error는 '다시 시도' 하나. 경쟁하는 버튼이 없다."
+    },
+    {
+      "id": "status",
+      "question": "시스템 상태가 보이는가: 로딩·빈·오류가 무엇이 일어났고 무엇을 하면 되는지 말하는가 (Nielsen 1, 9)",
+      "suggested": 2,
+      "score": null,
+      "note": "map/loading(문구+스켈레톤 2행), map/empty('표시할 대여소가 없어요'+다시 시도), map/error(배너: 불러오지 못했어요 + 07:22 기준 정보 유지 + 다시 시도) 모두 무슨 일인지와 다음 행동을 말한다. 다만 error 배너가 핀 3곳을 가린다(findings 참고)."
+    },
+    {
+      "id": "real-world",
+      "question": "사용자 말로 쓰였는가: 실제 대여소명·단위(대, 개) 그대로인가 (Nielsen 2)",
+      "suggested": 1,
+      "score": null,
+      "note": "대여소명은 번호 포함 원본 그대로(184.망원우체국사거리 인근 띄어쓰기 없음도 원본), 단위 '대' 사용. 그러나 map/return의 StationRow는 '0 / 거치대 15'처럼 단위·'빈 거치대' 말이 없어 자전거 0대로 읽힌다(copy.json format.emptyRacks '빈 거치대 {n}' 미적용)."
+    },
+    {
+      "id": "consistency",
+      "question": "같은 요소가 화면마다 같은 모양·위치인가 (Nielsen 4)",
+      "suggested": 1,
+      "score": null,
+      "note": "대여/반납 전환 위치가 map(y≈76, 검색바 아래)·list(y≈16, 화면 맨 위)·station(시트 안)마다 다르다. station 시트는 BottomSheet 인스턴스가 아니라 따로 그려져 린트 일관성 검사 밖에 있다. StationRow low 변형이 명세('호박색 점')와 달리 점+문구 알약이라 행 높이가 74로 커진다(린트 경고 2). 행마다 숫자 열 x 위치가 '/ 거치대 n' 길이에 따라 흔들린다(list/default 104 '0대' vs 105 '0대')."
+    },
+    {
+      "id": "control",
+      "question": "되돌아가기·다시 시도가 항상 가능한가 (Nielsen 3)",
+      "suggested": 2,
+      "score": null,
+      "note": "station 시트에 닫기(×), empty·error에 다시 시도가 있다. 시트 손잡이로 접고 펼 수 있다. list/default에서 지도로 돌아가는 길은 손잡이뿐이라 약하지만 막혀 있지는 않다."
+    },
+    {
+      "id": "freshness",
+      "question": "실시간처럼 보이는 숫자에 기준 시각·출처가 보이는가",
+      "suggested": 1,
+      "score": null,
+      "note": "모든 시트에 '07:22 기준'이 있다. 출처(서울특별시 OA-15493)는 station·list에만 있고 map 5개 프레임(default·return·loading·empty·error)에는 © OpenStreetMap만 있다. 첫 화면이자 숫자가 가장 많이 보이는 화면에 출처가 없다."
+    },
+    {
+      "id": "affordance",
+      "question": "누를 수 있는 것이 누를 수 있어 보이는가(화살표, 눌림 상태)",
+      "suggested": 1,
+      "score": null,
+      "note": "StationRow·NearbyStationRow에 화살표가 있고 선택 핀에 고리가 있다. 그러나 화면 가장자리·검색바 밑에 잘린 핀(184 '19', 4216 '2'로 보이는 12대)은 누를 수 있는지 알기 어렵고, 검색바는 누를 수 있어 보이지만 검색 결과·결과 없음 화면이 없다."
+    },
+    {
+      "id": "minimal",
+      "question": "필요 없는 장식·정보가 없는가 (Nielsen 8)",
+      "suggested": 2,
+      "score": null,
+      "note": "장식·그림자 없이 숫자 중심이다. station/default의 손잡이 아래 빈 공간(약 60px)과 위도·경도 노출 정도가 덜어낼 후보지만 PRD F2 요구라 유지가 맞다."
+    },
+    {
+      "id": "tone",
+      "question": "카피 톤이 copy.json의 tone과 맞는가",
+      "suggested": 2,
+      "score": null,
+      "note": "해요체, 숫자 먼저, 금지어(실시간·근처·내 위치·대여하기) 없음. map/empty의 '잠시 후 다시 시도해 주세요'가 바로 옆 '다시 시도' 버튼과 시점이 엇갈리는 정도."
+    },
+    {
+      "id": "not-generic",
+      "question": "기본값 같은 인상인가: 똑같은 둥근 카드+회색 그림자, 대문자 라벨, 의미 없는 숫자 표식 등이 없는가",
+      "suggested": 2,
+      "score": null,
+      "note": "핀 모양(잉크 원 / 호박색 사각 / 흰 원+빨간 테)과 큰 숫자 + 작은 '/ 거치대 n' 조합이 과업 맞춤이다. 둥근 카드+회색 그림자 같은 기본값 인상 없음."
+    },
+    {
+      "id": "brand",
+      "question": "서비스 성격(공공자전거, 출근길)에 맞는 인상인가",
+      "suggested": 1,
+      "score": null,
+      "note": "잉크·흰 바탕에 행동색 초록(다시 시도)만 쓰는 담담한 공공 서비스 인상. 출근길 '한눈에' 과업에는 지도에서 0대(빨강)가 9곳 몰려 화면이 빨간 테로 덮이고, 쓸 수 있는 대여소(잉크 원)가 오히려 덜 띄는 점이 아쉽다."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "High",
+      "where": "map/default, map/return, map/error — StationPin 배치(지도 가장자리)",
+      "issue": "17곳 중 181(7대)·182(5대)은 핀 좌표가 화면 밖(x≈-52, -41)이라 지도에 없고, 4216 망원정 앞(12대)은 중심 x≈-2라 반쯤 잘려 '2'로 읽힌다. 시트는 '이 지역 대여소 17곳'이라 말하는데 지도는 15곳만, 그중 하나는 틀린 숫자로 보인다. 지도에서 남은 자전거를 확인하는 핵심 과업(F0)에서 잘못된 정보를 준다."
+    },
+    {
+      "severity": "High",
+      "where": "map/default·return·error, station/default — 겹친 핀(102/103, 107/4207/4208, 104/105) 및 검색바·전환 아래 184",
+      "issue": "핀끼리 겹쳐 '16'(102)이 '6'(103)에 가려 반만 보이고, 107의 '0'이 4207 '8'에 가리며, 104·105 '0' 두 개가 포개진다. 184 '19'는 대여/반납 전환 밑에 깔려 숫자 윗부분만 보인다. station/default에선 선택 고리가 '16'을 더 가린다. 핀 숫자를 읽는 것이 우선순위 1 영역의 목적인데 5곳 이상이 읽히지 않는다."
+    },
+    {
+      "severity": "High",
+      "where": "map/return — BottomSheet 안 StationRow ('0 / 거치대 15', '8 / 거치대 14') 및 반납 핀",
+      "issue": "반납 모드에서 숫자가 빈 거치대 수로 바뀌지만 행에 단위도 '빈 거치대'라는 말도 없다. 같은 102 대여소가 대여 모드에서 '16대 / 거치대 15'였다가 '0 / 거치대 15'가 되어 '자전거 0대'로 읽힌다. 지도에도 범례·모드 표시가 전환 버튼 하나뿐이다. 반납 흐름(ia flow return)의 목표인 '빈 거치대 찾기'를 잘못 읽게 만든다."
+    },
+    {
+      "severity": "Medium",
+      "where": "map/error — 오류 배너(y≈128~197)",
+      "issue": "배너가 107·4207·4208 핀을 덮는다. 오류 흐름 목표가 '마지막 정보 유지'인데 그 정보 중 3곳이 가려진다(이 중 4207은 근방에서 자전거가 있는 몇 안 되는 곳, 8대)."
+    },
+    {
+      "severity": "Medium",
+      "where": "map 5개 프레임 하단",
+      "issue": "PRD '화면 하단에 출처를 표시한다'(공공누리 제1유형 출처표시)가 map 프레임에서 빠졌다. 첫 화면에 서울시 데이터 숫자가 가장 많이 보이는데 출처는 목록을 펼치거나 대여소를 눌러야 보인다. 라이선스 조건 충족 여부가 화면마다 다르다."
+    },
+    {
+      "severity": "Medium",
+      "where": "station/zero — '가까운 대여소' 첫 행 106 (1대)",
+      "issue": "0대 대여소의 대안으로 1대 남은 106을 맨 위에 추천하는데, 이 행에는 list에 있던 '얼마 안 남았어요' 표시가 없다. 스냅샷(07:22) 데이터라 도착 시 0대일 가능성이 높은 곳을 일반 대안처럼 보여 준다. 대안 행이 지도 위 어디인지도 시트가 지도를 거의 덮어 보이지 않는다(선택한 104 핀도 안 보임)."
+    },
+    {
+      "severity": "Medium",
+      "where": "map/default·return 바텀시트 peek의 2행, list/default 정렬",
+      "issue": "행이 대여소 번호순이라 peek 2행은 '가까운 행'이 아니라 102·103 고정이다. 반납 모드 peek 첫 행은 빈 거치대 0인 102라 과업에 도움이 안 된다. list/default는 17곳 중 10곳만 보이고 남은 자전거 있는 곳이 0대 사이에 흩어져, '한눈에' 확인하려면 스크롤과 스캔이 필요하다."
+    },
+    {
+      "severity": "Medium",
+      "where": "map/default·return·error 지도 바탕 지명",
+      "issue": "map/loading·empty에는 '망원', '합정', '서교동' 지명이 있지만 핀이 있는 화면에서는 빠지고 '합정동', '당인동'만 남는다. 대여소명이 '망원역…', '합정역…'인데 지도에서 그 위치를 짐작할 기준점이 사라진다."
+    },
+    {
+      "severity": "Medium",
+      "where": "station/default·zero의 대여/반납 전환, list/default 반납, 검색바",
+      "issue": "IA 결정 '지도·목록·대여소 시트 모두 대여/반납 전환 유지'에 따라 시트에 전환이 있지만, station 반납 상태와 list 반납 상태 화면이 없다. 반납일 때 큰 숫자·'0대' 빨강 강조·가까운 대여소가 무엇을 기준으로 바뀌는지 정의되지 않았다. 검색바(와이어프레임 우선순위 4)도 입력·결과 없음 상태가 없다."
+    },
+    {
+      "severity": "Nit",
+      "where": "list/default 마지막 보이는 행",
+      "issue": "11번째 행(497, 0대)의 빨간 띠와 숫자 윗부분이 출처 줄 위로 잘려 보인다. 스크롤 단서로 읽힐 수도 있지만 깨진 렌더로 보인다."
+    },
+    {
+      "severity": "Nit",
+      "where": "map/empty StateMessage",
+      "issue": "'잠시 후 다시 시도해 주세요' 바로 아래 '다시 시도' 버튼이 있어 지금 누르라는 것인지 기다리라는 것인지 엇갈린다."
+    },
+    {
+      "severity": "Nit",
+      "where": "list/default·map StationRow 숫자 열",
+      "issue": "숫자가 '/ 거치대 n' 앞에 붙어 오른쪽 정렬되므로 거치대 자릿수(5 vs 13)에 따라 숫자 x 위치가 달라진다(104 '0대' vs 105 '0대'). 세로로 훑어 비교하기가 조금 어렵다."
+    }
+  ],
+  "lintWarnings": [
+    {
+      "warning": "BottomSheet 높이 240, 780",
+      "judgement": "설계상 차이: peek(map 5개)와 expanded(list) 변형. 문제 아님. 단 station/default·zero 시트는 BottomSheet 인스턴스가 아니라 이 검사에 안 잡힌다."
+    },
+    {
+      "warning": "StationRow 높이 59, 74, 73",
+      "judgement": "74는 106 low 변형 — 명세는 '호박색 점'인데 점+'얼마 안 남았어요' 알약을 이름 아래 넣어 높이가 커짐(명세와 구현 불일치). 73은 마지막 행 4244 당인리발전소 공원 앞 — 아래 여백 차이로 보이며 화면 밖이라 눈에 띄지 않음. 사용자 영향은 작다(Nit)."
+    },
+    {
+      "warning": "StateMessage 높이 72, 153",
+      "judgement": "내용 차이: loading은 문구만, empty는 문구+힌트+버튼. 둘 다 y=652에서 시작해 위치는 같다. 문제 아님."
+    }
+  ]
+}

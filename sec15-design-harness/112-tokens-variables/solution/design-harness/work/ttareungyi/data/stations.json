@@ -1,0 +1,153 @@
+{
+ "source": {
+  "name": "서울시 공공자전거 실시간 대여정보 (OA-15493)",
+  "provider": "서울특별시",
+  "url": "https://data.seoul.go.kr/dataList/OA-15493/A/1/datasetView.do",
+  "license": "공공누리 제1유형(출처표시)",
+  "fetchedAt": "2026-10-19T22:22:54.796431+00:00",
+  "bbox": [
+   37.544,
+   126.9,
+   37.56,
+   126.923
+  ]
+ },
+ "stations": [
+  {
+   "stationId": "ST-4",
+   "stationName": "102. 망원역 1번출구 앞",
+   "parkingBikeTotCnt": 16,
+   "rackTotCnt": 15,
+   "stationLatitude": 37.5556488,
+   "stationLongitude": 126.91062927
+  },
+  {
+   "stationId": "ST-5",
+   "stationName": "103. 망원역 2번출구 앞",
+   "parkingBikeTotCnt": 6,
+   "rackTotCnt": 14,
+   "stationLatitude": 37.55495071,
+   "stationLongitude": 126.91083527
+  },
+  {
+   "stationId": "ST-6",
+   "stationName": "104. 합정역 1번출구 앞",
+   "parkingBikeTotCnt": 0,
+   "rackTotCnt": 13,
+   "stationLatitude": 37.55073929,
+   "stationLongitude": 126.91508484
+  },
+  {
+   "stationId": "ST-7",
+   "stationName": "105. 합정역 5번출구 앞",
+   "parkingBikeTotCnt": 0,
+   "rackTotCnt": 5,
+   "stationLatitude": 37.55000687,
+   "stationLongitude": 126.91482544
+  },
+  {
+   "stationId": "ST-8",
+   "stationName": "106. 합정역 7번출구 앞",
+   "parkingBikeTotCnt": 1,
+   "rackTotCnt": 12,
+   "stationLatitude": 37.54864502,
+   "stationLongitude": 126.91282654
+  },
+  {
+   "stationId": "ST-9",
+   "stationName": "107. 수협 연남동지점",
+   "parkingBikeTotCnt": 0,
+   "rackTotCnt": 10,
+   "stationLatitude": 37.55784607,
+   "stationLongitude": 126.91871643
+  },
+  {
+   "stationId": "ST-10",
+   "stationName": "108. 서교동 사거리",
+   "parkingBikeTotCnt": 0,
+   "rackTotCnt": 12,
+   "stationLatitude": 37.55274582,
+   "stationLongitude": 126.91861725
+  },
+  {
+   "stationId": "ST-339",
+   "stationName": "181. 망원초록길 입구",
+   "parkingBikeTotCnt": 7,
+   "rackTotCnt": 15,
+   "stationLatitude": 37.55134201,
+   "stationLongitude": 126.90267181
+  },
+  {
+   "stationId": "ST-340",
+   "stationName": "182. 망원2빗물펌프장 앞",
+   "parkingBikeTotCnt": 5,
+   "rackTotCnt": 9,
+   "stationLatitude": 37.55117416,
+   "stationLongitude": 126.90315247
+  },
+  {
+   "stationId": "ST-342",
+   "stationName": "184.망원우체국사거리 인근",
+   "parkingBikeTotCnt": 19,
+   "rackTotCnt": 8,
+   "stationLatitude": 37.55894852,
+   "stationLongitude": 126.90775299
+  },
+  {
+   "stationId": "ST-2156",
+   "stationName": "497.합정동주민센터 앞",
+   "parkingBikeTotCnt": 0,
+   "rackTotCnt": 25,
+   "stationLatitude": 37.551754,
+   "stationLongitude": 126.91230011
+  },
+  {
+   "stationId": "ST-2167",
+   "stationName": "3009. 홍대입구역 사거리",
+   "parkingBikeTotCnt": 0,
+   "rackTotCnt": 20,
+   "stationLatitude": 37.55450058,
+   "stationLongitude": 126.92023468
+  },
+  {
+   "stationId": "ST-2531",
+   "stationName": "4207. 아만티호텔 앞",
+   "parkingBikeTotCnt": 8,
+   "rackTotCnt": 10,
+   "stationLatitude": 37.5573082,
+   "stationLongitude": 126.91885376
+  },
+  {
+   "stationId": "ST-2532",
+   "stationName": "4208. 스타벅스(동교동) 앞",
+   "parkingBikeTotCnt": 0,
+   "rackTotCnt": 10,
+   "stationLatitude": 37.5566597,
+   "stationLongitude": 126.91986847
+  },
+  {
+   "stationId": "ST-2534",
+   "stationName": "4211. 시석빌딩 앞",
+   "parkingBikeTotCnt": 0,
+   "rackTotCnt": 8,
+   "stationLatitude": 37.54836655,
+   "stationLongitude": 126.91671753
+  },
+  {
+   "stationId": "ST-2874",
+   "stationName": "4216. 망원정 앞",
+   "parkingBikeTotCnt": 12,
+   "rackTotCnt": 10,
+   "stationLatitude": 37.5500679,
+   "stationLongitude": 126.90480042
+  },
+  {
+   "stationId": "ST-3017",
+   "stationName": "4244. 당인리발전소 공원 앞",
+   "parkingBikeTotCnt": 24,
+   "rackTotCnt": 10,
+   "stationLatitude": 37.54529572,
+   "stationLongitude": 126.91764832
+  }
+ ]
+}

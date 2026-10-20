@@ -1,0 +1,913 @@
+{
+ "vars": [
+  {
+   "collection": "primitive",
+   "name": "primitive/color/ink-900",
+   "type": "COLOR",
+   "value": {
+    "r": 0.09019607843137255,
+    "g": 0.13333333333333333,
+    "b": 0.16862745098039217,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.ink-900"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/color/slate-600",
+   "type": "COLOR",
+   "value": {
+    "r": 0.33725490196078434,
+    "g": 0.38823529411764707,
+    "b": 0.42745098039215684,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.slate-600"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/color/slate-200",
+   "type": "COLOR",
+   "value": {
+    "r": 0.8352941176470589,
+    "g": 0.8588235294117647,
+    "b": 0.8784313725490196,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.slate-200"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/color/slate-50",
+   "type": "COLOR",
+   "value": {
+    "r": 0.9333333333333333,
+    "g": 0.9450980392156862,
+    "b": 0.9529411764705882,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.slate-50"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/color/white",
+   "type": "COLOR",
+   "value": {
+    "r": 1,
+    "g": 1,
+    "b": 1,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.white"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/color/map-ground",
+   "type": "COLOR",
+   "value": {
+    "r": 0.9450980392156862,
+    "g": 0.9411764705882353,
+    "b": 0.9254901960784314,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.map-ground"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/color/green-700",
+   "type": "COLOR",
+   "value": {
+    "r": 0,
+    "g": 0.4627450980392157,
+    "b": 0.2901960784313726,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.green-700"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/color/green-50",
+   "type": "COLOR",
+   "value": {
+    "r": 0.8901960784313725,
+    "g": 0.9490196078431372,
+    "b": 0.9176470588235294,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.green-50"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/color/amber-400",
+   "type": "COLOR",
+   "value": {
+    "r": 0.9607843137254902,
+    "g": 0.7215686274509804,
+    "b": 0.1803921568627451,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.amber-400"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/color/amber-50",
+   "type": "COLOR",
+   "value": {
+    "r": 0.9921568627450981,
+    "g": 0.9450980392156862,
+    "b": 0.8392156862745098,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.amber-50"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/color/red-700",
+   "type": "COLOR",
+   "value": {
+    "r": 0.7686274509803922,
+    "g": 0.14901960784313725,
+    "b": 0.11372549019607843,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.red-700"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/color/red-50",
+   "type": "COLOR",
+   "value": {
+    "r": 0.9882352941176471,
+    "g": 0.9215686274509803,
+    "b": 0.9137254901960784,
+    "a": 1
+   },
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.color.red-50"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/0",
+   "type": "FLOAT",
+   "value": 0,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.0"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/2",
+   "type": "FLOAT",
+   "value": 2,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.2"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/4",
+   "type": "FLOAT",
+   "value": 4,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.4"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/8",
+   "type": "FLOAT",
+   "value": 8,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.8"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/12",
+   "type": "FLOAT",
+   "value": 12,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.12"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/14",
+   "type": "FLOAT",
+   "value": 14,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.14"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/16",
+   "type": "FLOAT",
+   "value": 16,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.16"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/20",
+   "type": "FLOAT",
+   "value": 20,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.20"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/24",
+   "type": "FLOAT",
+   "value": 24,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.24"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/28",
+   "type": "FLOAT",
+   "value": 28,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.28"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/32",
+   "type": "FLOAT",
+   "value": 32,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.32"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/40",
+   "type": "FLOAT",
+   "value": 40,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.40"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/44",
+   "type": "FLOAT",
+   "value": 44,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.44"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/48",
+   "type": "FLOAT",
+   "value": 48,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.48"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/56",
+   "type": "FLOAT",
+   "value": 56,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.56"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/dimension/999",
+   "type": "FLOAT",
+   "value": 999,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.dimension.999"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/font-weight/regular",
+   "type": "FLOAT",
+   "value": 400,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.font-weight.regular"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/font-weight/medium",
+   "type": "FLOAT",
+   "value": 500,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.font-weight.medium"
+  },
+  {
+   "collection": "primitive",
+   "name": "primitive/font-weight/bold",
+   "type": "FLOAT",
+   "value": 700,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json primitive.font-weight.bold"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/text",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/ink-900",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.text"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/text-muted",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/slate-600",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.text-muted"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/on-ink",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/white",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.on-ink"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/surface",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/white",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.surface"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/surface-sunken",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/slate-50",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.surface-sunken"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/map-ground",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/map-ground",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.map-ground"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/border",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/slate-200",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.border"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/ink",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/ink-900",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.ink"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/action",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/green-700",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.action"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/on-action",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/white",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.on-action"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/action-soft",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/green-50",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.action-soft"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/stock-ok",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/ink-900",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.stock-ok"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/stock-low",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/amber-400",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.stock-low"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/stock-low-soft",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/amber-50",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.stock-low-soft"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/stock-zero",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/red-700",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.stock-zero"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/stock-zero-soft",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/red-50",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.stock-zero-soft"
+  },
+  {
+   "collection": "semantic",
+   "name": "color/skeleton",
+   "type": "COLOR",
+   "value": null,
+   "alias": "primitive/color/slate-50",
+   "scopes": [
+    "ALL_FILLS",
+    "STROKE_COLOR",
+    "EFFECT_COLOR"
+   ],
+   "description": "tokens.json color.skeleton"
+  },
+  {
+   "collection": "semantic",
+   "name": "space/1",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/4",
+   "scopes": [
+    "GAP"
+   ],
+   "description": "tokens.json space.1"
+  },
+  {
+   "collection": "semantic",
+   "name": "space/2",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/8",
+   "scopes": [
+    "GAP"
+   ],
+   "description": "tokens.json space.2"
+  },
+  {
+   "collection": "semantic",
+   "name": "space/3",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/12",
+   "scopes": [
+    "GAP"
+   ],
+   "description": "tokens.json space.3"
+  },
+  {
+   "collection": "semantic",
+   "name": "space/4",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/16",
+   "scopes": [
+    "GAP"
+   ],
+   "description": "tokens.json space.4"
+  },
+  {
+   "collection": "semantic",
+   "name": "space/5",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/20",
+   "scopes": [
+    "GAP"
+   ],
+   "description": "tokens.json space.5"
+  },
+  {
+   "collection": "semantic",
+   "name": "space/6",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/24",
+   "scopes": [
+    "GAP"
+   ],
+   "description": "tokens.json space.6"
+  },
+  {
+   "collection": "semantic",
+   "name": "space/8",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/32",
+   "scopes": [
+    "GAP"
+   ],
+   "description": "tokens.json space.8"
+  },
+  {
+   "collection": "semantic",
+   "name": "space/10",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/40",
+   "scopes": [
+    "GAP"
+   ],
+   "description": "tokens.json space.10"
+  },
+  {
+   "collection": "semantic",
+   "name": "radius/sm",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/4",
+   "scopes": [
+    "CORNER_RADIUS"
+   ],
+   "description": "tokens.json radius.sm"
+  },
+  {
+   "collection": "semantic",
+   "name": "radius/md",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/8",
+   "scopes": [
+    "CORNER_RADIUS"
+   ],
+   "description": "tokens.json radius.md"
+  },
+  {
+   "collection": "semantic",
+   "name": "radius/sheet",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/16",
+   "scopes": [
+    "CORNER_RADIUS"
+   ],
+   "description": "tokens.json radius.sheet"
+  },
+  {
+   "collection": "semantic",
+   "name": "radius/pill",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/999",
+   "scopes": [
+    "CORNER_RADIUS"
+   ],
+   "description": "tokens.json radius.pill"
+  },
+  {
+   "collection": "semantic",
+   "name": "border-width/hairline",
+   "type": "FLOAT",
+   "value": 1,
+   "alias": null,
+   "scopes": [
+    "STROKE_FLOAT"
+   ],
+   "description": "tokens.json border-width.hairline"
+  },
+  {
+   "collection": "semantic",
+   "name": "border-width/pin",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/2",
+   "scopes": [
+    "STROKE_FLOAT"
+   ],
+   "description": "tokens.json border-width.pin"
+  },
+  {
+   "collection": "semantic",
+   "name": "size/touch",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/44",
+   "scopes": [
+    "WIDTH_HEIGHT"
+   ],
+   "description": "tokens.json size.touch"
+  },
+  {
+   "collection": "semantic",
+   "name": "size/pin",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/32",
+   "scopes": [
+    "WIDTH_HEIGHT"
+   ],
+   "description": "tokens.json size.pin"
+  },
+  {
+   "collection": "semantic",
+   "name": "size/search-bar",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/48",
+   "scopes": [
+    "WIDTH_HEIGHT"
+   ],
+   "description": "tokens.json size.search-bar"
+  },
+  {
+   "collection": "semantic",
+   "name": "size/toggle",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/44",
+   "scopes": [
+    "WIDTH_HEIGHT"
+   ],
+   "description": "tokens.json size.toggle"
+  },
+  {
+   "collection": "semantic",
+   "name": "size/row-min",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/56",
+   "scopes": [
+    "WIDTH_HEIGHT"
+   ],
+   "description": "tokens.json size.row-min"
+  },
+  {
+   "collection": "semantic",
+   "name": "size/handle",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/40",
+   "scopes": [
+    "WIDTH_HEIGHT"
+   ],
+   "description": "tokens.json size.handle"
+  },
+  {
+   "collection": "semantic",
+   "name": "font-family/base",
+   "type": "STRING",
+   "value": "Noto Sans KR",
+   "alias": null,
+   "scopes": [
+    "FONT_FAMILY"
+   ],
+   "description": "tokens.json font-family.base"
+  },
+  {
+   "collection": "semantic",
+   "name": "font-size/caption",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/12",
+   "scopes": [
+    "FONT_SIZE"
+   ],
+   "description": "tokens.json font-size.caption"
+  },
+  {
+   "collection": "semantic",
+   "name": "font-size/label",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/14",
+   "scopes": [
+    "FONT_SIZE"
+   ],
+   "description": "tokens.json font-size.label"
+  },
+  {
+   "collection": "semantic",
+   "name": "font-size/body",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/16",
+   "scopes": [
+    "FONT_SIZE"
+   ],
+   "description": "tokens.json font-size.body"
+  },
+  {
+   "collection": "semantic",
+   "name": "font-size/title",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/20",
+   "scopes": [
+    "FONT_SIZE"
+   ],
+   "description": "tokens.json font-size.title"
+  },
+  {
+   "collection": "semantic",
+   "name": "font-size/count",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/28",
+   "scopes": [
+    "FONT_SIZE"
+   ],
+   "description": "tokens.json font-size.count"
+  },
+  {
+   "collection": "semantic",
+   "name": "font-size/display",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/dimension/56",
+   "scopes": [
+    "FONT_SIZE"
+   ],
+   "description": "tokens.json font-size.display"
+  },
+  {
+   "collection": "semantic",
+   "name": "font-weight/regular",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/font-weight/regular",
+   "scopes": [
+    "FONT_WEIGHT"
+   ],
+   "description": "tokens.json font-weight.regular"
+  },
+  {
+   "collection": "semantic",
+   "name": "font-weight/medium",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/font-weight/medium",
+   "scopes": [
+    "FONT_WEIGHT"
+   ],
+   "description": "tokens.json font-weight.medium"
+  },
+  {
+   "collection": "semantic",
+   "name": "font-weight/bold",
+   "type": "FLOAT",
+   "value": null,
+   "alias": "primitive/font-weight/bold",
+   "scopes": [
+    "FONT_WEIGHT"
+   ],
+   "description": "tokens.json font-weight.bold"
+  },
+  {
+   "collection": "semantic",
+   "name": "line-height/tight",
+   "type": "FLOAT",
+   "value": 1.2,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json line-height.tight"
+  },
+  {
+   "collection": "semantic",
+   "name": "line-height/body",
+   "type": "FLOAT",
+   "value": 1.5,
+   "alias": null,
+   "scopes": [],
+   "description": "tokens.json line-height.body"
+  }
+ ],
+ "skipped": []
+}

@@ -1,0 +1,80 @@
+{
+  "map": [
+    {
+      "region": "검색바",
+      "priority": 4,
+      "height": 56,
+      "content": "대여소 이름 검색"
+    },
+    {
+      "region": "대여/반납 전환",
+      "priority": 3,
+      "height": 40,
+      "content": "대여 | 반납 (반납이면 핀 숫자 = 빈 거치대)"
+    },
+    {
+      "region": "지도와 숫자 핀",
+      "priority": 1,
+      "height": 420,
+      "content": "실제 위치에 대여소 핀, 핀 안 숫자 = 남은 자전거. 0대·1~2대는 색·모양 구분. © OpenStreetMap"
+    },
+    {
+      "region": "바텀시트(살짝 보임)",
+      "priority": 2,
+      "height": 240,
+      "content": "이 지역 대여소 17곳 · 기준 시각 · 가까운 행 2개 (위로 끌어 목록 펼침)"
+    },
+    {
+      "region": "상태 안내",
+      "priority": 5,
+      "height": 120,
+      "content": "로딩: 행 스켈레톤 / 빈: 표시할 대여소가 없어요 + 다시 시도 / 에러: 마지막 정보 유지 + 배너 + 다시 시도"
+    }
+  ],
+  "station": [
+    {
+      "region": "대여소 이름과 닫기",
+      "priority": 2,
+      "height": 64,
+      "content": "104. 합정역 1번출구 앞  ×"
+    },
+    {
+      "region": "남은 자전거 수",
+      "priority": 1,
+      "height": 120,
+      "content": "0대 (거치대 13) — 0대면 빨강 + 안내"
+    },
+    {
+      "region": "가까운 대여소",
+      "priority": 3,
+      "height": 160,
+      "content": "0대일 때 대여소끼리 거리로 가까운 곳 2개"
+    },
+    {
+      "region": "기준 시각·출처",
+      "priority": 4,
+      "height": 48,
+      "content": "기준 시각 · 출처: 서울특별시 OA-15493"
+    }
+  ],
+  "list": [
+    {
+      "region": "시트 손잡이·제목",
+      "priority": 2,
+      "height": 64,
+      "content": "이 지역 대여소 17곳 · 기준 시각"
+    },
+    {
+      "region": "대여소 행 목록",
+      "priority": 1,
+      "height": 620,
+      "content": "이름 · 남은 자전거 · 거치대, 0대 강조, 행마다 누를 수 있다는 화살표"
+    },
+    {
+      "region": "출처표시",
+      "priority": 3,
+      "height": 48,
+      "content": "출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)"
+    }
+  ]
+}

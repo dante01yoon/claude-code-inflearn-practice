@@ -1,0 +1,161 @@
+{
+ "copy": {
+  "searchPlaceholder": "대여소 이름 검색",
+  "modeRent": "대여",
+  "modeReturn": "반납",
+  "sheetTitle": "이 지역 대여소 17곳",
+  "fetchedAt": "07:22 기준",
+  "low": "얼마 안 남았어요",
+  "zero": "남은 자전거가 없어요",
+  "zeroHint": "가까운 대여소를 확인해 보세요",
+  "nearbyTitle": "가까운 대여소",
+  "returnFull": "빈 거치대가 없어요",
+  "loading": "대여소 정보를 불러오는 중이에요",
+  "empty": "표시할 대여소가 없어요",
+  "emptyHint": "잠시 후 다시 시도해 주세요",
+  "error": "대여소 정보를 불러오지 못했어요",
+  "errorHint": "07:22 기준 정보를 보여 주고 있어요",
+  "retry": "다시 시도",
+  "close": "닫기",
+  "coordinates": "위도 37.5507 · 경도 126.9151",
+  "source": "출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)",
+  "mapAttribution": "© OpenStreetMap"
+ },
+ "notes": {
+  "ModeToggle": "대여 | 반납 두 칸. 선택 칸은 잉크 바탕+흰 글자. 반납이면 핀·행 숫자가 빈 거치대 수로 바뀐다.",
+  "StationPin": "보이는 핀 32px, 누르는 영역 44px. ok=잉크 원, low(1~2대)=호박색 둥근 사각+잉크 테, zero=흰 원+빨간 테+빨간 0. selected는 테 두께 2px 잉크 바깥 고리.",
+  "BottomSheet": "위쪽 모서리만 radius.sheet, 그림자 없이 위쪽 1px border.",
+  "SheetHandle": "손잡이 막대는 40×4지만 끌기 영역은 시트 폭×44.",
+  "StationRow": "왼쪽 대여소 이름(번호 포함 원본), 오른쪽 숫자 28px + '/ 거치대 n' 14px, 끝에 화살표. zero는 숫자 빨강 + 왼쪽 4px 빨간 띠, low는 호박색 점.",
+  "CountHero": "숫자 56px Bold + '대' + '거치대 13' 보조. zero면 숫자 빨강, 아래 ZeroNotice.",
+  "NearbyStationRow": "0대일 때 대여소끼리 거리로 가까운 2곳. 거리는 '대여소에서 120m'처럼 기준을 밝힌다.",
+  "ErrorBanner": "마지막 정보는 그대로 두고 지도 위에 띠로 알린다. 안에 Button(primary) 하나.",
+  "Button": "화면당 primary 하나(research). primary=초록 바탕, text=초록 글자."
+ },
+ "rows": {
+  "ok": {
+   "n": 6,
+   "racks": 14,
+   "name": "103. 망원역 2번출구 앞"
+  },
+  "low": {
+   "n": 1,
+   "racks": 12,
+   "name": "106. 합정역 7번출구 앞"
+  },
+  "zero": {
+   "n": 0,
+   "racks": 13,
+   "name": "104. 합정역 1번출구 앞"
+  },
+  "selected": {
+   "n": 8,
+   "racks": 10,
+   "name": "4207. 아만티호텔 앞"
+  }
+ },
+ "list": [
+  {
+   "name": "102. 망원역 1번출구 앞",
+   "n": 16,
+   "racks": 15,
+   "state": "ok"
+  },
+  {
+   "name": "103. 망원역 2번출구 앞",
+   "n": 6,
+   "racks": 14,
+   "state": "ok"
+  },
+  {
+   "name": "104. 합정역 1번출구 앞",
+   "n": 0,
+   "racks": 13,
+   "state": "zero"
+  },
+  {
+   "name": "105. 합정역 5번출구 앞",
+   "n": 0,
+   "racks": 5,
+   "state": "zero"
+  },
+  {
+   "name": "106. 합정역 7번출구 앞",
+   "n": 1,
+   "racks": 12,
+   "state": "low"
+  },
+  {
+   "name": "107. 수협 연남동지점",
+   "n": 0,
+   "racks": 10,
+   "state": "zero"
+  },
+  {
+   "name": "108. 서교동 사거리",
+   "n": 0,
+   "racks": 12,
+   "state": "zero"
+  },
+  {
+   "name": "181. 망원초록길 입구",
+   "n": 7,
+   "racks": 15,
+   "state": "ok"
+  },
+  {
+   "name": "182. 망원2빗물펌프장 앞",
+   "n": 5,
+   "racks": 9,
+   "state": "ok"
+  },
+  {
+   "name": "184.망원우체국사거리 인근",
+   "n": 19,
+   "racks": 8,
+   "state": "ok"
+  },
+  {
+   "name": "497.합정동주민센터 앞",
+   "n": 0,
+   "racks": 25,
+   "state": "zero"
+  },
+  {
+   "name": "3009. 홍대입구역 사거리",
+   "n": 0,
+   "racks": 20,
+   "state": "zero"
+  },
+  {
+   "name": "4207. 아만티호텔 앞",
+   "n": 8,
+   "racks": 10,
+   "state": "ok"
+  },
+  {
+   "name": "4208. 스타벅스(동교동) 앞",
+   "n": 0,
+   "racks": 10,
+   "state": "zero"
+  },
+  {
+   "name": "4211. 시석빌딩 앞",
+   "n": 0,
+   "racks": 8,
+   "state": "zero"
+  },
+  {
+   "name": "4216. 망원정 앞",
+   "n": 12,
+   "racks": 10,
+   "state": "ok"
+  },
+  {
+   "name": "4244. 당인리발전소 공원 앞",
+   "n": 24,
+   "racks": 10,
+   "state": "ok"
+  }
+ ]
+}

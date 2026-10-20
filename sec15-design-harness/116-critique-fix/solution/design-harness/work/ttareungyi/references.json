@@ -1,0 +1,70 @@
+{
+ "items": [
+  {
+   "id": "ref-bikeseoul",
+   "service": "서울자전거 따릉이 공식",
+   "url": "https://www.bikeseoul.com/",
+   "screenshot": "references/ref-bikeseoul.png",
+   "capturedAt": "2026-10-19T01:10:30.832Z",
+   "blocked": true
+  },
+  {
+   "id": "ref-citibike",
+   "service": "Citi Bike (뉴욕)",
+   "url": "https://citibikenyc.com/system-data",
+   "screenshot": "references/ref-citibike.png",
+   "capturedAt": "2026-10-19T01:10:33.710Z",
+   "blocked": false,
+   "observed": "모바일 상단에 로고, 둥근 Join 버튼, 햄버거 메뉴. 본문은 큰 제목 'System Data' 뒤에 긴 줄글과 데이터 필드 글머리 목록(Station name, Station ID, latitude, longitude 등). 데이터 이용 정책 링크가 본문에 있음.",
+   "take": "데이터 출처·이용 정책 링크를 본문에 명시하는 방식을 따라, 우리도 하단에 공공누리 출처표시를 둔다. 필드명(이름·ID·위도·경도)을 그대로 보여 주는 상세 정보 구성은 참고. 줄글이 길어 훑기 어려운 점은 피한다."
+  },
+  {
+   "id": "ref-baywheels",
+   "service": "Bay Wheels",
+   "url": "https://www.lyft.com/bikes/bay-wheels",
+   "screenshot": "references/ref-baywheels.png",
+   "capturedAt": "2026-10-19T01:10:36.733Z",
+   "blocked": false,
+   "observed": "Lyft Bike(구 Bay Wheels) 모바일 홈. 큰 굵은 제목, 짧은 설명 두 세 줄, 둥근 Download the app 버튼 하나, 그 아래 큰 사진, 'How it works' 소제목. 상단 우측 Join 버튼과 햄버거 메뉴.",
+   "take": "한 화면에 주요 행동 버튼 하나만 두는 위계를 가져온다. 큰 사진·마케팅 문구는 대여소 확인 과업과 무관해 피한다. 이 화면에는 대여소 목록이 없다는 점이 한계."
+  },
+  {
+   "id": "ref-capitalbikeshare",
+   "service": "Capital Bikeshare",
+   "url": "https://capitalbikeshare.com/",
+   "screenshot": "references/ref-capitalbikeshare.png",
+   "capturedAt": "2026-10-19T01:10:39.672Z",
+   "blocked": false,
+   "observed": "붉은 전면 배경 히어로에 흰 큰 제목 'Saddle up, Metro DC!', 흰 둥근 Download the app 버튼, 사진. 상단 Join 버튼도 같은 붉은색 계열.",
+   "take": "브랜드 색 하나를 헤더 버튼과 히어로에 일관 적용하는 방식을 참고. 단 0대 경고색과 브랜드색이 겹치면 구분이 안 되므로 경고색은 따로 정한다."
+  },
+  {
+   "id": "ref-divvy",
+   "service": "Divvy",
+   "url": "https://divvybikes.com/",
+   "screenshot": "references/ref-divvy.png",
+   "capturedAt": "2026-10-19T01:10:42.674Z",
+   "blocked": false,
+   "observed": "하늘색 히어로 위에 흰 큰 제목 'Ride on, Chicago', 어두운 둥근 다운로드 버튼, 사진. 헤더에 서비스 로고와 Lyft 로고를 세로선으로 나란히 둠.",
+   "take": "제공자와 운영사 로고를 세로선으로 나란히 표기하는 방식은 하단 출처(서울특별시) 표기에 응용 가능. 밝은 배경 위 흰 글씨는 대비가 낮아 피한다."
+  },
+  {
+   "id": "ref-santander",
+   "service": "Santander Cycles (런던)",
+   "url": "https://tfl.gov.uk/modes/cycling/santander-cycles",
+   "screenshot": "references/ref-santander.png",
+   "capturedAt": "2026-10-19T01:10:45.476Z",
+   "blocked": true
+  },
+  {
+   "id": "ref-bluebikes",
+   "service": "Bluebikes (보스턴)",
+   "url": "https://bluebikes.com/system-data",
+   "screenshot": "references/ref-bluebikes.png",
+   "capturedAt": "2026-10-19T01:10:54.333Z",
+   "blocked": false,
+   "observed": "Citi Bike와 같은 틀의 System Data 페이지. 데이터 라이선스 계약 링크와 항목 목록(Start Station Name & ID 등)을 글머리로 나열. 제목 하단에 굵은 소제목 구분.",
+   "take": "데이터 라이선스 문구 바로 옆에 링크를 두는 패턴을 가져온다. 목록은 라벨-값 쌍이 아니라 글머리라 상세 화면에서는 라벨-값 행으로 바꾼다."
+  }
+ ]
+}

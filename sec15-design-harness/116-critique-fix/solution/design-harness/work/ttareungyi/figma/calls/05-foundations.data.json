@@ -1,0 +1,46 @@
+{
+ "typeScale": [
+  {
+   "role": "display",
+   "weight": "bold",
+   "lh": "tight",
+   "use": "대여소 시트의 남은 자전거 수(숫자 하나)",
+   "sample": "0"
+  },
+  {
+   "role": "count",
+   "weight": "bold",
+   "lh": "tight",
+   "use": "목록 행의 남은 자전거 수",
+   "sample": "6대"
+  },
+  {
+   "role": "title",
+   "weight": "bold",
+   "lh": "tight",
+   "use": "대여소 이름(시트), 시트 제목",
+   "sample": "104. 합정역 1번출구 앞"
+  },
+  {
+   "role": "body",
+   "weight": "medium",
+   "lh": "body",
+   "use": "행의 대여소 이름, 상태 문구, 버튼",
+   "sample": "103. 망원역 2번출구 앞"
+  },
+  {
+   "role": "label",
+   "weight": "regular",
+   "lh": "body",
+   "use": "거치대 수, 기준 시각, 전환 탭, 핀 숫자(Bold)",
+   "sample": "07:22 기준"
+  },
+  {
+   "role": "caption",
+   "weight": "regular",
+   "lh": "body",
+   "use": "출처표시, © OpenStreetMap",
+   "sample": "© OpenStreetMap"
+  }
+ ]
+}

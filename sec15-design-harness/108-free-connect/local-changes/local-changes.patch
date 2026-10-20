@@ -1,0 +1,50 @@
+diff --git a/src/cursor_mcp_plugin/code.js b/src/cursor_mcp_plugin/code.js
+index 3635031..ed82c36 100644
+--- a/src/cursor_mcp_plugin/code.js
++++ b/src/cursor_mcp_plugin/code.js
+@@ -126,6 +126,11 @@ function updateSettings(settings) {
+ // Handle commands from UI
+ async function handleCommand(command, params) {
+   switch (command) {
++    // local change: run Plugin API code sent from this machine (same as the official use_figma, no quota)
++    case "run_script": {
++      const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
++      return await new AsyncFunction("figma", params.code)(figma);
++    }
+     case "get_document_info":
+       return await getDocumentInfo();
+     case "get_selection":
+diff --git a/src/cursor_mcp_plugin/manifest.json b/src/cursor_mcp_plugin/manifest.json
+index 7852f55..2525cc7 100644
+--- a/src/cursor_mcp_plugin/manifest.json
++++ b/src/cursor_mcp_plugin/manifest.json
+@@ -11,14 +11,12 @@
+   "permissions": [],
+   "networkAccess": {
+     "allowedDomains": [
+-      "ws://localhost:3055",
+-      "https://www.google-analytics.com"
++      "ws://localhost:3055"
+     ],
+-    "reasoning": "Connects to a local Cursor MCP relay; sends anonymous usage events to Google Analytics.",
++    "reasoning": "Connects only to the local MCP relay on this computer.",
+     "devAllowedDomains": [
+-      "http://localhost:3055",
+       "ws://localhost:3055",
+-      "https://www.google-analytics.com"
++      "http://localhost:3055"
+     ]
+   },
+   "documentAccess": "dynamic-page"
+diff --git a/src/cursor_mcp_plugin/ui.html b/src/cursor_mcp_plugin/ui.html
+index 4a0ded1..cbe20d1 100644
+--- a/src/cursor_mcp_plugin/ui.html
++++ b/src/cursor_mcp_plugin/ui.html
+@@ -413,6 +413,7 @@
+         const queue = [];
+ 
+         function send(name, params) {
++          return; // 로컬 사본: 사용 기록 전송 끔 (2026-10-19)
+           const eventParams = Object.assign(
+             {
+               session_id: sessionId,
