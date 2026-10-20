@@ -1,29 +1,31 @@
-# 112 · [미션] 원본에서 쇼츠 한 편 — CapCut · 프리미어로 넘기기
+# 112 · [미션] 원본에서 쇼츠 한 편 — HyperFrames로 편집
 
 영상을 멈추고 먼저 해 본 뒤 풀이를 보세요.
 
-시작: 같은 `mograph` 폴더(앞 수업의 검수 훅이 들어 있는 상태). 원본은 [start/dante-run/raw.mp4](../start/dante-run/)(78초)를 `public/dante/raw.mp4`로 복사.
-
 ## 미션
-1. **구간 고르기** — 쇼츠로 쓸 30초 이내 구간, 고른 이유까지.
-2. **세로 쇼츠** — 단어 하이라이트 자막 · 키네틱 타이포 훅 · 진행 바, 검수 훅 통과.
-3. **넘길 묶음** — 자막 없는 세로 영상 · 자막 파일(srt) · 고른 구간 목록을 `out/handoff/`에.
+1. **구간 고르기** — 78초 원본에서 쇼츠로 쓸 30초 이내 구간, 고른 이유까지.
+2. **HyperFrames로 편집** — 세로(1080×1920) · 단어 하이라이트 자막 · 키네틱 타이포 훅 · 진행 바.
+3. **검수 훅 통과** — 앞 수업의 `.claude`(검수 훅)를 넣어 두고 렌더.
+
+## 준비
+```bash
+npx hyperframes init hf-short --example blank --non-interactive
+cd hf-short
+mkdir -p assets && cp ../dante-run/raw.mp4 assets/raw.mp4         # start/dante-run
+cp -R ../mograph/.claude .                                         # 앞 수업의 검수 훅(또는 111-render-gate/solution/.claude)
+claude
+```
 
 ## 풀이에서 입력한 것 (그대로)
 ```text
-public/dante/raw.mp4는 78초짜리 원본이야. 여기서 쇼츠로 쓸 30초 이내 구간을 골라서 세로(1080x1920) 쇼츠를 만들어줘. 앞에서 쓴 단어 하이라이트 자막, 키네틱 타이포 훅, 진행 바를 쓰고, 왜 그 구간을 골랐는지 알려줘. CapCut이나 프리미어에서 이어서 다듬을 수 있게 out/handoff/에 자막 없는 세로 영상, 자막 파일(srt), 고른 구간 목록도 같이 넣어줘. 보고는 한국어로.
+assets/raw.mp4는 78초짜리 원본이야. 앞에서 배운 HyperFrames로 편집해서, 쇼츠로 쓸 30초 이내 구간을 골라 세로(1080x1920) 쇼츠를 만들어줘. 단어 하이라이트 자막, 키네틱 타이포 훅, 진행 바를 쓰고, 왜 그 구간을 골랐는지 알려줘. 끝나면 out/short.mp4로 렌더해줘. 보고는 한국어로.
 ```
-실제 실행 19분 2초 → `out/dante-raw-short.mp4`(1080×1920, 23.2초, -14.4 LUFS).
-- 고른 흐름: 실패하고 다시 해서 성공하는 네 구간(원본 22.8–26.9 · 36.0–41.0 · 47.5–48.5 · 50.0–63.2초). 인사·대기, 배경 설명(넣으면 충돌이 10초 뒤로 밀림), 다음 수업 안내는 이유와 함께 뺌 → [result/segments.csv](result/segments.csv)
-- 훅 문구 "단테, 벽돌을 넘을까?". 기존 자막은 편집본 기준이라 원본을 다시 받아 적고 파형으로 단어 경계 보정. 추임새 2곳은 소리는 두고 자막에서만 뺌.
-- 스스로 고친 곳: "구멍도 넘었어요" 자막이 0.95초만 보여 구간 끝을 0.3초 늘려 다시 렌더. 완성본과 자막 없는 영상 둘 다 검수 훅 통과.
-- 음량은 렌더 결과 -16.3 LUFS인데 피크가 -0.4 dB라 그냥 키우지 못해 2패스 loudnorm(-14 LUFS, True Peak -1 dB).
+실제 실행 12분 42초 → `out/short.mp4`(1080×1920, 27.1초, -13.3 LUFS).
+- **고른 구간**: 원본 36.8–63.9초, 벽돌에 부딪힘 → 다시 일어남 → 끝까지 성공. 이 안에서 이야기가 끝나고 1.6초 만에 사건이 터짐, 다음 말이 시작되기 직전에 자름, 시작점은 무음이라 말이 잘리지 않음.
+- **구성**: 부딪히는 순간 "꽝!"(확대·흔들림·플래시), 말 없는 쓰러짐 6초는 "다시 일어날까?" → 3·2·1 → "두 번째 도전"으로 채움, 마지막에 벽돌·구멍·동전 체크 → "CLEAR!". 진행 바는 코인이 굴러가는 게임 HUD(TRY 1 → TRY 2 → CLEAR).
+- **검수 훅이 두 번 막음**: 첫 렌더 -20.6 LUFS(작음) → 고쳤더니 -12.6 LUFS(큼) → 1.5 dB 낮춰 -13.3 LUFS로 통과.
+- 처음 받아쓰기가 영어로 번역돼 나와서 말하는 구간마다 한국어로 다시 받아 적어 자막 시각을 맞춤, "역돌" → "벽돌".
 
-## 넘길 묶음 → [result/](result/)
-- `dante-raw-short-clean.mp4` 자막·훅·진행 바 없는 세로 영상(소리·길이는 완성본과 같음) · `dante-raw-short.srt` 자막 10개 · `segments.csv` 구간 목록 · `dante-raw-short.edl`(요청에 없던 추가, 프리미어용) · `README.md`
-- **CapCut 데스크톱**: 자막 메뉴에서 SRT 가져오기를 지원합니다([공식 도움말](https://www.capcut.com/help/how-to-import-subtitles)). EDL은 읽지 못하니 구간은 CSV 참고(클로드 보고).
-- **프리미어 프로**: SRT를 가져와 캡션 트랙으로, EDL은 가져온 뒤 `raw.mp4`에 다시 연결하면 가로 원본으로 같은 컷이 됩니다(클로드 보고). 이 수업에서 두 프로그램으로 직접 가져오는 장면은 녹화하지 않았습니다.
-
-완성 코드: [../107-mograph-gallery/solution/mograph](../107-mograph-gallery/solution/mograph/) (`src/dante/DanteRawShort.tsx`, `rawCut.json`, `scripts/dante-handoff.mts`)
+완성 프로젝트: [solution/hf-short](solution/hf-short/) (원본 영상 제외 — `start/dante-run/raw.mp4`를 `assets/`에 넣고 `npm run render`). 한글 글꼴 Black Han Sans(OFL) 포함.
 
 프롬프트 원문(복사용): [PROMPTS.md](PROMPTS.md)

@@ -1,5 +1,4 @@
 import { Composition } from "remotion";
-import { DanteRawShort, DANTE_RAW_FPS, DANTE_RAW_FRAMES } from "./dante/DanteRawShort";
 import { DanteShort, DANTE_FPS, DANTE_FRAMES } from "./dante/DanteShort";
 import { DataShort, DATA_FPS, DATA_FRAMES } from "./data/DataShort";
 import { Gallery, GALLERY_FRAMES } from "./gallery/Gallery";
@@ -21,24 +20,6 @@ export const RemotionRoot: React.FC = () => {
         component={DanteShort}
         durationInFrames={DANTE_FRAMES}
         fps={DANTE_FPS}
-        width={1080}
-        height={1920}
-      />
-      <Composition
-        id="DanteRawShort"
-        component={DanteRawShort}
-        defaultProps={{ clean: false }}
-        durationInFrames={DANTE_RAW_FRAMES}
-        fps={DANTE_RAW_FPS}
-        width={1080}
-        height={1920}
-      />
-      <Composition
-        id="DanteRawShortClean"
-        component={DanteRawShort}
-        defaultProps={{ clean: true }}
-        durationInFrames={DANTE_RAW_FRAMES}
-        fps={DANTE_RAW_FPS}
         width={1080}
         height={1920}
       />

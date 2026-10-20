@@ -31,6 +31,6 @@ public/mooncat의 「달빛 고양이 야시장」 에셋으로 모션 그래픽
 
 팁: 기법 이름을 알면 요청이 짧아집니다 — "숫자는 카운트업으로, 핵심 단어는 형광펜으로, 목록은 순차 등장으로".
 
-완성 코드: [solution/mograph](solution/mograph/) — 갤러리(`src/gallery`)와 이 묶음 다른 수업의 결과(`src/dante`, `src/data`, `src/story`, 미션의 `src/dante/DanteRawShort.tsx`·`scripts/dante-handoff.mts`)가 모두 들어 있습니다. 검수 훅은 [111-render-gate/solution](../111-render-gate/solution/). `npm i` 뒤 위처럼 `public/`에 재료를 넣고 `npx remotion render Gallery out/gallery.mp4`.
+완성 코드: [solution/mograph](solution/mograph/) — 갤러리(`src/gallery`)와 이 묶음 다른 수업의 결과(`src/dante`, `src/data`, `src/story`)가 모두 들어 있습니다. 검수 훅은 [111-render-gate/solution](../111-render-gate/solution/). `npm i` 뒤 위처럼 `public/`에 재료를 넣고 `npx remotion render Gallery out/gallery.mp4`.
 
 프롬프트 원문(복사용): [PROMPTS.md](PROMPTS.md)

@@ -16,11 +16,11 @@ export const DANTE_FPS = 30;
 // final-ending.mp4 길이 38.2초
 export const DANTE_FRAMES = Math.round(38.2 * DANTE_FPS);
 
-export const FONT = '"Apple SD Gothic Neo", "Noto Sans KR", sans-serif';
-export const YELLOW = "#FFE14D";
-export const MARKER = "rgba(255,92,140,0.82)";
-export const CLAMP = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
-export const EASE_OUT = Easing.bezier(0.16, 1, 0.3, 1);
+const FONT = '"Apple SD Gothic Neo", "Noto Sans KR", sans-serif';
+const YELLOW = "#FFE14D";
+const MARKER = "rgba(255,92,140,0.82)";
+const CLAMP = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+const EASE_OUT = Easing.bezier(0.16, 1, 0.3, 1);
 
 // 16:9 원본을 가로 1080에 맞추면 높이 607.5
 const VIDEO_H = 1080 * (9 / 16);
@@ -32,8 +32,8 @@ const CAPTION_TOP = VIDEO_TOP + VISIBLE_H + 56;
 // 형광펜으로 강조할 단어 (어절 앞부분이 일치하면 강조)
 const KEYWORDS = ["장애물", "끝까지", "벽돌", "구멍", "동전", "클로드", "코드한테", "잘라"];
 
-export type Word = { text: string; startMs: number; endMs: number; key: boolean };
-export type Cue = { startMs: number; endMs: number; lines: Word[][] };
+type Word = { text: string; startMs: number; endMs: number; key: boolean };
+type Cue = { startMs: number; endMs: number; lines: Word[][] };
 
 // SRT는 큐 구간과 줄 배치만 쓰고, 단어 시각은 whisper로 뽑은 words.json에서 순서대로 가져온다
 const toCues = (captions: Caption[], words: Caption[]): Cue[] => {
@@ -74,7 +74,7 @@ const toCues = (captions: Caption[], words: Caption[]): Cue[] => {
   );
 };
 
-export const ProgressBar: React.FC = () => {
+const ProgressBar: React.FC = () => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const p = frame / (durationInFrames - 1);
@@ -102,27 +102,14 @@ export const ProgressBar: React.FC = () => {
 };
 
 // 첫 2초: 훅 문장이 단어마다 다른 방향에서 튀어 들어와 쌓인다
-export type HookWord = {
-  text: string;
-  size: number;
-  y: number;
-  from: number[];
-  rot: number;
-  color: string;
-  mark?: boolean;
-};
-
-const HOOK: HookWord[] = [
+const HOOK = [
   { text: "단테,", size: 110, y: -170, from: [-600, 0], rot: -5, color: "#FFFFFF" },
   { text: "이번엔", size: 95, y: -45, from: [600, 0], rot: 3, color: "#FFFFFF" },
   { text: "끝까지", size: 150, y: 105, from: [0, 200], rot: -3, color: YELLOW, mark: true },
   { text: "간다", size: 115, y: 245, from: [0, -400], rot: 4, color: "#FFFFFF" },
 ];
 
-export const Hook: React.FC<{ words?: HookWord[]; top?: number }> = ({
-  words = HOOK,
-  top = VIDEO_TOP / 2 - 20,
-}) => {
+const Hook: React.FC = () => {
   const frame = useCurrentFrame();
   const spring = Easing.spring({ damping: 12, stiffness: 160 });
   const exit = interpolate(frame, [50, 60], [1, 0], CLAMP);
@@ -132,12 +119,12 @@ export const Hook: React.FC<{ words?: HookWord[]; top?: number }> = ({
       style={{
         position: "absolute",
         left: 540,
-        top,
+        top: VIDEO_TOP / 2 - 20,
         opacity: exit,
         scale: interpolate(frame, [50, 60], [1, 1.15], CLAMP),
       }}
     >
-      {words.map((w, i) => {
+      {HOOK.map((w, i) => {
         const start = i * 7;
         const t = (to: number) => [start, start + to];
         const markP = interpolate(frame, [30, 42], [0, 1], { ...CLAMP, easing: EASE_OUT });
@@ -201,7 +188,7 @@ export const Hook: React.FC<{ words?: HookWord[]; top?: number }> = ({
   );
 };
 
-export const CaptionWord: React.FC<{ word: Word; ms: number; fps: number }> = ({ word, ms, fps }) => {
+const CaptionWord: React.FC<{ word: Word; ms: number; fps: number }> = ({ word, ms, fps }) => {
   const active = ms >= word.startMs && ms < word.endMs;
   const sinceStart = ((ms - word.startMs) / 1000) * fps;
   // 형광펜은 그 단어를 말하는 순간 칠해지고, 큐가 끝날 때까지 남는다
@@ -237,10 +224,7 @@ export const CaptionWord: React.FC<{ word: Word; ms: number; fps: number }> = ({
   );
 };
 
-export const Captions: React.FC<{ cues: Cue[]; top?: number }> = ({
-  cues,
-  top = CAPTION_TOP,
-}) => {
+const Captions: React.FC<{ cues: Cue[] }> = ({ cues }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const ms = (frame / fps) * 1000;
@@ -253,7 +237,7 @@ export const Captions: React.FC<{ cues: Cue[]; top?: number }> = ({
         position: "absolute",
         left: 60,
         right: 60,
-        top,
+        top: CAPTION_TOP,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

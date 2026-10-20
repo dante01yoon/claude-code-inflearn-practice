@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Black Han Sans";
+        src: url("assets/fonts/BlackHanSans-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #1b130d;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Black Han Sans", sans-serif;
+        color: #fff3df;
+      }
+
+      /* ---------- background: warm soil field, felt dots, coin-gold glows ---------- */
+      .bg {
+        position: absolute;
+        inset: 0;
+        background: #1b130d;
+      }
+      .felt {
+        position: absolute;
+        inset: -40px;
+        background-image: radial-gradient(rgba(255, 182, 39, 0.16) 2px, transparent 2.6px);
+        background-size: 34px 34px;
+      }
+      .glow {
+        position: absolute;
+        width: 1100px;
+        height: 1100px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 182, 39, 0.24) 0%, rgba(255, 182, 39, 0) 62%);
+      }
+      .glow-top {
+        left: -10px;
+        top: -660px;
+      }
+      .glow-bottom {
+        left: -10px;
+        top: 1380px;
+      }
+
+      /* ---------- HUD label ---------- */
+      .hud {
+        position: absolute;
+        left: 108px;
+        right: 108px;
+        top: 200px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        letter-spacing: 0.08em;
+        color: #e9d9bf;
+      }
+      .hud .dot {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #ffb627;
+        margin-right: 14px;
+      }
+
+      /* ---------- kinetic header stage ---------- */
+      .stage {
+        position: absolute;
+        left: 60px;
+        right: 60px;
+        top: 250px;
+        height: 260px;
+      }
+      .beat {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .beat span {
+        display: block;
+      }
+      #h-brick {
+        font-size: 132px;
+      }
+      #h-bang {
+        font-size: 220px;
+        color: #ffb627;
+      }
+      #h-up {
+        font-size: 104px;
+      }
+      .count {
+        font-size: 230px;
+        color: #ffb627;
+      }
+      #h-retry {
+        font-size: 124px;
+      }
+      #h-retry em {
+        font-style: normal;
+        color: #ffb627;
+      }
+      #h-goals {
+        gap: 30px;
+      }
+      .goal {
+        display: block;
+        font-size: 84px;
+        padding: 22px 38px 20px;
+        border-radius: 26px;
+        border: 5px solid #8a7660;
+        color: #c9b79d;
+      }
+      .goal-fill {
+        position: absolute;
+        inset: -5px;
+        border-radius: 26px;
+        background: #ffb627;
+        opacity: 0;
+      }
+      .goal {
+        position: relative;
+      }
+      .goal b {
+        position: relative;
+        display: block;
+        font-weight: 400;
+      }
+      #h-clear {
+        font-size: 210px;
+        color: #ffb627;
+      }
+
+      /* ---------- footage window: native 1:1 crop of the left 56% of the frame ---------- */
+      .cam {
+        position: absolute;
+        left: 0;
+        top: 520px;
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+        background: #3b9fc4;
+      }
+      .cam-inner {
+        position: absolute;
+        inset: 0;
+        transform-origin: 470px 620px;
+      }
+      #clip-main {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      .flash {
+        position: absolute;
+        inset: 0;
+        background: #fff3df;
+        opacity: 0;
+      }
+      .rule {
+        position: absolute;
+        left: 0;
+        width: 1080px;
+        height: 6px;
+        background: #ffb627;
+        transform-origin: 0 50%;
+      }
+      .rule-top {
+        top: 514px;
+      }
+      .rule-bottom {
+        top: 1600px;
+      }
+
+      /* ---------- word-highlight captions, sitting on the soil band of the footage ---------- */
+      .captions {
+        position: absolute;
+        left: 108px;
+        right: 108px;
+        top: 1330px;
+        height: 200px;
+      }
+      .cue {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+      }
+      .pill {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0 40px;
+        max-width: 864px;
+        padding: 22px 40px 18px;
+        border-radius: 28px;
+        background: rgba(27, 19, 13, 0.86);
+        font-size: 86px;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+      }
+      .w {
+        display: inline-block;
+        color: #a8998a;
+        transform-origin: 50% 60%;
+      }
+
+      /* ---------- progress bar ---------- */
+      .progress {
+        position: absolute;
+        left: 108px;
+        right: 108px;
+        top: 1630px;
+        height: 90px;
+      }
+      .progress-labels {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 36px;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        letter-spacing: 0.08em;
+      }
+      .try {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        color: #fff3df;
+      }
+      #try-clear {
+        color: #ffb627;
+      }
+      .goal-label {
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: #e9d9bf;
+      }
+      .track {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 56px;
+        height: 16px;
+        border-radius: 8px;
+        background: rgba(255, 243, 223, 0.18);
+      }
+      .fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        background: #ffb627;
+        transform-origin: 0 50%;
+      }
+      .miss {
+        position: absolute;
+        top: -10px;
+        width: 8px;
+        height: 36px;
+        margin-left: -4px;
+        border-radius: 4px;
+        background: #ff6a3d;
+        opacity: 0;
+      }
+      .coin {
+        position: absolute;
+        left: -20px;
+        top: -12px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ffb627;
+        border: 6px solid #c97a10;
+      }
+
+      /* ---------- clear burst ---------- */
+      .burst {
+        position: absolute;
+        left: 540px;
+        top: 380px;
+        width: 0;
+        height: 0;
+      }
+      .spark {
+        position: absolute;
+        left: -14px;
+        top: -14px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #ffb627;
+        border: 5px solid #c97a10;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-ia6a"
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="27.1"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div data-hf-id="hf-m7dd" class="bg">
+        <div data-hf-id="hf-75qi" class="felt" id="felt"></div>
+        <div data-hf-id="hf-j6wj" class="glow glow-top" id="glow-top"></div>
+        <div data-hf-id="hf-83n9" class="glow glow-bottom" id="glow-bottom"></div>
+      </div>
+
+      <!-- footage: one source range, 36.8s–63.9s of raw.mp4 -->
+      <div data-hf-id="hf-for8" class="cam" id="cam">
+        <div data-hf-id="hf-s0w2" class="cam-inner" id="cam-inner">
+          <video data-hf-id="hf-hrv2"
+            id="clip-main"
+            class="clip"
+            src="assets/raw.mp4"
+            playsinline
+            data-has-audio="true"
+            data-start="0"
+            data-duration="27.1"
+            data-media-start="36.8"
+            data-track-index="0"
+            data-volume="1"
+            data-fx-chain='{"version":1,"nodes":[
+              {"type":"compressor","id":"vo-comp","label":"Even out voice","params":{"threshold":-22,"ratio":2,"attack":5,"release":150}},
+              {"type":"gain","id":"vo-gain","label":"Shorts loudness","params":{"gain":10.5}},
+              {"type":"truepeak","id":"vo-ceiling","label":"Delivery ceiling","params":{"ceiling":-2}}]}'
+          ></video>
+        </div>
+        <div data-hf-id="hf-u95m" class="flash" id="flash"></div>
+      </div>
+      <div data-hf-id="hf-sl9o" class="rule rule-top" id="rule-top"></div>
+      <div data-hf-id="hf-4lbc" class="rule rule-bottom" id="rule-bottom"></div>
+
+      <div data-hf-id="hf-na2c" class="hud" id="hud">
+        <div data-hf-id="hf-kkqi"><span data-hf-id="hf-9gry" class="dot"></span>DANTE · STAGE 1-1</div>
+        <div data-hf-id="hf-slic">FELT &amp; CLAY</div>
+      </div>
+
+      <div data-hf-id="hf-lp42" class="stage" id="stage">
+        <div data-hf-id="hf-um5y" class="beat" id="h-brick"><span data-hf-id="hf-yb3c">벽돌 하나에</span></div>
+        <div data-hf-id="hf-7ajt" class="beat" id="h-bang"><span data-hf-id="hf-qgb3">꽝!</span></div>
+        <div data-hf-id="hf-ozt4" class="beat" id="h-up"><span data-hf-id="hf-b768">다시 일어날까?</span></div>
+        <div data-hf-id="hf-qu81" class="beat count" id="h-3"><span data-hf-id="hf-hs2e">3</span></div>
+        <div data-hf-id="hf-q2k8" class="beat count" id="h-2"><span data-hf-id="hf-hdrd">2</span></div>
+        <div data-hf-id="hf-0y1v" class="beat count" id="h-1"><span data-hf-id="hf-ikog">1</span></div>
+        <div data-hf-id="hf-iwbn" class="beat" id="h-retry"><span data-hf-id="hf-ou4h">두 번째 <em data-hf-id="hf-um53">도전</em></span></div>
+        <div data-hf-id="hf-m86t" class="beat" id="h-goals">
+          <div data-hf-id="hf-zmvy" class="goal" id="g-brick"><div data-hf-id="hf-xynh" class="goal-fill"></div><b data-hf-id="hf-53ws">벽돌</b></div>
+          <div data-hf-id="hf-5uip" class="goal" id="g-hole"><div data-hf-id="hf-0bj5" class="goal-fill"></div><b data-hf-id="hf-vzte">구멍</b></div>
+          <div data-hf-id="hf-au38" class="goal" id="g-coin"><div data-hf-id="hf-1ig8" class="goal-fill"></div><b data-hf-id="hf-yxcg">동전</b></div>
+        </div>
+        <div data-hf-id="hf-qau6" class="beat" id="h-clear"><span data-hf-id="hf-qw39">CLEAR!</span></div>
+      </div>
+
+      <div data-hf-id="hf-s8bm" class="burst" id="burst"></div>
+
+      <div data-hf-id="hf-jzzm" class="captions" id="captions"></div>
+
+      <div data-hf-id="hf-vtt2" class="progress" id="progress">
+        <div data-hf-id="hf-gapn" class="progress-labels">
+          <div data-hf-id="hf-s4hw" class="try" id="try-1">TRY 1</div>
+          <div data-hf-id="hf-6dko" class="try" id="try-2">TRY 2</div>
+          <div data-hf-id="hf-a5dh" class="try" id="try-clear">CLEAR</div>
+          <div data-hf-id="hf-9vln" class="goal-label">GOAL</div>
+        </div>
+        <div data-hf-id="hf-64lp" class="track">
+          <div data-hf-id="hf-thd6" class="fill" id="fill"></div>
+          <div data-hf-id="hf-2v06" class="miss" id="miss"></div>
+          <div data-hf-id="hf-7fvu" class="coin" id="coin"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const DURATION = 27.1;
+      const TRACK_W = 864;
+      // Clip-local beats (source time − 36.8s), from the per-phrase Korean re-transcription.
+      const T = {
+        crash: 1.6, // Dante hits the brick
+        upAsk: 3.5,
+        count3: 7.9,
+        count2: 8.8,
+        count1: 9.7,
+        retry: 10.83, // "자, 다시."
+        goals: 14.95, // silent run begins
+        brick: 21.3, // "벽돌,"
+        hole: 22.22, // "구멍,"
+        coin: 23.53, // "동전까지"
+        clear: 25.71, // "좋아요"
+      };
+
+      // Word-highlight caption cues. Each word: [text, start, end] in clip seconds.
+      const CUES = [
+        { show: 1.8, hide: 3.5, words: [["아,", 1.9, 2.1], ["부딪혔네요.", 2.15, 3.43]] },
+        { show: 3.5, hide: 5.2, words: [["다시", 3.54, 3.82], ["할게요.", 3.82, 4.29]] },
+        { show: 10.75, hide: 12.9, words: [["자,", 10.83, 11.28], ["다시.", 11.28, 12.44]] },
+        {
+          show: 13.15,
+          hide: 15.6,
+          words: [["이번엔", 13.24, 13.56], ["끝까지", 13.56, 13.92], ["가보겠습니다.", 13.92, 14.9]],
+        },
+        { show: 21.2, hide: 23.05, words: [["벽돌,", 21.3, 22.22], ["구멍,", 22.22, 23.06]] },
+        { show: 23.05, hide: 24.6, words: [["그리고", 23.08, 23.49], ["동전까지", 23.53, 24.16]] },
+        { show: 24.65, hide: 26.7, words: [["어…", 24.72, 25.23], ["좋아요!", 25.71, 26.3]] },
+      ];
+
+      const captionsEl = document.getElementById("captions");
+      const wordEls = [];
+      CUES.forEach((cue, i) => {
+        const cueEl = document.createElement("div");
+        cueEl.className = "cue";
+        cueEl.id = "cue-" + i;
+        const pill = document.createElement("div");
+        pill.className = "pill";
+        cue.words.forEach(([text, start, end]) => {
+          const w = document.createElement("span");
+          w.className = "w";
+          w.textContent = text;
+          pill.appendChild(w);
+          wordEls.push({ el: w, start, end });
+        });
+        cueEl.appendChild(pill);
+        captionsEl.appendChild(cueEl);
+      });
+
+      // Coin sparks for the CLEAR burst — fixed angles, no randomness.
+      const burstEl = document.getElementById("burst");
+      const SPARKS = 12;
+      for (let i = 0; i < SPARKS; i++) {
+        const s = document.createElement("div");
+        s.className = "spark";
+        burstEl.appendChild(s);
+      }
+
+      const tl = gsap.timeline({ paused: true });
+
+      // ---------- ambient background ----------
+      tl.fromTo("#felt", { x: 0, y: 0 }, { x: 34, y: -34, duration: DURATION, ease: "none" }, 0);
+      tl.fromTo(
+        "#glow-top",
+        { scale: 0.92 },
+        { scale: 1.08, duration: 2.7, ease: "sine.inOut", yoyo: true, repeat: Math.max(0, Math.floor(DURATION / 2.7) - 1) },
+        0,
+      );
+      tl.fromTo(
+        "#glow-bottom",
+        { scale: 1.06 },
+        { scale: 0.94, duration: 3.1, ease: "sine.inOut", yoyo: true, repeat: Math.max(0, Math.floor(DURATION / 3.1) - 1) },
+        0,
+      );
+
+      // ---------- open: frame rules draw, HUD settles ----------
+      tl.fromTo(".rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out", stagger: 0.08 }, 0);
+      tl.fromTo("#hud", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.1);
+
+      // ---------- hook: "벽돌 하나에" → "꽝!" (kinetic-beat-slam, distinct entrances) ----------
+      tl.fromTo(
+        "#h-brick",
+        { opacity: 0, scale: 1.5, filter: "blur(16px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.45, ease: "power4.out" },
+        0.05,
+      );
+      tl.to("#h-brick", { opacity: 0, y: -50, duration: 0.18, ease: "power2.in" }, T.crash - 0.18);
+      tl.fromTo(
+        "#h-bang",
+        { opacity: 0, y: 90, rotation: -14, scale: 0.6 },
+        { opacity: 1, y: 0, rotation: -6, scale: 1, duration: 0.4, ease: "back.out(2.4)" },
+        T.crash,
+      );
+      tl.to("#h-bang", { opacity: 0, scale: 1.25, duration: 0.22, ease: "power2.in" }, T.upAsk - 0.24);
+
+      // crash punch-in on the footage wrapper + shake + flash
+      tl.fromTo("#cam-inner", { scale: 1 }, { scale: 1.12, duration: 0.12, ease: "power4.out" }, T.crash);
+      tl.to("#cam-inner", { scale: 1, duration: 0.9, ease: "power2.inOut" }, T.crash + 0.6);
+      tl.fromTo(
+        "#cam",
+        { x: 0 },
+        { keyframes: { x: [0, -18, 15, -11, 8, -4, 0] }, duration: 0.42, ease: "none" },
+        T.crash,
+      );
+      tl.fromTo("#flash", { opacity: 0.55 }, { opacity: 0, duration: 0.3, ease: "power2.out", immediateRender: false }, T.crash);
+      tl.fromTo("#miss", { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.25, ease: "back.out(3)" }, T.crash);
+
+      // ---------- the fall: question, then countdown ----------
+      tl.fromTo(
+        "#h-up",
+        { opacity: 0, x: -260 },
+        { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" },
+        T.upAsk,
+      );
+      tl.to("#h-up span", { scale: 1.03, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 3 }, T.upAsk + 0.5);
+      tl.to("#h-up", { opacity: 0, y: -40, duration: 0.2, ease: "power2.in" }, T.count3 - 0.22);
+      [
+        ["#h-3", T.count3],
+        ["#h-2", T.count2],
+        ["#h-1", T.count1],
+      ].forEach(([id, at]) => {
+        tl.fromTo(id, { opacity: 0, scale: 2.2 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power4.out" }, at);
+        tl.to(id, { opacity: 0, scale: 0.7, duration: 0.18, ease: "power2.in" }, at + 0.68);
+      });
+
+      // ---------- retry ----------
+      tl.fromTo(
+        "#h-retry",
+        { opacity: 0, y: 70, rotation: 4 },
+        { opacity: 1, y: 0, rotation: 0, duration: 0.5, ease: "circ.out" },
+        T.retry,
+      );
+      tl.to("#h-retry", { opacity: 0, x: 220, duration: 0.22, ease: "power2.in" }, T.goals - 0.25);
+
+      // ---------- goals checklist: preview during the silent run, light up with the narration ----------
+      tl.fromTo(
+        "#h-goals .goal",
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.8)", stagger: 0.12 },
+        T.goals,
+      );
+      tl.set("#h-goals", { opacity: 1 }, T.goals);
+      [
+        ["#g-brick", T.brick],
+        ["#g-hole", T.hole],
+        ["#g-coin", T.coin],
+      ].forEach(([id, at]) => {
+        tl.to(id + " .goal-fill", { opacity: 1, duration: 0.12, ease: "none" }, at);
+        tl.to(id, { color: "#1b130d", borderColor: "#ffb627", duration: 0.12, ease: "none" }, at);
+        tl.fromTo(id, { scale: 1 }, { keyframes: { scale: [1, 1.18, 1] }, duration: 0.35, ease: "power2.out" }, at);
+      });
+      tl.to("#h-goals", { opacity: 0, scale: 0.9, duration: 0.2, ease: "power2.in" }, T.clear - 0.2);
+
+      // ---------- CLEAR ----------
+      tl.fromTo(
+        "#h-clear",
+        { opacity: 0, scale: 1.6, filter: "blur(18px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.4, ease: "power4.out" },
+        T.clear,
+      );
+      tl.to("#h-clear", { scale: 1.04, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 0 }, T.clear + 0.5);
+      gsap.utils.toArray("#burst .spark").forEach((s, i) => {
+        const a = (i / SPARKS) * Math.PI * 2;
+        const r = 300 + (i % 3) * 70;
+        tl.fromTo(
+          s,
+          { opacity: 1, x: 0, y: 0, scale: 0.4 },
+          { opacity: 0, x: Math.cos(a) * r, y: Math.sin(a) * r * 0.55, scale: 1, duration: 0.9, ease: "power3.out", immediateRender: false },
+          T.clear,
+        );
+      });
+      tl.to("#cam-inner", { keyframes: { scale: [1, 1.05, 1] }, duration: 0.6, ease: "power2.out" }, T.clear);
+
+      // ---------- progress bar ----------
+      tl.fromTo("#fill", { scaleX: 0 }, { scaleX: 1, duration: DURATION, ease: "none" }, 0);
+      tl.fromTo("#coin", { x: 0 }, { x: TRACK_W, duration: DURATION, ease: "none" }, 0);
+      tl.set("#miss", { left: (T.crash / DURATION) * TRACK_W }, 0);
+      tl.set("#try-1", { opacity: 1 }, 0);
+      tl.set("#try-1", { opacity: 0 }, T.retry);
+      tl.set("#try-2", { opacity: 1 }, T.retry);
+      tl.set("#try-2", { opacity: 0 }, T.clear);
+      tl.set("#try-clear", { opacity: 1 }, T.clear);
+
+      // ---------- captions: cue windows (hard cuts) + karaoke word driver ----------
+      CUES.forEach((cue, i) => {
+        tl.fromTo(
+          "#cue-" + i,
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.16, ease: "power3.out" },
+          cue.show,
+        );
+        tl.set("#cue-" + i, { opacity: 0 }, cue.hide);
+      });
+
+      const UPCOMING = { r: 168, g: 153, b: 138 };
+      const ACTIVE = { r: 255, g: 182, b: 39 };
+      const SPOKEN = { r: 255, g: 243, b: 223 };
+      const ATTACK = 0.08;
+      const RELEASE = 0.25;
+      const lerp = (a, b, t) => Math.round(a + (b - a) * t);
+      const mix = (c1, c2, t) => `rgb(${lerp(c1.r, c2.r, t)}, ${lerp(c1.g, c2.g, t)}, ${lerp(c1.b, c2.b, t)})`;
+      const driver = { t: 0 };
+      tl.to(
+        driver,
+        {
+          t: DURATION,
+          duration: DURATION,
+          ease: "none",
+          onUpdate: () => {
+            const t = driver.t;
+            wordEls.forEach(({ el, start, end }) => {
+              let color;
+              let env;
+              if (t < start) {
+                color = mix(UPCOMING, UPCOMING, 0);
+                env = 0;
+              } else if (t < end) {
+                env = Math.min((t - start) / ATTACK, 1);
+                color = mix(UPCOMING, ACTIVE, env);
+              } else if (t < end + RELEASE) {
+                const k = (t - end) / RELEASE;
+                env = 1 - k;
+                color = mix(ACTIVE, SPOKEN, k);
+              } else {
+                env = 0;
+                color = mix(SPOKEN, SPOKEN, 0);
+              }
+              el.style.color = color;
+              el.style.transform = `scale(${1 + 0.1 * env}) translateY(${-6 * env}px)`;
+            });
+          },
+        },
+        0,
+      );
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
