@@ -20,6 +20,8 @@
 | [108-kinetic-captions](108-kinetic-captions/) | 단어 하이라이트 자막 숏폼 — 단테 런을 세로로, whisper 단어 시각으로 한 군데만 고치기 |
 | [109-data-short](109-data-short/) | 데이터 숏폼 — 출근길 어느 역이 가장 붐빌까, 카운트업 · 차트 · 대조 표 |
 | [110-story-short](110-story-short/) | 이야기 숏폼 — 말풍선 · 타자기 · 경로 따라가기 · 선 그리기 · 마스크 리빌 |
+| [111-render-gate](111-render-gate/) | 검수 게이트를 훅으로 — 렌더할 때마다 해상도·길이·음량·까만 화면 자동 검사, 못 미치면 클로드가 고침 |
+| [112-mission](112-mission/) | [미션] 원본에서 쇼츠 한 편 — 구간 고르기, 세로 쇼츠, CapCut·프리미어로 넘길 묶음 |
 
 **실제로 쓴 프롬프트 모음: [PROMPTS.md](PROMPTS.md)** — 수업마다 폴더 안 `PROMPTS.md`에도 있습니다(복사해서 그대로 쓰기).
 
@@ -28,4 +30,4 @@
 - `seoul-data/` — 서울 열린데이터광장 CardSubwayTime 응답(2026년 7월 한 달 합계, 역 5곳)과 칸 설명.
 - `dante-run/` — 3부 연습용 원본 `raw.mp4`(수업용으로 만든 78초 영상) · 용어 목록 · 배경음악(CC BY 3.0, `music/CREDITS.txt`) · 엔딩 장면 재료 `scene/`.
 
-녹화 환경: Claude Code 2.1.299 · Opus 5.5 · Remotion 4.0.536 · Node 24. 실습 폴더 이름은 영상과 같게 `cat-video`, `seoul-video`, 숏폼 모션 그래픽(107~110)은 `mograph`.
+녹화 환경: Claude Code 2.1.299 · Opus 5.5 · Remotion 4.0.536 · Node 24. 실습 폴더 이름은 영상과 같게 `cat-video`, `seoul-video`, 숏폼 모션 그래픽·검수 훅·미션(107~112)은 `mograph`.

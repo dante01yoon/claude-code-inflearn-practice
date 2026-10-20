@@ -1,0 +1,15 @@
+{
+  "width": 1080,
+  "height": 1920,
+  "min_duration_seconds": 1,
+  "max_duration_seconds": 180,
+  "lufs_target": -14,
+  "lufs_tolerance": 1,
+  "silence_lufs": -70,
+  "black_max_seconds": 0.5,
+  "black_pixel_threshold": 0.1,
+  "black_picture_ratio": 0.98,
+  "grid_columns": 6,
+  "grid_rows": 5,
+  "grid_tile_width": 216
+}

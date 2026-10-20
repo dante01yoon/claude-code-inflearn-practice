@@ -1,10 +1,12 @@
 import React from "react";
+import { Audio } from "@remotion/media";
 import {
   AbsoluteFill,
   Easing,
   Img,
   Sequence,
   interpolate,
+  staticFile,
   useCurrentFrame,
 } from "remotion";
 import { C, CLAMP, EASE_OUT, FONT, asset, prog } from "../gallery/theme";
@@ -717,8 +719,14 @@ const SceneFestival: React.FC = () => {
   );
 };
 
+// 배경음악: 처음 1초 페이드인, 마지막 1.5초 페이드아웃
+const BGM_VOLUME = 0.6;
+const bgmVolume = (f: number) =>
+  interpolate(f, [0, STORY_FPS, STORY_FRAMES - STORY_FPS * 1.5, STORY_FRAMES - 1], [0, BGM_VOLUME, BGM_VOLUME, 0], CLAMP);
+
 export const StoryShort: React.FC = () => (
   <AbsoluteFill style={{ backgroundColor: C.night }}>
+    <Audio src={staticFile("music/gymnopedie-no1-kevin-macleod.mp3")} volume={bgmVolume} />
     <Sequence from={S1.from} durationInFrames={S1.dur}>
       <SceneShop />
     </Sequence>
