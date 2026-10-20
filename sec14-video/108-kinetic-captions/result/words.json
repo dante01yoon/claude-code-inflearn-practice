@@ -1,0 +1,235 @@
+[
+ {
+  "text": "안녕하세요,",
+  "startMs": 1750,
+  "endMs": 2480,
+  "timestampMs": 1750,
+  "confidence": null
+ },
+ {
+  "text": "오늘은",
+  "startMs": 2480,
+  "endMs": 2920,
+  "timestampMs": 2480,
+  "confidence": null
+ },
+ {
+  "text": "단테가",
+  "startMs": 2920,
+  "endMs": 3540,
+  "timestampMs": 2920,
+  "confidence": null
+ },
+ {
+  "text": "장애물을",
+  "startMs": 3540,
+  "endMs": 4180,
+  "timestampMs": 3540,
+  "confidence": null
+ },
+ {
+  "text": "뛰어넘는",
+  "startMs": 4180,
+  "endMs": 4640,
+  "timestampMs": 4180,
+  "confidence": null
+ },
+ {
+  "text": "걸",
+  "startMs": 4640,
+  "endMs": 4820,
+  "timestampMs": 4640,
+  "confidence": null
+ },
+ {
+  "text": "한번",
+  "startMs": 4820,
+  "endMs": 5000,
+  "timestampMs": 4820,
+  "confidence": null
+ },
+ {
+  "text": "찍어볼게요",
+  "startMs": 5000,
+  "endMs": 5550,
+  "timestampMs": 5000,
+  "confidence": null,
+  "pageBreakAfter": true
+ },
+ {
+  "text": "이번에",
+  "startMs": 5620,
+  "endMs": 5920,
+  "timestampMs": 5620,
+  "confidence": null
+ },
+ {
+  "text": "끝까지",
+  "startMs": 5920,
+  "endMs": 6260,
+  "timestampMs": 5920,
+  "confidence": null
+ },
+ {
+  "text": "가보겠습니다",
+  "startMs": 6260,
+  "endMs": 6850,
+  "timestampMs": 6260,
+  "confidence": null,
+  "pageBreakAfter": true
+ },
+ {
+  "text": "벽돌!",
+  "startMs": 13530,
+  "endMs": 13850,
+  "timestampMs": 13530,
+  "confidence": null,
+  "pageBreakAfter": true
+ },
+ {
+  "text": "구멍!",
+  "startMs": 14370,
+  "endMs": 14600,
+  "timestampMs": 14370,
+  "confidence": null,
+  "pageBreakAfter": true
+ },
+ {
+  "text": "그리고",
+  "startMs": 15150,
+  "endMs": 15360,
+  "timestampMs": 15150,
+  "confidence": null
+ },
+ {
+  "text": "동전까지!",
+  "startMs": 15360,
+  "endMs": 15850,
+  "timestampMs": 15360,
+  "confidence": null,
+  "pageBreakAfter": true
+ },
+ {
+  "text": "좋아요",
+  "startMs": 17570,
+  "endMs": 17850,
+  "timestampMs": 17570,
+  "confidence": null,
+  "pageBreakAfter": true
+ },
+ {
+  "text": "다음",
+  "startMs": 19140,
+  "endMs": 19320,
+  "timestampMs": 19140,
+  "confidence": null
+ },
+ {
+  "text": "수업에서는",
+  "startMs": 19320,
+  "endMs": 19980,
+  "timestampMs": 19320,
+  "confidence": null
+ },
+ {
+  "text": "이",
+  "startMs": 19980,
+  "endMs": 20340,
+  "timestampMs": 19980,
+  "confidence": null
+ },
+ {
+  "text": "영상을",
+  "startMs": 20340,
+  "endMs": 20700,
+  "timestampMs": 20340,
+  "confidence": null
+ },
+ {
+  "text": "클로드",
+  "startMs": 20700,
+  "endMs": 21000,
+  "timestampMs": 20700,
+  "confidence": null
+ },
+ {
+  "text": "코드한테",
+  "startMs": 21000,
+  "endMs": 21460,
+  "timestampMs": 21000,
+  "confidence": null
+ },
+ {
+  "text": "맡겨서",
+  "startMs": 21460,
+  "endMs": 22300,
+  "timestampMs": 21460,
+  "confidence": null,
+  "pageBreakAfter": true
+ },
+ {
+  "text": "말",
+  "startMs": 22340,
+  "endMs": 22500,
+  "timestampMs": 22340,
+  "confidence": null
+ },
+ {
+  "text": "없는",
+  "startMs": 22500,
+  "endMs": 22860,
+  "timestampMs": 22500,
+  "confidence": null
+ },
+ {
+  "text": "부분을",
+  "startMs": 22860,
+  "endMs": 23200,
+  "timestampMs": 22860,
+  "confidence": null
+ },
+ {
+  "text": "잘라",
+  "startMs": 23200,
+  "endMs": 23550,
+  "timestampMs": 23200,
+  "confidence": null
+ },
+ {
+  "text": "볼",
+  "startMs": 23550,
+  "endMs": 23780,
+  "timestampMs": 23550,
+  "confidence": null
+ },
+ {
+  "text": "거예요",
+  "startMs": 23780,
+  "endMs": 24300,
+  "timestampMs": 23780,
+  "confidence": null,
+  "pageBreakAfter": true
+ },
+ {
+  "text": "오늘은",
+  "startMs": 28580,
+  "endMs": 29040,
+  "timestampMs": 28580,
+  "confidence": null
+ },
+ {
+  "text": "여기까지",
+  "startMs": 29040,
+  "endMs": 29380,
+  "timestampMs": 29040,
+  "confidence": null
+ },
+ {
+  "text": "할게요",
+  "startMs": 29380,
+  "endMs": 30000,
+  "timestampMs": 29380,
+  "confidence": null,
+  "pageBreakAfter": true
+ }
+]
