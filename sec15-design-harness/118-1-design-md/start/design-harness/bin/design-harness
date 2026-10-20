@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+// One entry point for every harness command, so other projects need no package.json scripts.
+// Runs against the project in DESIGN_HARNESS_ROOT, CLAUDE_PROJECT_DIR, or the current folder.
+import { spawnSync } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
+import { HARNESS, ROOT } from "../scripts/lib.mjs";
+
+const COMMANDS = {
+  check: "scripts/check.mjs",
+  "lint:figma": "scripts/lint-figma.mjs",
+  wireframe: "scripts/wireframe.mjs",
+  "refs:capture": "scripts/capture-refs.mjs",
+  review: "scripts/review.mjs",
+  handoff: "scripts/handoff.mjs",
+  approve: "scripts/approve.mjs",
+  compare: "scripts/compare-runs.mjs",
+  "nodes:merge": "scripts/merge-nodes.mjs",
+  metrics: "scripts/design-metrics.mjs",
+  new: "scripts/new-project.mjs",
+  setup: "scripts/setup.mjs",
+};
+// Files agents read or paste (e.g. export-nodes.js goes into use_figma as code).
+const FILES = {
+  "export-nodes": "scripts/figma/export-nodes.js",
+  "good-nodes": "tests/fixtures/good-nodes.json",
+  "bad-nodes": "tests/fixtures/bad-nodes.json",
+};
+
+const [cmd, ...rest] = process.argv.slice(2);
+if (cmd === "path") {
+  const file = FILES[rest[0]];
+  if (!file) {
+    console.error(`사용법: design-harness path <${Object.keys(FILES).join("|")}>`);
+    process.exit(1);
+  }
+  console.log(path.join(HARNESS, file));
+  process.exit(0);
+}
+if (!COMMANDS[cmd]) {
+  console.error(`사용법: design-harness <${Object.keys(COMMANDS).join("|")}|path> [인자]`);
+  console.error(`작업 폴더: ${ROOT}${fs.existsSync(path.join(ROOT, "work")) ? "" : " (work/ 없음)"}`);
+  process.exit(cmd ? 1 : 0);
+}
+const run = spawnSync(process.execPath, [path.join(HARNESS, COMMANDS[cmd]), ...rest], {
+  stdio: "inherit",
+  env: { ...process.env, DESIGN_HARNESS_ROOT: ROOT },
+});
+process.exit(run.status ?? 1);

@@ -1,0 +1,27 @@
+{
+  "viewport": { "width": 390, "height": 844 },
+  "requiredStates": ["default", "loading", "empty", "error", "no-forecast"],
+  "screens": [
+    {
+      "id": "place-list",
+      "name": "장소 목록",
+      "features": ["F1", "F5"],
+      "states": ["default", "loading", "empty", "error"]
+    },
+    {
+      "id": "place-detail",
+      "name": "장소 상세",
+      "features": ["F2", "F3", "F4", "F5"]
+    }
+  ],
+  "flows": [
+    {
+      "goal": "방문 전에 장소의 현재 혼잡과 앞으로 12시간 변화를 확인한다",
+      "steps": ["place-list", "place-detail", "place-detail:no-forecast"]
+    },
+    {
+      "goal": "조회되지 않는 장소의 상태를 이해한다",
+      "steps": ["place-list:loading", "place-list", "place-detail:empty", "place-detail:error"]
+    }
+  ]
+}

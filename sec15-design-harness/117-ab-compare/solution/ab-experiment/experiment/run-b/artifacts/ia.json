@@ -1,0 +1,20 @@
+{
+  "viewport": { "width": 390, "height": 844 },
+  "requiredStates": ["default", "empty", "error", "loading"],
+  "screens": [
+    { "id": "list", "name": "대여소 목록", "features": ["F1", "F3"], "states": ["default", "loading", "empty", "error"] },
+    { "id": "detail", "name": "대여소 상세", "features": ["F2"], "states": ["default"] }
+  ],
+  "flows": [
+    { "id": "check-bikes", "goal": "가까운 대여소에 자전거가 남았는지 확인", "steps": ["list:loading", "list", "detail"] },
+    { "id": "no-data", "goal": "데이터가 없을 때 안내를 보고 다시 시도", "steps": ["list:loading", "list:empty", "list"] },
+    { "id": "load-failed", "goal": "불러오기 실패 후 다시 시도", "steps": ["list:loading", "list:error", "list"] }
+  ],
+  "decisions": [
+    "빈/에러는 별도 화면 없이 list 화면의 empty·error 상태로 둔다(사람 결정). status 화면은 없앴고 F3는 list가 맡는다. 화면 2개.",
+    "detail은 list에서 이미 불러온 데이터를 보여 주므로 default 상태만 둔다.",
+    "위·경도는 유지하되 detail에서 가장 낮은 위계의 보조 정보로 둔다. 지도·길찾기는 PRD 범위 밖(사람 결정).",
+    "대여소 이름 앞 번호('102.')는 원본 그대로 표시한다(사람 결정).",
+    "shared 필드는 어떤 화면에도 쓰지 않는다(사람 결정)."
+  ]
+}

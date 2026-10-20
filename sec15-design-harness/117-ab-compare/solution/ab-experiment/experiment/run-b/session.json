@@ -1,0 +1,23 @@
+{
+  "duration_ms": 1075187,
+  "num_turns": 37,
+  "total_cost_usd": 7.8630908999999996,
+  "usage": {
+    "input_tokens": 230,
+    "output_tokens": 123842,
+    "cache_read_input_tokens": 9680576,
+    "cache_creation_input_tokens": 676471
+  },
+  "models": [
+    "claude-opus-5-5",
+    "claude-sonnet-5-5"
+  ],
+  "logs": [
+    "run-b/session-1.jsonl",
+    "run-b/session-2.jsonl",
+    "run-b/session-3.jsonl",
+    "run-b/session-4.jsonl",
+    "run-b/session-5.jsonl",
+    "run-b/session-6.jsonl"
+  ]
+}

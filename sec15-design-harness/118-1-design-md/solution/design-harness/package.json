@@ -1,0 +1,36 @@
+{
+  "name": "design-harness",
+  "version": "0.1.0",
+  "description": "Claude Code design harness: PRD -> research -> IA -> wireframe -> design system -> Figma -> machine + human verification -> handoff",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "lint:figma": "node scripts/lint-figma.mjs",
+    "wireframe": "node scripts/wireframe.mjs",
+    "refs:capture": "node scripts/capture-refs.mjs",
+    "review": "node scripts/review.mjs",
+    "handoff": "node scripts/handoff.mjs",
+    "approve": "node scripts/approve.mjs",
+    "fixtures": "node tests/fixtures/build-sample-nodes.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "compare": "node scripts/compare-runs.mjs",
+    "nodes:merge": "node scripts/merge-nodes.mjs",
+    "metrics": "node scripts/design-metrics.mjs",
+    "new": "node scripts/new-project.mjs",
+    "plugin:validate": "claude plugin validate .",
+    "design-md": "node scripts/design-md.mjs",
+    "lint:web": "node scripts/lint-web.mjs"
+  },
+  "dependencies": {
+    "@google/design.md": "0.4.0",
+    "playwright-core": "1.64.1"
+  },
+  "bin": {
+    "design-harness": "bin/design-harness"
+  }
+}

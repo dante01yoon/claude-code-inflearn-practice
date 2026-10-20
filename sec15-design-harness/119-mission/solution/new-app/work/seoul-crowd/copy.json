@@ -1,0 +1,108 @@
+{
+  "tone": "해요체로 짧고 담담하게. 혼잡 단계는 API 문자열 그대로 쓰고, 숫자는 구간 그대로 옮기며, 조회가 안 되는 이유는 사용자 탓 없이 사실대로 말한다.",
+  "maxButtonChars": 8,
+  "banned": [
+    "한산",
+    "쾌적",
+    "매우 붐빔",
+    "혼잡함",
+    "정확한 인구",
+    "명 정도",
+    "실패하였습니다",
+    "오류가 발생",
+    "Error",
+    "!!",
+    "잠시만 기다려 주십시오"
+  ],
+  "bannedReasons": {
+    "한산/쾌적/매우 붐빔/혼잡함": "API 단계(여유·보통·약간 붐빔·붐빔) 밖의 말을 만들지 않는다.",
+    "정확한 인구/명 정도": "인구는 추정 구간이다. 점 값이나 '정확' 표현으로 바꾸지 않는다(단기체류 외국인 제외).",
+    "실패하였습니다/오류가 발생/Error/!!/잠시만 기다려 주십시오": "딱딱하거나 탓하는 오류 문구 대신 해요체로 다음 행동을 알린다."
+  },
+  "formats": {
+    "levels": [
+      "여유",
+      "보통",
+      "약간 붐빔",
+      "붐빔"
+    ],
+    "levelSource": "AREA_CONGEST_LVL, FCST_CONGEST_LVL 문자열을 그대로 표시한다. 순서는 여유(1) < 보통(2) < 약간 붐빔(3) < 붐빔(4).",
+    "populationRange": "{min}~{max}명 — 천 단위 쉼표, 물결표 앞뒤 공백 없음. 예: 14,000~16,000명, 9,500~10,000명, 32,000~34,000명",
+    "timeList": "기준 {HH:MM} — 예: 기준 21:30",
+    "timeDetail": "기준 {YYYY-MM-DD HH:MM} — 예: 기준 2026-10-20 21:30 (PPLTN_TIME 그대로)",
+    "forecastTime": "{HH:00} — 예: 23:00, 00:00 … 10:00",
+    "forecastDay": "{M}월 {D}일({요일}) — 예: 10월 21일(수)",
+    "forecastGap": "지금 {PPLTN_TIME HH:MM} 기준 · 첫 예측 {첫 FCST_TIME HH:MM}({분}분 뒤) — 예: 지금 21:30 기준 · 첫 예측 23:00(90분 뒤)",
+    "rate": "{값}% — API 문자열의 소수 한 자리 그대로. 예: 53.4%",
+    "ageLabels": [
+      "10세 미만",
+      "10대",
+      "20대",
+      "30대",
+      "40대",
+      "50대",
+      "60대",
+      "70대 이상"
+    ],
+    "count": "총 {n}곳 — 예: 총 121곳"
+  },
+  "examples": {
+    "app-title": "서울 주요 장소 혼잡",
+    "search-placeholder": "장소 이름을 검색해보세요",
+    "search-clear-label": "검색어 지우기",
+    "back-label": "목록으로",
+    "count": "총 121곳",
+    "search-count": "검색 결과 1곳",
+    "row-live": "광화문·덕수궁 | 여유 | 기준 21:30 | 14,000~16,000명",
+    "row-nodata": "경복궁 | 데이터 없음 | 인증 범위 밖",
+    "current-level": "여유",
+    "current-range": "14,000~16,000명",
+    "current-time": "기준 2026-10-20 21:30",
+    "congest-msg": "사람이 몰려있을 가능성이 낮고 붐빔은 거의 느껴지지 않아요. 도보 이동이 자유로워요.",
+    "forecast-title": "혼잡 예측",
+    "forecast-sub": "앞으로 12시간, 시간별 단계와 추정 인구",
+    "forecast-gap": "지금 21:30 기준 · 첫 예측 23:00(90분 뒤)",
+    "forecast-row-first": "23:00 | 여유 | 9,500~10,000명",
+    "forecast-row-low": "03:00 | 여유 | 2,500~3,000명",
+    "forecast-row-change": "10:00 | 보통 | 32,000~34,000명",
+    "forecast-day": "10월 21일(수)",
+    "visitors-title": "방문자 구성",
+    "visitors-sub": "지금 추정 인구 기준 비율",
+    "gender": "남 53.4% · 여 46.6%",
+    "residence": "거주 26.2% · 비거주 73.8%",
+    "age": "10세 미만 0.6% · 10대 3.2% · 20대 20.5% · 30대 23.5% · 40대 22.3% · 50대 18.3% · 60대 8.2% · 70대 이상 3.5%",
+    "loading": "불러오는 중이에요",
+    "error": "불러오지 못했어요",
+    "error-sub": "네트워크 상태를 확인하고 다시 시도해 주세요.",
+    "retry": "다시 시도",
+    "empty": "데이터 없음",
+    "empty-sub": "지금 쓰는 인증키로는 광화문·덕수궁만 조회할 수 있어요.",
+    "empty-row": "인증 범위 밖",
+    "search-empty": "'{검색어}'와 맞는 장소가 없어요",
+    "search-empty-sub": "서울시 주요 121장소 이름으로 검색해 주세요.",
+    "no-forecast": "예측을 제공하지 않는 장소예요",
+    "no-forecast-sub": "현재 혼잡 단계와 방문자 구성만 볼 수 있어요.",
+    "data-limit": "단기체류 외국인(90일 이하)은 추정에서 빠져 있어 실제 인구와 차이가 있을 수 있어요.",
+    "source": "자료: 서울특별시 서울 열린데이터광장",
+    "license": "공공누리 제1유형(출처표시)"
+  },
+  "stateMap": {
+    "default": "RESULT.CODE가 INFO-000('정상 처리되었습니다.')이고 SeoulRtd.citydata_ppltn에 장소 1건이 있음",
+    "loading": "요청 중. Skeleton + examples.loading",
+    "error": "네트워크 실패·시간 초과·JSON 해석 실패. examples.error + Button(retry)",
+    "empty": "응답은 왔지만 장소 데이터가 없음(sample 키 범위 밖 120곳 포함). examples.empty + empty-sub. 목록에서는 empty-row",
+    "no-forecast": "FCST_YN이 N이거나 FCST_PPLTN이 비어 있음. 예측 구획 자리에 examples.no-forecast",
+    "note": "API RESULT.MESSAGE 원문은 화면에 노출하지 않는다. 확인된 코드는 스냅숏의 INFO-000뿐이므로 다른 코드는 문구를 지어내지 않고 위 empty/error로만 나눈다."
+  },
+  "sources": {
+    "congest-msg": "data/sample-ppltn.json AREA_CONGEST_MSG(여유). 다른 단계의 안내 문구는 API 응답을 그대로 표시하며 여기서 만들지 않는다.",
+    "data-limit": "ref-seoul-rtd-detail 안내 모달 '실시간 인구는 단기체류 외국인이 제외되어 있어 실제 인구수와 차이가 있을 수 있습니다.'와 PRD 데이터 한계(90일 이하)를 해요체로 옮김",
+    "search-placeholder": "wireframes.json 검색창 문구",
+    "numbers": "모든 숫자는 data/sample-ppltn.json(2026-10-20 21:30, POI009)에서만 가져옴. 121곳은 PRD 장소 목록 수"
+  },
+  "rules": [
+    "구획 앞에 01/02 같은 순번 표식을 붙이지 않는다(시각·날짜의 숫자와 겹쳐 금지어로는 두지 않음).",
+    "혼잡 단계는 색만으로 말하지 않는다: 문구에서도 '빨간 곳', '초록색' 같은 색 지칭을 쓰지 않는다.",
+    "인구는 항상 구간으로 쓰고 '약 15,000명' 같은 점 값으로 바꾸지 않는다."
+  ]
+}

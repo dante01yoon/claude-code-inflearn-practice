@@ -1,0 +1,74 @@
+{
+  "items": [
+    {
+      "id": "ref-01-bikeseoul",
+      "service": "서울시 공공자전거 따릉이 공식 웹",
+      "url": "https://www.bikeseoul.com/",
+      "screenshot": "references/ref-01-bikeseoul.png",
+      "capturedAt": "2026-10-19T00:58:41.963Z",
+      "blocked": true,
+      "observed": "",
+      "take": ""
+    },
+    {
+      "id": "ref-02-ttareungyi-play",
+      "service": "서울자전거 따릉이 앱 (Google Play 등록 페이지)",
+      "url": "https://play.google.com/store/apps/details?id=com.dki.spb_android&hl=ko",
+      "screenshot": "references/ref-02-ttareungyi-play.png",
+      "capturedAt": "2026-10-19T00:58:44.767Z",
+      "blocked": false,
+      "observed": "공식 앱 스토어 스크린샷: 대여소 행마다 왼쪽에 \"번호. 대여소명\", 오른쪽에 남은 자전거 수를 큰 숫자로 둔다. 초록 브랜드색, 하단 고정 대여 버튼.",
+      "take": "행 오른쪽 큰 숫자로 남은 대수를 먼저 읽게 하는 위계. 번호가 붙은 실제 대여소명 그대로 표기."
+    },
+    {
+      "id": "ref-03-citibike",
+      "service": "Citi Bike (뉴욕)",
+      "url": "https://citibikenyc.com/",
+      "screenshot": "references/ref-03-citibike.png",
+      "capturedAt": "2026-10-19T00:58:47.711Z",
+      "blocked": false,
+      "observed": "상단 바에 로고와 단일 주요 버튼, 아래 큰 굵은 제목과 짧은 본문. 흰 배경에 파랑 한 가지 강조색.",
+      "take": "강조색은 한 가지만, 주요 행동은 하나만 크게."
+    },
+    {
+      "id": "ref-04-divvy",
+      "service": "Divvy (시카고)",
+      "url": "https://divvybikes.com/",
+      "screenshot": "references/ref-04-divvy.png",
+      "capturedAt": "2026-10-19T00:58:50.788Z",
+      "blocked": false,
+      "observed": "Citi Bike와 같은 틀(Lyft 운영)에 색만 바꾼 구성. 큰 제목 + 둥근 알약형 버튼.",
+      "take": "같은 틀에 색만 바꾸면 서비스 구분이 약하다 → 우리 토큰은 따릉이 초록 계열로 고정."
+    },
+    {
+      "id": "ref-05-tashu",
+      "service": "타슈 (대전 공영자전거)",
+      "url": "https://www.tashu.or.kr/",
+      "screenshot": "references/ref-05-tashu.png",
+      "capturedAt": "2026-10-19T00:59:03.606Z",
+      "blocked": false,
+      "observed": "국내 공영자전거 웹: 상단 탭에 \"대여소 조회\"가 1급 메뉴. 큰 파랑 제목, 주황/파랑 버튼 두 개를 같은 크기로 나란히.",
+      "take": "대여소 조회가 핵심 과업이라는 근거. 반대로 같은 무게 버튼 두 개는 주요 행동을 흐리므로 피함."
+    },
+    {
+      "id": "ref-06-velib",
+      "service": "Vélib' Métropole (파리)",
+      "url": "https://www.velib-metropole.fr/",
+      "screenshot": "references/ref-06-velib.png",
+      "capturedAt": "2026-10-19T00:59:06.329Z",
+      "blocked": true,
+      "observed": "",
+      "take": ""
+    },
+    {
+      "id": "ref-07-santander",
+      "service": "Santander Cycles (런던 TfL)",
+      "url": "https://tfl.gov.uk/modes/cycling/santander-cycles",
+      "screenshot": "references/ref-07-santander.png",
+      "capturedAt": "2026-10-19T00:59:09.001Z",
+      "blocked": true,
+      "observed": "",
+      "take": ""
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "viewport": { "width": 390, "height": 844 },
+  "requiredStates": ["default", "empty", "error", "loading"],
+  "screens": [
+    { "id": "station-list", "title": "대여소 목록", "features": ["F1", "F3"], "parent": null },
+    { "id": "station-detail", "title": "대여소 상세", "features": ["F2", "F3"], "parent": "station-list" }
+  ],
+  "flows": [
+    { "id": "check-bikes", "goal": "가까운 대여소에 자전거가 있는지 확인", "steps": ["station-list", "station-detail"] },
+    { "id": "recover-error", "goal": "불러오기 실패 후 다시 시도", "steps": ["station-list:error", "station-list:loading", "station-list"] }
+  ]
+}

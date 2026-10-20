@@ -1,0 +1,11 @@
+{
+  "name": "design-harness",
+  "owner": { "name": "design-harness" },
+  "plugins": [
+    {
+      "name": "design-harness",
+      "source": "./",
+      "description": "PRD에서 Figma 디자인·검증·핸드오프까지 가는 디자인 하네스"
+    }
+  ]
+}

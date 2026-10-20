@@ -1,0 +1,7 @@
+# 실험 운영자(에이전트)가 단테 대신 기록한 사람 단계. 단테 승인 아님.
+2026-10-19T01:13:07Z wireframe 질문 4개에 답함 (prompt-2.txt)
+2026-10-19T01:15:22Z 하네스 패치 동기화(Figma 단계 전): 노드 내보내기 페이지 나눔(use_figma 20KB 한도), 화면별 states 허용, compact paint. figma-operator 지침 갱신
+2026-10-19T01:15:44Z wireframe 승인(운영자). 본 것: list.svg, detail.svg PNG 변환본. 메모: 출처 표시를 맨 끝으로. 하네스 패치: 짧은 영역 SVG 글자 넘침 수정
+2026-10-19T01:18:48Z system 승인(운영자). 본 것: tokens.json·components.json·copy.json 요약표. 결정: 로딩 문구 짧은 쪽, 0대 빨강 유지
+2026-10-19T01:27:42Z verify FAIL(서체 Pretendard 없음 39건) — 운영자 결정: 기준 서체를 Noto Sans KR로
+2026-10-19T01:28:36Z system 재승인(운영자): 서체 변경 확인

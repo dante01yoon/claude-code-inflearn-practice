@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<rect width="100%" height="100%" fill="#FFF"/>
+<rect x="8" y="4" width="374" height="56" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="2"/>
+<text x="20" y="26" font-size="13" font-family="sans-serif" fill="#111">4. 헤더</text>
+<text x="20" y="46" font-size="12" font-family="sans-serif" fill="#555">따릉이 대여소 현황</text>
+<rect x="8" y="68" width="374" height="440" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="5"/>
+<text x="20" y="90" font-size="13" font-family="sans-serif" fill="#111">1. 대여소 행 목록</text>
+<text x="20" y="110" font-size="12" font-family="sans-serif" fill="#555">102. 망원역 1번출구 앞 · 1대 / 거치대 15 (행 탭 시 상세) · 5곳</text>
+<rect x="8" y="516" width="374" height="64" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="4"/>
+<text x="20" y="538" font-size="13" font-family="sans-serif" fill="#111">2. 0대 강조 행</text>
+<text x="20" y="558" font-size="12" font-family="sans-serif" fill="#555">103. 망원역 2번출구 앞 · 0대 / 거치대 14 · 자전거 없음 표시</text>
+<rect x="8" y="588" width="374" height="136" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="3"/>
+<text x="20" y="610" font-size="13" font-family="sans-serif" fill="#111">3. 상태 영역(로딩·빈·에러)</text>
+<text x="20" y="630" font-size="12" font-family="sans-serif" fill="#555">로딩: 행 스켈레톤 5개 / 빈: 표시할 대여소가 없어요 + 다시 시도 / 에러: 대여</text>
+<rect x="8" y="732" width="374" height="56" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="754" font-size="13" font-family="sans-serif" fill="#111">5. 출처표시</text>
+<text x="20" y="774" font-size="12" font-family="sans-serif" fill="#555">출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)</text>
+
+</svg>

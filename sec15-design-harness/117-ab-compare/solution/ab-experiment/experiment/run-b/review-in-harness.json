@@ -1,0 +1,102 @@
+{
+  "reviewer": null,
+  "checklist": [
+    {
+      "id": "hierarchy",
+      "question": "와이어프레임 우선순위 1번 영역이 실제로 가장 먼저 눈에 들어오는가",
+      "suggested": 2,
+      "score": null,
+      "note": "list-default: 대여소 행 목록(우선 1)이 화면 대부분을 차지하고 우측 굵은 녹색 숫자가 먼저 읽힘. 0대 행(우선 2)은 빨간 배경·좌측 바·태그로 바로 구분됨. detail-default: 큰 \"5\"(남은 자전거 수, 우선 1)가 헤더 다음 첫 시선."
+    },
+    {
+      "id": "primary-action",
+      "question": "화면마다 주요 행동이 하나로 분명한가",
+      "suggested": 1,
+      "score": null,
+      "note": "list-default: 주요 행동은 행 탭→상세인데 행에 셰브런 등 탭 가능 표식이 없어 정적 표처럼 보임. list-empty/list-error는 \"다시 시도\" 하나로 분명. detail-default는 \"< 목록\" 하나."
+    },
+    {
+      "id": "status",
+      "question": "시스템 상태가 보이는가: 로딩·빈·오류가 무엇이 일어났고 무엇을 하면 되는지 말하는가 (Nielsen 1, 9)",
+      "suggested": 1,
+      "score": null,
+      "note": "list-loading: \"불러오는 중…\"+스켈레톤 5행으로 명확. list-error: 아이콘+\"대여소 정보를 불러오지 못했어요\"+다시 시도로 무엇·다음 행동 모두 있음. list-empty: \"표시할 대여소가 없어요\"는 왜 없는지(데이터 없음/조건) 말하지 않음. 데이터 기준 시각이 어느 화면에도 없음(findings 참고)."
+    },
+    {
+      "id": "real-world",
+      "question": "사용자 말로 쓰였는가: 실제 대여소명·단위(대, 개) 그대로인가 (Nielsen 2)",
+      "suggested": 2,
+      "score": null,
+      "note": "list-default 5행 이름·자전거 수·거치대 수와 detail-default 104번(5대, 거치대 13개, 위도 37.55073929·경도 126.91508484) 모두 stations.json과 일치. 앞 번호 유지, 단위 대/개/곳 그대로. shared 값 노출 없음."
+    },
+    {
+      "id": "consistency",
+      "question": "같은 요소가 화면마다 같은 모양·위치인가 (Nielsen 4)",
+      "suggested": 2,
+      "score": null,
+      "note": "헤더 위치·서체, 출처 영역, 구분선, 다시 시도 버튼이 화면 간 동일. StateMessage 높이 차이는 lint 경고로 이미 잡혀 제외."
+    },
+    {
+      "id": "control",
+      "question": "되돌아가기·다시 시도가 항상 가능한가 (Nielsen 3)",
+      "suggested": 2,
+      "score": null,
+      "note": "detail-default 좌상단 \"< 목록\", list-empty·list-error에 다시 시도 있음. 로딩은 짧은 상태라 취소 불필요."
+    },
+    {
+      "id": "minimal",
+      "question": "필요 없는 장식·정보가 없는가 (Nielsen 8)",
+      "suggested": 1,
+      "score": null,
+      "note": "detail-default: \"거치대 13개 중\"(보조줄)과 바로 아래 \"거치대 13개\" 행이 같은 정보를 두 번 보여 줌. 그 외 장식 없음."
+    },
+    {
+      "id": "tone",
+      "question": "카피 톤이 copy.json의 tone과 맞는가",
+      "suggested": 2,
+      "score": null,
+      "note": "해요체(\"없어요\",\"못했어요\"), 사용자 탓 없음, 금지어 없음, 버튼 4자. list-default \"대여소 5곳\"처럼 숫자 중심."
+    },
+    {
+      "id": "not-generic",
+      "question": "기본값 같은 인상인가: 똑같은 둥근 카드+회색 그림자, 대문자 라벨, 의미 없는 숫자 표식 등이 없는가",
+      "suggested": 2,
+      "score": null,
+      "note": "카드·그림자·대문자 라벨 없음. 평평한 행 목록과 녹색 숫자, 0대 행만 빨강으로 의미 있는 강조만 사용."
+    },
+    {
+      "id": "brand",
+      "question": "서비스 성격(공공자전거, 출근길)에 맞는 인상인가",
+      "suggested": 2,
+      "score": null,
+      "note": "따릉이 녹색 계열, 담백한 공공 서비스 인상. 출근길 빠른 확인에 맞게 숫자 크게·우측 정렬."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "High",
+      "where": "list-default, detail-default (전 화면)",
+      "issue": "데이터 기준 시각이 어디에도 없다. 스냅샷 데이터(fetchedAt 있음)인데 \"1대\", \"5대 남음\"이 현재 값처럼 읽혀, 출근길 사용자가 오래된 수치로 대여소를 고를 수 있다. PRD 목표(남은 자전거를 보고 판단)에 직접 영향."
+    },
+    {
+      "severity": "Medium",
+      "where": "list-default 대여소 행",
+      "issue": "행이 탭 가능하다는 시각 단서(셰브런·누름 상태)가 없어 F2 상세로 가는 경로를 발견하기 어렵다."
+    },
+    {
+      "severity": "Medium",
+      "where": "list-empty 상태 메시지",
+      "issue": "\"표시할 대여소가 없어요\"만 있고 원인이 없어, 다시 시도를 눌러도 달라지는지 사용자가 판단할 수 없다(에러와 구분 약함)."
+    },
+    {
+      "severity": "Medium",
+      "where": "detail-default 남은 자전거 보조줄 + 거치대 행",
+      "issue": "거치대 13개가 \"거치대 13개 중\"과 \"거치대 13개\"로 연속 두 번 나와 정보 밀도만 낮춘다."
+    },
+    {
+      "severity": "Nit",
+      "where": "전 화면 출처 문구",
+      "issue": "390폭에서 \"(공공누리 제1유형)\"이 줄바꿈되어 \"형)\" 한 글자만 둘째 줄에 남는다."
+    }
+  ]
+}

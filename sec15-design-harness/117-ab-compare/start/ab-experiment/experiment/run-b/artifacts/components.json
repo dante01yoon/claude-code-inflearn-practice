@@ -1,0 +1,15 @@
+{
+  "components": [
+    { "name": "AppBar", "interactive": false, "tokens": { "fill": "color.surface", "height": "size.header", "text": "font-size.title", "textColor": "color.text", "divider": "color.border", "paddingX": "space.4" } },
+    { "name": "BackButton", "interactive": true, "note": "'목록' 글자 + 왼쪽 화살표. detail 헤더 왼쪽.", "tokens": { "minSize": "size.touch", "color": "color.brand", "text": "font-size.body" } },
+    { "name": "StationRow", "interactive": true, "variants": ["available", "zero"], "note": "zero: 배경 zero-soft + 왼쪽 막대 + ZeroTag + 굵은 '0대'. 색만으로 구분하지 않음.", "tokens": { "minSize": "size.touch", "height": "size.row", "paddingX": "space.4", "gap": "space.3", "name": "font-size.body", "nameColor": "color.text", "count": "font-size.title", "countWeight": "font-weight.bold", "countAvailable": "color.brand", "countZero": "color.zero", "rack": "color.text-muted", "divider": "color.border", "pressed": "color.brand-soft", "zeroFill": "color.zero-soft", "zeroBar": "color.zero", "zeroBarWidth": "size.zero-bar" } },
+    { "name": "ZeroTag", "interactive": false, "note": "'자전거 없음' 글자 태그. 테두리 1px zero.", "tokens": { "text": "font-size.caption", "weight": "font-weight.bold", "color": "color.zero", "border": "color.zero", "radius": "radius.sm", "paddingX": "space.2" } },
+    { "name": "SkeletonRow", "interactive": false, "note": "로딩 상태에 5개. 글자 없음.", "tokens": { "height": "size.row", "fill": "color.border", "radius": "radius.sm", "paddingX": "space.4" } },
+    { "name": "StateMessage", "interactive": false, "variants": ["loading", "empty", "error"], "note": "list 안 상태 영역. empty·error는 아래 Button.", "tokens": { "text": "font-size.body", "color": "color.text", "muted": "color.text-muted", "errorIcon": "color.zero", "gap": "space.4", "paddingY": "space.8" } },
+    { "name": "Button", "interactive": true, "variants": ["primary"], "tokens": { "minSize": "size.touch", "fill": "color.brand", "text": "color.on-brand", "fontSize": "font-size.body", "weight": "font-weight.bold", "radius": "radius.md", "paddingX": "space.6" } },
+    { "name": "BikeCount", "interactive": false, "variants": ["available", "zero"], "note": "detail 최상위. 큰 숫자 + '대 남음'. zero는 '0대' + ZeroTag.", "tokens": { "number": "font-size.display", "weight": "font-weight.bold", "available": "color.brand", "zero": "color.zero", "label": "font-size.body", "labelColor": "color.text", "lineHeight": "line-height.tight" } },
+    { "name": "InfoRow", "interactive": false, "note": "detail 거치대 수. 라벨-값 한 줄.", "tokens": { "label": "font-size.body", "labelColor": "color.text-muted", "value": "font-size.title", "valueColor": "color.text", "divider": "color.border", "paddingY": "space.4" } },
+    { "name": "CoordText", "interactive": false, "note": "위·경도. 가장 낮은 위계.", "tokens": { "text": "font-size.caption", "color": "color.text-muted", "weight": "font-weight.regular" } },
+    { "name": "SourceNote", "interactive": false, "note": "화면 맨 끝 출처표시.", "tokens": { "text": "font-size.caption", "color": "color.text-muted", "divider": "color.border", "paddingY": "space.4" } }
+  ]
+}

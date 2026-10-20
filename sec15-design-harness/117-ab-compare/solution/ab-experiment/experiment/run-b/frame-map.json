@@ -1,0 +1,10 @@
+{
+  "note": "하네스가 프레임을 <화면>/<상태>로 이름 붙였으므로 이름 그대로 대응. Design System·Handoff 등 다른 페이지 프레임은 제외.",
+  "map": {
+    "list/default": "list/default",
+    "list/loading": "list/loading",
+    "list/empty": "list/empty",
+    "list/error": "list/error",
+    "detail/default": "detail/default"
+  }
+}

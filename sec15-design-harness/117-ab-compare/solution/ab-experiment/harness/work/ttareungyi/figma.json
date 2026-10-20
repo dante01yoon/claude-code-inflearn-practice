@@ -1,0 +1,6 @@
+{
+  "fileKey": null,
+  "account": null,
+  "nodes": {},
+  "note": "Figma 파일 키를 받으면 fileKey와 화면별 nodeId를 채운다. null이면 Figma 단계는 건너뛰고 승인된 baseline으로 비교한다."
+}

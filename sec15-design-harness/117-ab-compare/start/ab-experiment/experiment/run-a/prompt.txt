@@ -1,0 +1,2 @@
+PRD.md 읽고 따릉이 대여소 현황 앱 화면을 피그마에 디자인해줘. 피그마 파일: https://www.figma.com/design/<파일키>
+화면은 3~4개 정도면 돼. 데이터는 data/stations.json에 있어.

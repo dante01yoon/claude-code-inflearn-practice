@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<rect width="100%" height="100%" fill="#FFF"/>
+<rect x="8" y="4" width="374" height="56" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="3"/>
+<text x="20" y="26" font-size="13" font-family="sans-serif" fill="#111">3. 헤더</text>
+<text x="20" y="46" font-size="12" font-family="sans-serif" fill="#555">&lt; 목록   104. 합정역 1번출구 앞</text>
+<rect x="8" y="68" width="374" height="152" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="5"/>
+<text x="20" y="90" font-size="13" font-family="sans-serif" fill="#111">1. 남은 자전거 수</text>
+<text x="20" y="110" font-size="12" font-family="sans-serif" fill="#555">5대 남음 (거치대 13개 중)</text>
+<rect x="8" y="228" width="374" height="80" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="4"/>
+<text x="20" y="250" font-size="13" font-family="sans-serif" fill="#111">2. 거치대 수</text>
+<text x="20" y="270" font-size="12" font-family="sans-serif" fill="#555">거치대 13개</text>
+<rect x="8" y="316" width="374" height="32" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="2"/>
+<text x="20" y="336" font-size="12" font-family="sans-serif" fill="#111">4. 위치(보조) — <tspan fill="#555">위도 37.55073929 · 경도 126.91508484 (</tspan></text>
+<rect x="8" y="356" width="374" height="56" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="378" font-size="13" font-family="sans-serif" fill="#111">5. 출처표시</text>
+<text x="20" y="398" font-size="12" font-family="sans-serif" fill="#555">출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)</text>
+
+</svg>

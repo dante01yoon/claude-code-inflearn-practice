@@ -1,0 +1,57 @@
+{
+  "source": {
+    "name": "서울시 공공자전거 따릉이 실시간 대여정보 (OA-15493)",
+    "provider": "서울특별시",
+    "url": "https://data.seoul.go.kr/dataList/OA-15493/A/1/datasetView.do",
+    "license": "공공누리 제1유형(출처표시)",
+    "fetchedAt": "2026-10-19T00:54:43.175Z",
+    "note": "서울 열린데이터광장 sample 키로 받은 첫 5개 대여소 스냅샷"
+  },
+  "stations": [
+    {
+      "stationId": "ST-4",
+      "stationName": "102. 망원역 1번출구 앞",
+      "parkingBikeTotCnt": 1,
+      "rackTotCnt": 15,
+      "shared": 7,
+      "stationLatitude": 37.5556488,
+      "stationLongitude": 126.91062927
+    },
+    {
+      "stationId": "ST-5",
+      "stationName": "103. 망원역 2번출구 앞",
+      "parkingBikeTotCnt": 0,
+      "rackTotCnt": 14,
+      "shared": 0,
+      "stationLatitude": 37.55495071,
+      "stationLongitude": 126.91083527
+    },
+    {
+      "stationId": "ST-6",
+      "stationName": "104. 합정역 1번출구 앞",
+      "parkingBikeTotCnt": 5,
+      "rackTotCnt": 13,
+      "shared": 38,
+      "stationLatitude": 37.55073929,
+      "stationLongitude": 126.91508484
+    },
+    {
+      "stationId": "ST-7",
+      "stationName": "105. 합정역 5번출구 앞",
+      "parkingBikeTotCnt": 4,
+      "rackTotCnt": 5,
+      "shared": 80,
+      "stationLatitude": 37.55000687,
+      "stationLongitude": 126.91482544
+    },
+    {
+      "stationId": "ST-8",
+      "stationName": "106. 합정역 7번출구 앞",
+      "parkingBikeTotCnt": 6,
+      "rackTotCnt": 12,
+      "shared": 50,
+      "stationLatitude": 37.54864502,
+      "stationLongitude": 126.91282654
+    }
+  ]
+}

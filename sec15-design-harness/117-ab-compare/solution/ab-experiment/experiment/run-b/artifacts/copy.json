@@ -1,0 +1,28 @@
+{
+  "tone": "해요체, 짧고 담담하게. 숫자를 먼저 말하고, 사용자를 탓하지 않고 다음 행동을 알려 준다.",
+  "maxButtonChars": 6,
+  "banned": ["실패하였습니다", "오류가 발생", "Error", "에러", "!!", "잠시만 기다려 주십시오", "고객님", "죄송합니다", "No data"],
+  "examples": {
+    "appTitle": "따릉이 대여소 현황",
+    "listCount": "대여소 {n}곳",
+    "rowCount": "{bikes}대",
+    "rowRack": "거치대 {racks}",
+    "zeroTag": "자전거 없음",
+    "loading": "불러오는 중…",
+    "empty": "표시할 대여소가 없어요",
+    "error": "대여소 정보를 불러오지 못했어요",
+    "retry": "다시 시도",
+    "back": "목록",
+    "detailCount": "{bikes}대 남음",
+    "detailCountSub": "거치대 {racks}개 중",
+    "detailRackLabel": "거치대",
+    "detailRackValue": "{racks}개",
+    "coords": "위도 {lat} · 경도 {lng}",
+    "source": "출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)"
+  },
+  "rules": [
+    "대여소 이름은 원본 그대로(앞 번호 포함). 줄이거나 번호를 지우지 않는다.",
+    "shared 값은 어떤 문구에도 넣지 않는다.",
+    "0대 행의 접근성 이름: '{name}, 자전거 없음, 거치대 {racks}'."
+  ]
+}

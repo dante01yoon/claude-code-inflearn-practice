@@ -1,0 +1,14 @@
+{
+  "station-list": [
+    { "region": "header", "priority": 2, "height": 56, "content": "제목 '따릉이 대여소'" },
+    { "region": "summary", "priority": 3, "height": 48, "content": "대여소 5곳, 자전거 있는 곳 4곳" },
+    { "region": "list", "priority": 1, "height": 520, "content": "행: 대여소명(두 줄) / 오른쪽 남은 대수 큰 숫자 / 0대는 경고색 라벨" },
+    { "region": "footer", "priority": 4, "height": 40, "content": "출처: 서울특별시, 공공누리 제1유형" }
+  ],
+  "station-detail": [
+    { "region": "header", "priority": 3, "height": 56, "content": "뒤로 버튼 + 대여소명" },
+    { "region": "hero", "priority": 1, "height": 200, "content": "남은 자전거 수 큰 숫자 + '대 남음'" },
+    { "region": "facts", "priority": 2, "height": 168, "content": "거치대 수 / 위도·경도" },
+    { "region": "footer", "priority": 4, "height": 40, "content": "출처 표시" }
+  ]
+}

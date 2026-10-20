@@ -1,0 +1,9 @@
+{
+  "note": "운영자가 프레임 이름과 화면 이미지(screens/)를 보고 대응. Components 프레임은 화면이 아니라 제외.",
+  "map": {
+    "01 대여소 목록": "list/default",
+    "02 대여소 상세": "detail/default",
+    "03 빈 상태": "list/empty",
+    "04 에러 상태": "list/error"
+  }
+}

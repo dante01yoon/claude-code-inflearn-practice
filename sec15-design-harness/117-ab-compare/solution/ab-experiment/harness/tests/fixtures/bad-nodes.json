@@ -1,0 +1,1934 @@
+{
+  "fixture": true,
+  "fileKey": null,
+  "exportedAt": "2026-10-19T01:08:58.055Z",
+  "page": "Screens",
+  "frames": [
+    {
+      "id": "0:25",
+      "x": 0,
+      "y": 0,
+      "name": "station-list/default",
+      "type": "FRAME",
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          },
+          "visible": true
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "children": [
+        {
+          "id": "0:2",
+          "x": 0,
+          "y": 0,
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "component": "AppBar",
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:1",
+              "x": 16,
+              "y": 14,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "따릉이 대여소",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0:3",
+          "x": 16,
+          "y": 64,
+          "name": "Summary",
+          "type": "TEXT",
+          "characters": "대여소 5곳, 자전거 있는 곳 4곳",
+          "fontSize": 15,
+          "fontWeight": 400,
+          "fontFamily": "Pretendard",
+          "width": 280,
+          "height": 24,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.6039215686274509,
+                "g": 0.6274509803921569,
+                "b": 0.611764705882353
+              },
+              "visible": true
+            }
+          ]
+        },
+        {
+          "id": "0:7",
+          "x": 16,
+          "y": 104,
+          "name": "StationRow",
+          "type": "INSTANCE",
+          "component": "StationRow",
+          "width": 358,
+          "height": 72,
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 10,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "paddingBottom": 12,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:4",
+              "x": 16,
+              "y": 12,
+              "name": "StationName",
+              "type": "TEXT",
+              "characters": "102. 망원역 1번출구 앞",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            },
+            {
+              "id": "0:6",
+              "x": 270,
+              "y": 16,
+              "name": "CountBadge",
+              "type": "INSTANCE",
+              "component": "CountBadge",
+              "width": 32,
+              "height": 40,
+              "cornerRadius": 6,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.9176470588235294,
+                    "g": 0.9568627450980393,
+                    "b": 0.9254901960784314
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/brand-soft"
+              },
+              "children": [
+                {
+                  "id": "0:5",
+                  "x": 8,
+                  "y": 8,
+                  "name": "Count",
+                  "type": "TEXT",
+                  "characters": "1대",
+                  "fontSize": 20,
+                  "fontWeight": 700,
+                  "fontFamily": "Pretendard",
+                  "width": 280,
+                  "height": 30,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 0.12156862745098039,
+                        "g": 0.4196078431372549,
+                        "b": 0.22745098039215686
+                      },
+                      "visible": true
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/brand"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "0:11",
+          "x": 16,
+          "y": 184,
+          "name": "StationRow",
+          "type": "INSTANCE",
+          "component": "StationRow",
+          "width": 358,
+          "height": 36,
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 12,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "paddingBottom": 12,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:8",
+              "x": 16,
+              "y": 12,
+              "name": "StationName",
+              "type": "TEXT",
+              "characters": "103. 망원역 2번출구 앞",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            },
+            {
+              "id": "0:10",
+              "x": 270,
+              "y": 16,
+              "name": "CountBadge",
+              "type": "INSTANCE",
+              "component": "CountBadge",
+              "width": 72,
+              "height": 40,
+              "cornerRadius": 6,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.984313725490196,
+                    "g": 0.9254901960784314,
+                    "b": 0.9215686274509803
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/danger-soft"
+              },
+              "children": [
+                {
+                  "id": "0:9",
+                  "x": 8,
+                  "y": 8,
+                  "name": "Count",
+                  "type": "TEXT",
+                  "characters": "0대",
+                  "fontSize": 20,
+                  "fontWeight": 700,
+                  "fontFamily": "Pretendard",
+                  "width": 280,
+                  "height": 30,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 0.7019607843137254,
+                        "g": 0.14901960784313725,
+                        "b": 0.11764705882352941
+                      },
+                      "visible": true
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/danger"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "0:15",
+          "x": 10,
+          "y": 264,
+          "name": "Frame 12",
+          "type": "INSTANCE",
+          "component": "StationRow",
+          "width": 358,
+          "height": 72,
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 12,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "paddingBottom": 12,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:12",
+              "x": 16,
+              "y": 12,
+              "name": "StationName",
+              "type": "TEXT",
+              "characters": "104. 합정역 1번출구 앞",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            },
+            {
+              "id": "0:14",
+              "x": 270,
+              "y": 16,
+              "name": "CountBadge",
+              "type": "INSTANCE",
+              "component": "CountBadge",
+              "width": 72,
+              "height": 40,
+              "cornerRadius": 6,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.9176470588235294,
+                    "g": 0.9568627450980393,
+                    "b": 0.9254901960784314
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/brand-soft"
+              },
+              "children": [
+                {
+                  "id": "0:13",
+                  "x": 8,
+                  "y": 8,
+                  "name": "Count",
+                  "type": "TEXT",
+                  "characters": "5대",
+                  "fontSize": 20,
+                  "fontWeight": 700,
+                  "fontFamily": "Pretendard",
+                  "width": 280,
+                  "height": 30,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 0.12156862745098039,
+                        "g": 0.4196078431372549,
+                        "b": 0.22745098039215686
+                      },
+                      "visible": true
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/brand"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "0:19",
+          "x": 16,
+          "y": 344,
+          "name": "StationRow",
+          "type": "INSTANCE",
+          "component": "StationRow",
+          "width": 358,
+          "height": 72,
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 12,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "paddingBottom": 12,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:16",
+              "x": 16,
+              "y": 12,
+              "name": "StationName",
+              "type": "TEXT",
+              "characters": "105. 합정역 5번출구 앞",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            },
+            {
+              "id": "0:18",
+              "x": 270,
+              "y": 16,
+              "name": "CountBadge",
+              "type": "INSTANCE",
+              "component": "CountBadge",
+              "width": 72,
+              "height": 40,
+              "cornerRadius": 6,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.9176470588235294,
+                    "g": 0.9568627450980393,
+                    "b": 0.9254901960784314
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/brand-soft"
+              },
+              "children": [
+                {
+                  "id": "0:17",
+                  "x": 8,
+                  "y": 8,
+                  "name": "Count",
+                  "type": "TEXT",
+                  "characters": "4대",
+                  "fontSize": 20,
+                  "fontWeight": 700,
+                  "fontFamily": "Pretendard",
+                  "width": 280,
+                  "height": 30,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 0.12156862745098039,
+                        "g": 0.4196078431372549,
+                        "b": 0.22745098039215686
+                      },
+                      "visible": true
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/brand"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "0:23",
+          "x": 16,
+          "y": 424,
+          "name": "StationRow",
+          "type": "INSTANCE",
+          "component": "StationRow",
+          "width": 358,
+          "height": 72,
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 12,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "paddingBottom": 12,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:20",
+              "x": 16,
+              "y": 12,
+              "name": "StationName",
+              "type": "TEXT",
+              "characters": "106. 합정역 7번출구 앞",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            },
+            {
+              "id": "0:22",
+              "x": 270,
+              "y": 16,
+              "name": "CountBadge",
+              "type": "INSTANCE",
+              "component": "CountBadge",
+              "width": 72,
+              "height": 40,
+              "cornerRadius": 6,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.9176470588235294,
+                    "g": 0.9568627450980393,
+                    "b": 0.9254901960784314
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/brand-soft"
+              },
+              "children": [
+                {
+                  "id": "0:21",
+                  "x": 8,
+                  "y": 8,
+                  "name": "Count",
+                  "type": "TEXT",
+                  "characters": "6대",
+                  "fontSize": 20,
+                  "fontWeight": 700,
+                  "fontFamily": "Pretendard",
+                  "width": 280,
+                  "height": 30,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 0.12156862745098039,
+                        "g": 0.4196078431372549,
+                        "b": 0.22745098039215686
+                      },
+                      "visible": true
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/brand"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "0:24",
+          "x": 16,
+          "y": 800,
+          "name": "SourceNote",
+          "type": "TEXT",
+          "characters": "출처: 서울특별시 따릉이 실시간 대여정보, 공공누리 제1유형",
+          "fontSize": 13,
+          "fontWeight": 400,
+          "fontFamily": "Pretendard",
+          "width": 280,
+          "height": 20,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.3333333333333333,
+                "g": 0.3764705882352941,
+                "b": 0.35294117647058826
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/text-muted"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0:32",
+      "x": 0,
+      "y": 0,
+      "name": "station-list/empty",
+      "type": "FRAME",
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          },
+          "visible": true
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "children": [
+        {
+          "id": "0:27",
+          "x": 0,
+          "y": 0,
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "component": "AppBar",
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:26",
+              "x": 16,
+              "y": 14,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "따릉이 대여소",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0:30",
+          "x": 16,
+          "y": 280,
+          "name": "StateMessage",
+          "type": "INSTANCE",
+          "component": "StateMessage",
+          "width": 358,
+          "height": 200,
+          "children": [
+            {
+              "id": "0:28",
+              "x": 0,
+              "y": 0,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "표시할 대여소가 없어요",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            },
+            {
+              "id": "0:29",
+              "x": 0,
+              "y": 40,
+              "name": "Body",
+              "type": "TEXT",
+              "characters": "잠시 뒤 다시 확인해 주세요",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.3333333333333333,
+                    "g": 0.3764705882352941,
+                    "b": 0.35294117647058826
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0:31",
+          "x": 16,
+          "y": 800,
+          "name": "SourceNote",
+          "type": "TEXT",
+          "characters": "출처: 서울특별시 따릉이 실시간 대여정보, 공공누리 제1유형",
+          "fontSize": 13,
+          "fontWeight": 400,
+          "fontFamily": "Pretendard",
+          "width": 280,
+          "height": 20,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.3333333333333333,
+                "g": 0.3764705882352941,
+                "b": 0.35294117647058826
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/text-muted"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0:41",
+      "x": 0,
+      "y": 0,
+      "name": "station-list/error",
+      "type": "FRAME",
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          },
+          "visible": true
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "children": [
+        {
+          "id": "0:34",
+          "x": 0,
+          "y": 0,
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "component": "AppBar",
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:33",
+              "x": 16,
+              "y": 14,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "따릉이 대여소",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0:39",
+          "x": 16,
+          "y": 280,
+          "name": "StateMessage",
+          "type": "INSTANCE",
+          "component": "StateMessage",
+          "width": 358,
+          "height": 200,
+          "children": [
+            {
+              "id": "0:35",
+              "x": 0,
+              "y": 0,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "대여소 정보를 불러오지 못했어요",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            },
+            {
+              "id": "0:36",
+              "x": 0,
+              "y": 40,
+              "name": "Body",
+              "type": "TEXT",
+              "characters": "오류가 발생하였습니다",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.3333333333333333,
+                    "g": 0.3764705882352941,
+                    "b": 0.35294117647058826
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              }
+            },
+            {
+              "id": "0:38",
+              "x": 0,
+              "y": 100,
+              "name": "Button",
+              "type": "INSTANCE",
+              "component": "Button",
+              "width": 120,
+              "height": 44,
+              "cornerRadius": 12,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.12156862745098039,
+                    "g": 0.4196078431372549,
+                    "b": 0.22745098039215686
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/brand"
+              },
+              "children": [
+                {
+                  "id": "0:37",
+                  "x": 24,
+                  "y": 10,
+                  "name": "Label",
+                  "type": "TEXT",
+                  "characters": "다시 시도",
+                  "fontSize": 16,
+                  "fontWeight": 700,
+                  "fontFamily": "Pretendard",
+                  "width": 280,
+                  "height": 24,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 1,
+                        "g": 1,
+                        "b": 1
+                      },
+                      "visible": true
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/on-brand"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "0:40",
+          "x": 16,
+          "y": 800,
+          "name": "SourceNote",
+          "type": "TEXT",
+          "characters": "출처: 서울특별시 따릉이 실시간 대여정보, 공공누리 제1유형",
+          "fontSize": 13,
+          "fontWeight": 400,
+          "fontFamily": "Pretendard",
+          "width": 280,
+          "height": 20,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.3333333333333333,
+                "g": 0.3764705882352941,
+                "b": 0.35294117647058826
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/text-muted"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0:48",
+      "x": 0,
+      "y": 0,
+      "name": "station-list/loading",
+      "type": "FRAME",
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          },
+          "visible": true
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "children": [
+        {
+          "id": "0:43",
+          "x": 0,
+          "y": 0,
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "component": "AppBar",
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:42",
+              "x": 16,
+              "y": 14,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "따릉이 대여소",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0:46",
+          "x": 16,
+          "y": 280,
+          "name": "StateMessage",
+          "type": "INSTANCE",
+          "component": "StateMessage",
+          "width": 358,
+          "height": 200,
+          "children": [
+            {
+              "id": "0:44",
+              "x": 0,
+              "y": 0,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "불러오는 중…",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            },
+            {
+              "id": "0:45",
+              "x": 0,
+              "y": 40,
+              "name": "Body",
+              "type": "TEXT",
+              "characters": "대여소 정보를 가져오고 있어요",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.3333333333333333,
+                    "g": 0.3764705882352941,
+                    "b": 0.35294117647058826
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0:47",
+          "x": 16,
+          "y": 800,
+          "name": "SourceNote",
+          "type": "TEXT",
+          "characters": "출처: 서울특별시 따릉이 실시간 대여정보, 공공누리 제1유형",
+          "fontSize": 13,
+          "fontWeight": 400,
+          "fontFamily": "Pretendard",
+          "width": 280,
+          "height": 20,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.3333333333333333,
+                "g": 0.3764705882352941,
+                "b": 0.35294117647058826
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/text-muted"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0:58",
+      "x": 0,
+      "y": 0,
+      "name": "station-detail/default",
+      "type": "FRAME",
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          },
+          "visible": true
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "children": [
+        {
+          "id": "0:51",
+          "x": 0,
+          "y": 0,
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "component": "AppBar",
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:49",
+              "x": 4,
+              "y": 6,
+              "name": "BackButton",
+              "type": "INSTANCE",
+              "component": "BackButton",
+              "width": 44,
+              "height": 44
+            },
+            {
+              "id": "0:50",
+              "x": 52,
+              "y": 14,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "104. 합정역 1번출구 앞",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0:54",
+          "x": 16,
+          "y": 72,
+          "name": "Hero",
+          "type": "FRAME",
+          "width": 358,
+          "height": 200,
+          "cornerRadius": 12,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.9176470588235294,
+                "g": 0.9568627450980393,
+                "b": 0.9254901960784314
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/brand-soft"
+          },
+          "children": [
+            {
+              "id": "0:52",
+              "x": 24,
+              "y": 40,
+              "name": "BikeCount",
+              "type": "TEXT",
+              "characters": "5",
+              "fontSize": 56,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 84,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.12156862745098039,
+                    "g": 0.4196078431372549,
+                    "b": 0.22745098039215686
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/brand"
+              }
+            },
+            {
+              "id": "0:53",
+              "x": 24,
+              "y": 128,
+              "name": "Unit",
+              "type": "TEXT",
+              "characters": "대 남음",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0:55",
+          "x": 16,
+          "y": 296,
+          "name": "Racks",
+          "type": "TEXT",
+          "characters": "거치대 13개",
+          "fontSize": 16,
+          "fontWeight": 400,
+          "fontFamily": "Pretendard",
+          "width": 280,
+          "height": 24,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.10980392156862745,
+                "g": 0.12156862745098039,
+                "b": 0.11372549019607843
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/text"
+          }
+        },
+        {
+          "id": "0:56",
+          "x": 16,
+          "y": 332,
+          "name": "Location",
+          "type": "TEXT",
+          "characters": "위도 37.55073929, 경도 126.91508484",
+          "fontSize": 16,
+          "fontWeight": 400,
+          "fontFamily": "Pretendard",
+          "width": 280,
+          "height": 24,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.3333333333333333,
+                "g": 0.3764705882352941,
+                "b": 0.35294117647058826
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/text-muted"
+          }
+        },
+        {
+          "id": "0:57",
+          "x": 16,
+          "y": 800,
+          "name": "SourceNote",
+          "type": "TEXT",
+          "characters": "출처: 서울특별시 따릉이 실시간 대여정보, 공공누리 제1유형",
+          "fontSize": 13,
+          "fontWeight": 400,
+          "fontFamily": "Pretendard",
+          "width": 280,
+          "height": 20,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.3333333333333333,
+                "g": 0.3764705882352941,
+                "b": 0.35294117647058826
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/text-muted"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0:66",
+      "x": 0,
+      "y": 0,
+      "name": "station-detail/empty",
+      "type": "FRAME",
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          },
+          "visible": true
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "children": [
+        {
+          "id": "0:61",
+          "x": 0,
+          "y": 0,
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "component": "AppBar",
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:59",
+              "x": 4,
+              "y": 6,
+              "name": "BackButton",
+              "type": "INSTANCE",
+              "component": "BackButton",
+              "width": 44,
+              "height": 44
+            },
+            {
+              "id": "0:60",
+              "x": 52,
+              "y": 14,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "대여소 상세",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0:64",
+          "x": 16,
+          "y": 280,
+          "name": "StateMessage",
+          "type": "INSTANCE",
+          "component": "StateMessage",
+          "width": 358,
+          "height": 200,
+          "children": [
+            {
+              "id": "0:62",
+              "x": 0,
+              "y": 0,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "대여소를 찾을 수 없어요",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            },
+            {
+              "id": "0:63",
+              "x": 0,
+              "y": 40,
+              "name": "Body",
+              "type": "TEXT",
+              "characters": "목록에서 다시 골라 주세요",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.3333333333333333,
+                    "g": 0.3764705882352941,
+                    "b": 0.35294117647058826
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0:65",
+          "x": 16,
+          "y": 800,
+          "name": "SourceNote",
+          "type": "TEXT",
+          "characters": "출처: 서울특별시 따릉이 실시간 대여정보, 공공누리 제1유형",
+          "fontSize": 13,
+          "fontWeight": 400,
+          "fontFamily": "Pretendard",
+          "width": 280,
+          "height": 20,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.3333333333333333,
+                "g": 0.3764705882352941,
+                "b": 0.35294117647058826
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/text-muted"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0:76",
+      "x": 0,
+      "y": 0,
+      "name": "station-detail/error",
+      "type": "FRAME",
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          },
+          "visible": true
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "children": [
+        {
+          "id": "0:69",
+          "x": 0,
+          "y": 0,
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "component": "AppBar",
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "children": [
+            {
+              "id": "0:67",
+              "x": 4,
+              "y": 6,
+              "name": "BackButton",
+              "type": "INSTANCE",
+              "component": "BackButton",
+              "width": 44,
+              "height": 44
+            },
+            {
+              "id": "0:68",
+              "x": 52,
+              "y": 14,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "대여소 상세",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0:74",
+          "x": 16,
+          "y": 280,
+          "name": "StateMessage",
+          "type": "INSTANCE",
+          "component": "StateMessage",
+          "width": 358,
+          "height": 200,
+          "children": [
+            {
+              "id": "0:70",
+              "x": 0,
+              "y": 0,
+              "name": "Title",
+              "type": "TEXT",
+              "characters": "대여소 정보를 불러오지 못했어요",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 30,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.12156862745098039,
+                    "b": 0.11372549019607843
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              }
+            },
+            {
+              "id": "0:71",
+              "x": 0,
+              "y": 40,
+              "name": "Body",
+              "type": "TEXT",
+              "characters": "인터넷 연결을 확인한 뒤 다시 시도해 주세요",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Pretendard",
+              "width": 280,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.3333333333333333,
+                    "g": 0.3764705882352941,
+                    "b": 0.35294117647058826
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              }
+            },
+            {
+              "id": "0:73",
+              "x": 0,
+              "y": 100,
+              "name": "Button",
+              "type": "INSTANCE",
+              "component": "Button",
+              "width": 120,
+              "height": 44,
+              "cornerRadius": 12,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.12156862745098039,
+                    "g": 0.4196078431372549,
+                    "b": 0.22745098039215686
+                  },
+                  "visible": true
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/brand"
+              },
+              "children": [
+                {
+                  "id": "0:72",
+                  "x": 24,
+                  "y": 10,
+                  "name": "Label",
+                  "type": "TEXT",
+                  "characters": "다시 시도",
+                  "fontSize": 16,
+                  "fontWeight": 700,
+                  "fontFamily": "Pretendard",
+                  "width": 280,
+                  "height": 24,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 1,
+                        "g": 1,
+                        "b": 1
+                      },
+                      "visible": true
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/on-brand"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "0:75",
+          "x": 16,
+          "y": 800,
+          "name": "SourceNote",
+          "type": "TEXT",
+          "characters": "출처: 서울특별시 따릉이 실시간 대여정보, 공공누리 제1유형",
+          "fontSize": 13,
+          "fontWeight": 400,
+          "fontFamily": "Pretendard",
+          "width": 280,
+          "height": 20,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.3333333333333333,
+                "g": 0.3764705882352941,
+                "b": 0.35294117647058826
+              },
+              "visible": true
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/text-muted"
+          }
+        }
+      ]
+    }
+  ]
+}

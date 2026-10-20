@@ -1,0 +1,2564 @@
+{
+  "fileKey": "<파일키>",
+  "exportedAt": "2026-10-19T01:26:17.893Z",
+  "frames": [
+    {
+      "page": "Screens",
+      "name": "list/default",
+      "type": "FRAME",
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "children": [
+        {
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#D3DBD7"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface",
+            "strokes": "color/border"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "component": "AppBar",
+          "children": [
+            {
+              "name": "title",
+              "type": "TEXT",
+              "x": 16,
+              "y": 16,
+              "width": 157,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#18211D"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              },
+              "characters": "따릉이 대여소 현황",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        },
+        {
+          "name": "ListCount",
+          "type": "FRAME",
+          "x": 0,
+          "y": 56,
+          "width": 390,
+          "height": 40,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 0,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+          "paddingBottom": 8,
+          "children": [
+            {
+              "name": "count",
+              "type": "TEXT",
+              "x": 16,
+              "y": 8,
+              "width": 72,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#505C56"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              },
+              "characters": "대여소 5곳",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        },
+        {
+          "name": "StationList",
+          "type": "FRAME",
+          "x": 0,
+          "y": 96,
+          "width": 390,
+          "height": 360,
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "children": [
+            {
+              "name": "StationRow",
+              "type": "INSTANCE",
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#D3DBD7"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/surface",
+                "strokes": "color/border"
+              },
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "StationRow",
+              "children": [
+                {
+                  "name": "info",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 12,
+                  "width": 315,
+                  "height": 48,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "name",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 154,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#18211D"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/text"
+                      },
+                      "characters": "102. 망원역 1번출구 앞",
+                      "fontSize": 16,
+                      "fontWeight": 400,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "rack",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 24,
+                      "width": 66,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#505C56"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/text-muted"
+                      },
+                      "characters": "거치대 15",
+                      "fontSize": 16,
+                      "fontWeight": 400,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                },
+                {
+                  "name": "count-group",
+                  "type": "FRAME",
+                  "x": 343,
+                  "y": 24,
+                  "width": 31,
+                  "height": 24,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "count",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 31,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#0A6B47"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/brand"
+                      },
+                      "characters": "1대",
+                      "fontSize": 20,
+                      "fontWeight": 700,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "StationRow",
+              "type": "INSTANCE",
+              "x": 0,
+              "y": 72,
+              "width": 390,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FDEEEC"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#D3DBD7"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/zero-soft",
+                "strokes": "color/border"
+              },
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "StationRow",
+              "children": [
+                {
+                  "name": "info",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 12,
+                  "width": 226,
+                  "height": 48,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "name",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 154,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#18211D"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/text"
+                      },
+                      "characters": "103. 망원역 2번출구 앞",
+                      "fontSize": 16,
+                      "fontWeight": 400,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "rack",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 24,
+                      "width": 66,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#505C56"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/text-muted"
+                      },
+                      "characters": "거치대 14",
+                      "fontSize": 16,
+                      "fontWeight": 400,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                },
+                {
+                  "name": "count-group",
+                  "type": "FRAME",
+                  "x": 254,
+                  "y": 21,
+                  "width": 120,
+                  "height": 30,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "zero-tag",
+                      "type": "INSTANCE",
+                      "x": 0,
+                      "y": 0,
+                      "width": 81,
+                      "height": 30,
+                      "strokes": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#B3261E"
+                        }
+                      ],
+                      "boundVariables": {
+                        "strokes": "color/zero"
+                      },
+                      "cornerRadius": 4,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 0,
+                      "paddingLeft": 8,
+                      "paddingRight": 8,
+                      "paddingTop": 4,
+                      "paddingBottom": 4,
+                      "component": "ZeroTag",
+                      "children": [
+                        {
+                          "name": "label",
+                          "type": "TEXT",
+                          "x": 9,
+                          "y": 5,
+                          "width": 63,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#B3261E"
+                            }
+                          ],
+                          "boundVariables": {
+                            "fills": "color/zero"
+                          },
+                          "characters": "자전거 없음",
+                          "fontSize": 13,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "count",
+                      "type": "TEXT",
+                      "x": 89,
+                      "y": 3,
+                      "width": 31,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#B3261E"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/zero"
+                      },
+                      "characters": "0대",
+                      "fontSize": 20,
+                      "fontWeight": 700,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                },
+                {
+                  "name": "zero-bar",
+                  "type": "RECTANGLE",
+                  "x": 0,
+                  "y": 0,
+                  "width": 4,
+                  "height": 72,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#B3261E"
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/zero"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "StationRow",
+              "type": "INSTANCE",
+              "x": 0,
+              "y": 144,
+              "width": 390,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#D3DBD7"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/surface",
+                "strokes": "color/border"
+              },
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "StationRow",
+              "children": [
+                {
+                  "name": "info",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 12,
+                  "width": 315,
+                  "height": 48,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "name",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 154,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#18211D"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/text"
+                      },
+                      "characters": "104. 합정역 1번출구 앞",
+                      "fontSize": 16,
+                      "fontWeight": 400,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "rack",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 24,
+                      "width": 66,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#505C56"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/text-muted"
+                      },
+                      "characters": "거치대 13",
+                      "fontSize": 16,
+                      "fontWeight": 400,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                },
+                {
+                  "name": "count-group",
+                  "type": "FRAME",
+                  "x": 343,
+                  "y": 24,
+                  "width": 31,
+                  "height": 24,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "count",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 31,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#0A6B47"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/brand"
+                      },
+                      "characters": "5대",
+                      "fontSize": 20,
+                      "fontWeight": 700,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "StationRow",
+              "type": "INSTANCE",
+              "x": 0,
+              "y": 216,
+              "width": 390,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#D3DBD7"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/surface",
+                "strokes": "color/border"
+              },
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "StationRow",
+              "children": [
+                {
+                  "name": "info",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 12,
+                  "width": 315,
+                  "height": 48,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "name",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 154,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#18211D"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/text"
+                      },
+                      "characters": "105. 합정역 5번출구 앞",
+                      "fontSize": 16,
+                      "fontWeight": 400,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "rack",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 24,
+                      "width": 57,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#505C56"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/text-muted"
+                      },
+                      "characters": "거치대 5",
+                      "fontSize": 16,
+                      "fontWeight": 400,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                },
+                {
+                  "name": "count-group",
+                  "type": "FRAME",
+                  "x": 343,
+                  "y": 24,
+                  "width": 31,
+                  "height": 24,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "count",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 31,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#0A6B47"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/brand"
+                      },
+                      "characters": "4대",
+                      "fontSize": 20,
+                      "fontWeight": 700,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "StationRow",
+              "type": "INSTANCE",
+              "x": 0,
+              "y": 288,
+              "width": 390,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#D3DBD7"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/surface",
+                "strokes": "color/border"
+              },
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "StationRow",
+              "children": [
+                {
+                  "name": "info",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 12,
+                  "width": 315,
+                  "height": 48,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "name",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 154,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#18211D"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/text"
+                      },
+                      "characters": "106. 합정역 7번출구 앞",
+                      "fontSize": 16,
+                      "fontWeight": 400,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "rack",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 24,
+                      "width": 66,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#505C56"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/text-muted"
+                      },
+                      "characters": "거치대 12",
+                      "fontSize": 16,
+                      "fontWeight": 400,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                },
+                {
+                  "name": "count-group",
+                  "type": "FRAME",
+                  "x": 343,
+                  "y": 24,
+                  "width": 31,
+                  "height": 24,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "count",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 31,
+                      "height": 24,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#0A6B47"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/brand"
+                      },
+                      "characters": "6대",
+                      "fontSize": 20,
+                      "fontWeight": 700,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SourceNote",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 456,
+          "width": 390,
+          "height": 72,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#D3DBD7"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface",
+            "strokes": "color/border"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 0,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 16,
+          "paddingBottom": 16,
+          "component": "SourceNote",
+          "children": [
+            {
+              "name": "source",
+              "type": "TEXT",
+              "x": 16,
+              "y": 17,
+              "width": 358,
+              "height": 40,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#505C56"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              },
+              "characters": "출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)",
+              "fontSize": 13,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "Screens",
+      "name": "list/loading",
+      "type": "FRAME",
+      "x": 470,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "children": [
+        {
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#D3DBD7"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface",
+            "strokes": "color/border"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "component": "AppBar",
+          "children": [
+            {
+              "name": "title",
+              "type": "TEXT",
+              "x": 16,
+              "y": 16,
+              "width": 157,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#18211D"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              },
+              "characters": "따릉이 대여소 현황",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        },
+        {
+          "name": "StateMessage",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 56,
+          "width": 390,
+          "height": 88,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 16,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 32,
+          "paddingBottom": 32,
+          "component": "StateMessage",
+          "children": [
+            {
+              "name": "message",
+              "type": "TEXT",
+              "x": 148,
+              "y": 32,
+              "width": 94,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#505C56"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              },
+              "characters": "불러오는 중…",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        },
+        {
+          "name": "SkeletonList",
+          "type": "FRAME",
+          "x": 0,
+          "y": 144,
+          "width": 390,
+          "height": 360,
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "children": [
+            {
+              "name": "SkeletonRow",
+              "type": "INSTANCE",
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#D3DBD7"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/surface",
+                "strokes": "color/border"
+              },
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "SkeletonRow",
+              "children": [
+                {
+                  "name": "info",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 18,
+                  "width": 306,
+                  "height": 36,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "bone-name",
+                      "type": "RECTANGLE",
+                      "x": 0,
+                      "y": 0,
+                      "width": 180,
+                      "height": 16,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#D3DBD7"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/border"
+                      },
+                      "cornerRadius": 4
+                    },
+                    {
+                      "name": "bone-rack",
+                      "type": "RECTANGLE",
+                      "x": 0,
+                      "y": 24,
+                      "width": 100,
+                      "height": 12,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#D3DBD7"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/border"
+                      },
+                      "cornerRadius": 4
+                    }
+                  ]
+                },
+                {
+                  "name": "bone-count",
+                  "type": "RECTANGLE",
+                  "x": 334,
+                  "y": 26,
+                  "width": 40,
+                  "height": 20,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#D3DBD7"
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/border"
+                  },
+                  "cornerRadius": 4
+                }
+              ]
+            },
+            {
+              "name": "SkeletonRow",
+              "type": "INSTANCE",
+              "x": 0,
+              "y": 72,
+              "width": 390,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#D3DBD7"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/surface",
+                "strokes": "color/border"
+              },
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "SkeletonRow",
+              "children": [
+                {
+                  "name": "info",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 18,
+                  "width": 306,
+                  "height": 36,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "bone-name",
+                      "type": "RECTANGLE",
+                      "x": 0,
+                      "y": 0,
+                      "width": 180,
+                      "height": 16,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#D3DBD7"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/border"
+                      },
+                      "cornerRadius": 4
+                    },
+                    {
+                      "name": "bone-rack",
+                      "type": "RECTANGLE",
+                      "x": 0,
+                      "y": 24,
+                      "width": 100,
+                      "height": 12,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#D3DBD7"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/border"
+                      },
+                      "cornerRadius": 4
+                    }
+                  ]
+                },
+                {
+                  "name": "bone-count",
+                  "type": "RECTANGLE",
+                  "x": 334,
+                  "y": 26,
+                  "width": 40,
+                  "height": 20,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#D3DBD7"
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/border"
+                  },
+                  "cornerRadius": 4
+                }
+              ]
+            },
+            {
+              "name": "SkeletonRow",
+              "type": "INSTANCE",
+              "x": 0,
+              "y": 144,
+              "width": 390,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#D3DBD7"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/surface",
+                "strokes": "color/border"
+              },
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "SkeletonRow",
+              "children": [
+                {
+                  "name": "info",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 18,
+                  "width": 306,
+                  "height": 36,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "bone-name",
+                      "type": "RECTANGLE",
+                      "x": 0,
+                      "y": 0,
+                      "width": 180,
+                      "height": 16,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#D3DBD7"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/border"
+                      },
+                      "cornerRadius": 4
+                    },
+                    {
+                      "name": "bone-rack",
+                      "type": "RECTANGLE",
+                      "x": 0,
+                      "y": 24,
+                      "width": 100,
+                      "height": 12,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#D3DBD7"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/border"
+                      },
+                      "cornerRadius": 4
+                    }
+                  ]
+                },
+                {
+                  "name": "bone-count",
+                  "type": "RECTANGLE",
+                  "x": 334,
+                  "y": 26,
+                  "width": 40,
+                  "height": 20,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#D3DBD7"
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/border"
+                  },
+                  "cornerRadius": 4
+                }
+              ]
+            },
+            {
+              "name": "SkeletonRow",
+              "type": "INSTANCE",
+              "x": 0,
+              "y": 216,
+              "width": 390,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#D3DBD7"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/surface",
+                "strokes": "color/border"
+              },
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "SkeletonRow",
+              "children": [
+                {
+                  "name": "info",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 18,
+                  "width": 306,
+                  "height": 36,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "bone-name",
+                      "type": "RECTANGLE",
+                      "x": 0,
+                      "y": 0,
+                      "width": 180,
+                      "height": 16,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#D3DBD7"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/border"
+                      },
+                      "cornerRadius": 4
+                    },
+                    {
+                      "name": "bone-rack",
+                      "type": "RECTANGLE",
+                      "x": 0,
+                      "y": 24,
+                      "width": 100,
+                      "height": 12,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#D3DBD7"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/border"
+                      },
+                      "cornerRadius": 4
+                    }
+                  ]
+                },
+                {
+                  "name": "bone-count",
+                  "type": "RECTANGLE",
+                  "x": 334,
+                  "y": 26,
+                  "width": 40,
+                  "height": 20,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#D3DBD7"
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/border"
+                  },
+                  "cornerRadius": 4
+                }
+              ]
+            },
+            {
+              "name": "SkeletonRow",
+              "type": "INSTANCE",
+              "x": 0,
+              "y": 288,
+              "width": 390,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#D3DBD7"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/surface",
+                "strokes": "color/border"
+              },
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "SkeletonRow",
+              "children": [
+                {
+                  "name": "info",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 18,
+                  "width": 306,
+                  "height": 36,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "bone-name",
+                      "type": "RECTANGLE",
+                      "x": 0,
+                      "y": 0,
+                      "width": 180,
+                      "height": 16,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#D3DBD7"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/border"
+                      },
+                      "cornerRadius": 4
+                    },
+                    {
+                      "name": "bone-rack",
+                      "type": "RECTANGLE",
+                      "x": 0,
+                      "y": 24,
+                      "width": 100,
+                      "height": 12,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#D3DBD7"
+                        }
+                      ],
+                      "boundVariables": {
+                        "fills": "color/border"
+                      },
+                      "cornerRadius": 4
+                    }
+                  ]
+                },
+                {
+                  "name": "bone-count",
+                  "type": "RECTANGLE",
+                  "x": 334,
+                  "y": 26,
+                  "width": 40,
+                  "height": 20,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#D3DBD7"
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/border"
+                  },
+                  "cornerRadius": 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SourceNote",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 504,
+          "width": 390,
+          "height": 72,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#D3DBD7"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface",
+            "strokes": "color/border"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 0,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 16,
+          "paddingBottom": 16,
+          "component": "SourceNote",
+          "children": [
+            {
+              "name": "source",
+              "type": "TEXT",
+              "x": 16,
+              "y": 17,
+              "width": 358,
+              "height": 40,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#505C56"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              },
+              "characters": "출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)",
+              "fontSize": 13,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "Screens",
+      "name": "list/empty",
+      "type": "FRAME",
+      "x": 940,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "children": [
+        {
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#D3DBD7"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface",
+            "strokes": "color/border"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "component": "AppBar",
+          "children": [
+            {
+              "name": "title",
+              "type": "TEXT",
+              "x": 16,
+              "y": 16,
+              "width": 157,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#18211D"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              },
+              "characters": "따릉이 대여소 현황",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        },
+        {
+          "name": "StateMessage",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 56,
+          "width": 390,
+          "height": 148,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 16,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 32,
+          "paddingBottom": 32,
+          "component": "StateMessage",
+          "children": [
+            {
+              "name": "message",
+              "type": "TEXT",
+              "x": 118,
+              "y": 32,
+              "width": 155,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#18211D"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              },
+              "characters": "표시할 대여소가 없어요",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            },
+            {
+              "name": "Button",
+              "type": "INSTANCE",
+              "x": 140,
+              "y": 72,
+              "width": 111,
+              "height": 44,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#0A6B47"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/brand"
+              },
+              "cornerRadius": 8,
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 0,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "Button",
+              "children": [
+                {
+                  "name": "label",
+                  "type": "TEXT",
+                  "x": 24,
+                  "y": 10,
+                  "width": 63,
+                  "height": 24,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#FFFFFF"
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/on-brand"
+                  },
+                  "characters": "다시 시도",
+                  "fontSize": 16,
+                  "fontWeight": 700,
+                  "fontFamily": "Noto Sans KR"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SourceNote",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 204,
+          "width": 390,
+          "height": 72,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#D3DBD7"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface",
+            "strokes": "color/border"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 0,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 16,
+          "paddingBottom": 16,
+          "component": "SourceNote",
+          "children": [
+            {
+              "name": "source",
+              "type": "TEXT",
+              "x": 16,
+              "y": 17,
+              "width": 358,
+              "height": 40,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#505C56"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              },
+              "characters": "출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)",
+              "fontSize": 13,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "Screens",
+      "name": "list/error",
+      "type": "FRAME",
+      "x": 1410,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "children": [
+        {
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#D3DBD7"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface",
+            "strokes": "color/border"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "component": "AppBar",
+          "children": [
+            {
+              "name": "title",
+              "type": "TEXT",
+              "x": 16,
+              "y": 16,
+              "width": 157,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#18211D"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              },
+              "characters": "따릉이 대여소 현황",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        },
+        {
+          "name": "StateMessage",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 56,
+          "width": 390,
+          "height": 196,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 16,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 32,
+          "paddingBottom": 32,
+          "component": "StateMessage",
+          "children": [
+            {
+              "name": "icon/alert",
+              "type": "FRAME",
+              "x": 179,
+              "y": 32,
+              "width": 32,
+              "height": 32,
+              "children": [
+                {
+                  "name": "alert-path-1",
+                  "type": "VECTOR",
+                  "x": 3,
+                  "y": 3,
+                  "width": 26,
+                  "height": 26,
+                  "strokes": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#B3261E"
+                    }
+                  ],
+                  "boundVariables": {
+                    "strokes": "color/zero"
+                  }
+                },
+                {
+                  "name": "alert-path-2",
+                  "type": "VECTOR",
+                  "x": 16,
+                  "y": 9,
+                  "width": 0,
+                  "height": 9,
+                  "strokes": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#B3261E"
+                    }
+                  ],
+                  "boundVariables": {
+                    "strokes": "color/zero"
+                  }
+                },
+                {
+                  "name": "alert-path-3",
+                  "type": "VECTOR",
+                  "x": 16,
+                  "y": 23,
+                  "width": 0,
+                  "height": 1,
+                  "strokes": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#B3261E"
+                    }
+                  ],
+                  "boundVariables": {
+                    "strokes": "color/zero"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "message",
+              "type": "TEXT",
+              "x": 87,
+              "y": 80,
+              "width": 217,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#18211D"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              },
+              "characters": "대여소 정보를 불러오지 못했어요",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            },
+            {
+              "name": "Button",
+              "type": "INSTANCE",
+              "x": 140,
+              "y": 120,
+              "width": 111,
+              "height": 44,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#0A6B47"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/brand"
+              },
+              "cornerRadius": 8,
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 0,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "Button",
+              "children": [
+                {
+                  "name": "label",
+                  "type": "TEXT",
+                  "x": 24,
+                  "y": 10,
+                  "width": 63,
+                  "height": 24,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#FFFFFF"
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/on-brand"
+                  },
+                  "characters": "다시 시도",
+                  "fontSize": 16,
+                  "fontWeight": 700,
+                  "fontFamily": "Noto Sans KR"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SourceNote",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 252,
+          "width": 390,
+          "height": 72,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#D3DBD7"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface",
+            "strokes": "color/border"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 0,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 16,
+          "paddingBottom": 16,
+          "component": "SourceNote",
+          "children": [
+            {
+              "name": "source",
+              "type": "TEXT",
+              "x": 16,
+              "y": 17,
+              "width": 358,
+              "height": 40,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#505C56"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              },
+              "characters": "출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)",
+              "fontSize": 13,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "Screens",
+      "name": "detail/default",
+      "type": "FRAME",
+      "x": 1880,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "boundVariables": {
+        "fills": "color/surface"
+      },
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "children": [
+        {
+          "name": "AppBar",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#D3DBD7"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface",
+            "strokes": "color/border"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "component": "AppBar",
+          "children": [
+            {
+              "name": "back",
+              "type": "INSTANCE",
+              "x": 16,
+              "y": 6,
+              "width": 58,
+              "height": 44,
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 4,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "component": "BackButton",
+              "children": [
+                {
+                  "name": "icon/chevron-left",
+                  "type": "FRAME",
+                  "x": 0,
+                  "y": 10,
+                  "width": 24,
+                  "height": 24,
+                  "children": [
+                    {
+                      "name": "chevron-left-path-1",
+                      "type": "VECTOR",
+                      "x": 9,
+                      "y": 6,
+                      "width": 6,
+                      "height": 12,
+                      "strokes": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#0A6B47"
+                        }
+                      ],
+                      "boundVariables": {
+                        "strokes": "color/brand"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "label",
+                  "type": "TEXT",
+                  "x": 28,
+                  "y": 10,
+                  "width": 30,
+                  "height": 24,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#0A6B47"
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/brand"
+                  },
+                  "characters": "목록",
+                  "fontSize": 16,
+                  "fontWeight": 400,
+                  "fontFamily": "Noto Sans KR"
+                }
+              ]
+            },
+            {
+              "name": "title",
+              "type": "TEXT",
+              "x": 82,
+              "y": 16,
+              "width": 197,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#18211D"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              },
+              "characters": "104. 합정역 1번출구 앞",
+              "fontSize": 20,
+              "fontWeight": 700,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        },
+        {
+          "name": "BikeCount",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 56,
+          "width": 390,
+          "height": 160,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 4,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 32,
+          "paddingBottom": 32,
+          "component": "BikeCount",
+          "children": [
+            {
+              "name": "count-line",
+              "type": "FRAME",
+              "x": 16,
+              "y": 32,
+              "width": 81,
+              "height": 58,
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 4,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "children": [
+                {
+                  "name": "number",
+                  "type": "TEXT",
+                  "x": 0,
+                  "y": 0,
+                  "width": 29,
+                  "height": 58,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#0A6B47"
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/brand"
+                  },
+                  "characters": "5",
+                  "fontSize": 48,
+                  "fontWeight": 700,
+                  "fontFamily": "Noto Sans KR"
+                },
+                {
+                  "name": "label",
+                  "type": "TEXT",
+                  "x": 33,
+                  "y": 30,
+                  "width": 48,
+                  "height": 24,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#18211D"
+                    }
+                  ],
+                  "boundVariables": {
+                    "fills": "color/text"
+                  },
+                  "characters": "대 남음",
+                  "fontSize": 16,
+                  "fontWeight": 400,
+                  "fontFamily": "Noto Sans KR"
+                }
+              ]
+            },
+            {
+              "name": "sub",
+              "type": "TEXT",
+              "x": 16,
+              "y": 94,
+              "width": 99,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#505C56"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              },
+              "characters": "거치대 13개 중",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        },
+        {
+          "name": "InfoRow",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 216,
+          "width": 390,
+          "height": 56,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#D3DBD7"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface",
+            "strokes": "color/border"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 0,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 16,
+          "paddingBottom": 16,
+          "component": "InfoRow",
+          "children": [
+            {
+              "name": "label",
+              "type": "TEXT",
+              "x": 16,
+              "y": 16,
+              "width": 45,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#505C56"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              },
+              "characters": "거치대",
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            },
+            {
+              "name": "value",
+              "type": "TEXT",
+              "x": 333,
+              "y": 16,
+              "width": 41,
+              "height": 24,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#18211D"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text"
+              },
+              "characters": "13개",
+              "fontSize": 20,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        },
+        {
+          "name": "CoordText",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 272,
+          "width": 390,
+          "height": 40,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 0,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+          "paddingBottom": 8,
+          "component": "CoordText",
+          "children": [
+            {
+              "name": "coords",
+              "type": "TEXT",
+              "x": 16,
+              "y": 10,
+              "width": 226,
+              "height": 20,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#505C56"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              },
+              "characters": "위도 37.55073929 · 경도 126.91508484",
+              "fontSize": 13,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        },
+        {
+          "name": "SourceNote",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 312,
+          "width": 390,
+          "height": 72,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#FFFFFF"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#D3DBD7"
+            }
+          ],
+          "boundVariables": {
+            "fills": "color/surface",
+            "strokes": "color/border"
+          },
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 0,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 16,
+          "paddingBottom": 16,
+          "component": "SourceNote",
+          "children": [
+            {
+              "name": "source",
+              "type": "TEXT",
+              "x": 16,
+              "y": 17,
+              "width": 358,
+              "height": 40,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#505C56"
+                }
+              ],
+              "boundVariables": {
+                "fills": "color/text-muted"
+              },
+              "characters": "출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)",
+              "fontSize": 13,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "station-list": [
+    {
+      "region": "검색 입력창",
+      "priority": 1,
+      "height": 56,
+      "content": "대여소 이름·번호 검색 (예: 102, 합정역)"
+    },
+    {
+      "region": "기준 시각·새로고침",
+      "priority": 2,
+      "height": 48,
+      "content": "12시 39분 기준 · 아래로 당겨 새로고침"
+    },
+    {
+      "region": "오래된 데이터 경보 띠",
+      "priority": 3,
+      "height": 40,
+      "content": "(오래됐을 때만) 이 숫자는 12시 39분 기준이에요. 새로고침"
+    },
+    {
+      "region": "대여소 카드: 102",
+      "priority": 4,
+      "height": 96,
+      "content": "102. 망원역 1번출구 앞 · 자전거 5대 · 거치대 15 · 빈 거치대 약 10 (추정)"
+    },
+    {
+      "region": "대여소 카드: 103",
+      "priority": 5,
+      "height": 96,
+      "content": "103. 망원역 2번출구 앞 · 자전거 8대 · 거치대 14 · 빈 거치대 약 6 (추정)"
+    },
+    {
+      "region": "대여소 카드: 104",
+      "priority": 6,
+      "height": 96,
+      "content": "104. 합정역 1번출구 앞 · 자전거 4대 · 거치대 13 · 빈 거치대 약 9 (추정)"
+    },
+    {
+      "region": "대여소 카드: 105",
+      "priority": 7,
+      "height": 96,
+      "content": "105. 합정역 5번출구 앞 · 자전거 1대 · 거치대 5 · 빈 거치대 약 4 (추정)"
+    },
+    {
+      "region": "대여소 카드: 106",
+      "priority": 8,
+      "height": 96,
+      "content": "106. 합정역 7번출구 앞 · 자전거 7대 · 거치대 12 · 빈 거치대 약 5 (추정)"
+    },
+    {
+      "region": "출처 한 줄",
+      "priority": 9,
+      "height": 40,
+      "content": "서울특별시, 서울 열린데이터광장 · 정보 보기"
+    }
+  ],
+  "station-detail": [
+    {
+      "region": "상단 바",
+      "priority": 4,
+      "height": 56,
+      "content": "< 목록 · 104. 합정역 1번출구 앞"
+    },
+    {
+      "region": "기준 시각",
+      "priority": 3,
+      "height": 40,
+      "content": "12시 39분 기준"
+    },
+    {
+      "region": "자전거 수",
+      "priority": 1,
+      "height": 120,
+      "content": "남은 자전거 4대 / 거치대 13"
+    },
+    {
+      "region": "빈 거치대 추정",
+      "priority": 2,
+      "height": 80,
+      "content": "빈 거치대 약 9 (13 − 4로 계산한 추정값, API 값 아님)"
+    },
+    {
+      "region": "거치율",
+      "priority": 5,
+      "height": 64,
+      "content": "거치율 31%"
+    },
+    {
+      "region": "위치",
+      "priority": 6,
+      "height": 80,
+      "content": "위도·경도 (data/stations.json의 값) · 합정역 1번출구 앞"
+    },
+    {
+      "region": "길찾기 버튼",
+      "priority": 7,
+      "height": 56,
+      "content": "지도 앱으로 길찾기"
+    }
+  ],
+  "about": [
+    {
+      "region": "상단 바",
+      "priority": 3,
+      "height": 56,
+      "content": "< 정보·출처"
+    },
+    {
+      "region": "데이터 출처",
+      "priority": 1,
+      "height": 120,
+      "content": "서울특별시, 서울 열린데이터광장 · 공공누리 제1유형(출처표시)"
+    },
+    {
+      "region": "기준 시각 설명",
+      "priority": 2,
+      "height": 120,
+      "content": "응답에 갱신 시각이 없어 앱이 받은 시각을 기준으로 표시해요."
+    },
+    {
+      "region": "추정값 설명",
+      "priority": 4,
+      "height": 96,
+      "content": "빈 거치대 = 거치대 수 − 남은 자전거 수 (추정)"
+    }
+  ]
+}

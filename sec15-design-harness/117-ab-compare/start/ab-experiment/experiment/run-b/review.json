@@ -1,0 +1,122 @@
+{
+  "reviewer": null,
+  "checklist": [
+    {
+      "id": "hierarchy",
+      "question": "와이어프레임 우선순위 1번 영역이 실제로 가장 먼저 눈에 들어오는가",
+      "suggested": 2,
+      "score": null,
+      "note": "와이어프레임 파일이 폴더에 없어 PRD 목표(남은 자전거 수)를 1순위로 가정. list-default: 각 행 오른쪽 '1대/5대' 굵은 초록 숫자가 행에서 가장 강하고, 0대 행(103)은 빨간 배경·좌측 바·'자전거 없음' 배지로 즉시 구분됨. detail-default: 좌상단 큰 '5 대 남음'이 화면에서 가장 큰 요소."
+    },
+    {
+      "id": "primary-action",
+      "question": "화면마다 주요 행동이 하나로 분명한가",
+      "suggested": 1,
+      "score": null,
+      "note": "list-empty·list-error는 '다시 시도' 버튼 하나로 분명함. list-default는 주 행동(행을 눌러 상세 보기)이 화살표·눌림 표시 없이 텍스트 행으로만 보여 누를 수 있는지 알기 어려움. detail-default는 행동이 '< 목록' 뿐이라 문제는 없음."
+    },
+    {
+      "id": "status",
+      "question": "시스템 상태가 보이는가: 로딩·빈·오류가 무엇이 일어났고 무엇을 하면 되는지 말하는가 (Nielsen 1, 9)",
+      "suggested": 1,
+      "score": null,
+      "note": "list-loading: '불러오는 중…' 문구와 행 모양 스켈레톤으로 상태가 분명함. list-error: 아이콘과 '대여소 정보를 불러오지 못했어요'는 있으나 원인(네트워크 등)이 없음. list-empty: '표시할 대여소가 없어요'만 있고 왜 없는지 설명이 없는데 '다시 시도'만 줘서 에러와 구분되지 않음. 모든 화면에 데이터 기준 시각이 없어 숫자가 언제 값인지 알 수 없음."
+    },
+    {
+      "id": "real-world",
+      "question": "사용자 말로 쓰였는가: 실제 대여소명·단위(대, 개) 그대로인가 (Nielsen 2)",
+      "suggested": 1,
+      "score": null,
+      "note": "list-default 대여소명은 실제 이름(망원역 1번출구 앞 등)이고 '1대' 단위가 맞음. 그러나 이름 앞 '102.' 같은 내부 번호가 그대로 붙어 있고, 목록의 '거치대 15'는 단위(개)가 빠짐. detail-default의 '위도 37.55073929 · 경도 126.91508484'는 사용자 말이 아닌 원시 데이터."
+    },
+    {
+      "id": "consistency",
+      "question": "같은 요소가 화면마다 같은 모양·위치인가 (Nielsen 4)",
+      "suggested": 1,
+      "score": null,
+      "note": "상단 헤더, 구분선, 하단 출처, 초록 '다시 시도' 버튼은 화면 간 일관됨. 거치대 표기가 list-default '거치대 15'(단위 없음)와 detail-default '거치대 13개 중'·'13개'로 다름. 숫자 색 규칙도 list는 1대를 초록으로, 0대만 빨강으로 처리하는데 detail에서 0대 상태는 화면이 없어 확인 불가."
+    },
+    {
+      "id": "control",
+      "question": "되돌아가기·다시 시도가 항상 가능한가 (Nielsen 3)",
+      "suggested": 1,
+      "score": null,
+      "note": "detail-default 좌상단 '< 목록'으로 되돌아가기 가능. list-empty·list-error에 '다시 시도' 있음. list-default(정상 목록)에는 새로고침·다시 불러오기 수단이 보이지 않아, 숫자가 오래된 것 같을 때 사용자가 할 수 있는 일이 없음."
+    },
+    {
+      "id": "minimal",
+      "question": "필요 없는 장식·정보가 없는가 (Nielsen 8)",
+      "suggested": 1,
+      "score": null,
+      "note": "장식은 거의 없음. 다만 detail-default에서 거치대 수가 '거치대 13개 중'과 아래 '거치대 13개' 행으로 두 번 나옴. 소수점 8자리 위도·경도는 지도가 범위 밖인 화면에서 쓸 데가 없는 정보. list-default 0대 행은 배경색·좌측 바·배지·빨간 숫자 네 가지 신호를 겹쳐 씀."
+    },
+    {
+      "id": "tone",
+      "question": "카피 톤이 copy.json의 tone과 맞는가",
+      "suggested": 1,
+      "score": null,
+      "note": "폴더에 copy.json이 없어 기준 tone과 대조할 수 없음. 화면 문구만 보면 '없어요', '못했어요' 등 해요체로 통일돼 있고 딱딱한 시스템 문구는 없음. 기준 미확인이라 중간값."
+    },
+    {
+      "id": "not-generic",
+      "question": "기본값 같은 인상인가: 똑같은 둥근 카드+회색 그림자, 대문자 라벨, 의미 없는 숫자 표식 등이 없는가",
+      "suggested": 2,
+      "score": null,
+      "note": "카드·그림자·대문자 라벨 없이 구분선 리스트와 우측 정렬 숫자로 구성됨. 숫자 표식(102. 등)은 장식이 아닌 대여소 번호. 다만 전반적으로 무난한 시스템 리스트 인상."
+    },
+    {
+      "id": "brand",
+      "question": "서비스 성격(공공자전거, 출근길)에 맞는 인상인가",
+      "suggested": 1,
+      "score": null,
+      "note": "초록 포인트 색이 공공자전거 인상과 맞고 정보 밀도 낮은 실용적 구성은 출근길 확인에 어울림. 그러나 자전거·따릉이를 떠올리게 하는 요소는 텍스트 제목뿐이라 어느 공공데이터 목록이어도 같아 보임."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "High",
+      "where": "전체 화면 (list-default, detail-default)",
+      "issue": "데이터 기준 시각이 어디에도 없다. 스냅샷 데이터인데 '5대 남음'이 언제 값인지 알 수 없어, 출근길에 이 숫자를 믿고 대여소로 가도 되는지 판단할 수 없다."
+    },
+    {
+      "severity": "Medium",
+      "where": "list-default 102 행 '1대'",
+      "issue": "1대 남은 대여소가 5·6대와 같은 초록으로 표시돼 '곧 없어질 수 있음'이 드러나지 않는다. 남았는지 빠르게 판단할 때 0대와 넉넉함 사이 위험 구간을 놓치게 된다."
+    },
+    {
+      "severity": "Medium",
+      "where": "list-default 각 행",
+      "issue": "행에 화살표나 눌림 단서가 없어 상세 화면(F2)으로 들어갈 수 있다는 것을 알기 어렵다."
+    },
+    {
+      "severity": "Medium",
+      "where": "list-empty",
+      "issue": "빈 상태가 원인 설명 없이 '다시 시도'만 줘서 에러 상태와 사실상 같은 화면이 된다. 사용자는 데이터가 원래 없는 건지 실패한 건지 구분하지 못한다."
+    },
+    {
+      "severity": "Medium",
+      "where": "detail (0대 대여소)",
+      "issue": "0대 대여소의 상세 화면이 제공되지 않아, 목록에서 강조한 0대 상태가 상세에서도 같은 방식으로 경고되는지 검증할 수 없다."
+    },
+    {
+      "severity": "Nit",
+      "where": "detail-default '거치대 13개 중' / '거치대 13개' 행",
+      "issue": "같은 거치대 수가 한 화면에 두 번 나와 정보가 중복된다."
+    },
+    {
+      "severity": "Nit",
+      "where": "detail-default 위도·경도 줄",
+      "issue": "소수점 8자리 원시 좌표는 지도·길찾기가 없는 화면에서 사용자가 쓸 수 없는 숫자다."
+    },
+    {
+      "severity": "Nit",
+      "where": "list-default 행 보조 텍스트",
+      "issue": "'거치대 15'에 단위가 없어 detail의 '13개' 표기와 어긋난다."
+    },
+    {
+      "severity": "Nit",
+      "where": "모든 화면 하단 출처",
+      "issue": "'제1유형'이 '제1유 / 형'으로 단어 중간에서 줄바꿈된다."
+    }
+  ]
+}

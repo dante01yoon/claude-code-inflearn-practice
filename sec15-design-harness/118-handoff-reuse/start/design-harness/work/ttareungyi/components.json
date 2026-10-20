@@ -1,0 +1,267 @@
+{
+  "components": [
+    {
+      "name": "AppBar",
+      "interactive": false,
+      "tokens": {
+        "fill": "color.surface",
+        "height": "size.header",
+        "text": "font-size.title",
+        "textColor": "color.text",
+        "divider": "color.border",
+        "paddingX": "space.4"
+      }
+    },
+    {
+      "name": "BackButton",
+      "interactive": true,
+      "note": "'목록' 글자 + 왼쪽 화살표. detail 헤더 왼쪽.",
+      "tokens": {
+        "minSize": "size.touch",
+        "color": "color.brand",
+        "text": "font-size.body"
+      }
+    },
+    {
+      "name": "StationRow",
+      "interactive": true,
+      "variants": [
+        "available",
+        "low",
+        "zero"
+      ],
+      "note": "zero: 배경 zero-soft + 왼쪽 막대 + ZeroTag + 굵은 '0대'. 색만으로 구분하지 않음.",
+      "tokens": {
+        "minSize": "size.touch",
+        "height": "size.row",
+        "paddingX": "space.4",
+        "gap": "space.3",
+        "name": "font-size.body",
+        "nameColor": "color.text",
+        "count": "font-size.title",
+        "countWeight": "font-weight.bold",
+        "countAvailable": "color.brand",
+        "countZero": "color.zero",
+        "rack": "color.text-muted",
+        "divider": "color.border",
+        "pressed": "color.brand-soft",
+        "zeroFill": "color.zero-soft",
+        "zeroBar": "color.zero",
+        "zeroBarWidth": "size.zero-bar",
+        "chevron": "color.text-muted"
+      }
+    },
+    {
+      "name": "ZeroTag",
+      "interactive": false,
+      "note": "'자전거 없음' 글자 태그. 테두리 1px zero.",
+      "tokens": {
+        "text": "font-size.caption",
+        "weight": "font-weight.bold",
+        "color": "color.zero",
+        "border": "color.zero",
+        "radius": "radius.sm",
+        "paddingX": "space.2"
+      }
+    },
+    {
+      "name": "SkeletonRow",
+      "interactive": false,
+      "note": "로딩 상태에 5개. 글자 없음.",
+      "tokens": {
+        "height": "size.row",
+        "fill": "color.border",
+        "radius": "radius.sm",
+        "paddingX": "space.4"
+      }
+    },
+    {
+      "name": "StateMessage",
+      "interactive": false,
+      "variants": [
+        "loading",
+        "empty",
+        "error"
+      ],
+      "note": "list 안 상태 영역. empty·error는 아래 Button.",
+      "tokens": {
+        "text": "font-size.body",
+        "color": "color.text",
+        "muted": "color.text-muted",
+        "errorIcon": "color.zero",
+        "gap": "space.4",
+        "paddingY": "space.8"
+      }
+    },
+    {
+      "name": "Button",
+      "interactive": true,
+      "variants": [
+        "primary"
+      ],
+      "tokens": {
+        "minSize": "size.touch",
+        "fill": "color.brand",
+        "text": "color.on-brand",
+        "fontSize": "font-size.body",
+        "weight": "font-weight.bold",
+        "radius": "radius.md",
+        "paddingX": "space.6"
+      }
+    },
+    {
+      "name": "BikeCount",
+      "interactive": false,
+      "variants": [
+        "available",
+        "zero"
+      ],
+      "note": "detail 최상위. 큰 숫자 + '대 남음'. zero는 '0대' + ZeroTag.",
+      "tokens": {
+        "number": "font-size.display",
+        "weight": "font-weight.bold",
+        "available": "color.brand",
+        "zero": "color.zero",
+        "label": "font-size.body",
+        "labelColor": "color.text",
+        "lineHeight": "line-height.tight"
+      }
+    },
+    {
+      "name": "InfoRow",
+      "interactive": false,
+      "note": "detail 거치대 수. 라벨-값 한 줄.",
+      "tokens": {
+        "label": "font-size.body",
+        "labelColor": "color.text-muted",
+        "value": "font-size.title",
+        "valueColor": "color.text",
+        "divider": "color.border",
+        "paddingY": "space.4"
+      }
+    },
+    {
+      "name": "CoordText",
+      "interactive": false,
+      "note": "위·경도. 가장 낮은 위계.",
+      "tokens": {
+        "text": "font-size.caption",
+        "color": "color.text-muted",
+        "weight": "font-weight.regular"
+      }
+    },
+    {
+      "name": "SourceNote",
+      "interactive": false,
+      "note": "화면 맨 끝 출처표시.",
+      "tokens": {
+        "text": "font-size.caption",
+        "color": "color.text-muted",
+        "divider": "color.border",
+        "paddingY": "space.4"
+      }
+    },
+    {
+      "name": "SummaryCard",
+      "interactive": false,
+      "variants": [
+        "default",
+        "zero"
+      ],
+      "tokens": {
+        "fill": "color.surface-muted",
+        "radius": "radius.lg",
+        "height": "size.summary",
+        "label": "font-size.caption",
+        "value": "font-size.title"
+      }
+    },
+    {
+      "name": "LowTag",
+      "interactive": false,
+      "tokens": {
+        "fill": "color.low-soft",
+        "text": "color.low",
+        "radius": "radius.sm"
+      }
+    },
+    {
+      "name": "Freshness",
+      "interactive": false,
+      "tokens": {
+        "text": "font-size.caption",
+        "color": "color.text-muted"
+      }
+    },
+    {
+      "name": "MapPin",
+      "interactive": true,
+      "note": "숫자 말풍선 핀. 터치 영역 44. available/low/zero/selected",
+      "tokens": {
+        "minSize": "size.touch"
+      }
+    },
+    {
+      "name": "SearchBar",
+      "interactive": true,
+      "note": "플로팅 검색바 48, pill",
+      "tokens": {
+        "minSize": "size.touch"
+      }
+    },
+    {
+      "name": "ModeToggle",
+      "interactive": true,
+      "note": "대여/반납 전환, 높이 44",
+      "tokens": {
+        "minSize": "size.touch"
+      }
+    },
+    {
+      "name": "MapButton",
+      "interactive": true,
+      "note": "48 원형, 내 위치·새로고침",
+      "tokens": {
+        "minSize": "size.touch"
+      }
+    },
+    {
+      "name": "SheetHandle",
+      "interactive": false,
+      "note": "36×4"
+    },
+    {
+      "name": "StaleBanner",
+      "interactive": false,
+      "note": "새로고침 실패 안내 + 다시 시도"
+    },
+    {
+      "name": "StatusBar",
+      "interactive": false,
+      "note": "기기 상태 표시줄 자리"
+    },
+    {
+      "name": "HomeIndicator",
+      "interactive": false,
+      "note": "134×5 바, 하단 안전 영역 34"
+    },
+    {
+      "name": "BigStat",
+      "interactive": false,
+      "note": "한 화면 한 목표: 모드에 맞는 핵심 숫자 하나를 40으로"
+    },
+    {
+      "name": "Legend",
+      "interactive": false,
+      "note": "핀 색 범례 한 줄"
+    },
+    {
+      "name": "BottomCTA",
+      "interactive": true,
+      "note": "풀폭 52, 화면당 하나",
+      "tokens": {
+        "minSize": "size.touch"
+      }
+    }
+  ]
+}

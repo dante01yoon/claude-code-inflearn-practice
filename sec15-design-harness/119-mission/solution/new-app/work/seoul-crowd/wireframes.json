@@ -1,0 +1,23 @@
+{
+  "place-list": [
+    { "region": "제목줄", "priority": 5, "height": 56, "content": "서울 주요 장소 혼잡" },
+    { "region": "검색창", "priority": 2, "height": 56, "content": "장소 이름을 검색해보세요" },
+    { "region": "총 개수", "priority": 6, "height": 40, "content": "총 121곳" },
+    { "region": "행: 광화문·덕수궁", "priority": 1, "height": 88, "content": "여유 | 기준 21:30 | 14,000~16,000명" },
+    { "region": "행: 경복궁", "priority": 3, "height": 76, "content": "데이터 없음 (인증 범위 밖)" },
+    { "region": "행: 명동 관광특구", "priority": 4, "height": 76, "content": "데이터 없음 (인증 범위 밖)" },
+    { "region": "행: 강남역", "priority": 7, "height": 76, "content": "데이터 없음 (인증 범위 밖)" },
+    { "region": "상태 안내(불러오는 중/오류/검색 결과 없음)", "priority": 8, "height": 120, "content": "불러오는 중 / 불러오지 못했어요 다시 시도 / 검색 결과 없음" },
+    { "region": "출처", "priority": 9, "height": 64, "content": "자료: 서울특별시 서울 열린데이터광장" }
+  ],
+  "place-detail": [
+    { "region": "제목줄", "priority": 8, "height": 56, "content": "← 광화문·덕수궁" },
+    { "region": "현재 혼잡 단계 + 인구 범위", "priority": 1, "height": 96, "content": "여유 | 14,000~16,000명 | 기준 2026-10-20 21:30" },
+    { "region": "안내 문구", "priority": 2, "height": 72, "content": "사람이 몰려있을 가능성이 낮고 붐빔은 거의 느껴지지 않아요." },
+    { "region": "예측 12시간", "priority": 3, "height": 224, "content": "기준 21:30, 첫 예측 23:00(90분 뒤). 10:00만 보통 32,000~34,000명" },
+    { "region": "예측 미제공 안내", "priority": 4, "height": 56, "content": "예측을 제공하지 않는 장소예요" },
+    { "region": "방문자 구성", "priority": 5, "height": 176, "content": "남 53.4% 여 46.6% | 거주 26.2% 비거주 73.8% | 연령대 8구간(%): 10세 미만 0.6 · 10대 3.2 · 20대 20.5 · 30대 23.5 · 40대 22.3 · 50대 18.3 · 60대 8.2 · 70대 이상 3.5" },
+    { "region": "상태 안내(불러오는 중/오류/데이터 없음)", "priority": 6, "height": 56, "content": "불러오는 중 / 불러오지 못했어요 / 데이터 없음" },
+    { "region": "데이터 한계와 출처", "priority": 7, "height": 108, "content": "단기체류 외국인 제외. 자료: 서울특별시 서울 열린데이터광장" }
+  ]
+}

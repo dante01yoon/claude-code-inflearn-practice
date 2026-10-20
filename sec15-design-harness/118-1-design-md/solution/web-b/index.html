@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>따릉이 대여소 현황</title>
+<style>
+  :root {
+    /* DESIGN.md semantic 토큰 */
+    --color-brand: #0A6B47;
+    --color-brand-soft: #E8F3EE;
+    --color-on-brand: #FFFFFF;
+    --color-zero: #B3261E;
+    --color-zero-soft: #FDEEEC;
+    --color-text: #191F28;
+    --color-text-muted: #4E5968;
+    --color-surface: #FFFFFF;
+    --color-border: #E5E8EB;
+    --color-low: #8A4B00;
+    --color-low-soft: #FFF3E0;
+    --color-surface-muted: #F2F4F6;
+
+    --font-base: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+    --font-size-caption: 13px;
+    --font-size-sub: 15px;
+    --font-size-body: 17px;
+    --font-size-title: 22px;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+    --line-height-body: 1.5;
+    --line-height-tight: 1.3;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+
+    --size-header: 56px;
+    --size-row: 72px;
+    --size-zero-bar: 4px;
+    --size-summary: 64px;
+
+    --radius-sm: 4px;
+    --radius-lg: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-base);
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-body);
+  }
+
+  .app { max-width: 480px; margin: 0 auto; }
+
+  /* AppBar */
+  .app-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    height: var(--size-header);
+    padding: 0 var(--space-4);
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .app-bar h1 {
+    font-size: var(--font-size-title);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    color: var(--color-text);
+  }
+
+  /* Freshness */
+  .freshness {
+    padding: var(--space-3) var(--space-4) 0;
+    font-size: var(--font-size-caption);
+    color: var(--color-text-muted);
+  }
+
+  /* SummaryCard */
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4) var(--space-4);
+  }
+  .summary-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: var(--size-summary);
+    padding: 0 var(--space-3);
+    background: var(--color-surface-muted);
+    border-radius: var(--radius-lg);
+  }
+  .summary-card dt {
+    font-size: var(--font-size-caption);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-tight);
+  }
+  .summary-card dd {
+    font-size: var(--font-size-title);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    color: var(--color-text);
+  }
+  .summary-card.zero dd { color: var(--color-zero); }
+
+  /* 목록 머리 */
+  .list-head {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sub);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* StationRow */
+  .station-list { list-style: none; }
+  .station-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--size-row);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .station-row.zero { background: var(--color-zero-soft); }
+  .station-row.zero::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--size-zero-bar);
+    background: var(--color-zero);
+  }
+  .station-main { flex: 1; min-width: 0; }
+  .station-name {
+    font-size: var(--font-size-body);
+    color: var(--color-text);
+    line-height: var(--line-height-tight);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .station-sub {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+  }
+  .station-rack {
+    font-size: var(--font-size-sub);
+    color: var(--color-text-muted);
+  }
+  .station-count {
+    flex-shrink: 0;
+    font-size: var(--font-size-title);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    color: var(--color-brand);
+  }
+  .station-row.zero .station-count { color: var(--color-zero); }
+
+  /* ZeroTag · LowTag */
+  .tag {
+    display: inline-block;
+    padding: 0 var(--space-2);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-body);
+    border-radius: var(--radius-sm);
+  }
+  .zero-tag {
+    color: var(--color-zero);
+    border: 1px solid var(--color-zero);
+  }
+  .low-tag {
+    color: var(--color-low);
+    background: var(--color-low-soft);
+  }
+
+  /* SourceNote */
+  .source-note {
+    padding: var(--space-4);
+    font-size: var(--font-size-caption);
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+  }
+  .station-list + .source-note { border-top: 0; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="app-bar">
+    <h1>따릉이 대여소 현황</h1>
+  </header>
+
+  <main>
+    <p class="freshness" id="freshness"></p>
+
+    <dl class="summary">
+      <div class="summary-card">
+        <dt>자전거 있는 곳</dt>
+        <dd id="sum-available"></dd>
+      </div>
+      <div class="summary-card">
+        <dt>남은 자전거</dt>
+        <dd id="sum-bikes"></dd>
+      </div>
+      <div class="summary-card zero">
+        <dt>자전거 없는 곳</dt>
+        <dd id="sum-zero"></dd>
+      </div>
+    </dl>
+
+    <h2 class="list-head" id="list-count"></h2>
+    <ul class="station-list" id="station-list"></ul>
+
+    <footer class="source-note">출처: 서울특별시 OA-15493, 공공누리 제1유형</footer>
+  </main>
+</div>
+
+<script>
+  // data/stations.json 스냅샷. file://로 열어도 보이도록 그대로 넣었다.
+  const DATA = {
+    fetchedAt: "2026-10-19T22:22:54.796431+00:00",
+    stations: [
+      { stationId: "ST-4", stationName: "102. 망원역 1번출구 앞", parkingBikeTotCnt: 16, rackTotCnt: 15 },
+      { stationId: "ST-5", stationName: "103. 망원역 2번출구 앞", parkingBikeTotCnt: 6, rackTotCnt: 14 },
+      { stationId: "ST-6", stationName: "104. 합정역 1번출구 앞", parkingBikeTotCnt: 0, rackTotCnt: 13 },
+      { stationId: "ST-7", stationName: "105. 합정역 5번출구 앞", parkingBikeTotCnt: 0, rackTotCnt: 5 },
+      { stationId: "ST-8", stationName: "106. 합정역 7번출구 앞", parkingBikeTotCnt: 1, rackTotCnt: 12 },
+      { stationId: "ST-9", stationName: "107. 수협 연남동지점", parkingBikeTotCnt: 0, rackTotCnt: 10 },
+      { stationId: "ST-10", stationName: "108. 서교동 사거리", parkingBikeTotCnt: 0, rackTotCnt: 12 },
+      { stationId: "ST-339", stationName: "181. 망원초록길 입구", parkingBikeTotCnt: 7, rackTotCnt: 15 },
+      { stationId: "ST-340", stationName: "182. 망원2빗물펌프장 앞", parkingBikeTotCnt: 5, rackTotCnt: 9 },
+      { stationId: "ST-342", stationName: "184.망원우체국사거리 인근", parkingBikeTotCnt: 19, rackTotCnt: 8 },
+      { stationId: "ST-2156", stationName: "497.합정동주민센터 앞", parkingBikeTotCnt: 0, rackTotCnt: 25 },
+      { stationId: "ST-2167", stationName: "3009. 홍대입구역 사거리", parkingBikeTotCnt: 0, rackTotCnt: 20 },
+      { stationId: "ST-2531", stationName: "4207. 아만티호텔 앞", parkingBikeTotCnt: 8, rackTotCnt: 10 },
+      { stationId: "ST-2532", stationName: "4208. 스타벅스(동교동) 앞", parkingBikeTotCnt: 0, rackTotCnt: 10 },
+      { stationId: "ST-2534", stationName: "4211. 시석빌딩 앞", parkingBikeTotCnt: 0, rackTotCnt: 8 },
+      { stationId: "ST-2874", stationName: "4216. 망원정 앞", parkingBikeTotCnt: 12, rackTotCnt: 10 },
+      { stationId: "ST-3017", stationName: "4244. 당인리발전소 공원 앞", parkingBikeTotCnt: 24, rackTotCnt: 10 }
+    ]
+  };
+
+  const LOW_MAX = 2; // 1~2대는 '얼마 없음'
+
+  function formatFreshness(iso) {
+    const parts = new Intl.DateTimeFormat("ko-KR", {
+      timeZone: "Asia/Seoul", month: "numeric", day: "numeric",
+      hour: "numeric", minute: "2-digit", hour12: true
+    }).formatToParts(new Date(iso));
+    const get = (type) => parts.find((p) => p.type === type).value;
+    return `${get("month")}월 ${get("day")}일 ${get("dayPeriod")} ${get("hour")}:${get("minute")} 기준`;
+  }
+
+  function el(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function renderRow(s) {
+    const bikes = s.parkingBikeTotCnt;
+    const isZero = bikes === 0;
+    const isLow = bikes > 0 && bikes <= LOW_MAX;
+
+    const row = el("li", "station-row" + (isZero ? " zero" : isLow ? " low" : ""));
+    const main = el("div", "station-main");
+    main.append(el("p", "station-name", s.stationName));
+
+    const sub = el("div", "station-sub");
+    if (isZero) sub.append(el("span", "tag zero-tag", "자전거 없음"));
+    if (isLow) sub.append(el("span", "tag low-tag", "얼마 없음"));
+    sub.append(el("span", "station-rack", `거치대 ${s.rackTotCnt}개`));
+    main.append(sub);
+
+    row.append(main, el("span", "station-count", `${bikes}대`));
+    return row;
+  }
+
+  function render({ fetchedAt, stations }) {
+    const zero = stations.filter((s) => s.parkingBikeTotCnt === 0).length;
+    const bikes = stations.reduce((sum, s) => sum + s.parkingBikeTotCnt, 0);
+
+    document.getElementById("freshness").textContent = formatFreshness(fetchedAt);
+    document.getElementById("sum-available").textContent = `${stations.length - zero}곳`;
+    document.getElementById("sum-bikes").textContent = `${bikes}대`;
+    document.getElementById("sum-zero").textContent = `${zero}곳`;
+    document.getElementById("list-count").textContent = `대여소 ${stations.length}곳`;
+    document.getElementById("station-list").replaceChildren(...stations.map(renderRow));
+  }
+
+  render(DATA);
+</script>
+</body>
+</html>

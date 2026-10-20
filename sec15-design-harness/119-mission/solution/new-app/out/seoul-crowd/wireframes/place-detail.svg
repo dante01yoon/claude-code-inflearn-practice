@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<rect width="100%" height="100%" fill="#FFF"/>
+<rect x="8" y="4" width="374" height="48" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="26" font-size="13" font-family="sans-serif" fill="#111">8. 제목줄</text>
+<text x="20" y="46" font-size="12" font-family="sans-serif" fill="#555">← 광화문·덕수궁</text>
+<rect x="8" y="60" width="374" height="88" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="5"/>
+<text x="20" y="82" font-size="13" font-family="sans-serif" fill="#111">1. 현재 혼잡 단계 + 인구 범위</text>
+<text x="20" y="102" font-size="12" font-family="sans-serif" fill="#555">여유 | 14,000~16,000명 | 기준 2026-10-20 21:30</text>
+<rect x="8" y="156" width="374" height="64" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="4"/>
+<text x="20" y="178" font-size="13" font-family="sans-serif" fill="#111">2. 안내 문구</text>
+<text x="20" y="198" font-size="12" font-family="sans-serif" fill="#555">사람이 몰려있을 가능성이 낮고 붐빔은 거의 느껴지지 않아요.</text>
+<rect x="8" y="228" width="374" height="216" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="3"/>
+<text x="20" y="250" font-size="13" font-family="sans-serif" fill="#111">3. 예측 12시간</text>
+<text x="20" y="270" font-size="12" font-family="sans-serif" fill="#555">기준 21:30, 첫 예측 23:00(90분 뒤). 10:00만 보통 32,000~34</text>
+<rect x="8" y="452" width="374" height="48" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="2"/>
+<text x="20" y="474" font-size="13" font-family="sans-serif" fill="#111">4. 예측 미제공 안내</text>
+<text x="20" y="494" font-size="12" font-family="sans-serif" fill="#555">예측을 제공하지 않는 장소예요</text>
+<rect x="8" y="508" width="374" height="168" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="530" font-size="13" font-family="sans-serif" fill="#111">5. 방문자 구성</text>
+<text x="20" y="550" font-size="12" font-family="sans-serif" fill="#555">남 53.4% 여 46.6% | 거주 26.2% 비거주 73.8% | 연령대 8구간(%</text>
+<rect x="8" y="684" width="374" height="48" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="706" font-size="13" font-family="sans-serif" fill="#111">6. 상태 안내(불러오는 중/오류/데이터 없음)</text>
+<text x="20" y="726" font-size="12" font-family="sans-serif" fill="#555">불러오는 중 / 불러오지 못했어요 / 데이터 없음</text>
+<rect x="8" y="740" width="374" height="100" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="762" font-size="13" font-family="sans-serif" fill="#111">7. 데이터 한계와 출처</text>
+<text x="20" y="782" font-size="12" font-family="sans-serif" fill="#555">단기체류 외국인 제외. 자료: 서울특별시 서울 열린데이터광장</text>
+
+</svg>

@@ -1,0 +1,66 @@
+{
+  "list": [
+    {
+      "region": "헤더",
+      "priority": 4,
+      "height": 64,
+      "content": "따릉이 대여소 현황"
+    },
+    {
+      "region": "대여소 행 목록",
+      "priority": 1,
+      "height": 448,
+      "content": "102. 망원역 1번출구 앞 · 1대 / 거치대 15 (행 탭 시 상세) · 5곳"
+    },
+    {
+      "region": "0대 강조 행",
+      "priority": 2,
+      "height": 72,
+      "content": "103. 망원역 2번출구 앞 · 0대 / 거치대 14 · 자전거 없음 표시"
+    },
+    {
+      "region": "상태 영역(로딩·빈·에러)",
+      "priority": 3,
+      "height": 144,
+      "content": "로딩: 행 스켈레톤 5개 / 빈: 표시할 대여소가 없어요 + 다시 시도 / 에러: 대여소 정보를 불러오지 못했어요 + 다시 시도"
+    },
+    {
+      "region": "출처표시",
+      "priority": 5,
+      "height": 64,
+      "content": "출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)"
+    }
+  ],
+  "detail": [
+    {
+      "region": "헤더",
+      "priority": 3,
+      "height": 64,
+      "content": "< 목록   104. 합정역 1번출구 앞"
+    },
+    {
+      "region": "남은 자전거 수",
+      "priority": 1,
+      "height": 160,
+      "content": "5대 남음 (거치대 13개 중)"
+    },
+    {
+      "region": "거치대 수",
+      "priority": 2,
+      "height": 88,
+      "content": "거치대 13개"
+    },
+    {
+      "region": "위치(보조)",
+      "priority": 4,
+      "height": 40,
+      "content": "위도 37.55073929 · 경도 126.91508484 (작은 보조 텍스트)"
+    },
+    {
+      "region": "출처표시",
+      "priority": 5,
+      "height": 64,
+      "content": "출처: 서울특별시, 서울 열린데이터광장 OA-15493 (공공누리 제1유형)"
+    }
+  ]
+}

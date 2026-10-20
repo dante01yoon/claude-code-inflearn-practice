@@ -1,0 +1,3144 @@
+{
+  "fileKey": "<파일키>",
+  "exportedAt": "2026-10-19T01:17:33.668Z",
+  "frames": [
+    {
+      "page": "Page 1",
+      "name": "Components",
+      "type": "FRAME",
+      "x": 0,
+      "y": 1000,
+      "width": 900,
+      "height": 520,
+      "fills": [
+        {
+          "type": "SOLID",
+          "hex": "#F1F3F5"
+        }
+      ],
+      "children": [
+        {
+          "name": "StationRow",
+          "type": "COMPONENT_SET",
+          "x": 40,
+          "y": 40,
+          "width": 398,
+          "height": 200,
+          "cornerRadius": 5,
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 16,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "paddingTop": 20,
+          "paddingBottom": 20,
+          "children": [
+            {
+              "name": "Status=Available",
+              "type": "COMPONENT",
+              "x": 20,
+              "y": 20,
+              "width": 358,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#E6E8EB"
+                }
+              ],
+              "cornerRadius": 14,
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 14,
+              "paddingBottom": 14,
+              "children": [
+                {
+                  "name": "Info",
+                  "type": "FRAME",
+                  "x": 17,
+                  "y": 15,
+                  "width": 281,
+                  "height": 42,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 2,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "Name",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 281,
+                      "height": 22,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#191F28"
+                        }
+                      ],
+                      "characters": "102. 망원역 1번출구 앞",
+                      "fontSize": 16,
+                      "fontWeight": 500,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "Meta",
+                      "type": "FRAME",
+                      "x": 0,
+                      "y": 24,
+                      "width": 66,
+                      "height": 18,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 6,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Rack",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 66,
+                          "height": 18,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ],
+                          "characters": "거치대 15개",
+                          "fontSize": 13,
+                          "fontWeight": 400,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "CountGroup",
+                  "type": "FRAME",
+                  "x": 310,
+                  "y": 18,
+                  "width": 31,
+                  "height": 36,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 2,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "Count",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 16,
+                      "height": 36,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#0E9F6E"
+                        }
+                      ],
+                      "characters": "1",
+                      "fontSize": 26,
+                      "fontWeight": 700,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "Unit",
+                      "type": "TEXT",
+                      "x": 18,
+                      "y": 12,
+                      "width": 13,
+                      "height": 20,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#4E5968"
+                        }
+                      ],
+                      "characters": "대",
+                      "fontSize": 14,
+                      "fontWeight": 500,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Status=Empty",
+              "type": "COMPONENT",
+              "x": 20,
+              "y": 108,
+              "width": 358,
+              "height": 72,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFF1F0"
+                }
+              ],
+              "strokes": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFC9C4"
+                }
+              ],
+              "cornerRadius": 14,
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 14,
+              "paddingBottom": 14,
+              "children": [
+                {
+                  "name": "Info",
+                  "type": "FRAME",
+                  "x": 17,
+                  "y": 15,
+                  "width": 281,
+                  "height": 42,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 2,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "Name",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 281,
+                      "height": 22,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#191F28"
+                        }
+                      ],
+                      "characters": "102. 망원역 1번출구 앞",
+                      "fontSize": 16,
+                      "fontWeight": 500,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "Meta",
+                      "type": "FRAME",
+                      "x": 0,
+                      "y": 24,
+                      "width": 138,
+                      "height": 18,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 6,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Rack",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 66,
+                          "height": 18,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ],
+                          "characters": "거치대 15개",
+                          "fontSize": 13,
+                          "fontWeight": 400,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Badge",
+                          "type": "FRAME",
+                          "x": 72,
+                          "y": 1,
+                          "width": 66,
+                          "height": 17,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#E5322D"
+                            }
+                          ],
+                          "cornerRadius": 6,
+                          "layoutMode": "HORIZONTAL",
+                          "itemSpacing": 0,
+                          "paddingLeft": 6,
+                          "paddingRight": 6,
+                          "paddingTop": 1,
+                          "paddingBottom": 1,
+                          "children": [
+                            {
+                              "name": "Badge Label",
+                              "type": "TEXT",
+                              "x": 6,
+                              "y": 1,
+                              "width": 54,
+                              "height": 15,
+                              "fills": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#FFFFFF"
+                                }
+                              ],
+                              "characters": "자전거 없음",
+                              "fontSize": 11,
+                              "fontWeight": 700,
+                              "fontFamily": "Noto Sans KR"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "CountGroup",
+                  "type": "FRAME",
+                  "x": 310,
+                  "y": 18,
+                  "width": 31,
+                  "height": 36,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 2,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "Count",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 16,
+                      "height": 36,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#E5322D"
+                        }
+                      ],
+                      "characters": "1",
+                      "fontSize": 26,
+                      "fontWeight": 700,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "Unit",
+                      "type": "TEXT",
+                      "x": 18,
+                      "y": 12,
+                      "width": 13,
+                      "height": 20,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#E5322D"
+                        }
+                      ],
+                      "characters": "대",
+                      "fontSize": 14,
+                      "fontWeight": 500,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Button",
+          "type": "COMPONENT",
+          "x": 460,
+          "y": 40,
+          "width": 358,
+          "height": 52,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#0E9F6E"
+            }
+          ],
+          "cornerRadius": 12,
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "children": [
+            {
+              "name": "Label",
+              "type": "TEXT",
+              "x": 148,
+              "y": 15,
+              "width": 63,
+              "height": 22,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "characters": "다시 시도",
+              "fontSize": 16,
+              "fontWeight": 700,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        },
+        {
+          "name": "SourceFooter",
+          "type": "COMPONENT",
+          "x": 460,
+          "y": 130,
+          "width": 390,
+          "height": 73,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#F9FAFB"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#E6E8EB"
+            }
+          ],
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 2,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "paddingBottom": 28,
+          "children": [
+            {
+              "name": "출처: 서울특별시 · 서울시 공공자전거 따릉이 실시간 대여정보 (OA-15493)",
+              "type": "TEXT",
+              "x": 16,
+              "y": 13,
+              "width": 358,
+              "height": 15,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#8B95A1"
+                }
+              ],
+              "characters": "출처: 서울특별시 · 서울시 공공자전거 따릉이 실시간 대여정보 (OA-15493)",
+              "fontSize": 11,
+              "fontWeight": 500,
+              "fontFamily": "Noto Sans KR"
+            },
+            {
+              "name": "공공누리 제1유형(출처표시) · 학습용 데모이며 공식 앱이 아닙니다",
+              "type": "TEXT",
+              "x": 16,
+              "y": 30,
+              "width": 358,
+              "height": 15,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#8B95A1"
+                }
+              ],
+              "characters": "공공누리 제1유형(출처표시) · 학습용 데모이며 공식 앱이 아닙니다",
+              "fontSize": 11,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "Page 1",
+      "name": "01 대여소 목록",
+      "type": "FRAME",
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "hex": "#F2F4F6"
+        }
+      ],
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "children": [
+        {
+          "name": "Body",
+          "type": "FRAME",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 771,
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "children": [
+            {
+              "name": "Header",
+              "type": "FRAME",
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 208,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "layoutMode": "VERTICAL",
+              "itemSpacing": 4,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 58,
+              "paddingBottom": 16,
+              "children": [
+                {
+                  "name": "Title",
+                  "type": "TEXT",
+                  "x": 16,
+                  "y": 58,
+                  "width": 358,
+                  "height": 34,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#191F28"
+                    }
+                  ],
+                  "characters": "대여소 현황",
+                  "fontSize": 24,
+                  "fontWeight": 700,
+                  "fontFamily": "Noto Sans KR"
+                },
+                {
+                  "name": "Subtitle",
+                  "type": "TEXT",
+                  "x": 16,
+                  "y": 96,
+                  "width": 358,
+                  "height": 18,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#6B7684"
+                    }
+                  ],
+                  "characters": "2026.10.19 09:54 기준 스냅샷 · 마포구 5곳",
+                  "fontSize": 13,
+                  "fontWeight": 400,
+                  "fontFamily": "Noto Sans KR"
+                },
+                {
+                  "name": "Summary",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 118,
+                  "width": 358,
+                  "height": 74,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 12,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "Stat/대여소",
+                      "type": "FRAME",
+                      "x": 0,
+                      "y": 12,
+                      "width": 114,
+                      "height": 62,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#F2F4F6"
+                        }
+                      ],
+                      "cornerRadius": 12,
+                      "layoutMode": "VERTICAL",
+                      "itemSpacing": 0,
+                      "paddingLeft": 12,
+                      "paddingRight": 12,
+                      "paddingTop": 10,
+                      "paddingBottom": 10,
+                      "children": [
+                        {
+                          "name": "Label",
+                          "type": "TEXT",
+                          "x": 12,
+                          "y": 10,
+                          "width": 34,
+                          "height": 17,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ],
+                          "characters": "대여소",
+                          "fontSize": 12,
+                          "fontWeight": 400,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Value",
+                          "type": "TEXT",
+                          "x": 12,
+                          "y": 27,
+                          "width": 28,
+                          "height": 25,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#191F28"
+                            }
+                          ],
+                          "characters": "5곳",
+                          "fontSize": 18,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Stat/남은 자전거",
+                      "type": "FRAME",
+                      "x": 122,
+                      "y": 12,
+                      "width": 114,
+                      "height": 62,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#E8F7F1"
+                        }
+                      ],
+                      "cornerRadius": 12,
+                      "layoutMode": "VERTICAL",
+                      "itemSpacing": 0,
+                      "paddingLeft": 12,
+                      "paddingRight": 12,
+                      "paddingTop": 10,
+                      "paddingBottom": 10,
+                      "children": [
+                        {
+                          "name": "Label",
+                          "type": "TEXT",
+                          "x": 12,
+                          "y": 10,
+                          "width": 58,
+                          "height": 17,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ],
+                          "characters": "남은 자전거",
+                          "fontSize": 12,
+                          "fontWeight": 400,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Value",
+                          "type": "TEXT",
+                          "x": 12,
+                          "y": 27,
+                          "width": 38,
+                          "height": 25,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#0E9F6E"
+                            }
+                          ],
+                          "characters": "16대",
+                          "fontSize": 18,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Stat/빈 대여소",
+                      "type": "FRAME",
+                      "x": 244,
+                      "y": 12,
+                      "width": 114,
+                      "height": 62,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#FFF1F0"
+                        }
+                      ],
+                      "cornerRadius": 12,
+                      "layoutMode": "VERTICAL",
+                      "itemSpacing": 0,
+                      "paddingLeft": 12,
+                      "paddingRight": 12,
+                      "paddingTop": 10,
+                      "paddingBottom": 10,
+                      "children": [
+                        {
+                          "name": "Label",
+                          "type": "TEXT",
+                          "x": 12,
+                          "y": 10,
+                          "width": 47,
+                          "height": 17,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ],
+                          "characters": "빈 대여소",
+                          "fontSize": 12,
+                          "fontWeight": 400,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Value",
+                          "type": "TEXT",
+                          "x": 12,
+                          "y": 27,
+                          "width": 28,
+                          "height": 25,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#E5322D"
+                            }
+                          ],
+                          "characters": "1곳",
+                          "fontSize": 18,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "StationList",
+              "type": "FRAME",
+              "x": 0,
+              "y": 208,
+              "width": 390,
+              "height": 462,
+              "layoutMode": "VERTICAL",
+              "itemSpacing": 10,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 16,
+              "paddingBottom": 16,
+              "children": [
+                {
+                  "name": "ListHeader",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 16,
+                  "width": 358,
+                  "height": 20,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 2,
+                  "children": [
+                    {
+                      "name": "대여소",
+                      "type": "TEXT",
+                      "x": 0,
+                      "y": 0,
+                      "width": 36,
+                      "height": 18,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#6B7684"
+                        }
+                      ],
+                      "characters": "대여소",
+                      "fontSize": 13,
+                      "fontWeight": 500,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "남은 자전거",
+                      "type": "TEXT",
+                      "x": 295,
+                      "y": 0,
+                      "width": 63,
+                      "height": 18,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#6B7684"
+                        }
+                      ],
+                      "characters": "남은 자전거",
+                      "fontSize": 13,
+                      "fontWeight": 500,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                },
+                {
+                  "name": "StationRow",
+                  "type": "INSTANCE",
+                  "x": 16,
+                  "y": 46,
+                  "width": 358,
+                  "height": 72,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#FFFFFF"
+                    }
+                  ],
+                  "strokes": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#E6E8EB"
+                    }
+                  ],
+                  "cornerRadius": 14,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 12,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 14,
+                  "paddingBottom": 14,
+                  "component": "StationRow",
+                  "children": [
+                    {
+                      "name": "Info",
+                      "type": "FRAME",
+                      "x": 17,
+                      "y": 15,
+                      "width": 281,
+                      "height": 42,
+                      "layoutMode": "VERTICAL",
+                      "itemSpacing": 2,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Name",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 281,
+                          "height": 22,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#191F28"
+                            }
+                          ],
+                          "characters": "102. 망원역 1번출구 앞",
+                          "fontSize": 16,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Meta",
+                          "type": "FRAME",
+                          "x": 0,
+                          "y": 24,
+                          "width": 66,
+                          "height": 18,
+                          "layoutMode": "HORIZONTAL",
+                          "itemSpacing": 6,
+                          "paddingLeft": 0,
+                          "paddingRight": 0,
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "children": [
+                            {
+                              "name": "Rack",
+                              "type": "TEXT",
+                              "x": 0,
+                              "y": 0,
+                              "width": 66,
+                              "height": 18,
+                              "fills": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#6B7684"
+                                }
+                              ],
+                              "characters": "거치대 15개",
+                              "fontSize": 13,
+                              "fontWeight": 400,
+                              "fontFamily": "Noto Sans KR"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "CountGroup",
+                      "type": "FRAME",
+                      "x": 310,
+                      "y": 18,
+                      "width": 31,
+                      "height": 36,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 2,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Count",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 16,
+                          "height": 36,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#0E9F6E"
+                            }
+                          ],
+                          "characters": "1",
+                          "fontSize": 26,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Unit",
+                          "type": "TEXT",
+                          "x": 18,
+                          "y": 12,
+                          "width": 13,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#4E5968"
+                            }
+                          ],
+                          "characters": "대",
+                          "fontSize": 14,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "StationRow",
+                  "type": "INSTANCE",
+                  "x": 16,
+                  "y": 128,
+                  "width": 358,
+                  "height": 72,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#FFF1F0"
+                    }
+                  ],
+                  "strokes": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#FFC9C4"
+                    }
+                  ],
+                  "cornerRadius": 14,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 12,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 14,
+                  "paddingBottom": 14,
+                  "component": "StationRow",
+                  "children": [
+                    {
+                      "name": "Info",
+                      "type": "FRAME",
+                      "x": 17,
+                      "y": 15,
+                      "width": 281,
+                      "height": 42,
+                      "layoutMode": "VERTICAL",
+                      "itemSpacing": 2,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Name",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 281,
+                          "height": 22,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#191F28"
+                            }
+                          ],
+                          "characters": "103. 망원역 2번출구 앞",
+                          "fontSize": 16,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Meta",
+                          "type": "FRAME",
+                          "x": 0,
+                          "y": 24,
+                          "width": 138,
+                          "height": 18,
+                          "layoutMode": "HORIZONTAL",
+                          "itemSpacing": 6,
+                          "paddingLeft": 0,
+                          "paddingRight": 0,
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "children": [
+                            {
+                              "name": "Rack",
+                              "type": "TEXT",
+                              "x": 0,
+                              "y": 0,
+                              "width": 66,
+                              "height": 18,
+                              "fills": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#6B7684"
+                                }
+                              ],
+                              "characters": "거치대 14개",
+                              "fontSize": 13,
+                              "fontWeight": 400,
+                              "fontFamily": "Noto Sans KR"
+                            },
+                            {
+                              "name": "Badge",
+                              "type": "FRAME",
+                              "x": 72,
+                              "y": 1,
+                              "width": 66,
+                              "height": 17,
+                              "fills": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#E5322D"
+                                }
+                              ],
+                              "cornerRadius": 6,
+                              "layoutMode": "HORIZONTAL",
+                              "itemSpacing": 0,
+                              "paddingLeft": 6,
+                              "paddingRight": 6,
+                              "paddingTop": 1,
+                              "paddingBottom": 1,
+                              "children": [
+                                {
+                                  "name": "Badge Label",
+                                  "type": "TEXT",
+                                  "x": 6,
+                                  "y": 1,
+                                  "width": 54,
+                                  "height": 15,
+                                  "fills": [
+                                    {
+                                      "type": "SOLID",
+                                      "hex": "#FFFFFF"
+                                    }
+                                  ],
+                                  "characters": "자전거 없음",
+                                  "fontSize": 11,
+                                  "fontWeight": 700,
+                                  "fontFamily": "Noto Sans KR"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "CountGroup",
+                      "type": "FRAME",
+                      "x": 310,
+                      "y": 18,
+                      "width": 31,
+                      "height": 36,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 2,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Count",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 16,
+                          "height": 36,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#E5322D"
+                            }
+                          ],
+                          "characters": "0",
+                          "fontSize": 26,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Unit",
+                          "type": "TEXT",
+                          "x": 18,
+                          "y": 12,
+                          "width": 13,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#E5322D"
+                            }
+                          ],
+                          "characters": "대",
+                          "fontSize": 14,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "StationRow",
+                  "type": "INSTANCE",
+                  "x": 16,
+                  "y": 210,
+                  "width": 358,
+                  "height": 72,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#FFFFFF"
+                    }
+                  ],
+                  "strokes": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#E6E8EB"
+                    }
+                  ],
+                  "cornerRadius": 14,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 12,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 14,
+                  "paddingBottom": 14,
+                  "component": "StationRow",
+                  "children": [
+                    {
+                      "name": "Info",
+                      "type": "FRAME",
+                      "x": 17,
+                      "y": 15,
+                      "width": 281,
+                      "height": 42,
+                      "layoutMode": "VERTICAL",
+                      "itemSpacing": 2,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Name",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 281,
+                          "height": 22,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#191F28"
+                            }
+                          ],
+                          "characters": "104. 합정역 1번출구 앞",
+                          "fontSize": 16,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Meta",
+                          "type": "FRAME",
+                          "x": 0,
+                          "y": 24,
+                          "width": 66,
+                          "height": 18,
+                          "layoutMode": "HORIZONTAL",
+                          "itemSpacing": 6,
+                          "paddingLeft": 0,
+                          "paddingRight": 0,
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "children": [
+                            {
+                              "name": "Rack",
+                              "type": "TEXT",
+                              "x": 0,
+                              "y": 0,
+                              "width": 66,
+                              "height": 18,
+                              "fills": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#6B7684"
+                                }
+                              ],
+                              "characters": "거치대 13개",
+                              "fontSize": 13,
+                              "fontWeight": 400,
+                              "fontFamily": "Noto Sans KR"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "CountGroup",
+                      "type": "FRAME",
+                      "x": 310,
+                      "y": 18,
+                      "width": 31,
+                      "height": 36,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 2,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Count",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 16,
+                          "height": 36,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#0E9F6E"
+                            }
+                          ],
+                          "characters": "5",
+                          "fontSize": 26,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Unit",
+                          "type": "TEXT",
+                          "x": 18,
+                          "y": 12,
+                          "width": 13,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#4E5968"
+                            }
+                          ],
+                          "characters": "대",
+                          "fontSize": 14,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "StationRow",
+                  "type": "INSTANCE",
+                  "x": 16,
+                  "y": 292,
+                  "width": 358,
+                  "height": 72,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#FFFFFF"
+                    }
+                  ],
+                  "strokes": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#E6E8EB"
+                    }
+                  ],
+                  "cornerRadius": 14,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 12,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 14,
+                  "paddingBottom": 14,
+                  "component": "StationRow",
+                  "children": [
+                    {
+                      "name": "Info",
+                      "type": "FRAME",
+                      "x": 17,
+                      "y": 15,
+                      "width": 281,
+                      "height": 42,
+                      "layoutMode": "VERTICAL",
+                      "itemSpacing": 2,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Name",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 281,
+                          "height": 22,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#191F28"
+                            }
+                          ],
+                          "characters": "105. 합정역 5번출구 앞",
+                          "fontSize": 16,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Meta",
+                          "type": "FRAME",
+                          "x": 0,
+                          "y": 24,
+                          "width": 58,
+                          "height": 18,
+                          "layoutMode": "HORIZONTAL",
+                          "itemSpacing": 6,
+                          "paddingLeft": 0,
+                          "paddingRight": 0,
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "children": [
+                            {
+                              "name": "Rack",
+                              "type": "TEXT",
+                              "x": 0,
+                              "y": 0,
+                              "width": 58,
+                              "height": 18,
+                              "fills": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#6B7684"
+                                }
+                              ],
+                              "characters": "거치대 5개",
+                              "fontSize": 13,
+                              "fontWeight": 400,
+                              "fontFamily": "Noto Sans KR"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "CountGroup",
+                      "type": "FRAME",
+                      "x": 310,
+                      "y": 18,
+                      "width": 31,
+                      "height": 36,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 2,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Count",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 16,
+                          "height": 36,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#0E9F6E"
+                            }
+                          ],
+                          "characters": "4",
+                          "fontSize": 26,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Unit",
+                          "type": "TEXT",
+                          "x": 18,
+                          "y": 12,
+                          "width": 13,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#4E5968"
+                            }
+                          ],
+                          "characters": "대",
+                          "fontSize": 14,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "StationRow",
+                  "type": "INSTANCE",
+                  "x": 16,
+                  "y": 374,
+                  "width": 358,
+                  "height": 72,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#FFFFFF"
+                    }
+                  ],
+                  "strokes": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#E6E8EB"
+                    }
+                  ],
+                  "cornerRadius": 14,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 12,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 14,
+                  "paddingBottom": 14,
+                  "component": "StationRow",
+                  "children": [
+                    {
+                      "name": "Info",
+                      "type": "FRAME",
+                      "x": 17,
+                      "y": 15,
+                      "width": 281,
+                      "height": 42,
+                      "layoutMode": "VERTICAL",
+                      "itemSpacing": 2,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Name",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 281,
+                          "height": 22,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#191F28"
+                            }
+                          ],
+                          "characters": "106. 합정역 7번출구 앞",
+                          "fontSize": 16,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Meta",
+                          "type": "FRAME",
+                          "x": 0,
+                          "y": 24,
+                          "width": 66,
+                          "height": 18,
+                          "layoutMode": "HORIZONTAL",
+                          "itemSpacing": 6,
+                          "paddingLeft": 0,
+                          "paddingRight": 0,
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "children": [
+                            {
+                              "name": "Rack",
+                              "type": "TEXT",
+                              "x": 0,
+                              "y": 0,
+                              "width": 66,
+                              "height": 18,
+                              "fills": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#6B7684"
+                                }
+                              ],
+                              "characters": "거치대 12개",
+                              "fontSize": 13,
+                              "fontWeight": 400,
+                              "fontFamily": "Noto Sans KR"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "CountGroup",
+                      "type": "FRAME",
+                      "x": 310,
+                      "y": 18,
+                      "width": 31,
+                      "height": 36,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 2,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Count",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 16,
+                          "height": 36,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#0E9F6E"
+                            }
+                          ],
+                          "characters": "6",
+                          "fontSize": 26,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Unit",
+                          "type": "TEXT",
+                          "x": 18,
+                          "y": 12,
+                          "width": 13,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#4E5968"
+                            }
+                          ],
+                          "characters": "대",
+                          "fontSize": 14,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SourceFooter",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 771,
+          "width": 390,
+          "height": 73,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#F9FAFB"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#E6E8EB"
+            }
+          ],
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 2,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "paddingBottom": 28,
+          "component": "SourceFooter",
+          "children": [
+            {
+              "name": "출처: 서울특별시 · 서울시 공공자전거 따릉이 실시간 대여정보 (OA-15493)",
+              "type": "TEXT",
+              "x": 16,
+              "y": 13,
+              "width": 358,
+              "height": 15,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#8B95A1"
+                }
+              ],
+              "characters": "출처: 서울특별시 · 서울시 공공자전거 따릉이 실시간 대여정보 (OA-15493)",
+              "fontSize": 11,
+              "fontWeight": 500,
+              "fontFamily": "Noto Sans KR"
+            },
+            {
+              "name": "공공누리 제1유형(출처표시) · 학습용 데모이며 공식 앱이 아닙니다",
+              "type": "TEXT",
+              "x": 16,
+              "y": 30,
+              "width": 358,
+              "height": 15,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#8B95A1"
+                }
+              ],
+              "characters": "공공누리 제1유형(출처표시) · 학습용 데모이며 공식 앱이 아닙니다",
+              "fontSize": 11,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "Page 1",
+      "name": "02 대여소 상세",
+      "type": "FRAME",
+      "x": 470,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "hex": "#F2F4F6"
+        }
+      ],
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "children": [
+        {
+          "name": "Body",
+          "type": "FRAME",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 771,
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "children": [
+            {
+              "name": "NavBar",
+              "type": "FRAME",
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 108,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 4,
+              "paddingLeft": 8,
+              "paddingRight": 16,
+              "paddingTop": 54,
+              "paddingBottom": 10,
+              "children": [
+                {
+                  "name": "BackButton",
+                  "type": "FRAME",
+                  "x": 8,
+                  "y": 54,
+                  "width": 44,
+                  "height": 44,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "icon/chevron-left",
+                      "type": "FRAME",
+                      "x": 10,
+                      "y": 10,
+                      "width": 24,
+                      "height": 24,
+                      "children": [
+                        {
+                          "name": "Vector",
+                          "type": "VECTOR",
+                          "x": 9,
+                          "y": 6,
+                          "width": 6,
+                          "height": 12,
+                          "strokes": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#191F28"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Title",
+                  "type": "TEXT",
+                  "x": 56,
+                  "y": 64,
+                  "width": 83,
+                  "height": 24,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#191F28"
+                    }
+                  ],
+                  "characters": "대여소 상세",
+                  "fontSize": 17,
+                  "fontWeight": 700,
+                  "fontFamily": "Noto Sans KR"
+                }
+              ]
+            },
+            {
+              "name": "Content",
+              "type": "FRAME",
+              "x": 0,
+              "y": 108,
+              "width": 390,
+              "height": 506,
+              "layoutMode": "VERTICAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 16,
+              "paddingBottom": 16,
+              "children": [
+                {
+                  "name": "HeroCard",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 16,
+                  "width": 358,
+                  "height": 308,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#FFFFFF"
+                    }
+                  ],
+                  "cornerRadius": 16,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 4,
+                  "paddingLeft": 20,
+                  "paddingRight": 20,
+                  "paddingTop": 20,
+                  "paddingBottom": 20,
+                  "children": [
+                    {
+                      "name": "StationName",
+                      "type": "TEXT",
+                      "x": 20,
+                      "y": 20,
+                      "width": 318,
+                      "height": 28,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#191F28"
+                        }
+                      ],
+                      "characters": "104. 합정역 1번출구 앞",
+                      "fontSize": 20,
+                      "fontWeight": 700,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "Spacer",
+                      "type": "FRAME",
+                      "x": 20,
+                      "y": 52,
+                      "width": 10,
+                      "height": 12,
+                      "layoutMode": "VERTICAL",
+                      "itemSpacing": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": []
+                    },
+                    {
+                      "name": "Label",
+                      "type": "TEXT",
+                      "x": 20,
+                      "y": 68,
+                      "width": 68,
+                      "height": 20,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#6B7684"
+                        }
+                      ],
+                      "characters": "남은 자전거",
+                      "fontSize": 14,
+                      "fontWeight": 500,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "BigCount",
+                      "type": "FRAME",
+                      "x": 20,
+                      "y": 92,
+                      "width": 59,
+                      "height": 62,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 4,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Count",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 34,
+                          "height": 62,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#0E9F6E"
+                            }
+                          ],
+                          "characters": "5",
+                          "fontSize": 56,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Unit",
+                          "type": "TEXT",
+                          "x": 38,
+                          "y": 29,
+                          "width": 21,
+                          "height": 31,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#0E9F6E"
+                            }
+                          ],
+                          "characters": "대",
+                          "fontSize": 22,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "RackSummary",
+                      "type": "TEXT",
+                      "x": 20,
+                      "y": 158,
+                      "width": 139,
+                      "height": 20,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#4E5968"
+                        }
+                      ],
+                      "characters": "거치대 13개 중 5대 거치",
+                      "fontSize": 14,
+                      "fontWeight": 400,
+                      "fontFamily": "Noto Sans KR"
+                    },
+                    {
+                      "name": "Spacer",
+                      "type": "FRAME",
+                      "x": 20,
+                      "y": 182,
+                      "width": 10,
+                      "height": 8,
+                      "layoutMode": "VERTICAL",
+                      "itemSpacing": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": []
+                    },
+                    {
+                      "name": "Progress",
+                      "type": "FRAME",
+                      "x": 20,
+                      "y": 194,
+                      "width": 318,
+                      "height": 8,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#E6E8EB"
+                        }
+                      ],
+                      "cornerRadius": 4,
+                      "children": [
+                        {
+                          "name": "Fill",
+                          "type": "RECTANGLE",
+                          "x": 0,
+                          "y": 0,
+                          "width": 122,
+                          "height": 8,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#0E9F6E"
+                            }
+                          ],
+                          "cornerRadius": 4
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Counts",
+                      "type": "FRAME",
+                      "x": 20,
+                      "y": 206,
+                      "width": 318,
+                      "height": 82,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 8,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 16,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Stat/남은 자전거",
+                          "type": "FRAME",
+                          "x": 0,
+                          "y": 16,
+                          "width": 155,
+                          "height": 66,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#F2F4F6"
+                            }
+                          ],
+                          "cornerRadius": 12,
+                          "layoutMode": "VERTICAL",
+                          "itemSpacing": 0,
+                          "paddingLeft": 14,
+                          "paddingRight": 14,
+                          "paddingTop": 12,
+                          "paddingBottom": 12,
+                          "children": [
+                            {
+                              "name": "Label",
+                              "type": "TEXT",
+                              "x": 14,
+                              "y": 12,
+                              "width": 58,
+                              "height": 17,
+                              "fills": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#6B7684"
+                                }
+                              ],
+                              "characters": "남은 자전거",
+                              "fontSize": 12,
+                              "fontWeight": 400,
+                              "fontFamily": "Noto Sans KR"
+                            },
+                            {
+                              "name": "Value",
+                              "type": "TEXT",
+                              "x": 14,
+                              "y": 29,
+                              "width": 28,
+                              "height": 25,
+                              "fills": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#191F28"
+                                }
+                              ],
+                              "characters": "5대",
+                              "fontSize": 18,
+                              "fontWeight": 700,
+                              "fontFamily": "Noto Sans KR"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Stat/거치대",
+                          "type": "FRAME",
+                          "x": 163,
+                          "y": 16,
+                          "width": 155,
+                          "height": 66,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#F2F4F6"
+                            }
+                          ],
+                          "cornerRadius": 12,
+                          "layoutMode": "VERTICAL",
+                          "itemSpacing": 0,
+                          "paddingLeft": 14,
+                          "paddingRight": 14,
+                          "paddingTop": 12,
+                          "paddingBottom": 12,
+                          "children": [
+                            {
+                              "name": "Label",
+                              "type": "TEXT",
+                              "x": 14,
+                              "y": 12,
+                              "width": 34,
+                              "height": 17,
+                              "fills": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#6B7684"
+                                }
+                              ],
+                              "characters": "거치대",
+                              "fontSize": 12,
+                              "fontWeight": 400,
+                              "fontFamily": "Noto Sans KR"
+                            },
+                            {
+                              "name": "Value",
+                              "type": "TEXT",
+                              "x": 14,
+                              "y": 29,
+                              "width": 38,
+                              "height": 25,
+                              "fills": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#191F28"
+                                }
+                              ],
+                              "characters": "13개",
+                              "fontSize": 18,
+                              "fontWeight": 700,
+                              "fontFamily": "Noto Sans KR"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "LocationCard",
+                  "type": "FRAME",
+                  "x": 16,
+                  "y": 336,
+                  "width": 358,
+                  "height": 154,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#FFFFFF"
+                    }
+                  ],
+                  "cornerRadius": 16,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 12,
+                  "paddingLeft": 20,
+                  "paddingRight": 20,
+                  "paddingTop": 18,
+                  "paddingBottom": 18,
+                  "children": [
+                    {
+                      "name": "CardTitle",
+                      "type": "FRAME",
+                      "x": 20,
+                      "y": 18,
+                      "width": 54,
+                      "height": 22,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 6,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "icon/map-pin",
+                          "type": "FRAME",
+                          "x": 0,
+                          "y": 2,
+                          "width": 18,
+                          "height": 18,
+                          "children": [
+                            {
+                              "name": "Vector",
+                              "type": "VECTOR",
+                              "x": 3,
+                              "y": 2,
+                              "width": 12,
+                              "height": 15,
+                              "strokes": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#0E9F6E"
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Vector",
+                              "type": "VECTOR",
+                              "x": 7,
+                              "y": 5,
+                              "width": 5,
+                              "height": 5,
+                              "strokes": [
+                                {
+                                  "type": "SOLID",
+                                  "hex": "#0E9F6E"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "위치",
+                          "type": "TEXT",
+                          "x": 24,
+                          "y": 0,
+                          "width": 30,
+                          "height": 22,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#191F28"
+                            }
+                          ],
+                          "characters": "위치",
+                          "fontSize": 16,
+                          "fontWeight": 700,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Row/위도",
+                      "type": "FRAME",
+                      "x": 20,
+                      "y": 52,
+                      "width": 318,
+                      "height": 20,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Label",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 26,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ],
+                          "characters": "위도",
+                          "fontSize": 14,
+                          "fontWeight": 400,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Value",
+                          "type": "TEXT",
+                          "x": 233,
+                          "y": 0,
+                          "width": 85,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#191F28"
+                            }
+                          ],
+                          "characters": "37.55073929",
+                          "fontSize": 14,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Row/경도",
+                      "type": "FRAME",
+                      "x": 20,
+                      "y": 84,
+                      "width": 318,
+                      "height": 20,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Label",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 26,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ],
+                          "characters": "경도",
+                          "fontSize": 14,
+                          "fontWeight": 400,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Value",
+                          "type": "TEXT",
+                          "x": 226,
+                          "y": 0,
+                          "width": 92,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#191F28"
+                            }
+                          ],
+                          "characters": "126.91508484",
+                          "fontSize": 14,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Row/대여소 ID",
+                      "type": "FRAME",
+                      "x": 20,
+                      "y": 116,
+                      "width": 318,
+                      "height": 20,
+                      "layoutMode": "HORIZONTAL",
+                      "itemSpacing": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "children": [
+                        {
+                          "name": "Label",
+                          "type": "TEXT",
+                          "x": 0,
+                          "y": 0,
+                          "width": 56,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ],
+                          "characters": "대여소 ID",
+                          "fontSize": 14,
+                          "fontWeight": 400,
+                          "fontFamily": "Noto Sans KR"
+                        },
+                        {
+                          "name": "Value",
+                          "type": "TEXT",
+                          "x": 289,
+                          "y": 0,
+                          "width": 29,
+                          "height": 20,
+                          "fills": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#191F28"
+                            }
+                          ],
+                          "characters": "ST-6",
+                          "fontSize": 14,
+                          "fontWeight": 500,
+                          "fontFamily": "Noto Sans KR"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SourceFooter",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 771,
+          "width": 390,
+          "height": 73,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#F9FAFB"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#E6E8EB"
+            }
+          ],
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 2,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "paddingBottom": 28,
+          "component": "SourceFooter",
+          "children": [
+            {
+              "name": "출처: 서울특별시 · 서울시 공공자전거 따릉이 실시간 대여정보 (OA-15493)",
+              "type": "TEXT",
+              "x": 16,
+              "y": 13,
+              "width": 358,
+              "height": 15,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#8B95A1"
+                }
+              ],
+              "characters": "출처: 서울특별시 · 서울시 공공자전거 따릉이 실시간 대여정보 (OA-15493)",
+              "fontSize": 11,
+              "fontWeight": 500,
+              "fontFamily": "Noto Sans KR"
+            },
+            {
+              "name": "공공누리 제1유형(출처표시) · 학습용 데모이며 공식 앱이 아닙니다",
+              "type": "TEXT",
+              "x": 16,
+              "y": 30,
+              "width": 358,
+              "height": 15,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#8B95A1"
+                }
+              ],
+              "characters": "공공누리 제1유형(출처표시) · 학습용 데모이며 공식 앱이 아닙니다",
+              "fontSize": 11,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "Page 1",
+      "name": "03 빈 상태",
+      "type": "FRAME",
+      "x": 940,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "hex": "#F2F4F6"
+        }
+      ],
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "children": [
+        {
+          "name": "Body",
+          "type": "FRAME",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 771,
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "children": [
+            {
+              "name": "Header",
+              "type": "FRAME",
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 108,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "layoutMode": "VERTICAL",
+              "itemSpacing": 4,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 58,
+              "paddingBottom": 16,
+              "children": [
+                {
+                  "name": "Title",
+                  "type": "TEXT",
+                  "x": 16,
+                  "y": 58,
+                  "width": 358,
+                  "height": 34,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#191F28"
+                    }
+                  ],
+                  "characters": "대여소 현황",
+                  "fontSize": 24,
+                  "fontWeight": 700,
+                  "fontFamily": "Noto Sans KR"
+                }
+              ]
+            },
+            {
+              "name": "State",
+              "type": "FRAME",
+              "x": 0,
+              "y": 108,
+              "width": 390,
+              "height": 663,
+              "layoutMode": "VERTICAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 24,
+              "paddingBottom": 24,
+              "children": [
+                {
+                  "name": "IconCircle",
+                  "type": "FRAME",
+                  "x": 155,
+                  "y": 202,
+                  "width": 80,
+                  "height": 80,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#E6E8EB"
+                    }
+                  ],
+                  "cornerRadius": 40,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "icon",
+                      "type": "FRAME",
+                      "x": 22,
+                      "y": 22,
+                      "width": 36,
+                      "height": 36,
+                      "children": [
+                        {
+                          "name": "Vector",
+                          "type": "VECTOR",
+                          "x": 23,
+                          "y": 21,
+                          "width": 11,
+                          "height": 11,
+                          "strokes": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Vector",
+                          "type": "VECTOR",
+                          "x": 3,
+                          "y": 21,
+                          "width": 11,
+                          "height": 11,
+                          "strokes": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Vector",
+                          "type": "VECTOR",
+                          "x": 21,
+                          "y": 6,
+                          "width": 3,
+                          "height": 3,
+                          "strokes": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Vector",
+                          "type": "VECTOR",
+                          "x": 14,
+                          "y": 12,
+                          "width": 12,
+                          "height": 14,
+                          "strokes": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#6B7684"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "StateTitle",
+                  "type": "TEXT",
+                  "x": 16,
+                  "y": 294,
+                  "width": 358,
+                  "height": 27,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#191F28"
+                    }
+                  ],
+                  "characters": "표시할 대여소가 없어요",
+                  "fontSize": 19,
+                  "fontWeight": 700,
+                  "fontFamily": "Noto Sans KR"
+                },
+                {
+                  "name": "StateDesc",
+                  "type": "TEXT",
+                  "x": 16,
+                  "y": 333,
+                  "width": 358,
+                  "height": 40,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#6B7684"
+                    }
+                  ],
+                  "characters": "데이터를 받았지만 대여소 정보가 비어 있어요.\n잠시 후 다시 불러와 주세요.",
+                  "fontSize": 14,
+                  "fontWeight": 400,
+                  "fontFamily": "Noto Sans KR"
+                },
+                {
+                  "name": "Spacer",
+                  "type": "FRAME",
+                  "x": 190,
+                  "y": 385,
+                  "width": 10,
+                  "height": 12,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": []
+                },
+                {
+                  "name": "Button",
+                  "type": "INSTANCE",
+                  "x": 16,
+                  "y": 409,
+                  "width": 358,
+                  "height": 52,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#0E9F6E"
+                    }
+                  ],
+                  "cornerRadius": 12,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "component": "Button",
+                  "children": [
+                    {
+                      "name": "Label",
+                      "type": "TEXT",
+                      "x": 133,
+                      "y": 15,
+                      "width": 92,
+                      "height": 22,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#FFFFFF"
+                        }
+                      ],
+                      "characters": "다시 불러오기",
+                      "fontSize": 16,
+                      "fontWeight": 700,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SourceFooter",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 771,
+          "width": 390,
+          "height": 73,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#F9FAFB"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#E6E8EB"
+            }
+          ],
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 2,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "paddingBottom": 28,
+          "component": "SourceFooter",
+          "children": [
+            {
+              "name": "출처: 서울특별시 · 서울시 공공자전거 따릉이 실시간 대여정보 (OA-15493)",
+              "type": "TEXT",
+              "x": 16,
+              "y": 13,
+              "width": 358,
+              "height": 15,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#8B95A1"
+                }
+              ],
+              "characters": "출처: 서울특별시 · 서울시 공공자전거 따릉이 실시간 대여정보 (OA-15493)",
+              "fontSize": 11,
+              "fontWeight": 500,
+              "fontFamily": "Noto Sans KR"
+            },
+            {
+              "name": "공공누리 제1유형(출처표시) · 학습용 데모이며 공식 앱이 아닙니다",
+              "type": "TEXT",
+              "x": 16,
+              "y": 30,
+              "width": 358,
+              "height": 15,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#8B95A1"
+                }
+              ],
+              "characters": "공공누리 제1유형(출처표시) · 학습용 데모이며 공식 앱이 아닙니다",
+              "fontSize": 11,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "Page 1",
+      "name": "04 에러 상태",
+      "type": "FRAME",
+      "x": 1410,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fills": [
+        {
+          "type": "SOLID",
+          "hex": "#F2F4F6"
+        }
+      ],
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "children": [
+        {
+          "name": "Body",
+          "type": "FRAME",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 771,
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "children": [
+            {
+              "name": "Header",
+              "type": "FRAME",
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 108,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#FFFFFF"
+                }
+              ],
+              "layoutMode": "VERTICAL",
+              "itemSpacing": 4,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 58,
+              "paddingBottom": 16,
+              "children": [
+                {
+                  "name": "Title",
+                  "type": "TEXT",
+                  "x": 16,
+                  "y": 58,
+                  "width": 358,
+                  "height": 34,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#191F28"
+                    }
+                  ],
+                  "characters": "대여소 현황",
+                  "fontSize": 24,
+                  "fontWeight": 700,
+                  "fontFamily": "Noto Sans KR"
+                }
+              ]
+            },
+            {
+              "name": "State",
+              "type": "FRAME",
+              "x": 0,
+              "y": 108,
+              "width": 390,
+              "height": 663,
+              "layoutMode": "VERTICAL",
+              "itemSpacing": 12,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 24,
+              "paddingBottom": 24,
+              "children": [
+                {
+                  "name": "IconCircle",
+                  "type": "FRAME",
+                  "x": 155,
+                  "y": 202,
+                  "width": 80,
+                  "height": 80,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#FFF1F0"
+                    }
+                  ],
+                  "cornerRadius": 40,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": [
+                    {
+                      "name": "icon",
+                      "type": "FRAME",
+                      "x": 22,
+                      "y": 22,
+                      "width": 36,
+                      "height": 36,
+                      "children": [
+                        {
+                          "name": "Vector",
+                          "type": "VECTOR",
+                          "x": 3,
+                          "y": 3,
+                          "width": 30,
+                          "height": 30,
+                          "strokes": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#E5322D"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Vector",
+                          "type": "VECTOR",
+                          "x": 18,
+                          "y": 12,
+                          "width": 0,
+                          "height": 6,
+                          "strokes": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#E5322D"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Vector",
+                          "type": "VECTOR",
+                          "x": 18,
+                          "y": 24,
+                          "width": 0,
+                          "height": 0,
+                          "strokes": [
+                            {
+                              "type": "SOLID",
+                              "hex": "#E5322D"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "StateTitle",
+                  "type": "TEXT",
+                  "x": 16,
+                  "y": 294,
+                  "width": 358,
+                  "height": 27,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#191F28"
+                    }
+                  ],
+                  "characters": "대여소 정보를 불러오지 못했어요",
+                  "fontSize": 19,
+                  "fontWeight": 700,
+                  "fontFamily": "Noto Sans KR"
+                },
+                {
+                  "name": "StateDesc",
+                  "type": "TEXT",
+                  "x": 16,
+                  "y": 333,
+                  "width": 358,
+                  "height": 40,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#6B7684"
+                    }
+                  ],
+                  "characters": "네트워크 연결을 확인한 뒤\n다시 시도해 주세요.",
+                  "fontSize": 14,
+                  "fontWeight": 400,
+                  "fontFamily": "Noto Sans KR"
+                },
+                {
+                  "name": "Spacer",
+                  "type": "FRAME",
+                  "x": 190,
+                  "y": 385,
+                  "width": 10,
+                  "height": 12,
+                  "layoutMode": "VERTICAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "children": []
+                },
+                {
+                  "name": "Button",
+                  "type": "INSTANCE",
+                  "x": 16,
+                  "y": 409,
+                  "width": 358,
+                  "height": 52,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "hex": "#0E9F6E"
+                    }
+                  ],
+                  "cornerRadius": 12,
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "component": "Button",
+                  "children": [
+                    {
+                      "name": "Label",
+                      "type": "TEXT",
+                      "x": 148,
+                      "y": 15,
+                      "width": 63,
+                      "height": 22,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "hex": "#FFFFFF"
+                        }
+                      ],
+                      "characters": "다시 시도",
+                      "fontSize": 16,
+                      "fontWeight": 700,
+                      "fontFamily": "Noto Sans KR"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SourceFooter",
+          "type": "INSTANCE",
+          "x": 0,
+          "y": 771,
+          "width": 390,
+          "height": 73,
+          "fills": [
+            {
+              "type": "SOLID",
+              "hex": "#F9FAFB"
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "hex": "#E6E8EB"
+            }
+          ],
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 2,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "paddingBottom": 28,
+          "component": "SourceFooter",
+          "children": [
+            {
+              "name": "출처: 서울특별시 · 서울시 공공자전거 따릉이 실시간 대여정보 (OA-15493)",
+              "type": "TEXT",
+              "x": 16,
+              "y": 13,
+              "width": 358,
+              "height": 15,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#8B95A1"
+                }
+              ],
+              "characters": "출처: 서울특별시 · 서울시 공공자전거 따릉이 실시간 대여정보 (OA-15493)",
+              "fontSize": 11,
+              "fontWeight": 500,
+              "fontFamily": "Noto Sans KR"
+            },
+            {
+              "name": "공공누리 제1유형(출처표시) · 학습용 데모이며 공식 앱이 아닙니다",
+              "type": "TEXT",
+              "x": 16,
+              "y": 30,
+              "width": 358,
+              "height": 15,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "hex": "#8B95A1"
+                }
+              ],
+              "characters": "공공누리 제1유형(출처표시) · 학습용 데모이며 공식 앱이 아닙니다",
+              "fontSize": 11,
+              "fontWeight": 400,
+              "fontFamily": "Noto Sans KR"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

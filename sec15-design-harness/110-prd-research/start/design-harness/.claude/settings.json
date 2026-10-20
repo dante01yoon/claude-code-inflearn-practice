@@ -1,0 +1,21 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__.*__(use_figma|create_new_file|upload_assets|send_code_to_figma|add_code_connect_map|send_code_connect_mappings|create_shader|update_shader|generate_diagram|create_generative_plugin|update_generative_plugin)",
+        "hooks": [{ "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/figma-guard.mjs\"" }]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "mcp__.*__use_figma",
+        "hooks": [{ "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/after-figma-write.mjs\"" }]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [{ "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/scripts/check.mjs\" --hook" }]
+      }
+    ]
+  }
+}

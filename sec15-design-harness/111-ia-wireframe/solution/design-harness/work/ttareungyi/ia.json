@@ -1,0 +1,16 @@
+{
+  "viewport": { "width": 390, "height": 844 },
+  "requiredStates": ["default", "empty", "error", "loading", "stale"],
+  "screens": [
+    { "id": "station-list", "title": "대여소 목록", "features": ["F1", "F2", "F3", "F5", "F6", "F7"], "parent": null },
+    { "id": "station-detail", "title": "대여소 상세", "features": ["F4", "F7"], "parent": "station-list", "states": ["default", "loading", "error"] },
+    { "id": "about", "title": "정보·출처", "features": ["F5"], "parent": "station-list", "states": ["default"] }
+  ],
+  "flows": [
+    { "id": "find-bike", "goal": "자전거가 남은 대여소를 찾아 길찾기로 넘어간다", "steps": ["station-list:loading", "station-list", "station-detail", "station-detail:default"] },
+    { "id": "find-dock", "goal": "목적지 근처에서 빈 거치대가 있는 대여소를 검색한다", "steps": ["station-list", "station-list:empty", "station-list", "station-detail"] },
+    { "id": "recover-error", "goal": "불러오기 실패 후 다시 시도한다", "steps": ["station-list:error", "station-list:loading", "station-list"] },
+    { "id": "refresh-stale", "goal": "오래된 데이터를 새로고침해 최신 숫자를 확인한다", "steps": ["station-list:stale", "station-list:loading", "station-list"] },
+    { "id": "check-source", "goal": "데이터 출처와 기준 시각 정의를 확인한다", "steps": ["station-list", "about"] }
+  ]
+}

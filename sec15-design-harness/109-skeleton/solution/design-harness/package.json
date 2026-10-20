@@ -1,0 +1,14 @@
+{
+  "name": "design-harness",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node harness/cli.mjs check",
+    "approve": "node harness/cli.mjs approve",
+    "new": "node harness/cli.mjs new",
+    "use": "node harness/cli.mjs use"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

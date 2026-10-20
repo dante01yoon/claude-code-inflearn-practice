@@ -1,0 +1,11 @@
+{
+  "components": [
+    { "name": "AppBar", "interactive": false, "tokens": { "fill": "color.surface", "height": "size.header", "text": "font-size.title" } },
+    { "name": "BackButton", "interactive": true, "tokens": { "minSize": "size.touch", "icon": "color.text" } },
+    { "name": "StationRow", "interactive": true, "variants": ["available", "empty"], "tokens": { "minSize": "size.touch", "paddingX": "space.4", "gap": "space.3", "count": "font-size.title", "divider": "color.border" } },
+    { "name": "CountBadge", "interactive": false, "variants": ["available", "empty"], "tokens": { "available": "color.brand", "empty": "color.danger", "radius": "radius.sm" } },
+    { "name": "Button", "interactive": true, "variants": ["primary"], "tokens": { "fill": "color.brand", "text": "color.on-brand", "minSize": "size.touch", "radius": "radius.md" } },
+    { "name": "StateMessage", "interactive": false, "variants": ["empty", "error", "loading"], "tokens": { "text": "font-size.body", "muted": "color.text-muted" } },
+    { "name": "SourceNote", "interactive": false, "tokens": { "text": "font-size.caption", "color": "color.text-muted" } }
+  ]
+}
